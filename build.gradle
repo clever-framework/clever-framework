@@ -1,0 +1,40 @@
+// 与buildscript作用相同
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '1.14'
+    id "org.springframework.boot" version "2.0.5.RELEASE"
+}
+
+group 'io.github.toquery'
+version '1.0-SNAPSHOT'
+
+allprojects {
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+}
+
+subprojects {
+//    apply from: "${project.rootDir}/common_config.gradle"
+
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: "io.franzbecker.gradle-lombok"
+    apply plugin: 'io.spring.dependency-management'
+
+
+    group 'io.github.toquery'
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+
+    dependencies {
+
+        testCompile 'junit:junit:4.12'
+    }
+}
+
+
+

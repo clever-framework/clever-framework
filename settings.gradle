@@ -1,0 +1,11 @@
+//pluginManagement {
+//    repositories {
+//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//        mavenCentral()
+//    }
+//}
+rootProject.name = 'clever-framework'
+include 'clever-framework-demo'
+include 'clever-framework-dao'
+include 'clever-framework-curd'
+
