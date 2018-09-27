@@ -19,28 +19,28 @@ import java.util.Date;
  * 基类统一定义id的属性名称、数据类型、列名映射及生成策略.
  * 声明为父类，不生成实体表
  */
-@MappedSuperclass
-@Access(AccessType.FIELD)
 @Setter
 @Getter
+@MappedSuperclass
+@Access(AccessType.FIELD)
 @EqualsAndHashCode(callSuper = true)
 public class AppJpaLongBaseEntity extends AppJpaLongIdEntity {
 
-    private static final long serialVersionUID = -779979211709378717L;
+    private static final long serialVersionUID = 1L;
 
-    @Column(name = "create_user_id", length = 32, updatable = false, nullable = true)
+    @Column(name = "create_user_id", length = 32, updatable = false)
     private String createUserId;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_time", updatable = false, nullable = true)
+    @Column(name = "create_time", updatable = false)
     @DateTimeFormat(pattern = AppProperties.DATE_TIME_PATTERN)
     private Date createDatetime;
 
-    @Column(name = "last_update_user_id", length = 32, nullable = true)
+    @Column(name = "last_update_user_id", length = 32)
     private String lastUpdateUserId;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_update_time", nullable = true)
+    @Column(name = "last_update_time")
     @DateTimeFormat(pattern = AppProperties.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
 
