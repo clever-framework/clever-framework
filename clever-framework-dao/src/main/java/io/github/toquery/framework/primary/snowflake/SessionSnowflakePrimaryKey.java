@@ -1,6 +1,6 @@
-package io.github.toquery.framework.id.snowflake;
+package io.github.toquery.framework.primary.snowflake;
 
-public class SessionSnowflakeIDPart extends DockerSnowflakeIDPart {
+public class SessionSnowflakePrimaryKey extends DockerSnowflakePrimaryKey {
 
     @Override
     public String getName() {
@@ -9,10 +9,6 @@ public class SessionSnowflakeIDPart extends DockerSnowflakeIDPart {
 
     /**
      * session的id默认使用1作为业务线标识
-     * @param binaryLength
-     * @param timeMills
-     * @param object
-     * @return
      */
     @Override
     public long getBusinessIndex(int binaryLength, long timeMills, Object object) {

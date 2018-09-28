@@ -1,9 +1,9 @@
 package io.github.toquery.framework.entity.id;
 
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.id.snowflake.DockerSnowflakeIDPart;
-import io.github.toquery.framework.id.snowflake.Snowflake2IDGenerator;
-import io.github.toquery.framework.id.snowflake.SnowflakeIDPart;
+import io.github.toquery.framework.primary.snowflake.DockerSnowflakePrimaryKey;
+import io.github.toquery.framework.primary.snowflake.Snowflake2IDGenerator;
+import io.github.toquery.framework.primary.snowflake.SnowflakePrimaryKey;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
@@ -24,15 +24,15 @@ import java.util.Properties;
 public class AppJpaEntityLongIDGenerator implements IdentifierGenerator, Configurable {
 
     //公用一个id生成器
-    private static Snowflake2IDGenerator snowflake2IDGenerator = new Snowflake2IDGenerator(new DockerSnowflakeIDPart());
+    private static Snowflake2IDGenerator snowflake2IDGenerator = new Snowflake2IDGenerator(new DockerSnowflakePrimaryKey());
 
-    private static final Map<String, SnowflakeIDPart> ID_PART_MAP = Maps.newHashMap();
+    private static final Map<String, SnowflakePrimaryKey> ID_PART_MAP = Maps.newHashMap();
 
     /**
      * 注册id的映射，可以根据不同的实体生成不同的id，便于以后分库和分表
      */
-    public static void registerIdPart(String packagePrefix, SnowflakeIDPart snowflakeIDPart) {
-        ID_PART_MAP.put(packagePrefix, snowflakeIDPart);
+    public static void registerIdPart(String packagePrefix, SnowflakePrimaryKey snowflakePrimaryKey) {
+        ID_PART_MAP.put(packagePrefix, snowflakePrimaryKey);
     }
 
     @Override
@@ -44,20 +44,20 @@ public class AppJpaEntityLongIDGenerator implements IdentifierGenerator, Configu
      */
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-        SnowflakeIDPart snowflakeIDPart = getSnowflakeIDPart(object);
-        return snowflakeIDPart == null ? snowflake2IDGenerator.getNextId(object) : snowflake2IDGenerator.getNextId(snowflakeIDPart, object);
+        SnowflakePrimaryKey snowflakePrimaryKey = getSnowflakeIDPart(object);
+        return snowflakePrimaryKey == null ? snowflake2IDGenerator.getNextId(object) : snowflake2IDGenerator.getNextId(snowflakePrimaryKey, object);
     }
 
     /**
      * 根据不同的对象获取不同的id生成方式
      */
-    public SnowflakeIDPart getSnowflakeIDPart(Object object) {
+    public SnowflakePrimaryKey getSnowflakeIDPart(Object object) {
         if (object == null) {
             return null;
         }
         String targetPackageName = object.getClass().getPackage().getName();
 
-        SnowflakeIDPart targetSnowflakeIDPart = snowflake2IDGenerator.getSnowflakeIDPart();
+        SnowflakePrimaryKey targetSnowflakePrimaryKey = snowflake2IDGenerator.getSnowflakePrimaryKey();
         int packageLength = 0;
 
         for (String packageName : ID_PART_MAP.keySet()) {
@@ -66,15 +66,15 @@ public class AppJpaEntityLongIDGenerator implements IdentifierGenerator, Configu
             }
             //默认按照长度进行匹配
             if (packageName.length() >= packageLength) {
-                targetSnowflakeIDPart = ID_PART_MAP.get(packageName);
+                targetSnowflakePrimaryKey = ID_PART_MAP.get(packageName);
                 packageLength = packageName.length();
             }
         }
 
-        log.debug("{} 使用\"{}\"生成id", object.getClass().getName(), targetSnowflakeIDPart.getName());
+        log.debug("{} 使用\"{}\"生成id", object.getClass().getName(), targetSnowflakePrimaryKey.getName());
         ;
 
-        return targetSnowflakeIDPart;
+        return targetSnowflakePrimaryKey;
     }
 
 }

@@ -1,6 +1,7 @@
 package io.github.toquery.framework.support;
 
 import com.google.common.collect.Maps;
+import lombok.ToString;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -11,12 +12,12 @@ import java.util.Map.Entry;
 /**
  * DAO查询支持的查询连接符和比较条件
  */
-@SuppressWarnings("all")
+@ToString
 public class SearchFilter {
 	/**
 	 * 字段和操作符之间的分隔符
 	 */
-	public static final String SPLITER = ":" ;
+	private static final String SEPARATOR = ":" ;
 	/**
 	 * sql查询字段名称
 	 */
@@ -49,7 +50,7 @@ public class SearchFilter {
 
 	/**
 	 * searchParams中key的格式为FIELDNAME:OPERATOR 或 CONNECTOR:FIELDNAME:OPERATOR。
-	 * 例如：id:EQ 或 AND:businessSystem.id:EQ将对当前实体属性businessSystem的id属性进行等值查询 ;
+	 * 例如：primary:EQ 或 AND:businessSystem.primary:EQ将对当前实体属性businessSystem的id属性进行等值查询 ;
 	 */
 	public static LinkedHashMap<String, SearchFilter> parse(LinkedHashMap<String, Object> searchParams) {
 		
@@ -66,7 +67,7 @@ public class SearchFilter {
 			Object value = entry.getValue() ;
 			
 			// 拆分operator与filedAttribute
-			String[] names = StringUtils.split(key, SPLITER);
+			String[] names = StringUtils.split(key, SEPARATOR);
 			//构造不同条件之间的连接符
 			Connector connector = null ;
 			//查询字段
@@ -130,12 +131,6 @@ public class SearchFilter {
 		}
 		
 		return filters;
-	}
-
-	@Override
-	public String toString() {
-		return "SearchFilter [fieldName=" + fieldName + ", value=" + value
-				+ ", operator=" + operator + "]";
 	}
 
 	public enum Operator {

@@ -1,4 +1,4 @@
-package io.github.toquery.framework.id.snowflake;
+package io.github.toquery.framework.primary.snowflake;
 
 import com.google.common.base.Splitter;
 import com.google.common.cache.CacheBuilder;
@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class DefaultSnowflakeIDPart implements SnowflakeIDPart {
+public class DefaultSnowflakePrimaryKey implements SnowflakePrimaryKey {
 
     //当前机器的ip地址
     protected static final Integer[] IP;
@@ -51,7 +51,7 @@ public class DefaultSnowflakeIDPart implements SnowflakeIDPart {
 
     @Setter
     @Getter
-    private Map<IDItem, Integer> idItems;
+    private Map<EnumPrimaryKeyRule, Integer> idItems;
 
     private RateLimiter idRateLimiter;
 
@@ -76,10 +76,10 @@ public class DefaultSnowflakeIDPart implements SnowflakeIDPart {
      *
      * @param idItems
      */
-    public void setIdItems(Map<IDItem, Integer> idItems) {
+    public void setIdItems(Map<EnumPrimaryKeyRule, Integer> idItems) {
         this.idItems = idItems;
         //每毫秒的个数
-        int secondNumLength = this.idItems.get(IDItem.num);
+        int secondNumLength = this.idItems.get(EnumPrimaryKeyRule.num);
 
         //通过令牌桶的控流算法，控制每秒id的生成个数。并且为每秒生成的id个数保留一定的20%的余量
         this.maxIdsPerSecond = Double.valueOf(UtilNumber.getMaxNum(secondNumLength) * 0.8).intValue();

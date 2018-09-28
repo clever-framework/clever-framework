@@ -1,6 +1,4 @@
 dependencies {
-    compile project(":clever-framework-dao")
-//    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile project(":clever-framework-curd")
     compile 'org.springframework.boot:spring-boot-starter-web'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -183,7 +183,7 @@ public class AppJpaDataRepositoryImpl<T, ID extends Serializable> extends Simple
     public T update(T entity, Collection<String> updateFieldsName) {
         //检查更新实体是否具有id
         if (entityInformation.isNew(entity)) {
-            throw new IllegalArgumentException("in update method , the value of id must not be null.");
+            throw new IllegalArgumentException("in update method , the value of primary must not be null.");
         }
         //清理持久化上下文中的托管实体，避免重复更新
         entityManager.clear();
@@ -281,11 +281,6 @@ public class AppJpaDataRepositoryImpl<T, ID extends Serializable> extends Simple
         return newEntity;
     }
 
-//	@Override
-//	public T update(T entity) {
-//		return update(entity , null) ;
-//	}
-
     @Override
     public List<T> update(List<T> entityList, Collection<String> updateFieldsName) {
         for (T entity : entityList) {
@@ -293,14 +288,6 @@ public class AppJpaDataRepositoryImpl<T, ID extends Serializable> extends Simple
         }
         return entityList;
     }
-
-//	@Override
-//	public List<T> update(List<T> entityList) {
-//		for (T entity : entityList) {
-//			entity = update(entity) ;
-//		}
-//		return entityList;
-//	}
 
     /**
      * 根据id查询已经存在的实体对象
@@ -313,7 +300,7 @@ public class AppJpaDataRepositoryImpl<T, ID extends Serializable> extends Simple
         T existEntity = getOne(id);
 
         if (existEntity == null) {
-            throw new IllegalArgumentException("can not find exist entity with id : " + id.toString());
+            throw new IllegalArgumentException("can not find exist entity with primary : " + id.toString());
         }
 
         return existEntity;

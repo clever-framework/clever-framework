@@ -15,9 +15,7 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 
 /**
- * 统一定义id的entity基类.
- * 基类统一定义id的属性名称、数据类型、列名映射及生成策略.
- * 声明为父类，不生成实体表
+ * 主键类型为Long的，数据库对象基础类
  */
 @Setter
 @Getter

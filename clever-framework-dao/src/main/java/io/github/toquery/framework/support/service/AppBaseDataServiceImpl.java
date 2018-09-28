@@ -151,7 +151,7 @@ public abstract class AppBaseDataServiceImpl<T, D extends AppBaseDataRepository<
 
         //移除id字段，不更新id
         if (updateFields != null) {
-            updateFields.remove("id");
+            updateFields.remove("primary");
         }
     }
 

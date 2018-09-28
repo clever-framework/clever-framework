@@ -1,7 +1,7 @@
-package io.github.toquery.framework.id.snowflake;
+package io.github.toquery.framework.primary.snowflake;
 
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.id.ContextIdGenerator;
+import io.github.toquery.framework.primary.ContextIdGenerator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -19,38 +19,38 @@ public class Snowflake2IDGenerator extends ContextIdGenerator<Long> {
     protected char defaultPadChar = '0';
 
     @Getter
-    protected SnowflakeIDPart snowflakeIDPart;
+    protected SnowflakePrimaryKey snowflakePrimaryKey;
 
     //id每个部分的长度，实际数字为64位，包括一个符号位和63位二进制
-    protected Map<IDItem, Integer> idItems = Maps.newLinkedHashMap();
+    protected Map<EnumPrimaryKeyRule, Integer> idItems = Maps.newLinkedHashMap();
 
     {
         //时间戳，更改为以秒为单位，二进制长度改为32位，到2100年
-//        idItems.put(IDItem.timestamp , 41) ;
-        idItems.put(IDItem.timestamp, 32);
+//        idItems.put(EnumPrimaryKeyRule.timestamp , 41) ;
+        idItems.put(EnumPrimaryKeyRule.timestamp, 32);
         //业务线或模块，最多32个。可以在一个产品中区分不同模块，也可用来区分不同产品
-        idItems.put(IDItem.business, 5);
+        idItems.put(EnumPrimaryKeyRule.business, 5);
         //每条业务线，机房，最多4个
-        idItems.put(IDItem.machineroom, 2);
+        idItems.put(EnumPrimaryKeyRule.machine_room, 2);
         //每个机房，机器小于256
-        idItems.put(IDItem.machine, 8);
+        idItems.put(EnumPrimaryKeyRule.machine, 8);
         //2位留作自定义，可有4个不同的标识。在分表的时候，可以用做基因，一个rdb中单个表最多拆为4个分表
-        idItems.put(IDItem.custom, 2);
+        idItems.put(EnumPrimaryKeyRule.custom, 2);
         // 每秒内的序列号，单台机器每毫秒最大128写请求，每秒的写请求10w+，调整为5，
         // 单台机器每毫秒最多生成32个id，即每秒最多3.2w个id，为了保证正常运行，每秒控制最多3w个id生成
-//        idItems.put(IDItem.num , 5) ;
+//        idItems.put(EnumPrimaryKeyRule.num , 5) ;
         //更改为以秒为计数单位，单台机器每秒最多生成2^14个id（1.6w）
-        idItems.put(IDItem.num, 14);
+        idItems.put(EnumPrimaryKeyRule.num, 14);
     }
 
     public Snowflake2IDGenerator() {
-        this(new DefaultSnowflakeIDPart());
+        this(new DefaultSnowflakePrimaryKey());
     }
 
-    public Snowflake2IDGenerator(SnowflakeIDPart snowflakeIDPart) {
-        this.snowflakeIDPart = snowflakeIDPart;
+    public Snowflake2IDGenerator(SnowflakePrimaryKey snowflakePrimaryKey) {
+        this.snowflakePrimaryKey = snowflakePrimaryKey;
         //设置生成器中id的组成及每一部分的长度
-        this.snowflakeIDPart.setIdItems(idItems);
+        this.snowflakePrimaryKey.setIdItems(idItems);
     }
 
     /**
@@ -62,7 +62,7 @@ public class Snowflake2IDGenerator extends ContextIdGenerator<Long> {
         return Long.toString(index, 2);
     }
 
-    public Long getNextId(SnowflakeIDPart snowflakeIDPart, Object object) {
+    public Long getNextId(SnowflakePrimaryKey snowflakePrimaryKey, Object object) {
         StringBuffer idBinary = new StringBuffer();
         //id每段索引值和二进制
         long itemIndex = 0;
@@ -70,31 +70,31 @@ public class Snowflake2IDGenerator extends ContextIdGenerator<Long> {
 
         //当前的时间，单位秒
         long timeSeconds = System.currentTimeMillis() / 1000;
-        for (Map.Entry<IDItem, Integer> idItem : idItems.entrySet()) {
+        for (Map.Entry<EnumPrimaryKeyRule, Integer> idItem : idItems.entrySet()) {
             itemIndex = 0;
             switch (idItem.getKey()) {
                 case timestamp: {
-                    itemIndex += snowflakeIDPart.getTimeIndex(idItem.getValue(), timeSeconds, object);
+                    itemIndex += snowflakePrimaryKey.getTimeIndex(idItem.getValue(), timeSeconds, object);
                     break;
                 }
                 case business: {
-                    itemIndex = snowflakeIDPart.getBusinessIndex(idItem.getValue(), timeSeconds, object);
+                    itemIndex = snowflakePrimaryKey.getBusinessIndex(idItem.getValue(), timeSeconds, object);
                     break;
                 }
-                case machineroom: {
-                    itemIndex = snowflakeIDPart.getMachineRoomIndex(idItem.getValue(), timeSeconds, object);
+                case machine_room: {
+                    itemIndex = snowflakePrimaryKey.getMachineRoomIndex(idItem.getValue(), timeSeconds, object);
                     break;
                 }
                 case machine: {
-                    itemIndex = snowflakeIDPart.getMachineIndex(idItem.getValue(), timeSeconds, object);
+                    itemIndex = snowflakePrimaryKey.getMachineIndex(idItem.getValue(), timeSeconds, object);
                     break;
                 }
                 case custom: {
-                    itemIndex = snowflakeIDPart.getCustomIndex(idItem.getValue(), timeSeconds, object);
+                    itemIndex = snowflakePrimaryKey.getCustomIndex(idItem.getValue(), timeSeconds, object);
                     break;
                 }
                 case num: {
-                    itemIndex = snowflakeIDPart.getNumIndex(idItem.getValue(), timeSeconds, object);
+                    itemIndex = snowflakePrimaryKey.getNumIndex(idItem.getValue(), timeSeconds, object);
                     break;
                 }
             }
@@ -120,7 +120,7 @@ public class Snowflake2IDGenerator extends ContextIdGenerator<Long> {
 
     @Override
     public Long getNextId(Object object) {
-        return getNextId(this.snowflakeIDPart, object);
+        return getNextId(this.snowflakePrimaryKey, object);
     }
 
 }

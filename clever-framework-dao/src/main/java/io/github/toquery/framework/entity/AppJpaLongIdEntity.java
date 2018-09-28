@@ -11,16 +11,20 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
+
+/**
+ * 定义主键为Long类型，指定主键生成规则
+ */
+@Data
 @MappedSuperclass
 @Access(AccessType.FIELD)
-@Data
 public class AppJpaLongIdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(generator = "generatedkey")
-    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.entity.id.AppJpaEntityLongIDGenerator")
+    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.entity.primary.AppJpaEntityLongIDGenerator")
     @Column
     protected Long id;
 

@@ -1,4 +1,4 @@
-package io.github.toquery.framework.id;
+package io.github.toquery.framework.primary;
 
 /**
  * id生成器
@@ -8,7 +8,6 @@ public interface IdGenerator<T> {
 
     /**
      * 生成id
-     * @return
      */
     T getNextId() ;
 

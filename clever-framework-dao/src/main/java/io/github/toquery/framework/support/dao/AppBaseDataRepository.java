@@ -21,24 +21,12 @@ public interface AppBaseDataRepository<T, ID extends Serializable> extends Pagin
      */
     T update(T entity, Collection<String> updateFieldsName) ;
 
-//    /**
-//     * 更新实体对象，更新所有的属性
-//     * @param entity 实体
-//     */
-//    T update(T entity) ;
-
     /**
      * 批量更新实体对象
      * @param entityList 实体集合
      * @param updateFieldsName 更新字段名称
      */
     List<T> update(List<T> entityList, Collection<String> updateFieldsName) ;
-
-//    /**
-//     * 批量更新实体对象
-//     * @param entityList 实体
-//     */
-//    List<T> update(List<T> entityList) ;
 
     /**
      * 获取进行操作的领域类

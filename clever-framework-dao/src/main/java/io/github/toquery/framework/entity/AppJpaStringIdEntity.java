@@ -12,22 +12,24 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
+/**
+ * 定义主键为 String 类型，指定主键生成规则
+ */
+@Data
 @MappedSuperclass
 @Access(AccessType.FIELD)
-@Data
 public class AppJpaStringIdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "generatedkey")
-    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.entity.id.AppJpaEntityStringIDGenerator")
     @Column(length = 32)
+    @GeneratedValue(generator = "generatedkey")
+    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.entity.primary.AppJpaEntityStringIDGenerator")
     protected String id;
 
     /**
      * 设置id，如果id为空字符，则id=null
-     *
      */
     public void setId(String id) {
         this.id = Strings.isNullOrEmpty(id) ? null : id;

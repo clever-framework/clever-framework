@@ -1,6 +1,6 @@
-package io.github.toquery.framework.id.snowflake;
+package io.github.toquery.framework.primary.snowflake;
 
-public class DockerSnowflakeIDPart extends DefaultSnowflakeIDPart {
+public class DockerSnowflakePrimaryKey extends DefaultSnowflakePrimaryKey {
 
     @Override
     public String getName() {

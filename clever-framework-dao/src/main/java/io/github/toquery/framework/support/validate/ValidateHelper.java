@@ -109,8 +109,7 @@ public abstract class ValidateHelper {
 
         List<String> invalidMsg = Lists.newArrayListWithCapacity(constraintViolations.size());
         for (ConstraintViolation<S> constraintViolation : constraintViolations) {
-            invalidMsg.add(String.format(INVALIDE_MSG_TEMPLATE, constraintViolation.getRootBeanClass().getName(),
-                    constraintViolation.getPropertyPath(), constraintViolation.getMessage()));
+            invalidMsg.add(String.format(INVALIDE_MSG_TEMPLATE, constraintViolation.getRootBeanClass().getName(), constraintViolation.getPropertyPath(), constraintViolation.getMessage()));
         }
 
         return invalidMsg;
