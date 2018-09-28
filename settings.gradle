@@ -1,4 +1,0 @@
-rootProject.name = 'clever-framework'
-include 'clever-framework-curd'
-include 'clever-framework-dao'
-include 'clever-framework-demo'
