@@ -2,7 +2,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://mysql.jszx.sparke.cn:3306/cleverweb_mgr?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
-    username: root
-    password: spark2016
+
+
+  jpa:
+    generate-ddl: true
+
 
