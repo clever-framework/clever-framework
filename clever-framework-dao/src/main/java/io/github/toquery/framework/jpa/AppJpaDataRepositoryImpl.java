@@ -243,8 +243,7 @@ public class AppJpaDataRepositoryImpl<T, ID extends Serializable> extends Simple
         }
         //构造更新过滤条件
         String idField = entityInformation.getIdAttributeNames().iterator().next();
-        Predicate predicate = entityManager.getCriteriaBuilder().equal(
-                root.get(idField), entityInformation.getId(entity));
+        Predicate predicate = entityManager.getCriteriaBuilder().equal( root.get(idField), entityInformation.getId(entity));
         criteriaUpdate.where(predicate);
         //执行更新
         entityManager.createQuery(criteriaUpdate).executeUpdate();

@@ -30,12 +30,12 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
         this.repositoryMetadata = repositoryMetadata;
         this.projectionFactory = projectionFactory;
 
-        log.info("{}的领域类{}", repositoryMetadata.getRepositoryInterface().getName(), repositoryMetadata.getDomainType());
+        log.info(" {} 的领域类 {}", repositoryMetadata.getRepositoryInterface().getName(), repositoryMetadata.getDomainType());
     }
 
     @Override
     public Object execute(Object[] parameters) {
-        log.info("执行{}.{}，参数为{}", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), parameters != null ? Arrays.toString(parameters) : "");
+        log.info("执行 {} . {} ，参数为 {} ", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), parameters != null ? Arrays.toString(parameters) : "");
         Object result = null;
         try {
             Assert.isTrue(mapper != null, repositoryMetadata.getRepositoryInterface().getName() + "对应的Mapper为null");
@@ -43,7 +43,7 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
                 result = method.invoke(mapper, parameters);
             }
         } catch (Exception e) {
-            log.error("使用mybatis执行mapper: {}中方法{}失败", repositoryMetadata.getRepositoryInterface().getName(), method.getName());
+            log.error("使用 mybatis 执行 mapper : {} 中方法 {} 失败", repositoryMetadata.getRepositoryInterface().getName(), method.getName());
             e.printStackTrace();
             if (e instanceof RuntimeException) {
                 throw (RuntimeException) e;

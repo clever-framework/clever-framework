@@ -97,12 +97,12 @@ public interface AppBaseDataService<T, ID extends Serializable> {
      * @param sorts
      * @return
      */
-    List<T> queryAll(Map<String, Object> searchParams, String[] sorts) ;
+    List<T> findAll(Map<String, Object> searchParams, String[] sorts) ;
     /**
      * 查询满足条件的所有实体。在分布式服务中慎用此方法，查询效率比分页查询效率要低。
      * @param searchParams
      * @return
      */
-    List<T> queryAll(Map<String, Object> searchParams) ;
+    List<T> findAll(Map<String, Object> searchParams) ;
 
 }

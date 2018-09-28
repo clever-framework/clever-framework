@@ -10,9 +10,9 @@ version '1.0-SNAPSHOT'
 allprojects {
 
     repositories {
-        mavenLocal()
-        mavenCentral()
+//        mavenLocal()
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
     }
 }
 

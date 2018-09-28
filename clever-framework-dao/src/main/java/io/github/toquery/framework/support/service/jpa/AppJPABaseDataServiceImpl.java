@@ -165,7 +165,7 @@ public abstract class AppJPABaseDataServiceImpl<T, D extends AppJpaDataRepositor
     }
 
     @Override
-    public List<T> queryAll(Map<String, Object> searchParams, String[] sorts) {
+    public List<T> findAll(Map<String, Object> searchParams, String[] sorts) {
         Specification<T> specification = getQuerySpecification(searchParams);
         return entityDao.findAll(specification, getSort(sorts));
     }

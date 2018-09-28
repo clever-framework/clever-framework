@@ -24,7 +24,7 @@ public class AppJpaLongIdEntity implements Serializable {
 
     @Id
     @GeneratedValue(generator = "generatedkey")
-    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.entity.primary.AppJpaEntityLongIDGenerator")
+    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.entity.id.AppJpaEntityLongIDGenerator")
     @Column
     protected Long id;
 

@@ -10,4 +10,7 @@ dependencies {
     compile 'javax.validation:validation-api:2.0.1.Final'
     compile 'org.hibernate.validator:hibernate-validator:6.0.13.Final'
     compile 'commons-beanutils:commons-beanutils:1.9.3'
+    // https://mvnrepository.com/artifact/com.github.jsqlparser/jsqlparser
+    compile group: 'com.github.jsqlparser', name: 'jsqlparser', version: '0.9.1'
+
 }

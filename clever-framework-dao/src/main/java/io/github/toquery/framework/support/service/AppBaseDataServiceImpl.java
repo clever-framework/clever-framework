@@ -288,8 +288,8 @@ public abstract class AppBaseDataServiceImpl<T, D extends AppBaseDataRepository<
     }
 
     @Override
-    public List<T> queryAll(Map<String, Object> searchParams) {
-        return queryAll(searchParams, null);
+    public List<T> findAll(Map<String, Object> searchParams) {
+        return findAll(searchParams, null);
     }
 
     /**
