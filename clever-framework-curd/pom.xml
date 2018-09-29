@@ -12,4 +12,10 @@
     <artifactId>clever-framework-curd</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-dao</artifactId>
+        </dependency>
+    </dependencies>
 </project>
