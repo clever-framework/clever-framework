@@ -1,6 +1,7 @@
 package io.github.toquery.framework.jpa;
 
 import io.github.toquery.framework.jpa.lookup.QueryLookupStrategyFactories;
+import io.github.toquery.framework.repository.impl.AppJpaDataRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.data.jpa.provider.PersistenceProvider;

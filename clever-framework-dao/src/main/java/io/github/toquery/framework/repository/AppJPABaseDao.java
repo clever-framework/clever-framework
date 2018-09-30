@@ -1,5 +1,6 @@
-package io.github.toquery.framework.jpa;
+package io.github.toquery.framework.repository;
 
+import io.github.toquery.framework.repository.AppJpaDataRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;

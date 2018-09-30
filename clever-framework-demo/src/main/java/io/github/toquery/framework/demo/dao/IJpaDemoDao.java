@@ -1,7 +1,6 @@
 package io.github.toquery.framework.demo.dao;
 
 import io.github.toquery.framework.demo.entity.TbJpaDemo;
-import io.github.toquery.framework.jpa.AppJpaDataRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

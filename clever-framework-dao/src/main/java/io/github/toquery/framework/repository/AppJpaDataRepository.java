@@ -1,6 +1,6 @@
-package io.github.toquery.framework.jpa;
+package io.github.toquery.framework.repository;
 
-import io.github.toquery.framework.support.dao.AppBaseDataRepository;
+import io.github.toquery.framework.repository.AppBaseDataRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

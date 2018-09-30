@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import io.github.toquery.framework.entity.AppJpaLongBaseEntity;
 import io.github.toquery.framework.entity.AppJpaLongIdEntity;
 import io.github.toquery.framework.entity.AppJpaSoftDelEntity;
-import io.github.toquery.framework.jpa.AppJpaDataRepository;
+import io.github.toquery.framework.repository.AppJpaDataRepository;
 import io.github.toquery.framework.jpa.support.DynamicJPASpecifications;
 import io.github.toquery.framework.support.service.AppBaseDataServiceImpl;
 import lombok.extern.slf4j.Slf4j;

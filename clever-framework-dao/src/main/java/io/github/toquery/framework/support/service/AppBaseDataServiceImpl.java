@@ -5,7 +5,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.support.dao.AppBaseDataRepository;
+import io.github.toquery.framework.repository.AppBaseDataRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;

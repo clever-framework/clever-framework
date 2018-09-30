@@ -1,7 +1,8 @@
-package io.github.toquery.framework.jpa;
+package io.github.toquery.framework.repository.impl;
 
 import com.google.common.base.Joiner;
 import com.google.common.primitives.Ints;
+import io.github.toquery.framework.repository.AppJpaDataRepository;
 import io.github.toquery.framework.support.validate.ValidateHelper;
 import io.github.toquery.framework.util.UtilJPA;
 import lombok.Getter;

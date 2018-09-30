@@ -16,15 +16,11 @@ public abstract class QueryLookupStrategyAdvice implements QueryLookupStrategy{
 
     /**
      * 获取名称
-     * @return
      */
     abstract String getName() ;
 
     /**
      * 是否允许
-     * @param method
-     * @param metadata
-     * @return
      */
     abstract boolean isEnabled(Method method , RepositoryMetadata metadata ) ;
 

@@ -1,4 +1,4 @@
-package io.github.toquery.framework.support.dao;
+package io.github.toquery.framework.repository;
 
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
