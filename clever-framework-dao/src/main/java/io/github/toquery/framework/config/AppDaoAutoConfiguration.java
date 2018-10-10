@@ -1,6 +1,6 @@
 package io.github.toquery.framework.config;
 
-import io.github.toquery.framework.config.jpa.AppJPAAutoConfiguration;
+/*
 import io.github.toquery.framework.mybatis.AppMybatisAutoConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,3 +18,4 @@ public class AppDaoAutoConfiguration {
 
 
 }
+*/

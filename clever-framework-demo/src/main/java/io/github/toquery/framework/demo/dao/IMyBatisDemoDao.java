@@ -1,11 +1,11 @@
 package io.github.toquery.framework.demo.dao;
 
-import io.github.toquery.framework.jpa.annotation.MybatisQuery;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author toquery
  * @version 1
  */
-@MybatisQuery
+@Mapper
 public interface IMyBatisDemoDao {
 }

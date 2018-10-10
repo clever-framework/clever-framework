@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
+ /*
 @Slf4j
 @ConditionalOnBean(DataSource.class)
 @AutoConfigureOrder(Ordered.LOWEST_PRECEDENCE)
@@ -41,7 +41,7 @@ public class AppMybatisAutoConfiguration {
         log.info("初始化{}", this.getClass().getSimpleName());
     }
 
-    /*@Bean
+   @Bean
     public SqlSessionFactoryBean sessionFactoryBean(DataSource dataSource) throws IOException {
 
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
@@ -134,6 +134,7 @@ public class AppMybatisAutoConfiguration {
      *//*
     protected void initPlugins(List<Interceptor> interceptorList) {
         initPagePlugin(interceptorList);
-    }*/
+    }
 
 }
+*/

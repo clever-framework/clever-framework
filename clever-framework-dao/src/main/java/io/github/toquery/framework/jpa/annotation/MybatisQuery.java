@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 /**
  * 对mybatis查询方法和类的注解
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD , ElementType.TYPE})
-@QueryAnnotation
 @Documented
+@QueryAnnotation
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface MybatisQuery {
 }

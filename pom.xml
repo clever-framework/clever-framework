@@ -34,6 +34,7 @@
         <module>clever-framework-curd</module>
         <module>clever-framework-dao</module>
         <module>clever-framework-demo</module>
+        <module>clever-framework-webmvc</module>
     </modules>
 
 

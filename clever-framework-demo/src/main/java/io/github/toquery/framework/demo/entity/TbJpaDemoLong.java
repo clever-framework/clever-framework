@@ -16,8 +16,8 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
-@Table(name = "tb_my_batis_demo")
-public class TbMyBatisDemo extends AppBaseEntityLong {
+@Table(name = "tb_jpa_demo")
+public class TbJpaDemoLong extends AppBaseEntityLong {
 
     @Column
     private String name;

@@ -1,10 +1,21 @@
+
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/cleverweb?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    username: root
+    password: 123456
 
 
   jpa:
     generate-ddl: true
+    # 表使用innodb引擎
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
 
-
+logging:
+  level:
+    root: info

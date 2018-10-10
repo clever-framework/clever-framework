@@ -1,13 +1,12 @@
 package io.github.toquery.framework.demo.web.controller;
 
-import io.github.toquery.framework.demo.entity.TbJpaDemo;
+import io.github.toquery.framework.demo.entity.TbJpaDemoLong;
 import io.github.toquery.framework.demo.service.IJpaDemoService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author toquery
@@ -27,13 +26,13 @@ public class DemoController {
 
 
 //    @RequestMapping("/list")
-//    public List<TbJpaDemo> list() {
+//    public List<TbJpaDemoLong> list() {
 //        return demoService.findAll(null);
 //    }
 
 
     @RequestMapping("/get")
-    public TbJpaDemo getByName(@RequestParam String getByName) {
+    public TbJpaDemoLong getByName(@RequestParam String getByName) {
         return demoService.getByName(getByName);
     }
 
