@@ -48,6 +48,7 @@ import java.util.Map;
  */
 @Slf4j
 public class AppJpaDataRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements AppJpaDataRepository<T, ID> {
+
     private final JpaEntityInformation<T, ?> entityInformation;
 
     @Getter

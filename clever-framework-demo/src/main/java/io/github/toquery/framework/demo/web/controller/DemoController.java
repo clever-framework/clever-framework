@@ -1,7 +1,9 @@
 package io.github.toquery.framework.demo.web.controller;
 
-import io.github.toquery.framework.demo.entity.TbJpaDemoLong;
+import io.github.toquery.framework.demo.entity.TbJpaDemo;
+import io.github.toquery.framework.demo.entity.TbMyBatisDemo;
 import io.github.toquery.framework.demo.service.IJpaDemoService;
+import io.github.toquery.framework.demo.service.IMyBatisDemoService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,9 @@ public class DemoController {
     @Resource
     private IJpaDemoService demoService;
 
+    @Resource
+    private IMyBatisDemoService myBatisDemoService;
+
     @RequestMapping({"/", "/index"})
     public String index() {
         return "OK";
@@ -26,15 +31,19 @@ public class DemoController {
 
 
 //    @RequestMapping("/list")
-//    public List<TbJpaDemoLong> list() {
+//    public List<TbJpaDemo> list() {
 //        return demoService.findAll(null);
 //    }
 
 
-    @RequestMapping("/get")
-    public TbJpaDemoLong getByName(@RequestParam String getByName) {
-        return demoService.getByName(getByName);
+    @RequestMapping("/jpa/get")
+    public TbJpaDemo getByName1(@RequestParam String name) {
+        return demoService.getByName(name);
     }
 
+    @RequestMapping("/mybatis/get")
+    public TbMyBatisDemo getByName2(@RequestParam String name) {
+        return myBatisDemoService.getByName(name);
+    }
 
 }

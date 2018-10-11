@@ -1,7 +1,7 @@
 package io.github.toquery.framework.demo.service.impl;
 
 import io.github.toquery.framework.demo.dao.IJpaDemoDao;
-import io.github.toquery.framework.demo.entity.TbJpaDemoLong;
+import io.github.toquery.framework.demo.entity.TbJpaDemo;
 import io.github.toquery.framework.demo.service.IJpaDemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @version 1
  */
 @Service
-public class JpaDemoServiceImpl implements IJpaDemoService{ //extends AppJPABaseDataServiceImpl<TbJpaDemoLong, IJpaDemoDao> implements IJpaDemoService {
+public class JpaDemoServiceImpl implements IJpaDemoService{ //extends AppJPABaseDataServiceImpl<TbJpaDemo, IJpaDemoDao> implements IJpaDemoService {
 
    /* @Override
     public boolean isEnableQueryAllRecord() {
@@ -27,7 +27,7 @@ public class JpaDemoServiceImpl implements IJpaDemoService{ //extends AppJPABase
    private IJpaDemoDao jpaDemoDao;
 
     @Override
-    public TbJpaDemoLong getByName(String name) {
+    public TbJpaDemo getByName(String name) {
         return jpaDemoDao.getByName(name);
     }
 }

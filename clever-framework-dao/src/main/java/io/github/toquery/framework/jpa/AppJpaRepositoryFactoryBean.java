@@ -16,21 +16,21 @@ import java.io.Serializable;
 @Slf4j
 public class AppJpaRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable> extends JpaRepositoryFactoryBean<T, S, ID> {
 
-	private BeanFactory beanFactory ;
+    private BeanFactory beanFactory;
 
-	public AppJpaRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
-		super(repositoryInterface);
-	}
+    public AppJpaRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
+        super(repositoryInterface);
+    }
 
-	@Override
-	protected RepositoryFactorySupport createRepositoryFactory(EntityManager entityManager) {
-		return new AppJpaRepositoryFactory( entityManager , beanFactory );
-	}
+    @Override
+    protected RepositoryFactorySupport createRepositoryFactory(EntityManager entityManager) {
+        return new AppJpaRepositoryFactory(entityManager, beanFactory);
+    }
 
-	@Override
-	public void setBeanFactory(BeanFactory beanFactory) {
-		this.beanFactory = beanFactory ;
-		super.setBeanFactory(beanFactory) ;
-	}
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+        super.setBeanFactory(beanFactory);
+    }
 
 }

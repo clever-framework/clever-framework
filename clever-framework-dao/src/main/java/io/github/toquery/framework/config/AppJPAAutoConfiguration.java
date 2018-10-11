@@ -13,9 +13,9 @@ import java.util.Properties;
 
 @Slf4j
 @Configuration
-@ConditionalOnBean(DataSource.class)
-@Import(value = {AppJPATransactionAutoConfiguration.class})
-@ConditionalOnProperty(prefix = "spring.jpa", name = "enabled", matchIfMissing = true, havingValue = "true")
+//@ConditionalOnBean(DataSource.class)
+//@Import(value = {AppJPATransactionAutoConfiguration.class})
+//@ConditionalOnProperty(prefix = "spring.jpa", name = "enabled", matchIfMissing = true, havingValue = "true")
 @EnableJpaRepositories(basePackages = {"io.github.toquery.framework"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppJPAAutoConfiguration {
 
