@@ -9,15 +9,17 @@ spring:
     password: 123456
 
   jpa:
+    show-sql: true
     generate-ddl: true
     # 表使用innodb引擎
     properties:
       hibernate:
+        format_sql : true
         dialect: org.hibernate.dialect.MySQL55Dialect
 
 logging:
   level:
-    root: info
+    root: debug
 
 #mybatis:
 #  mapper-locations:

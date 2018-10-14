@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * @version 1
  */
 @Service
-public class MyBatisDemoServiceImpl implements IMyBatisDemoService { //extends AppJPABaseDataServiceImpl<TbJpaDemo, IJpaDemoDao> implements IJpaDemoService {
+public class MyBatisDemoServiceImpl implements IMyBatisDemoService { //extends AppJPABaseServiceImpl<TbJpaDemo, IJpaDemoRepository> implements IMyBatisDemoService {
 
    /* @Override
     public boolean isEnableQueryAllRecord() {
@@ -24,11 +24,16 @@ public class MyBatisDemoServiceImpl implements IMyBatisDemoService { //extends A
         return null;
     }*/
 
-   @Resource
-   private IMyBatisDemoDao myBatisDemoDao;
+    @Resource
+    private IMyBatisDemoDao myBatisDemoDao;
 
     @Override
     public TbMyBatisDemo getByName(String name) {
         return myBatisDemoDao.getByName(name);
+    }
+
+    @Override
+    public TbMyBatisDemo getByName3(String name) {
+        return myBatisDemoDao.getByName2(name);
     }
 }

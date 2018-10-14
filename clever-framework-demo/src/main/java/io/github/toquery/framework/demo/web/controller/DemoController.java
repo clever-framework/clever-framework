@@ -41,9 +41,20 @@ public class DemoController {
         return demoService.getByName(name);
     }
 
+
+    @RequestMapping("/jpa/update")
+    public TbJpaDemo jpaUpdate(@RequestParam Long id, @RequestParam String name) {
+        return demoService.update(id, name);
+    }
+
+
     @RequestMapping("/mybatis/get")
     public TbMyBatisDemo getByName2(@RequestParam String name) {
         return myBatisDemoService.getByName(name);
     }
 
+    @RequestMapping("/mybatis/jpa/get")
+    public TbMyBatisDemo getByName3(@RequestParam String name) {
+        return myBatisDemoService.getByName3(name);
+    }
 }

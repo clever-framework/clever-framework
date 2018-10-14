@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.toquery.framework.config.AppJPAAutoConfiguration
+io.github.toquery.framework.dao.autoconfig.AppJPAAutoConfiguration

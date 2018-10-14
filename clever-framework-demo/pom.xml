@@ -14,8 +14,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-web</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.toquery</groupId>

@@ -2,12 +2,13 @@ package io.github.toquery.framework.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * @author toquery
  * @version 1
  */
-
+@EnableJpaRepositories(basePackages = {"io.github.toquery.framework"})
 @SpringBootApplication
 public class DemoApplication {
 

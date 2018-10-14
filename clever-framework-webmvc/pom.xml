@@ -12,4 +12,7 @@
     <artifactId>clever-framework-webmvc</artifactId>
 
 
+    <dependencies>
+
+    </dependencies>
 </project>

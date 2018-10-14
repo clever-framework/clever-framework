@@ -1,6 +1,6 @@
 package io.github.toquery.framework.demo.entity;
 
-import io.github.toquery.framework.entity.AppBaseEntityLong;
+import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 @Getter
 @Entity
 @Table(name = "tb_jpa_demo")
-public class TbJpaDemo extends AppBaseEntityLong {
+public class TbJpaDemo extends AppBaseEntityPrimaryKeyLong {
 
     @Column
     private String name;
