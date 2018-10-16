@@ -1,16 +1,12 @@
 package io.github.toquery.framework.demo.service.impl;
 
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.demo.dao.IJpaDemoRepository;
 import io.github.toquery.framework.demo.entity.TbJpaDemo;
 import io.github.toquery.framework.demo.service.IJpaDemoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 /**
  * @author toquery
@@ -18,7 +14,7 @@ import java.util.Map;
  */
 @Service
 
-public class JpaDemoServiceImpl  implements IJpaDemoService {
+public class JpaDemoServiceImpl implements IJpaDemoService {
 //public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpaDemoRepository> implements IJpaDemoService {
 
 
@@ -47,6 +43,11 @@ public class JpaDemoServiceImpl  implements IJpaDemoService {
         tbJpaDemo.setId(id);
         tbJpaDemo.setName(name);
         return jpaDemoDao.update(tbJpaDemo, Sets.newHashSet("name"));
+    }
+
+    @Override
+    public TbJpaDemo getById(Long id) {
+        return jpaDemoDao.getOne(id);
     }
 
 }

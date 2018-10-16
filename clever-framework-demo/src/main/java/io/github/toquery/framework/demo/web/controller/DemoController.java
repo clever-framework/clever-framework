@@ -4,6 +4,7 @@ import io.github.toquery.framework.demo.entity.TbJpaDemo;
 import io.github.toquery.framework.demo.entity.TbMyBatisDemo;
 import io.github.toquery.framework.demo.service.IJpaDemoService;
 import io.github.toquery.framework.demo.service.IMyBatisDemoService;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,8 +38,13 @@ public class DemoController {
 
 
     @RequestMapping("/jpa/get")
-    public TbJpaDemo getByName1(@RequestParam String name) {
+    public TbJpaDemo getByName1(@RequestParam("name") String name) {
         return demoService.getByName(name);
+    }
+
+    @RequestMapping("/jpa/get/{id}")
+    public TbJpaDemo getById(@PathVariable("id") Long id) {
+        return demoService.getById(id);
     }
 
 

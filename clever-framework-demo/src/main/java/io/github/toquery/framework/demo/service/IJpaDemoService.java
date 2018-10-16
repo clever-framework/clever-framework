@@ -13,4 +13,6 @@ public interface IJpaDemoService   {
     TbJpaDemo getByName(String name);
 
     TbJpaDemo update(Long id, String name);
+
+    TbJpaDemo getById(Long id);
 }
