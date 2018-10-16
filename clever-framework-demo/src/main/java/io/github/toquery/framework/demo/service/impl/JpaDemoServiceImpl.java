@@ -5,6 +5,8 @@ import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.demo.dao.IJpaDemoRepository;
 import io.github.toquery.framework.demo.entity.TbJpaDemo;
 import io.github.toquery.framework.demo.service.IJpaDemoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,10 +17,12 @@ import java.util.Map;
  * @version 1
  */
 @Service
-public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpaDemoRepository> implements IJpaDemoService {
+
+public class JpaDemoServiceImpl  implements IJpaDemoService {
+//public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpaDemoRepository> implements IJpaDemoService {
 
 
-    @Override
+    /*@Override
     public boolean isEnableQueryAllRecord() {
         return true;
     }
@@ -26,7 +30,8 @@ public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpa
     @Override
     public Map<String, String> getQueryExpressions() {
         return null;
-    }
+    }*/
+
 
     @Resource
     private IJpaDemoRepository jpaDemoDao;

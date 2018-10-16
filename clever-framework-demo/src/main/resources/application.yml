@@ -1,5 +1,4 @@
 
-
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -19,8 +18,10 @@ spring:
 
 logging:
   level:
-    root: debug
+    root: info
 
 #mybatis:
 #  mapper-locations:
 #    - mybatis.mapper
+server:
+  port: 8888

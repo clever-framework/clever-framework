@@ -81,7 +81,11 @@
                 <artifactId>pac4j-core</artifactId>
                 <version>3.2.0</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>1.2.9</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.projectlombok</groupId>

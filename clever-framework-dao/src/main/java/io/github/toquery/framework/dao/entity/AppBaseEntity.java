@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
@@ -17,6 +20,8 @@ import java.util.Date;
  */
 @Setter
 @Getter
+@MappedSuperclass
+@Access(AccessType.FIELD)
 public class AppBaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,6 +42,7 @@ public class AppBaseEntity implements Serializable {
     @DateTimeFormat(pattern = AppProperties.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
 
-    @Column(name = "is_del",updatable = false)
+    //default '0' COMMENT '是否删除：1已删除；0未删除'
+    @Column(name = AppProperties.JPA_COLUMN_SOFT_DEL)
     private boolean isDel;
 }

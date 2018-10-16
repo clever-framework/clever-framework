@@ -1,7 +1,9 @@
 package io.github.toquery.framework.demo.entity;
 
 import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -16,6 +18,8 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_jpa_demo")
 public class TbJpaDemo extends AppBaseEntityPrimaryKeyLong {
 

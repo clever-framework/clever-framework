@@ -1,7 +1,9 @@
 package io.github.toquery.framework.demo.dao;
 
-import io.github.toquery.framework.demo.entity.TbJpaDemo;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
+import io.github.toquery.framework.demo.entity.TbJpaDemo;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * @author toquery
@@ -11,5 +13,6 @@ import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 //public interface IJpaDemoRepository extends JpaRepository<TbJpaDemo, Long> {
 public interface IJpaDemoRepository extends AppJpaBaseRepository<TbJpaDemo, Long> {
 
-    public TbJpaDemo getByName(String name);
+    @Query("from TbJpaDemo where name = :name")
+    public TbJpaDemo getByName(@Param("name") String name);
 }

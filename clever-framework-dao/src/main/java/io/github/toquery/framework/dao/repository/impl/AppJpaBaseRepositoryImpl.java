@@ -157,22 +157,6 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
     }
 
     @Override
-    public <S extends T> S save(S entity) {
-        if (!entityInformation.isNew(entity)) {
-            throw new IllegalArgumentException("in save method , the entity must be new . if you want to update entity , invoke update method .");
-        }
-
-        validateEntity(entity);
-
-        //保存实体对象
-        entityManager.persist(entity);
-
-        //将需要保存的对象，立刻持久化到数据库
-        entityManager.flush();
-        return entity;
-    }
-
-    @Override
     @Transactional
     public T update(T entity, Collection<String> updateFieldsName) {
         //检查更新实体是否具有id

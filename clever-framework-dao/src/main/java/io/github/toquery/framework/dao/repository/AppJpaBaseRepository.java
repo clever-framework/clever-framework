@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @NoRepositoryBean
-public interface AppJpaBaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T>, PagingAndSortingRepository<T, ID> {
+public interface AppJpaBaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
     /**
      * 统计加和运算

@@ -24,9 +24,9 @@ import javax.persistence.MappedSuperclass;
 public class AppBaseEntityPrimaryKeyLong extends AppBaseEntity {
 
     @Id
+    @Column
     @GeneratedValue(generator = "generatedkey")
     @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppJpaEntityLongIDGenerator")
-    @Column
     protected Long id;
 
 }

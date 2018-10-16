@@ -55,6 +55,12 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
         return AppJpaBaseRepositoryImpl.class;
     }
 
+    /**
+     * 查找使用自定义注解，然后mybatis执行
+     * @param key
+     * @param evaluationContextProvider
+     * @return
+     */
     @Override
     protected Optional<QueryLookupStrategy> getQueryLookupStrategy(@Nullable QueryLookupStrategy.Key key, EvaluationContextProvider evaluationContextProvider) {
         QueryLookupStrategy queryLookupStrategy = QueryLookupStrategyFactories.create(entityManager, beanFactory, key, extractor, evaluationContextProvider);

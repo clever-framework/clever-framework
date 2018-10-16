@@ -3,6 +3,8 @@ package io.github.toquery.framework.demo.service.impl;
 import io.github.toquery.framework.demo.dao.IMyBatisDemoDao;
 import io.github.toquery.framework.demo.entity.TbMyBatisDemo;
 import io.github.toquery.framework.demo.service.IMyBatisDemoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
