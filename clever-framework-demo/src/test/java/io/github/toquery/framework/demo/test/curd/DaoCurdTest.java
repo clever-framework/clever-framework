@@ -52,11 +52,14 @@ public class DaoCurdTest extends BaseSpringTest {
         TbJpaDemo getOne = jpaDemoRepository.getOne(save.getId());
         log.info("查询的数据 getOne ：\n{}", JSON.toJSONString(getOne));
 
-        TbJpaDemo getByName = jpaDemoRepository.getByName(save.getName());
+        TbJpaDemo getByName = jpaDemoRepository.getByName("123");
         log.info("查询的数据 getByName ：\n{}", JSON.toJSONString(getByName));
 
         List<TbJpaDemo> findAll = jpaDemoRepository.findAll();
         log.info("查询的数据 findAll ：\n{}", JSON.toJSONString(findAll));
+
+        jpaDemoRepository.deleteById(save.getId());
+        log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));
 
     }
 }

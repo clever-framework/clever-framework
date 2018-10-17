@@ -3,6 +3,7 @@ package io.github.toquery.framework.dao.entity;
 import io.github.toquery.framework.core.config.AppProperties;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -56,13 +57,16 @@ public class AppBaseEntity implements Serializable {
     @DateTimeFormat(pattern = AppProperties.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
 
-    //default '0' COMMENT '是否删除：1已删除；0未删除'
-    @Column(name = AppProperties.JPA_COLUMN_SOFT_DEL, nullable = false)
-    private boolean isDel;
+    /**
+     * 是否删除：1已删除；0未删除
+     */
+    @ColumnDefault("false")
+    @Column(name = AppProperties.JPA_COLUMN_SOFT_DEL)
+    private Boolean isDel = false;
 
 
     public boolean getIsDel() {
-        return this.isDel;
+        return this.isDel == null ? false : this.isDel;
     }
 
     public void setIsDel(boolean isDel) {

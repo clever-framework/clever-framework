@@ -10,12 +10,12 @@ spring:
   jpa:
     show-sql: true
     generate-ddl: true
-    # 表使用innodb引擎
+    open-in-view: true
     properties:
       hibernate:
-        format_sql : true
-        dialect: org.hibernate.dialect.MySQL55Dialect
-    open-in-view: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL55Dialect #使用innodb引擎
+        enable_lazy_load_no_trans: true
 logging:
   level:
     root: info
