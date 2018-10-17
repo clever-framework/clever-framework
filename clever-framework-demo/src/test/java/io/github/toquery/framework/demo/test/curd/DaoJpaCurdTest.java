@@ -19,7 +19,7 @@ import java.util.List;
  * @version 1
  */
 @Slf4j
-public class DaoCurdTest extends BaseSpringTest {
+public class DaoJpaCurdTest extends BaseSpringTest {
 
     @Resource
     private IJpaDemoRepository jpaDemoRepository;

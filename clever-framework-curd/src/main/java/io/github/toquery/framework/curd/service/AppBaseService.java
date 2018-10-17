@@ -21,7 +21,7 @@ public interface AppBaseService<T, ID extends Serializable> {
      * 如果是新创建的实体，属性中存在关联关系，需要首先清除保存实体关联关系，保存实体。<br>
      * 然后再重新设置关联关系，重新保存实体。
      */
-    Iterable<T> saveBatch(Iterable<T> entityIterable);
+    List<T> saveBatch(List<T> entityIterable);
 
     /**
      * 根据id删除
@@ -58,7 +58,7 @@ public interface AppBaseService<T, ID extends Serializable> {
      * @param entity
      * @param updateFields 更新字段名称
      */
-    void update(T entity, Collection<String> updateFields);
+    T update(T entity, Collection<String> updateFields);
 
     /**
      * 批量更新实体对象内容<br>
@@ -67,7 +67,7 @@ public interface AppBaseService<T, ID extends Serializable> {
      * @param entityList
      * @param updateFields 更新字段名称
      */
-    void update(List<T> entityList, Collection<String> updateFields);
+    List<T> update(List<T> entityList, Collection<String> updateFields);
 
 
 

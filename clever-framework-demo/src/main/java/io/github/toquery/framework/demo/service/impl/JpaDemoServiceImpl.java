@@ -1,12 +1,14 @@
 package io.github.toquery.framework.demo.service.impl;
 
 import com.google.common.collect.Sets;
+import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.demo.dao.IJpaDemoRepository;
 import io.github.toquery.framework.demo.entity.TbJpaDemo;
 import io.github.toquery.framework.demo.service.IJpaDemoService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author toquery
@@ -14,11 +16,11 @@ import javax.annotation.Resource;
  */
 @Service
 
-public class JpaDemoServiceImpl implements IJpaDemoService {
-//public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpaDemoRepository> implements IJpaDemoService {
+//public class JpaDemoServiceImpceImpl implements IJpaDemoService {
+public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpaDemoRepository> implements IJpaDemoService {
 
 
-    /*@Override
+    @Override
     public boolean isEnableQueryAllRecord() {
         return true;
     }
@@ -26,7 +28,7 @@ public class JpaDemoServiceImpl implements IJpaDemoService {
     @Override
     public Map<String, String> getQueryExpressions() {
         return null;
-    }*/
+    }
 
 
     @Resource

@@ -17,17 +17,14 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.reflections.ReflectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
 import javax.persistence.Transient;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -51,9 +48,8 @@ import java.util.Set;
 @Slf4j
 public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppBaseEntity, D extends AppJpaBaseRepository<T, ID>> implements AppBaseService<T, ID> {
 
-    @Resource
-    protected D entityDao;
-
+    @Autowired
+    private D baseEntityDao;
 
     @Override
     @Transactional
@@ -68,15 +64,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
      * 保存之前的处理操作
      */
     protected void preSaveHandler(T entity) {
-        //设置记录的创建时间
-        entity.setCreateDatetime(new Date());
-        //todo 设置记录创建人的id
-            /*
-            AppAuthPrincipal appAuthPrincipal = appAuthPrincipalService.getAppAuthPrincipal();
-            if (appAuthPrincipal != null && appAuthPrincipal.getAuthUser() != null && appAuthPrincipal.getAuthUser().getId() != null) {
-                baseEntity.setCreateUserId(appAuthPrincipal.getAuthUser().getId().toString());
-            }
-            */
+
     }
 
     /**
@@ -88,9 +76,9 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
 
     @Override
     @Transactional
-    public Iterable<T> saveBatch(Iterable<T> entityIterable) {
+    public List<T> saveBatch(List<T> entityIterable) {
         preSaveBatchHandler(entityIterable);
-        Iterable<T> saveData = baseEntityDao.saveAll(entityIterable);
+        List<T> saveData = baseEntityDao.saveAll(entityIterable);
         postSaveBatchHandler(entityIterable);
         return saveData;
     }
@@ -98,7 +86,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     /**
      * 保存之前的预处理操作
      */
-    protected void preSaveBatchHandler(Iterable<T> entityIterable) {
+    protected void preSaveBatchHandler(List<T> entityIterable) {
 
     }
 
@@ -106,7 +94,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     /**
      * 保存之后的处理操作
      */
-    protected void postSaveBatchHandler(Iterable<T> entityIterable) {
+    protected void postSaveBatchHandler(List<T> entityIterable) {
 
     }
 
@@ -134,7 +122,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
 
     public void postDeleteHandler(ID id) {
         //在进行刷新操作前，先刷新当前实体缓存
-        this.entityDao.flush();
+        this.baseEntityDao.flush();
     }
 
     /**
@@ -223,9 +211,9 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
      * @return
      */
     public boolean isSoftDel() {
-        boolean isSoftDel = ClassUtils.isAssignable(this.entityDao.getDomainClass(), AppBaseEntityJpaSoftDelEntity.class);
+        boolean isSoftDel = ClassUtils.isAssignable(this.baseEntityDao.getDomainClass(), AppBaseEntityJpaSoftDelEntity.class);
         if (isSoftDel) {
-            log.info("{} 删除为软删除", this.entityDao.getDomainClass().getName());
+            log.info("{} 删除为软删除", this.baseEntityDao.getDomainClass().getName());
         }
         return isSoftDel;
     }
@@ -233,16 +221,16 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     @Override
     public boolean existsById(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<T> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, entityDao.getDomainClass());
-        return entityDao.count(specification) > 0;
+        Specification<T> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
+        return baseEntityDao.count(specification) > 0;
     }
 
 
     @Override
     public long count(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<T> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, entityDao.getDomainClass());
-        return entityDao.count(specification);
+        Specification<T> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
+        return baseEntityDao.count(specification);
     }
 
     @Override
@@ -253,7 +241,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
 
         Pageable pageable = PageRequest.of(pageNum, pageSize, getSort(sorts));
 
-        return entityDao.findAll(specification, pageable);
+        return baseEntityDao.findAll(specification, pageable);
 
 //		Page<T> page = entityDao.findAll(specification, pageable) ;
 //		//将page对象转换为可以在dubbo中进行序列化和反序列化的分页对象
@@ -266,7 +254,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     @Override
     public List<T> find(Map<String, Object> searchParams, String[] sorts) {
         Specification<T> specification = getQuerySpecification(searchParams);
-        return entityDao.findAll(specification, getSort(sorts));
+        return baseEntityDao.findAll(specification, getSort(sorts));
     }
 
     /**
@@ -290,7 +278,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
         }
 
         //构建查询条件
-        return DynamicJPASpecifications.bySearchParam(queryExpressionMap, entityDao.getDomainClass());
+        return DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
     }
 
     /**
@@ -299,7 +287,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
      */
     protected Sort getSort(String[] sorts) {
         //默认按照创建时间排序
-        if ((sorts == null || sorts.length < 1) && AppBaseEntity.class.isAssignableFrom(this.entityDao.getDomainClass())) {
+        if ((sorts == null || sorts.length < 1) && AppBaseEntity.class.isAssignableFrom(this.baseEntityDao.getDomainClass())) {
             sorts = new String[]{"createDatetime"};
         }
 
@@ -346,8 +334,6 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
         return sort;
     }
 
-    @Resource
-    private D baseEntityDao;
 
     @Override
     public T getById(ID id) {
@@ -358,14 +344,15 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
 
     @Transactional
     @Override
-    public void update(T entity, Collection<String> updateFields) {
+    public T update(T entity, Collection<String> updateFields) {
         Set<String> newUpdateFields = new HashSet<String>();
         if (!CollectionUtils.isEmpty(updateFields)) {
             newUpdateFields.addAll(updateFields);
         }
         preUpdateHandler(entity, newUpdateFields);
-        baseEntityDao.update(entity, newUpdateFields);
+        T t = baseEntityDao.update(entity, newUpdateFields);
         postUpdateHandler(entity, newUpdateFields);
+        return t;
     }
 
     private Set<String> entityFields;
@@ -383,10 +370,13 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
 
     @Transactional
     @Override
-    public void update(List<T> entityList, Collection<String> updateFields) {
+    public List<T> update(List<T> entityList, Collection<String> updateFields) {
+        List<T> list = Lists.newArrayList();
         for (T entity : entityList) {
-            update(entity, updateFields);
+            T t = update(entity, updateFields);
+            list.add(t);
         }
+        return list;
     }
 
     /**

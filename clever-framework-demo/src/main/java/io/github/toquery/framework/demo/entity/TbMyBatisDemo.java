@@ -1,7 +1,9 @@
 package io.github.toquery.framework.demo.entity;
 
 import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -16,6 +18,8 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_my_batis_demo")
 public class TbMyBatisDemo extends AppBaseEntityPrimaryKeyLong {
 
@@ -24,4 +28,6 @@ public class TbMyBatisDemo extends AppBaseEntityPrimaryKeyLong {
 
     @Column(name = "login_time")
     private Date loginTime;
+
+
 }
