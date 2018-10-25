@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 常量
+ *
  * @author toquery
  * @version 1
  */
@@ -16,6 +17,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
 
+    private AppCommonProperties common = new AppCommonProperties();
 
 
+    private AppJpaProperties jpa = new AppJpaProperties();
 }

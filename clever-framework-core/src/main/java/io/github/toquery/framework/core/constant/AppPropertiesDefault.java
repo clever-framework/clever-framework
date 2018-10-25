@@ -26,5 +26,21 @@ public class AppPropertiesDefault {
     /**
      * 默认是否删除属性的数据库对应字段名称
      */
+    public static final String JPA_COLUMN_CREATE_BY = "create_by";
+    /**
+     * 默认是否删除属性的数据库对应字段名称
+     */
+    public static final String JPA_COLUMN_CREATE_DATE = "create_date";
+    /**
+     * 默认是否删除属性的数据库对应字段名称
+     */
+    public static final String JPA_COLUMN_LAST_MODIFIED_BY = "last_modified_by";
+    /**
+     * 默认是否删除属性的数据库对应字段名称
+     */
+    public static final String JPA_COLUMN_LAST_MODIFIED_DATE = "last_modified_date";
+    /**
+     * 默认是否删除属性的数据库对应字段名称
+     */
     public static final String JPA_COLUMN_SOFT_DEL = "is_del";
 }

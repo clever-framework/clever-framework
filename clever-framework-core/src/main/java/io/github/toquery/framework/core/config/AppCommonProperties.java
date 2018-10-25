@@ -3,8 +3,6 @@ package io.github.toquery.framework.core.config;
 import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author toquery
@@ -12,15 +10,13 @@ import org.springframework.context.annotation.Configuration;
  */
 @Setter
 @Getter
-@Configuration
-@ConfigurationProperties(prefix = "app.common")
 public class AppCommonProperties {
 
-    private Pattern pattern = new Pattern();
+    private AppCommonPatternProperties pattern = new AppCommonPatternProperties();
 
     @Setter
     @Getter
-    public static class Pattern {
+    public static class AppCommonPatternProperties {
 
         private String date = AppPropertiesDefault.DATE_PATTERN;
 

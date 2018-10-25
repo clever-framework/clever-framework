@@ -14,6 +14,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-web</artifactId>
         </dependency>

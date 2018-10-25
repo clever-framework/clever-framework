@@ -70,7 +70,6 @@ public interface AppBaseService<T, ID extends Serializable> {
     List<T> update(List<T> entityList, Collection<String> updateFields);
 
 
-
     /**
      * 查询满足条件的记录数
      *
