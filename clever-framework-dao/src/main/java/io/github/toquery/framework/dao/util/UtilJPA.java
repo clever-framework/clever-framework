@@ -1,4 +1,4 @@
-package io.github.toquery.framework.util;
+package io.github.toquery.framework.dao.util;
 
 import org.reflections.ReflectionUtils;
 
@@ -11,8 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * JPA帮助类，主要包括如下方法：<p></p>
+ * <p>JPA帮助类，主要包括如下方法： <br>
  * 1.获取实体类中所有简单映射方法 <br>
+ * </p>
  */
 public class UtilJPA {
     /**
@@ -22,6 +23,9 @@ public class UtilJPA {
 
     /**
      * 获取实体中所有简单的数据库映射字段
+     *
+     * @param entityClass 实体类
+     * @return 所有字段
      */
     public static List<String> getSimpleORMFieldInEntity(Class entityClass) {
         if (entityClass == null) {
@@ -40,6 +44,9 @@ public class UtilJPA {
 
     /**
      * 判断字段是否为简单类型的映射
+     *
+     * @param field 字段
+     * @return 是否为简单类型的映射
      */
     public static boolean isSimpleORMField(Field field) {
         boolean flag = Collection.class.isAssignableFrom(field.getType()) ?

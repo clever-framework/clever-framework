@@ -2,16 +2,17 @@ package io.github.toquery.framework.dao.primary.snowflake;
 
 /**
  * 带有上下文的id生成
- * @param <T>
+ *
+ * @param <T> 生成的主键类型
  */
 public abstract class ContextPrimaryKeyGenerator<T> implements PrimaryKeyGenerator<T> {
     @Override
     public T getNextId() {
-        return getNextId(null) ;
+        return getNextId(null);
     }
 
     /**
      * 根据上下文生成id
      */
-    public abstract T getNextId( Object object ) ;
+    public abstract T getNextId(Object object);
 }

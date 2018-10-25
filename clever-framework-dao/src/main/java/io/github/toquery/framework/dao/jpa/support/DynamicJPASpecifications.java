@@ -1,8 +1,8 @@
 package io.github.toquery.framework.dao.jpa.support;
 
-import io.github.toquery.framework.core.config.AppProperties;
-import io.github.toquery.framework.support.SearchFilter;
-import io.github.toquery.framework.util.UtilEscape;
+import io.github.toquery.framework.core.constant.AppPropertiesDefault;
+import io.github.toquery.framework.dao.support.SearchFilter;
+import io.github.toquery.framework.dao.util.UtilEscape;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ClassUtils;
@@ -407,7 +407,7 @@ public class DynamicJPASpecifications {
         } else if (operator.applyClass.getName().equals(Date.class.getName()) && !(value instanceof Date)) {
             //将字符串转换为日期
             String dateString = value.toString().trim();
-            String[] datePatterns = {AppProperties.DATE_PATTERN, AppProperties.DATE_TIME_PATTERN, "HH:mm:ss"};
+            String[] datePatterns = {AppPropertiesDefault.DATE_PATTERN, AppPropertiesDefault.DATE_TIME_PATTERN, AppPropertiesDefault.TIME_PATTERN};
             try {
                 value = DateUtils.parseDate(dateString, datePatterns);
             } catch (ParseException e) {

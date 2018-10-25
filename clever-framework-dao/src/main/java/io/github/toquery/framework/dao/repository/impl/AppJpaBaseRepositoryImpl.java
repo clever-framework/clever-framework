@@ -3,8 +3,8 @@ package io.github.toquery.framework.dao.repository.impl;
 import com.google.common.base.Joiner;
 import com.google.common.primitives.Ints;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
-import io.github.toquery.framework.util.UtilJPA;
-import io.github.toquery.framework.validate.ValidateHelper;
+import io.github.toquery.framework.dao.util.UtilJPA;
+import io.github.toquery.framework.dao.validate.ValidateHelper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -43,17 +43,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 扩展JpaRepository，添加对update的支持。
- * <jpa:repositories>...</jpa:repositories>会根据查找到的接口名称，自动寻找后缀为Impl的接口实现类，
- * 如果接口实现类需要交由spring管理，必须提供不带参数的构造方法。
+ * <p>扩展JpaRepository，添加对update的支持。</p>
+ * <p>会根据查找到的接口名称，自动寻找后缀为Impl的接口实现类，</p>
+ * <p>如果接口实现类需要交由spring管理，必须提供不带参数的构造方法。</p>
  */
 @Slf4j
 public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements AppJpaBaseRepository<T, ID> {
 
-    private final JpaEntityInformation<T, ?> entityInformation;
-
     @Getter
     private final EntityManager entityManager;
+
+    private final JpaEntityInformation<T, ?> entityInformation;
 
     /**
      * 是否允许全局的表单验证器，默认允许
@@ -126,9 +126,6 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
 
     /**
      * 验证实体，验证出现异常则抛出
-     *
-     * @param entity
-     * @param <S>
      */
     public <S extends T> void validateEntity(S entity) {
         //进行实体验证
@@ -142,9 +139,6 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
 
     /**
      * 验证实体属性，验证出现异常则抛出
-     *
-     * @param entity
-     * @param <S>
      */
     public <S extends T> void validateProperties(S entity, Collection<String> properties) {
         //进行实体验证
@@ -161,7 +155,7 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
     public T update(T entity, Collection<String> updateFieldsName) {
         //检查更新实体是否具有id
         if (entityInformation.isNew(entity)) {
-            throw new IllegalArgumentException("in update method , the value of primary must not be null.");
+            throw new IllegalArgumentException("在update方法中, 主键值必须为空.");
         }
         //清理持久化上下文中的托管实体，避免重复更新
         entityManager.clear();
@@ -182,8 +176,6 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
 
     /**
      * 判断是否具有复杂的关联关系，如果具有则执行动态更新，否则执行完整更新
-     *
-     * @return
      */
     public boolean isExecuteDynamicUpdate(T entity, Collection<String> updateFieldsName) {
         //没有执行需要更新的字段

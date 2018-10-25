@@ -76,17 +76,17 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
 
     @Override
     @Transactional
-    public List<T> saveBatch(List<T> entityIterable) {
-        preSaveBatchHandler(entityIterable);
-        List<T> saveData = baseEntityDao.saveAll(entityIterable);
-        postSaveBatchHandler(entityIterable);
+    public List<T> saveBatch(List<T> entityList) {
+        preSaveBatchHandler(entityList);
+        List<T> saveData = baseEntityDao.saveAll(entityList);
+        postSaveBatchHandler(entityList);
         return saveData;
     }
 
     /**
      * 保存之前的预处理操作
      */
-    protected void preSaveBatchHandler(List<T> entityIterable) {
+    protected void preSaveBatchHandler(List<T> entityList) {
 
     }
 
@@ -94,7 +94,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     /**
      * 保存之后的处理操作
      */
-    protected void postSaveBatchHandler(List<T> entityIterable) {
+    protected void postSaveBatchHandler(List<T> entityList) {
 
     }
 
@@ -107,7 +107,6 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
         if (isBlankId(id)) {
             return;
         }
-        postDeleteHandler(id);
         if (isSoftDel()) {
             T entity = getById(id);
             if (entity != null) {
@@ -118,6 +117,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
         } else {
             baseEntityDao.deleteById(id);
         }
+        postDeleteHandler(id);
     }
 
     public void postDeleteHandler(ID id) {

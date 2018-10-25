@@ -1,4 +1,4 @@
-package io.github.toquery.framework.support;
+package io.github.toquery.framework.dao.support;
 
 import com.google.common.collect.Maps;
 import lombok.ToString;

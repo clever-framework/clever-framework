@@ -67,6 +67,7 @@ public interface AppJpaBaseRepository<T, ID extends Serializable> extends JpaRep
      */
     List<T> update(List<T> entityList, Collection<String> updateFieldsName);
 
+    // TODO 依据条件删除实体
     /**
      * 获取进行操作的领域类
      */

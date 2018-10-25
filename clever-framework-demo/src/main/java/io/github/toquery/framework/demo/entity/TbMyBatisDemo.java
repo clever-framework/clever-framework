@@ -30,4 +30,9 @@ public class TbMyBatisDemo extends AppBaseEntityPrimaryKeyLong {
     private Date loginTime;
 
 
+    public TbMyBatisDemo(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.loginTime = new Date();
+    }
 }

@@ -65,7 +65,8 @@ public class MybatisQueryLookupStrategy extends QueryLookupStrategyAdvice {
     /**
      * 获取mybatis中mapper的key
      *
-     * @return
+     * @param metadata metadata for repository interfaces.
+     * @return 接口名称
      */
     public String getMapperKey(RepositoryMetadata metadata) {
         return metadata.getRepositoryInterface().getName();

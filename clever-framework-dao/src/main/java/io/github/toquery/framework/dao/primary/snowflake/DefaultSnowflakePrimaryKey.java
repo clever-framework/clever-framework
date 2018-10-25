@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.RateLimiter;
-import io.github.toquery.framework.util.UtilNumber;
+import io.github.toquery.framework.dao.util.UtilNumber;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

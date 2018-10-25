@@ -6,22 +6,27 @@ import org.springframework.data.repository.query.QueryLookupStrategy;
 
 import java.lang.reflect.Method;
 
-public abstract class QueryLookupStrategyAdvice implements QueryLookupStrategy{
+public abstract class QueryLookupStrategyAdvice implements QueryLookupStrategy {
 
-    protected BeanFactory beanFactory ;
+    protected BeanFactory beanFactory;
 
-    public QueryLookupStrategyAdvice(BeanFactory beanFactory){
-        this.beanFactory = beanFactory ;
+    public QueryLookupStrategyAdvice(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
     }
 
     /**
      * 获取名称
+     *
+     * @return 名称
      */
-    abstract String getName() ;
+    abstract String getName();
 
     /**
      * 是否允许
+     *
+     * @param method   method
+     * @param metadata Metadata for repository interfaces.
      */
-    abstract boolean isEnabled(Method method , RepositoryMetadata metadata ) ;
+    abstract boolean isEnabled(Method method, RepositoryMetadata metadata);
 
 }

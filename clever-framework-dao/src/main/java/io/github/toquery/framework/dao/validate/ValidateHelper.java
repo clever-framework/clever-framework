@@ -1,4 +1,4 @@
-package io.github.toquery.framework.validate;
+package io.github.toquery.framework.dao.validate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -35,9 +35,9 @@ public abstract class ValidateHelper {
     /**
      * 验证实体是否负责规范，参考：
      *
-     * @param object
-     * @param <S>
-     * @return
+     * @param object 实体
+     * @param <S>    实体
+     * @return 是否负责规范
      */
     public static <S> List<String> validate(S object) {
         if (object == null) {
@@ -49,9 +49,9 @@ public abstract class ValidateHelper {
     /**
      * 验证指定实体属性是否符合规则
      *
-     * @param object
-     * @param properties
-     * @param <S>
+     * @param object    实体
+     * @param properties    实体属性
+     * @param <S>   实体
      * @return 返回错误消息
      */
     public static <S> List<String> validateProperties(S object, Collection<String> properties) {
@@ -81,11 +81,11 @@ public abstract class ValidateHelper {
     /**
      * 验证方法参数
      *
-     * @param object
-     * @param method
-     * @param args
-     * @param <S>
-     * @return
+     * @param object 对象类
+     * @param method 方法名称
+     * @param args   方法参数
+     * @param <S>    对象类
+     * @return 方法参数
      */
     public static <S> List<String> validateParameters(S object, Method method, Object[] args) {
         if (object == null || method == null || args == null || args.length < 1) {
@@ -98,9 +98,9 @@ public abstract class ValidateHelper {
     /**
      * 将限制转换为消息对象
      *
-     * @param constraintViolations
-     * @param <S>
-     * @return
+     * @param constraintViolations 约束违规
+     * @param <S>                  约束违规
+     * @return 消息对象
      */
     public static <S> List<String> getInvalidMsg(Set<ConstraintViolation<S>> constraintViolations) {
         if (CollectionUtils.isEmpty(constraintViolations)) {

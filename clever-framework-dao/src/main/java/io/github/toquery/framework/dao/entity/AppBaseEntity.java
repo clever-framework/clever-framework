@@ -1,6 +1,6 @@
 package io.github.toquery.framework.dao.entity;
 
-import io.github.toquery.framework.core.config.AppProperties;
+import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -41,7 +41,7 @@ public class AppBaseEntity implements Serializable {
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = AppProperties.DATE_TIME_PATTERN)
+    @DateTimeFormat(pattern = AppPropertiesDefault.DATE_TIME_PATTERN)
     @Column(name = "create_time", updatable = false, nullable = false)
     private Date createDatetime;
 
@@ -54,14 +54,14 @@ public class AppBaseEntity implements Serializable {
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_update_time", nullable = false)
-    @DateTimeFormat(pattern = AppProperties.DATE_TIME_PATTERN)
+    @DateTimeFormat(pattern = AppPropertiesDefault.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
 
     /**
      * 是否删除：1已删除；0未删除
      */
     @ColumnDefault("false")
-    @Column(name = AppProperties.JPA_COLUMN_SOFT_DEL)
+    @Column(name = AppPropertiesDefault.JPA_COLUMN_SOFT_DEL)
     private Boolean isDel = false;
 
 

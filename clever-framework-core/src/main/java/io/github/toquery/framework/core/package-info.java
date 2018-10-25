@@ -2,4 +2,4 @@
  * @author toquery
  * @version 1
  */
-package io.github.toquery.framework.curd;
+package io.github.toquery.framework.core;

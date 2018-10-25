@@ -23,8 +23,7 @@ public class DaoJpaCurdTest extends BaseSpringTest {
 
     @Resource
     private IJpaDemoRepository jpaDemoRepository;
-    @Resource
-    private IMyBatisDemoService myBatisDemoService;
+
 
     @Test
     public void curd() {

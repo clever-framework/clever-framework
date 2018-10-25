@@ -1,16 +1,15 @@
-package io.github.toquery.framework.util;
+package io.github.toquery.framework.dao.util;
 
 import com.google.common.base.Strings;
 import com.google.common.primitives.Longs;
-//import org.apache.commons.lang3.math.NumberUtils;
 
 public class UtilNumber {//extends NumberUtils {
 
     /**
      * 获取二进制长度标示的最大十进制数
      *
-     * @param binaryLength
-     * @return
+     * @param binaryLength 二进制长度
+     * @return 最大十进制数
      */
     public static int getMaxNum(int binaryLength) {
         return (1 << binaryLength) - 1;
@@ -19,8 +18,8 @@ public class UtilNumber {//extends NumberUtils {
     /**
      * long转换为2进制
      *
-     * @param num
-     * @return
+     * @param num long
+     * @return 2进制
      */
     public static String toBinary(long num) {
         return Long.toString(num, 2);
@@ -29,8 +28,8 @@ public class UtilNumber {//extends NumberUtils {
     /**
      * int转2进制
      *
-     * @param num
-     * @return
+     * @param num int
+     * @return 2进制
      */
     public static String toBinary(int num) {
         return Integer.toString(num, 2);
@@ -39,8 +38,8 @@ public class UtilNumber {//extends NumberUtils {
     /**
      * string转换为字符串
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 二进制字符串
      */
     public static String toBinary(String str) {
         if (Strings.isNullOrEmpty(str)) {

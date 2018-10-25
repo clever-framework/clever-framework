@@ -1,4 +1,4 @@
-package io.github.toquery.framework.util;
+package io.github.toquery.framework.dao.util;
 
 import com.google.common.base.Strings;
 

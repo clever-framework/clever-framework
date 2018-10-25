@@ -31,17 +31,14 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
 
     public AppJpaRepositoryFactory(EntityManager entityManager, BeanFactory beanFactory) {
         super(entityManager);
+        this.beanFactory = beanFactory;
         //设置当前类的实体管理器
         this.entityManager = entityManager;
-
         this.extractor = PersistenceProvider.fromEntityManager(entityManager);
-
-        this.beanFactory = beanFactory;
     }
 
     /**
      * 原方法
-     * protected <T, ID extends Serializable> SimpleJpaRepository<?, ?> getTargetRepository( RepositoryInformation information, EntityManager entityManager)
      */
     @Override
     protected SimpleJpaRepository<?, ?> getTargetRepository(RepositoryInformation information, EntityManager entityManager) {
@@ -57,9 +54,6 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
 
     /**
      * 查找使用自定义注解，然后mybatis执行
-     * @param key
-     * @param evaluationContextProvider
-     * @return
      */
     @Override
     protected Optional<QueryLookupStrategy> getQueryLookupStrategy(@Nullable QueryLookupStrategy.Key key, EvaluationContextProvider evaluationContextProvider) {
