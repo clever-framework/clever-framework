@@ -38,7 +38,7 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
     }
 
     /**
-     * 原方法
+     * getTargetRepository
      */
     @Override
     protected SimpleJpaRepository<?, ?> getTargetRepository(RepositoryInformation information, EntityManager entityManager) {

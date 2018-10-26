@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @version 1
  */
 @EnableJpaRepositories(basePackages = {"io.github.toquery.framework", "com.toquery.framework.demo"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
-@EntityScan("com.toquery.framework.demo.entity")
+//@EntityScan("com.toquery.framework.demo.entity")
 //@EnableJpaRepositories
 @SpringBootApplication
 public class DemoApplication {

@@ -55,32 +55,4 @@ public class AppWebMvcConfigurer implements WebMvcConfigurer {
         log.info("初始化表单实体验证,验证类提供者{}", HibernateValidator.class.getName());
         return validatorFactoryBean;
     }
-
-   /*
-   @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        Method getViewResolver = ReflectionUtils.findMethod(urlRegistration.getClass(), "getViewResolver");
-        getViewResolver.setAccessible(true);
-        try {
-            UrlBasedViewResolver urlBasedViewResolver = (UrlBasedViewResolver) getViewResolver.invoke(
-                    urlRegistration);
-            urlBasedViewResolver.setContentType("text/html;charset=UTF-8");
-            //暴漏requestContext , requestContext的实现类为org.springframework.web.servlet.task.RequestContext
-            urlBasedViewResolver.setRequestContextAttribute("requestContext");
-            urlBasedViewResolver.setAttributesMap(getContextParams());
-            //如果是抽象模板，暴漏request和session中的属性
-            if (urlBasedViewResolver instanceof AbstractTemplateViewResolver) {
-                AbstractTemplateViewResolver abstractTemplateViewResolver = (AbstractTemplateViewResolver) urlBasedViewResolver;
-                log.info("暴漏request和session的属性到请求上下文，在页面模板中可以获取request和session对象");
-                abstractTemplateViewResolver.setExposeRequestAttributes(true);
-                abstractTemplateViewResolver.setExposeSessionAttributes(true);
-                //允许session或request中的属性重写
-                abstractTemplateViewResolver.setAllowSessionOverride(true);
-                abstractTemplateViewResolver.setAllowRequestOverride(true);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }*/
 }

@@ -1,6 +1,6 @@
 package io.github.toquery.framework.dao.entity;
 
-import com.google.common.base.Strings;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,6 +20,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @MappedSuperclass
 @Access(AccessType.FIELD)
+@EqualsAndHashCode(callSuper = true)
 public class AppBaseEntityPrimaryKeyString extends AppBaseEntity {
 
     @Id
