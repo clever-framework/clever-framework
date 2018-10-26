@@ -21,6 +21,7 @@ import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaEntityInformationSupport;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -48,6 +49,7 @@ import java.util.Map;
  * <p>如果接口实现类需要交由spring管理，必须提供不带参数的构造方法。</p>
  */
 @Slf4j
+@Repository
 public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements AppJpaBaseRepository<T, ID> {
 
     @Getter
@@ -65,11 +67,12 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
     }
 
     public AppJpaBaseRepositoryImpl(Class<T> domainClass, EntityManager entityManager, boolean enableValidator) {
-        //modified for spring data starter 1.3
+       //modified for spring data starter 1.3
         super(domainClass, entityManager);
         this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
         this.entityManager = entityManager;
         this.enableValidator = enableValidator;
+        log.info("扩展JPA开始实例化{}", getClass().getSimpleName());
     }
 
     public AppJpaBaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
@@ -81,6 +84,7 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
         this.entityInformation = entityInformation;
         this.entityManager = entityManager;
         this.enableValidator = enableValidator;
+        log.info("扩展JPA开始实例化{}", getClass().getSimpleName());
         log.info("是否启用实体属性验证{}", this.enableValidator);
     }
 

@@ -147,7 +147,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
         Assert.notEmpty(updateFields, "必须指定更新的字段");
 
         //设置记录的更新时间
-        entity.setLastModifiedDate(new Date());
+        entity.setLastUpdateDatetime(new Date());
         updateFields.add("lastUpdateDatetime");
 
         //todo 设置记录更新人的id
