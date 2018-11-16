@@ -193,11 +193,11 @@ public class ResponseParam extends HashMap<String, Object> {
     public ResponseParam pageParam(Page<?> page) {
 
         //设置分页参数信息
-        this.put("number", page.getNumber());
-        this.put("size", page.getSize());
+        this.put("pagenum", page.getNumber());
+        this.put("pagesize", page.getSize());
         this.put("pagerealsize", page.getNumberOfElements());
-        this.put("totalElements", page.getTotalElements());
-        this.put("totalPages", page.getTotalPages());
+        this.put("totalelements", page.getTotalElements());
+        this.put("totalpages", page.getTotalPages());
 
         return this;
     }
