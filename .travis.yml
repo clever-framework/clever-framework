@@ -9,7 +9,7 @@ cache:
     - '$HOME/.m2/repository'
 
 install:
-  - mvn clean install -X -Dgpg.skip -Dmaven.javadoc.skip=true  -DskipTests -Dmaven.source.skip=true
+  - mvn install -DskipTests
 
 script:
-  - mvn clean package -X -Dgpg.skip -Dmaven.javadoc.skip=true  -DskipTests -Dmaven.source.skip=true
+  - mvn clean package -DskipTests
