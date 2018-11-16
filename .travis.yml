@@ -9,4 +9,4 @@ cache:
     - '$HOME/.m2/repository'
 
 script:
-  - mvn clean package -DskipTests
+  - mvn clean package -X -DskipTests

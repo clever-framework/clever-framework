@@ -1,5 +1,10 @@
-# clever-framework
-spring 快速开发框架
+# spring 快速开发框架
+
+[![Build Status](https://travis-ci.org/ToQuery/clever-framework.svg?branch=master)](https://travis-ci.org/ToQuery/clever-framework)
+![GitHub issues](https://img.shields.io/github/issues/toquery/clever-framework.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/toquery/clever-framework.svg)
+![Hex.pm](https://img.shields.io/hexpm/l/:package.svg)
+
 
 ## CURD 方法命名规则
 
