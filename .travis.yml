@@ -9,4 +9,4 @@ cache:
     - '$HOME/.m2/repository'
 
 script:
-  - mvn clean package -X -DskipTests
+  - mvn clean package -Dgpg.skip -D maven.javadoc.skip=true  -DskipTests -D maven.source.skip=true
