@@ -10,8 +10,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author toquery
  * @version 1
  */
-//@Repository
-//public interface IJpaDemoRepository extends JpaRepository<TbJpaDemo, Long> {
 
 @RepositoryRestResource(path = "test2")
 public interface IJpaDemoRepository extends AppJpaBaseRepository<TbJpaDemo, Long> {

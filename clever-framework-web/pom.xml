@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>clever-framework-web</artifactId>
+    <url>https://github.com/ToQuery/clever-framework</url>
 
     <dependencies>
         <dependency>

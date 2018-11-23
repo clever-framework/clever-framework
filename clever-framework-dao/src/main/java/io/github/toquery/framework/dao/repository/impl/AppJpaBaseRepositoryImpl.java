@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CompoundSelection;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -67,7 +68,7 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
     }
 
     public AppJpaBaseRepositoryImpl(Class<T> domainClass, EntityManager entityManager, boolean enableValidator) {
-       //modified for spring data starter 1.3
+        //modified for spring data starter 1.3
         super(domainClass, entityManager);
         this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
         this.entityManager = entityManager;
@@ -154,12 +155,11 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
         }
     }
 
-    @Override
     @Transactional
     public T update(T entity, Collection<String> updateFieldsName) {
         //检查更新实体是否具有id
         if (entityInformation.isNew(entity)) {
-            throw new IllegalArgumentException("在update方法中, 主键值必须为空.");
+            throw new EntityNotFoundException("未找到将要修改对象 ，请检查主键信息 .");
         }
         //清理持久化上下文中的托管实体，避免重复更新
         entityManager.clear();

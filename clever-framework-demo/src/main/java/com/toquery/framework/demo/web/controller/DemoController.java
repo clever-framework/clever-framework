@@ -1,5 +1,6 @@
 package com.toquery.framework.demo.web.controller;
 
+import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.entity.TbMyBatisDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
@@ -45,6 +46,12 @@ public class DemoController {
     @RequestMapping("/jpa/update")
     public TbJpaDemo jpaUpdate(@RequestParam Long id, @RequestParam String name) {
         return demoService.update(id, name);
+    }
+
+
+    @RequestMapping("/jpa/update2")
+    public TbJpaDemo jpaUpdate2(TbJpaDemo tbJpaDemo) {
+        return demoService.update(tbJpaDemo, Sets.newHashSet("name"));
     }
 
 

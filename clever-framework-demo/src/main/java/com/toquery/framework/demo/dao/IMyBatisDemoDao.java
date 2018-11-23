@@ -14,6 +14,7 @@ public interface IMyBatisDemoDao extends AppJpaBaseRepository<TbMyBatisDemo, Lon
     @Mapper
     TbMyBatisDemo getByName(@Param("name") String name);
 
+    @SuppressWarnings("MybatisMapperMethodInspection")
     @Query("from TbMyBatisDemo where name = :name")
     TbMyBatisDemo getByName2(@org.springframework.data.repository.query.Param("name") String name);
 

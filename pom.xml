@@ -178,6 +178,13 @@
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>5.0.6.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -267,6 +274,10 @@
     <developers>
         <developer>
             <name>ToQuery</name>
+            <roles>
+                <role>master</role>
+                <role>developer</role>
+            </roles>
             <email>toquery@qq.com</email>
             <url>http://toquery.github.io</url>
         </developer>
