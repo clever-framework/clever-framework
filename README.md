@@ -21,3 +21,7 @@
 - spring-web 对前端实体的封装和httpstatus的转换
 - JPA生成数据库时，默认值，注释的生成
 - pom依赖的优化
+
+## 自定义注解
+
+- 通过自定义注解实现重复名称的注解共存，（首先定义注解类并@intface加入要扩展的注解`@xxxx`，然后根据相应的属性增加`@AliasFor(annotation = XXXX.class)`。例如JPA 的param和mybatis的param可通过这个方式解决冲突）
