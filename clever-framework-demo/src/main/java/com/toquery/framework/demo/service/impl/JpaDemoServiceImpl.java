@@ -5,6 +5,9 @@ import com.toquery.framework.demo.dao.IJpaDemoRepository;
 import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -50,6 +53,11 @@ public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpa
     @Override
     public TbJpaDemo getById(Long id) {
         return jpaDemoDao.getOne(id);
+    }
+
+    @Override
+    public Page<TbJpaDemo> findByName(String name, Integer page, Integer size) {
+        return jpaDemoDao.findAll(PageRequest.of(page,size));
     }
 
 }

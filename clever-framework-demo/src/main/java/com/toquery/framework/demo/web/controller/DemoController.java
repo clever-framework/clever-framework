@@ -5,6 +5,7 @@ import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.entity.TbMyBatisDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
 import com.toquery.framework.demo.service.IMyBatisDemoService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +30,13 @@ public class DemoController {
     @RequestMapping({"/", "/index"})
     public String index() {
         return "OK";
+    }
+
+    @RequestMapping("/jpa/find")
+    public Page<TbJpaDemo> findByName(@RequestParam("name") String name,
+                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                      @RequestParam(value = "size", defaultValue = "15") Integer size) {
+        return demoService.findByName(name, page, size);
     }
 
 

@@ -5,6 +5,9 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/toquery/clever-framework.svg)
 ![Hex.pm](https://img.shields.io/hexpm/l/:package.svg)
 
+## 扩展基础 
+
+- spring data rest 入口类方法`org.springframework.data.rest.webmvc.RepositoryEntityController.getCollectionResource`
 
 ## 使用说明
 

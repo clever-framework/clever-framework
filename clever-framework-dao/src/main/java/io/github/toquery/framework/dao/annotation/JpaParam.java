@@ -10,7 +10,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
  * @author toquery
  * @version 1
  */
@@ -19,6 +18,6 @@ import java.lang.annotation.Target;
 @Documented
 public @interface JpaParam {
 
-    @AliasFor(attribute = "value", annotation = Param.class)
+    @AliasFor(value = "value", annotation = Param.class)
     String value();
 }
