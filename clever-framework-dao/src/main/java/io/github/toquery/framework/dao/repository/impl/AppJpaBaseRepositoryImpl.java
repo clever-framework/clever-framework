@@ -278,6 +278,11 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
         return entityInformation.getJavaType();
     }
 
+    @Override
+    public void deleteByIds(Collection<ID> ids) {
+        ids.forEach(this::deleteById);
+    }
+
     protected <S> Root<T> applySpecificationToCriteria(Specification<T> spec, CriteriaQuery<S> query) {
         Root<T> root = query.from(getDomainClass());
 

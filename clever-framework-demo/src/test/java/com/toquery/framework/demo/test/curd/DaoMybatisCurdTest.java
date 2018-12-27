@@ -12,6 +12,8 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author toquery
@@ -24,42 +26,47 @@ public class DaoMybatisCurdTest extends BaseSpringTest {
     private IMyBatisDemoDao myBatisDemoDao;
 
     @Test
-    public void curd() {
+    public void testSingleCurd() {
         TbMyBatisDemo save = myBatisDemoDao.save(new TbMyBatisDemo("save-test", new Date()));
         log.info("插入的数据 save ：\n{}", JSON.toJSONString(save));
 
         TbMyBatisDemo saveAndFlush = myBatisDemoDao.saveAndFlush(new TbMyBatisDemo("saveAndFlush-test", new Date()));
         log.info("插入的数据 saveAndFlush ：\n{}", JSON.toJSONString(saveAndFlush));
 
-        List<TbMyBatisDemo> saveAll = myBatisDemoDao.saveAll(Lists.newArrayList(
-                new TbMyBatisDemo("saveAll-test", new Date()),
-                new TbMyBatisDemo("saveAll-test", new Date())
-        ));
-        log.info("插入的数据 saveAll ：\n{}", JSON.toJSONString(saveAll));
-
-
         save.setName("save-test-update");
         TbMyBatisDemo update = myBatisDemoDao.update(save, Sets.newHashSet("name"));
         log.info("修改的数据 update ：\n{}", JSON.toJSONString(update));
 
-        saveAll.forEach(item -> item.setName("saveAll-test-update"));
-        List<TbMyBatisDemo> updateList = myBatisDemoDao.update(saveAll, Sets.newHashSet("name"));
-        log.info("修改的数据 updateList ：\n{}", JSON.toJSONString(updateList));
-
         TbMyBatisDemo getOne = myBatisDemoDao.getOne(save.getId());
         log.info("查询的数据 getOne ：\n{}", JSON.toJSONString(getOne));
 
-        TbMyBatisDemo getByName = myBatisDemoDao.getByName("123");
+        TbMyBatisDemo getByName = myBatisDemoDao.getByName("save-test-update");
         log.info("查询的数据 getByName ：\n{}", JSON.toJSONString(getByName));
 
-        TbMyBatisDemo getByName2 = myBatisDemoDao.getByName2("123");
+        TbMyBatisDemo getByName2 = myBatisDemoDao.getByName2("save-test-update");
         log.info("查询的数据 getByName2 ：\n{}", JSON.toJSONString(getByName2));
 
-        List<TbMyBatisDemo> findAll = myBatisDemoDao.findAll();
-        log.info("查询的数据 findAll ：\n{}", JSON.toJSONString(findAll));
-
         myBatisDemoDao.deleteById(save.getId());
-        log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));
+        log.info("根据ID数据 deleteById ：\n{}", JSON.toJSONString(save));
+    }
 
+    @Test
+    public void testBatchCurd() {
+        List<TbMyBatisDemo> saveAll = myBatisDemoDao.saveAll(Lists.newArrayList(
+                new TbMyBatisDemo("saveAll-test-1", new Date()),
+                new TbMyBatisDemo("saveAll-test-2", new Date())
+        ));
+        log.info("批量插入的数据 saveAll ：\n{}", JSON.toJSONString(saveAll));
+
+        saveAll.forEach(item -> item.setName("saveAll-test-update"));
+        List<TbMyBatisDemo> updateList = myBatisDemoDao.update(saveAll, Sets.newHashSet("name"));
+        log.info("批量修改的数据 updateList ：\n{}", JSON.toJSONString(updateList));
+
+        List<TbMyBatisDemo> findAll = myBatisDemoDao.findAll();
+        log.info("批量查询的数据 findAll ：\n{}", JSON.toJSONString(findAll));
+
+        Set<Long> needDeleteIds = updateList.stream().map(TbMyBatisDemo::getId).collect(Collectors.toSet());
+        myBatisDemoDao.deleteByIds(needDeleteIds);
+        log.info("批量数据根据ID deleteByIds ：\n{}", JSON.toJSONString(needDeleteIds));
     }
 }

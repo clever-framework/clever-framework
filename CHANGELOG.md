@@ -4,12 +4,5 @@
 
 **Implemented enhancements:**
 
-- 
-
-**Fixed bugs:**
-
-- 
-
-**Merged pull requests:**
-
-- 
+- 基于 JPA 的 curd 方法增强
+- 基于 JPA 的数据库 audit 功能 

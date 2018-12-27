@@ -9,9 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @author toquery
  * @version 1
  */
-@EnableJpaRepositories(repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
-//@EntityScan("com.toquery.framework.demo.entity")
 @SpringBootApplication
+@EnableJpaRepositories(repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
