@@ -58,6 +58,7 @@
         <module>clever-framework-webmvc</module>
         <module>clever-framework-curd</module>
         <module>clever-framework-demo</module>
+        <module>clever-framework-test</module>
     </modules>
 
 
@@ -90,6 +91,11 @@
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
