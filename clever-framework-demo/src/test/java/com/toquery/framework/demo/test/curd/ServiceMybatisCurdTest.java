@@ -50,14 +50,15 @@ public class ServiceMybatisCurdTest extends BaseSpringTest {
         TbMyBatisDemo getOne = myBatisDemoService.getById(save.getId());
         log.info("查询的数据 getOne ：\n{}", JSON.toJSONString(getOne));
 
+        myBatisDemoService.deleteById(save.getId());
+        log.info("删除的数据 deleteById ：\n{}", JSON.toJSONString(save));
+
         TbMyBatisDemo getByName = myBatisDemoService.getByName("123");
         log.info("查询的数据 getByName ：\n{}", JSON.toJSONString(getByName));
 
         List<TbMyBatisDemo> findAll = myBatisDemoService.find(null);
         log.info("查询的数据 findAll ：\n{}", JSON.toJSONString(findAll));
 
-        myBatisDemoService.deleteById(save.getId());
-        log.info("删除的数据 deleteById ：\n{}", JSON.toJSONString(save));
 
         List<Long> ids = findAll.stream().map(TbMyBatisDemo::getId).collect(Collectors.toList());
         log.info("将要执行方法 deleteById 需要删除的id有 ：\n{}", JSON.toJSONString(ids));

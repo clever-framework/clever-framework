@@ -40,7 +40,7 @@ public class DaoMybatisCurdTest extends BaseSpringTest {
         TbMyBatisDemo getOne = myBatisDemoDao.getOne(save.getId());
         log.info("查询的数据 getOne ：\n{}", JSON.toJSONString(getOne));
 
-        TbMyBatisDemo getByName = myBatisDemoDao.getByName("save-test-update");
+        TbMyBatisDemo getByName = myBatisDemoDao.getByMyBatisName("save-test-update");
         log.info("查询的数据 getByName ：\n{}", JSON.toJSONString(getByName));
 
         TbMyBatisDemo getByName2 = myBatisDemoDao.getByName2("save-test-update");
@@ -68,5 +68,11 @@ public class DaoMybatisCurdTest extends BaseSpringTest {
         Set<Long> needDeleteIds = updateList.stream().map(TbMyBatisDemo::getId).collect(Collectors.toSet());
         myBatisDemoDao.deleteByIds(needDeleteIds);
         log.info("批量数据根据ID deleteByIds ：\n{}", JSON.toJSONString(needDeleteIds));
+    }
+
+    @Test
+    public void getByName(){
+        TbMyBatisDemo tbMyBatisDemo = myBatisDemoDao.getByMyBatisName("111");
+        log.info("通过Mybatis的数据 getByName ：\n{}", JSON.toJSONString(tbMyBatisDemo));
     }
 }

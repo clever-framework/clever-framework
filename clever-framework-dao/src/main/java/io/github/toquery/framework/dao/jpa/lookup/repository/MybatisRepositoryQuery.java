@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * mybatis查询执行器
+ * 基于Spring JPA 的 RepositoryQuery 的 mybatis 查询 实现
  */
 @Slf4j
 public class MybatisRepositoryQuery implements RepositoryQuery {
@@ -30,7 +30,7 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
         this.repositoryMetadata = repositoryMetadata;
         this.projectionFactory = projectionFactory;
 
-        log.info(" {} 的领域类 {}", repositoryMetadata.getRepositoryInterface().getName(), repositoryMetadata.getDomainType());
+        log.info("初始化MyBatis数据查询，{} 的领域类 {}", repositoryMetadata.getRepositoryInterface().getName(), repositoryMetadata.getDomainType());
     }
 
     @Override

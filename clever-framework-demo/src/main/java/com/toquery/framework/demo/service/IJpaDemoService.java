@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
  * @version 1
  */
 
-//public interface IJpaDemoService   {
 public interface IJpaDemoService extends AppBaseService<TbJpaDemo, Long> {
     TbJpaDemo getByName(String name);
 

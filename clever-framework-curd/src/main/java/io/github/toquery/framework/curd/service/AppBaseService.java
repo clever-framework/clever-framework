@@ -34,6 +34,11 @@ public interface AppBaseService<T, ID extends Serializable> {
     void deleteByIds(Iterable<ID> ids);
 
     /**
+     * 根据ids批量删除
+     */
+//    void deleteByIds(Map<String, Object> searchParams);
+
+    /**
      * 根据ID判断实体是否存在
      */
     boolean existsById(ID id);

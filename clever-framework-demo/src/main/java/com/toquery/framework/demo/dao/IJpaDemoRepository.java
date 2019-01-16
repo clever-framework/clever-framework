@@ -17,8 +17,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(path = "test2")
 public interface IJpaDemoRepository extends AppJpaBaseRepository<TbJpaDemo, Long> {
 
-
-
     @SuppressWarnings("MybatisMapperMethodInspection")
     @Query("from TbJpaDemo where name = :name")
     public TbJpaDemo getByName(@Param("name") String name);

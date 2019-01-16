@@ -65,4 +65,28 @@ public class DaoJpaCurdTest extends BaseSpringTest {
         jpaDemoRepository.deleteByIds(updateList.stream().map(TbJpaDemo::getId).collect(Collectors.toSet()));
         log.info("要删除的数据 deleteByIds ：\n{}", JSON.toJSONString(updateList.stream().map(TbJpaDemo::getId).collect(Collectors.toSet())));
     }
+
+    @Test
+    public void testUpdate() {
+
+        TbJpaDemo tbJpaDemo = jpaDemoRepository.getByName("sss");
+        log.info("查询到的数据 getByName ：\n{}", JSON.toJSONString(tbJpaDemo));
+
+
+    }
+
+    @Test
+    public void testUpdates() {
+        List<TbJpaDemo> saveAll = jpaDemoRepository.saveAll(Lists.newArrayList(
+                new TbJpaDemo("saveAll-test-1", new Date()),
+                new TbJpaDemo("saveAll-test-2", new Date())
+        ));
+        log.info("插入的数据 saveAll ：\n{}", JSON.toJSONString(saveAll));
+
+        saveAll.forEach(item -> item.setName("saveAll-test-update"));
+        List<TbJpaDemo> updateList = jpaDemoRepository.update(saveAll, Sets.newHashSet("name"));
+        log.info("修改的数据 updateList ：\n{}", JSON.toJSONString(updateList));
+
+
+    }
 }

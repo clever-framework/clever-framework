@@ -38,27 +38,25 @@ public class ServiceJpaCurdTest extends BaseSpringTest {
         TbJpaDemo updateEntity = jpaDemoService.update(save.getId(), "update-entity");
         log.info("插入的数据 updateEntity ：\n{}", JSON.toJSONString(updateEntity));
 
-
         save.setName("save-test-update");
         TbJpaDemo update = jpaDemoService.update(save, Sets.newHashSet("name"));
         log.info("修改的数据 update ：\n{}", JSON.toJSONString(update));
+
+        TbJpaDemo getOne = jpaDemoService.getById(save.getId());
+        log.info("查询的数据 getOne ：\n{}", JSON.toJSONString(getOne));
+
+        jpaDemoService.deleteById(save.getId());
+        log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));
+
+        TbJpaDemo getByName = jpaDemoService.getByName("123");
+        log.info("查询的数据 getByName ：\n{}", JSON.toJSONString(getByName));
 
         saveAll.forEach(item -> item.setName("saveAll-test-update"));
         List<TbJpaDemo> updateList = jpaDemoService.update(saveAll, Sets.newHashSet("name"));
         log.info("修改的数据 updateList ：\n{}", JSON.toJSONString(updateList));
 
-        TbJpaDemo getOne = jpaDemoService.getById(save.getId());
-        log.info("查询的数据 getOne ：\n{}", JSON.toJSONString(getOne));
-
-        TbJpaDemo getByName = jpaDemoService.getByName("123");
-        log.info("查询的数据 getByName ：\n{}", JSON.toJSONString(getByName));
-
         List<TbJpaDemo> findAll = jpaDemoService.find(null);
         log.info("查询的数据 findAll ：\n{}", JSON.toJSONString(findAll));
-
-        jpaDemoService.deleteById(save.getId());
-        log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));
-
 
         jpaDemoService.deleteByIds(findAll.stream().map(TbJpaDemo::getId).collect(Collectors.toList()));
         log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));

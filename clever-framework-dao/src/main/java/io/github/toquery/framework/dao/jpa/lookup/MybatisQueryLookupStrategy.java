@@ -1,10 +1,11 @@
 package io.github.toquery.framework.dao.jpa.lookup;
 
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.dao.jpa.annotation.MybatisQuery;
+import io.github.toquery.framework.dao.jpa.annotation.AppMybatisQuery;
 import io.github.toquery.framework.dao.jpa.lookup.repository.MybatisRepositoryQuery;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.BeanFactory;
@@ -36,8 +37,8 @@ public class MybatisQueryLookupStrategy extends QueryLookupStrategyAdvice {
 
     @Override
     public boolean isEnabled(Method method, RepositoryMetadata metadata) {
-        //方法包含mybatis的方法
-        return method.getAnnotation(MybatisQuery.class) != null;
+        //包含自定义注解的方法 或者包含Mapper注解的方法
+        return method.getAnnotation(AppMybatisQuery.class) != null || method.getAnnotation(Mapper.class) != null;
     }
 
     @Override
