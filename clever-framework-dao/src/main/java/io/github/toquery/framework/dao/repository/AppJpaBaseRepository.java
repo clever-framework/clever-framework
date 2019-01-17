@@ -1,11 +1,11 @@
 package io.github.toquery.framework.dao.repository;
 
 
+import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.PagingAndSortingRepository;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
@@ -68,8 +68,20 @@ public interface AppJpaBaseRepository<T, ID extends Serializable> extends JpaRep
     List<T> update(List<T> entityList, Collection<String> updateFieldsName);
 
     // TODO 依据条件删除实体
+
     /**
      * 获取进行操作的领域类
      */
     Class<T> getDomainClass();
+
+    /**
+     * 根据ID循环删除数据
+     *
+     */
+    void deleteByIds(Collection<ID> ids);
+
+    /**
+     * 根据相应的条件参数删除数据
+     */
+    void delete(Map<String,Object> params, AppDaoEnumConnector connector);
 }

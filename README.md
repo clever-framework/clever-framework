@@ -5,13 +5,16 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/toquery/clever-framework.svg)
 ![Hex.pm](https://img.shields.io/hexpm/l/:package.svg)
 
+## 扩展基础 
 
-## CURD 方法命名规则
+- spring data rest 入口类方法`org.springframework.data.rest.webmvc.RepositoryEntityController.getCollectionResource`
+
+## 使用说明
 
 - getXXXByXXX 通过XX条件获取单个对象
 - findXXXByXXX 通过XX条件获取list集合
 - queryXXXByXXX  通过XX条件获取list集合,带分页
-
+- 使用注解`@SuppressWarnings("MybatisMapperMethodInspection")`忽略IDEA的mybatis mapper检查
 
 ## 待完成的功能
 
@@ -21,3 +24,7 @@
 - spring-web 对前端实体的封装和httpstatus的转换
 - JPA生成数据库时，默认值，注释的生成
 - pom依赖的优化
+
+## 自定义注解
+
+- 通过自定义注解实现重复名称的注解共存，（首先定义注解类并@intface加入要扩展的注解`@xxxx`，然后根据相应的属性增加`@AliasFor(annotation = XXXX.class)`。例如JPA 的param和mybatis的param可通过这个方式解决冲突）

@@ -1,1 +1,24 @@
-{}
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "app.common.pattern.date",
+      "type": "java.lang.String",
+      "description": "日期格式.",
+      "defaultValue": "yyyy-MM-dd"
+    },
+    {
+      "name": "app.common.pattern.time",
+      "type": "java.lang.String",
+      "description": "日期格式.",
+      "defaultValue": "HH:mm:ss"
+    },
+    {
+      "name": "app.common.pattern.dateTime",
+      "type": "java.lang.String",
+      "description": "日期格式.",
+      "defaultValue": "yyyy-MM-dd HH:mm:ss"
+    }
+  ],
+  "hints": []
+}

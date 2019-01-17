@@ -5,9 +5,12 @@ import com.toquery.framework.demo.dao.IJpaDemoRepository;
 import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,6 +23,12 @@ import java.util.Map;
 public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpaDemoRepository> implements IJpaDemoService {
 
 
+    private static final Map<String, String> map = new HashMap<String, String>() {
+        {
+            put("name", "name:EQ");
+        }
+    };
+
     @Override
     public boolean isEnableQueryAllRecord() {
         return true;
@@ -27,7 +36,7 @@ public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpa
 
     @Override
     public Map<String, String> getQueryExpressions() {
-        return null;
+        return map;
     }
 
 
@@ -50,6 +59,11 @@ public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpa
     @Override
     public TbJpaDemo getById(Long id) {
         return jpaDemoDao.getOne(id);
+    }
+
+    @Override
+    public Page<TbJpaDemo> findByName(String name, Integer page, Integer size) {
+        return jpaDemoDao.findAll(PageRequest.of(page, size));
     }
 
 }

@@ -1,6 +1,8 @@
 package io.github.toquery.framework.dao.jpa.support;
 
 import io.github.toquery.framework.core.constant.AppPropertiesDefault;
+import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
+import io.github.toquery.framework.dao.support.AppDaoEnumOperator;
 import io.github.toquery.framework.dao.support.SearchFilter;
 import io.github.toquery.framework.dao.util.UtilEscape;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +46,7 @@ public class DynamicJPASpecifications {
      * @param entityClazz  查询的目标对象
      * @return jpa查询需要的Specification对象
      */
-    public static <T> Specification<T> bySearchParam(LinkedHashMap<String, Object> searchParams, final Class<T> entityClazz) {
+    public static <T> Specification<T> bySearchParam(LinkedHashMap<String, Object> searchParams,Class<T> entityClazz) {
         LinkedHashMap<String, SearchFilter> filters = SearchFilter.parse(searchParams);
 
         return bySearchFilter(filters, entityClazz);
@@ -101,7 +103,7 @@ public class DynamicJPASpecifications {
 
                 for (Map.Entry<String, List<SearchFilter>> filterGroupEntry : groupFilterMap.entrySet()) {
                     Predicate predicate = null;
-                    SearchFilter.Connector connector = filterGroupEntry.getValue().get(0).connector;
+                    AppDaoEnumConnector connector = filterGroupEntry.getValue().get(0).connector;
                     for (SearchFilter filter : filterGroupEntry.getValue()) {
                         String[] attributeNames = filter.fieldName.split("[\\.]");
                         if (attributeNames.length > 2) {
@@ -174,7 +176,7 @@ public class DynamicJPASpecifications {
      * @param builder        查询构建器CriteriaBuilder
      * @return 连接后的查询条件
      */
-    private static <T> Predicate joinPredicate(final Class<T> entityClazz, Predicate existPredicate, Predicate newPredicate, SearchFilter.Connector connector, CriteriaBuilder builder) {
+    private static <T> Predicate joinPredicate(final Class<T> entityClazz, Predicate existPredicate, Predicate newPredicate, AppDaoEnumConnector connector, CriteriaBuilder builder) {
         if (newPredicate == null) {
             return existPredicate;
         }
@@ -390,7 +392,7 @@ public class DynamicJPASpecifications {
      * @param value    操作值
      * @return
      */
-    public static Object getFormattedValue(Class<?> fieldClass, SearchFilter.Operator operator, Object value) {
+    public static Object getFormattedValue(Class<?> fieldClass, AppDaoEnumOperator operator, Object value) {
         //过滤空值
         if (value == null || value.toString().equals("null")) {
             return value;

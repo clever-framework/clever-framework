@@ -1,8 +1,11 @@
 package io.github.toquery.framework.dao.repository.impl;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import io.github.toquery.framework.dao.query.criteria.internal.CriteriaDeleteDefaultImpl;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
+import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
 import io.github.toquery.framework.dao.util.UtilJPA;
 import io.github.toquery.framework.dao.validate.ValidateHelper;
 import lombok.Getter;
@@ -11,6 +14,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
+import org.hibernate.query.criteria.internal.CriteriaDeleteImpl;
 import org.hibernate.query.criteria.internal.CriteriaUpdateImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,9 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CompoundSelection;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Predicate;
@@ -49,7 +55,6 @@ import java.util.Map;
  * <p>如果接口实现类需要交由spring管理，必须提供不带参数的构造方法。</p>
  */
 @Slf4j
-@Repository
 public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements AppJpaBaseRepository<T, ID> {
 
     @Getter
@@ -67,7 +72,7 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
     }
 
     public AppJpaBaseRepositoryImpl(Class<T> domainClass, EntityManager entityManager, boolean enableValidator) {
-       //modified for spring data starter 1.3
+        //modified for spring data starter 1.3
         super(domainClass, entityManager);
         this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
         this.entityManager = entityManager;
@@ -154,12 +159,11 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
         }
     }
 
-    @Override
     @Transactional
     public T update(T entity, Collection<String> updateFieldsName) {
         //检查更新实体是否具有id
         if (entityInformation.isNew(entity)) {
-            throw new IllegalArgumentException("在update方法中, 主键值必须为空.");
+            throw new EntityNotFoundException("未找到将要修改对象 ，请检查主键信息 .");
         }
         //清理持久化上下文中的托管实体，避免重复更新
         entityManager.clear();
@@ -276,6 +280,34 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
     @Override
     public Class<T> getDomainClass() {
         return entityInformation.getJavaType();
+    }
+
+    @Override
+    public void deleteByIds(Collection<ID> ids) {
+        ids.forEach(this::deleteById);
+    }
+
+    public void delete(Map<String, Object> params, AppDaoEnumConnector connector) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaDelete<T> criteriaDelete = new CriteriaDeleteDefaultImpl<>((CriteriaBuilderImpl) builder);
+        Root<T> root = criteriaDelete.from(getDomainClass());
+
+        List<Predicate> predicateList = Lists.newArrayList();
+
+        params.forEach((k, v) -> predicateList.add(builder.equal(root.get(k), v)));
+
+        Predicate[] predicates = new Predicate[predicateList.size()];
+        predicates = predicateList.toArray(predicates);
+
+        Predicate predicate = null;
+        if (connector == AppDaoEnumConnector.AND) {
+             predicate = builder.and(predicates);
+        }else if (connector == AppDaoEnumConnector.OR){
+             predicate = builder.or(predicates);
+        }
+        criteriaDelete.where(predicate);
+        entityManager.createQuery(criteriaDelete).executeUpdate();
     }
 
     protected <S> Root<T> applySpecificationToCriteria(Specification<T> spec, CriteriaQuery<S> query) {

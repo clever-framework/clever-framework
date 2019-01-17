@@ -15,6 +15,7 @@ import org.springframework.data.repository.query.RepositoryQuery;
 import javax.persistence.EntityManager;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 方法查询策略。主要检测mybatis查询方法
@@ -26,6 +27,7 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
 
     private final EntityManager entityManager;
 
+    // 默认数据库查询策略
     private QueryLookupStrategy defaultQueryLookupStrategy;
 
     private List<QueryLookupStrategyAdvice> queryLookupStrategyAdvices = Lists.newArrayList();
@@ -41,6 +43,7 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
 
         //添加不同类型资源库的查询策略
         queryLookupStrategyAdvices.add(new MybatisQueryLookupStrategy(beanFactory));
+        log.info("查询查询策略初始化完成 {}，当前存在 {} 种查询方式", this.getClass().getSimpleName(), queryLookupStrategyAdvices.size());
     }
 
     public static QueryLookupStrategy create(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, EvaluationContextProvider evaluationContextProvider) {
@@ -51,22 +54,13 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
     @Override
     public RepositoryQuery resolveQuery(Method method, RepositoryMetadata metadata, ProjectionFactory factory, NamedQueries namedQueries) {
         //查找资源库策略
-        QueryLookupStrategy queryLookupStrategy = null;
-        for (QueryLookupStrategyAdvice queryLookupStrategyAdvice : queryLookupStrategyAdvices) {
-            if (!queryLookupStrategyAdvice.isEnabled(method, metadata)) {
-                continue;
-            }
-            queryLookupStrategy = queryLookupStrategyAdvice;
+        Optional<QueryLookupStrategyAdvice> optionalQueryLookupStrategyAdvice = queryLookupStrategyAdvices
+                .stream()
+                .filter(queryLookupStrategyAdvice -> queryLookupStrategyAdvice.isEnabled(method, metadata))
+                .findFirst();
 
-            log.info("使用{}的数据库持久化查询策略", queryLookupStrategyAdvice.getName());
-            break;
-        }
-
-        if (queryLookupStrategy == null) {
-            queryLookupStrategy = defaultQueryLookupStrategy;
-            log.info("使用{}的数据库持久化查询策略", "jpa");
-        }
-
+        QueryLookupStrategy queryLookupStrategy = optionalQueryLookupStrategyAdvice.isPresent()?optionalQueryLookupStrategyAdvice.get():defaultQueryLookupStrategy;
+        log.info("使用 {} 方式数据库持久化策略", "JPA 的 " + defaultQueryLookupStrategy.getClass().getSimpleName());
         return queryLookupStrategy.resolveQuery(method, metadata, factory, namedQueries);
     }
 }

@@ -1,9 +1,11 @@
 package com.toquery.framework.demo.web.controller;
 
+import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.entity.TbMyBatisDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
 import com.toquery.framework.demo.service.IMyBatisDemoService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +32,13 @@ public class DemoController {
         return "OK";
     }
 
+    @RequestMapping("/jpa/find")
+    public Page<TbJpaDemo> findByName(@RequestParam("name") String name,
+                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                      @RequestParam(value = "size", defaultValue = "15") Integer size) {
+        return demoService.findByName(name, page, size);
+    }
+
 
     @RequestMapping("/jpa/get")
     public TbJpaDemo getByName1(@RequestParam("name") String name) {
@@ -45,6 +54,12 @@ public class DemoController {
     @RequestMapping("/jpa/update")
     public TbJpaDemo jpaUpdate(@RequestParam Long id, @RequestParam String name) {
         return demoService.update(id, name);
+    }
+
+
+    @RequestMapping("/jpa/update2")
+    public TbJpaDemo jpaUpdate2(TbJpaDemo tbJpaDemo) {
+        return demoService.update(tbJpaDemo, Sets.newHashSet("name"));
     }
 
 

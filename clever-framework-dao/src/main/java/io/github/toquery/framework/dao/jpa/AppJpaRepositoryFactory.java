@@ -35,6 +35,7 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
         //设置当前类的实体管理器
         this.entityManager = entityManager;
         this.extractor = PersistenceProvider.fromEntityManager(entityManager);
+        log.info("初始化自定义JPA仓库工厂");
     }
 
     /**
@@ -58,6 +59,7 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
     @Override
     protected Optional<QueryLookupStrategy> getQueryLookupStrategy(@Nullable QueryLookupStrategy.Key key, EvaluationContextProvider evaluationContextProvider) {
         QueryLookupStrategy queryLookupStrategy = QueryLookupStrategyFactories.create(entityManager, beanFactory, key, extractor, evaluationContextProvider);
+        log.info("获取到数据库查询策略");
         return Optional.of(queryLookupStrategy);
     }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="io.github.toquery.framework.demo.dao.IMyBatisDemoDao" >
+<mapper namespace="com.toquery.framework.demo.dao.IMyBatisDemoDao">
 
-    <select id="getByName" resultType="io.github.toquery.framework.demo.entity.TbMyBatisDemo">
-        select *
+    <select id="getByMyBatisName" resultType="com.toquery.framework.demo.entity.TbMyBatisDemo">
+        select *,#{name}
         from tb_my_batis_demo
         where `name` = #{name}
     </select>

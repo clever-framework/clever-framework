@@ -27,7 +27,7 @@ public class SearchFilter {
 	 */
 	public Object value;
 	
-	public Operator operator;
+	public AppDaoEnumOperator operator;
 	/**
 	 * 属性名称
 	 */
@@ -37,9 +37,9 @@ public class SearchFilter {
 	 */
 	public String group ;
 	
-	public Connector connector ;
+	public AppDaoEnumConnector connector ;
 	
-	public SearchFilter(String fieldName, Operator operator, Object value , Connector connector) {
+	public SearchFilter(String fieldName, AppDaoEnumOperator operator, Object value , AppDaoEnumConnector connector) {
 		this.fieldName = fieldName;
 		this.value = value;
 		this.operator = operator;
@@ -69,39 +69,39 @@ public class SearchFilter {
 			// 拆分operator与filedAttribute
 			String[] names = StringUtils.split(key, SEPARATOR);
 			//构造不同条件之间的连接符
-			Connector connector = null ;
+			AppDaoEnumConnector connector = null ;
 			//查询字段
 			String fieldName = null ;
 			//根据名称获取操作标识
-			Operator operator = null ;
+			AppDaoEnumOperator operator = null ;
 			
 			String group = "" ;
 			
 			if(names.length==2){
 				//默认使用and连接符
-				connector = Connector.AND ;
+				connector = AppDaoEnumConnector.AND ;
 				fieldName = names[0] ;
 				//最后一位为操作比较符号
-				operator = Operator.valueOf(names[1]);
+				operator = AppDaoEnumOperator.valueOf(names[1]);
 			}else if(names.length==3){
 				//长度为3时，根据是否有连接符确定不同的格式
 				if(names[0].equals("AND") || names[0].equals("OR") ){
-					connector = Connector.valueOf(names[0]) ;
+					connector = AppDaoEnumConnector.valueOf(names[0]) ;
 					fieldName = names[1] ;
 					//最后一位为操作比较符号
-					operator = Operator.valueOf(names[2]);
+					operator = AppDaoEnumOperator.valueOf(names[2]);
 				}else{
-					connector = Connector.AND ;
+					connector = AppDaoEnumConnector.AND ;
 					fieldName = names[0] ;
-					operator = Operator.valueOf(names[1]);
+					operator = AppDaoEnumOperator.valueOf(names[1]);
 					group = names[2] ;
 				}
 				
 			}else if(names.length==4){
-				connector = Connector.valueOf(names[0]) ;
+				connector = AppDaoEnumConnector.valueOf(names[0]) ;
 				fieldName = names[1] ;
 				//最后一位为操作比较符号
-				operator = Operator.valueOf(names[2]);
+				operator = AppDaoEnumOperator.valueOf(names[2]);
 				//组名称
 				group = names[3] ;
 			}else{
@@ -133,26 +133,5 @@ public class SearchFilter {
 		return filters;
 	}
 
-	public enum Operator {
-		EQ(Object.class , false) , NEQ(Object.class , false) ,
-		LIKE(String.class , false) , LLIKE(String.class , false) , RLIKE(String.class , false) , NLIKE(String.class , false) ,
-		GT(Comparable.class , false) ,  LT(Comparable.class , false) ,  GTE(Comparable.class , false) , LTE(Comparable.class , false) ,
-		EQDATE(Date.class , false) , NEQDATE(Date.class , false) , GTDATE(Date.class , false) ,  LTDATE(Date.class , false) ,  GTEDATE(Date.class , false) , LTEDATE(Date.class , false) ,
-		ISNULL(Object.class , true) , ISNOTNULL(Object.class , true) ,
-		IN(String.class , false) , NOTIN(String.class , false) , BOOLEANQE(Boolean.class , false) ;
 
-		public Class applyClass ;
-
-		public boolean isAllowNullValue = false ;
-
-		Operator(Class applyClass , boolean isAllowNullValue) {
-			this.applyClass = applyClass ;
-			this.isAllowNullValue = isAllowNullValue ;
-		}
-	}
-
-	public enum Connector{
-		AND , OR
-	}
-	
 }

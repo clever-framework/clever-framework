@@ -32,7 +32,7 @@ public class MyBatisDemoServiceImpl extends AppBaseServiceImpl<Long, TbMyBatisDe
 
     @Override
     public TbMyBatisDemo getByName(String name) {
-        return myBatisDemoDao.getByName(name);
+        return myBatisDemoDao.getByMyBatisName(name);
     }
 
     @Override
