@@ -13,6 +13,17 @@
 - queryXXXByXXX  通过XX条件获取list集合,带分页
 
 
+## 发现
+
+- JPA审计 `@DomainEvents`（`org.springframework.data.domain.DomainEvents`）
+- JPA审计 `@AfterDomainEventPublication` (`org.springframework.data.domain.AfterDomainEventPublication`)
+- JPA
+- JPA
+
+
+- JPA类型转换 `@TypeAlias`（`org.springframework.data.annotation.TypeAlias`）
+
+
 ## 待完成的功能
 
 - ~~MyBatis和Jpa作用于同一个Dao时，会被Spring注册两个Bean~~

@@ -43,6 +43,7 @@ public interface AppBaseService<E, ID extends Serializable> {
      * 根据相应的条件参数删除数据，如果实现软删除接口则软删除
      */
     void delete(Map<String, Object> params, AppDaoEnumConnector connector);
+
     /**
      * 根据ID判断实体是否存在
      */
@@ -51,7 +52,7 @@ public interface AppBaseService<E, ID extends Serializable> {
     /**
      * 判断满足条件的实体对象是否存在
      *
-     * @param searchParams 实体查询条件
+     * @param searchParams 查询条件
      */
     boolean existsById(Map<String, Object> searchParams);
 

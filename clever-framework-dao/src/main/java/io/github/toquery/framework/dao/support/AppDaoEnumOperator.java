@@ -4,10 +4,15 @@ import java.util.Date;
 
 /**
  * hibernate:
- * org.hibernate.query.criteria.internal.predicate.ComparisonPredicate
  *
  * @author toquery
  * @version 1
+ * <br/>
+ * hibernate:
+ * @see org.hibernate.query.criteria.internal.predicate.ComparisonPredicate.ComparisonOperator
+ * <br/>
+ * Spring Data Jpa:
+ * @see org.springframework.data.domain.Sort.Direction
  */
 public enum AppDaoEnumOperator {
     EQ(Object.class, false), NEQ(Object.class, false),

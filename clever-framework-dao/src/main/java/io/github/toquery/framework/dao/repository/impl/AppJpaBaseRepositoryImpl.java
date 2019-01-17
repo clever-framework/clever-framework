@@ -3,6 +3,7 @@ package io.github.toquery.framework.dao.repository.impl;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import io.github.toquery.framework.dao.query.criteria.internal.CriteriaDeleteDefaultImpl;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
 import io.github.toquery.framework.dao.util.UtilJPA;
@@ -54,7 +55,6 @@ import java.util.Map;
  * <p>如果接口实现类需要交由spring管理，必须提供不带参数的构造方法。</p>
  */
 @Slf4j
-@Repository
 public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements AppJpaBaseRepository<T, ID> {
 
     @Getter
@@ -287,17 +287,10 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
         ids.forEach(this::deleteById);
     }
 
-    class CriteriaDeleteImpl2<T> extends CriteriaDeleteImpl<T> {
-
-        protected CriteriaDeleteImpl2(CriteriaBuilderImpl criteriaBuilder) {
-            super(criteriaBuilder);
-        }
-    }
-
     public void delete(Map<String, Object> params, AppDaoEnumConnector connector) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
-        CriteriaDelete<T> criteriaDelete = new CriteriaDeleteImpl2<>((CriteriaBuilderImpl) builder);
+        CriteriaDelete<T> criteriaDelete = new CriteriaDeleteDefaultImpl<>((CriteriaBuilderImpl) builder);
         Root<T> root = criteriaDelete.from(getDomainClass());
 
         List<Predicate> predicateList = Lists.newArrayList();

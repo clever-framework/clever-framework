@@ -155,7 +155,6 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     @Transactional
     public void delete(Map<String, Object> params) {
         this.delete(params,AppDaoEnumConnector.AND);
-
     }
 
 
