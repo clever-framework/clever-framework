@@ -29,7 +29,7 @@ public class ServiceMybatisCurdTest extends BaseSpringTest {
         TbMyBatisDemo save = myBatisDemoService.save(new TbMyBatisDemo("save-test", new Date()));
         log.info("插入的数据 save ：\n{}", JSON.toJSONString(save));
 
-        List<TbMyBatisDemo> saveAll = myBatisDemoService.saveBatch(Lists.newArrayList(
+        List<TbMyBatisDemo> saveAll = myBatisDemoService.save(Lists.newArrayList(
                 new TbMyBatisDemo("saveAll-test", new Date()),
                 new TbMyBatisDemo("saveAll-test", new Date())
         ));

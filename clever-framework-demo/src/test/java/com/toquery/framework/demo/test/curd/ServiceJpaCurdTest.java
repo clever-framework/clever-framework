@@ -2,6 +2,7 @@ package com.toquery.framework.demo.test.curd;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +31,7 @@ public class ServiceJpaCurdTest extends BaseSpringTest {
         TbJpaDemo save = jpaDemoService.save(new TbJpaDemo("save-test", new Date()));
         log.info("插入的数据 save ：\n{}", JSON.toJSONString(save));
 
-        List<TbJpaDemo> saveAll = jpaDemoService.saveBatch(Lists.newArrayList(
+        List<TbJpaDemo> saveAll = jpaDemoService.save(Lists.newArrayList(
                 new TbJpaDemo("saveAll-test", new Date()),
                 new TbJpaDemo("saveAll-test", new Date())
         ));
@@ -62,4 +64,23 @@ public class ServiceJpaCurdTest extends BaseSpringTest {
         log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));
 
     }
+
+
+
+    @Test
+    public void deleteByParam() {
+        List<TbJpaDemo> saveAll = jpaDemoService.save(Lists.newArrayList(
+                new TbJpaDemo("delete-param-test", new Date()),
+                new TbJpaDemo("delete-param-test", new Date())
+        ));
+
+        Map<String,Object> map = Maps.newHashMap();
+        map.put("name","delete-param-test");
+
+        log.info("删除前查询到数据为 {}",JSON.toJSONString(jpaDemoService.find(map)));
+        jpaDemoService.delete(map);
+        log.info("删除后查询到数据为 {}",JSON.toJSONString(jpaDemoService.find(map)));
+
+    }
+
 }

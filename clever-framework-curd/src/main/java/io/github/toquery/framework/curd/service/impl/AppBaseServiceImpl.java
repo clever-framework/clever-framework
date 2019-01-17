@@ -11,6 +11,7 @@ import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
 import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
+import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -42,43 +43,43 @@ import java.util.Set;
  * jpa快速curd方法
  *
  * @param <ID> 主键类型
- * @param <T>  实体类型
+ * @param <E>  实体类型
  * @param <D>  Dao操作类
  */
 @Slf4j
-public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppBaseEntity, D extends AppJpaBaseRepository<T, ID>> implements AppBaseService<T, ID> {
+public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppBaseEntity, D extends AppJpaBaseRepository<E, ID>> implements AppBaseService<E, ID> {
 
     @Autowired
     private D baseEntityDao;
 
     @Override
     @Transactional
-    public T save(T entity) {
+    public E save(E entity) {
         preSaveHandler(entity);
-        T t = baseEntityDao.save(entity);
+        E e = baseEntityDao.save(entity);
         postSaveHandler(entity);
-        return t;
+        return e;
     }
 
     /**
      * 保存之前的处理操作
      */
-    protected void preSaveHandler(T entity) {
+    protected void preSaveHandler(E entity) {
 
     }
 
     /**
      * 保存之后的处理操作
      */
-    protected void postSaveHandler(T entity) {
+    protected void postSaveHandler(E entity) {
 
     }
 
     @Override
     @Transactional
-    public List<T> saveBatch(List<T> entityList) {
+    public List<E> save(List<E> entityList) {
         preSaveBatchHandler(entityList);
-        List<T> saveData = baseEntityDao.saveAll(entityList);
+        List<E> saveData = baseEntityDao.saveAll(entityList);
         postSaveBatchHandler(entityList);
         return saveData;
     }
@@ -86,7 +87,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     /**
      * 保存之前的预处理操作
      */
-    protected void preSaveBatchHandler(List<T> entityList) {
+    protected void preSaveBatchHandler(List<E> entityList) {
 
     }
 
@@ -94,7 +95,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     /**
      * 保存之后的处理操作
      */
-    protected void postSaveBatchHandler(List<T> entityList) {
+    protected void postSaveBatchHandler(List<E> entityList) {
 
     }
 
@@ -108,7 +109,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
             return;
         }
         if (isSoftDel()) {
-            T entity = getById(id);
+            E entity = getById(id);
             if (entity != null) {
                 //设置软删除
                 ((AppBaseEntityJpaSoftDelEntity) entity).setDel(true);
@@ -139,11 +140,29 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
         }
     }
 
+    @Override
+    @Transactional
+    public void delete(Map<String, Object> params, AppDaoEnumConnector connector){
+        if (isSoftDel()){
+            List<E> entityList = this.find(params);
+            this.update(entityList,Sets.newHashSet(""));
+        }else {
+            this.baseEntityDao.delete(params,connector);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void delete(Map<String, Object> params) {
+        this.delete(params,AppDaoEnumConnector.AND);
+
+    }
+
 
     /**
      * 更新之前的预处理操作
      */
-    public void preUpdateHandler(T entity, Collection<String> updateFields) {
+    public void preUpdateHandler(E entity, Collection<String> updateFields) {
         Assert.notEmpty(updateFields, "必须指定更新的字段");
 
         //设置记录的更新时间
@@ -221,7 +240,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     @Override
     public boolean existsById(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<T> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
+        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
         return baseEntityDao.count(specification) > 0;
     }
 
@@ -229,31 +248,31 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     @Override
     public long count(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<T> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
+        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
         return baseEntityDao.count(specification);
     }
 
     @Override
-    public Page<T> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize, String[] sorts) {
+    public Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize, String[] sorts) {
         log.info("获取的原始查询参数->" + JSON.toJSONString(searchParams));
 
-        Specification<T> specification = getQuerySpecification(searchParams);
+        Specification<E> specification = getQuerySpecification(searchParams);
 
         Pageable pageable = PageRequest.of(pageNum, pageSize, getSort(sorts));
 
         return baseEntityDao.findAll(specification, pageable);
 
-//		Page<T> page = entityDao.findAll(specification, pageable) ;
+//		Page<E> page = entityDao.findAll(specification, pageable) ;
 //		//将page对象转换为可以在dubbo中进行序列化和反序列化的分页对象
 //		//modified by liupeng , 根据分页查询结果修重新创建分页参数对象。
 //		//因为传入的分页参数并不一定都要分页数据
-//		return new PageImplInDubbo<T>(page.getContent() ,
+//		return new PageImplInDubbo<E>(page.getContent() ,
 //				new PageRequest(page.getNumber() , page.getSize()) , page.getTotalElements()) ;
     }
 
     @Override
-    public List<T> find(Map<String, Object> searchParams, String[] sorts) {
-        Specification<T> specification = getQuerySpecification(searchParams);
+    public List<E> find(Map<String, Object> searchParams, String[] sorts) {
+        Specification<E> specification = getQuerySpecification(searchParams);
         return baseEntityDao.findAll(specification, getSort(sorts));
     }
 
@@ -263,7 +282,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
      * @param searchParams 查询条件map
      * @return
      */
-    public Specification<T> getQuerySpecification(Map<String, Object> searchParams) {
+    public Specification<E> getQuerySpecification(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
 
         //如果是软删除，默认查询未删除的记录
@@ -336,23 +355,23 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
 
 
     @Override
-    public T getById(ID id) {
-        Optional<T> result = baseEntityDao.findById(id);
+    public E getById(ID id) {
+        Optional<E> result = baseEntityDao.findById(id);
         return result.isPresent() ? result.get() : null;
     }
 
 
     @Transactional
     @Override
-    public T update(T entity, Collection<String> updateFields) {
+    public E update(E entity, Collection<String> updateFields) {
         Set<String> newUpdateFields = new HashSet<String>();
         if (!CollectionUtils.isEmpty(updateFields)) {
             newUpdateFields.addAll(updateFields);
         }
         preUpdateHandler(entity, newUpdateFields);
-        T t = baseEntityDao.update(entity, newUpdateFields);
+        E e = baseEntityDao.update(entity, newUpdateFields);
         postUpdateHandler(entity, newUpdateFields);
-        return t;
+        return e;
     }
 
     private Set<String> entityFields;
@@ -364,17 +383,17 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
      * @param entity
      * @param updateFields
      */
-    public void postUpdateHandler(T entity, Collection<String> updateFields) {
+    public void postUpdateHandler(E entity, Collection<String> updateFields) {
 
     }
 
     @Transactional
     @Override
-    public List<T> update(List<T> entityList, Collection<String> updateFields) {
-        List<T> list = Lists.newArrayList();
-        for (T entity : entityList) {
-            T t = update(entity, updateFields);
-            list.add(t);
+    public List<E> update(List<E> entityList, Collection<String> updateFields) {
+        List<E> list = Lists.newArrayList();
+        for (E entity : entityList) {
+            E e = update(entity, updateFields);
+            list.add(e);
         }
         return list;
     }
@@ -393,13 +412,13 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, T extends AppB
     }
 
     @Override
-    public Page<T> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize) {
+    public Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize) {
         return queryByPage(searchParams, pageNum, pageSize, null);
     }
 
 
     @Override
-    public List<T> find(Map<String, Object> searchParams) {
+    public List<E> find(Map<String, Object> searchParams) {
         return find(searchParams, null);
     }
 

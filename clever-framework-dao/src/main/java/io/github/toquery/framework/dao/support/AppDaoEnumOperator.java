@@ -3,6 +3,9 @@ package io.github.toquery.framework.dao.support;
 import java.util.Date;
 
 /**
+ * hibernate:
+ * org.hibernate.query.criteria.internal.predicate.ComparisonPredicate
+ *
  * @author toquery
  * @version 1
  */

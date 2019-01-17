@@ -10,6 +10,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Spring JPA @Param 的别名，但作用于Spring Data Rest 时不起效
+ *
  * @author toquery
  * @version 1
  */

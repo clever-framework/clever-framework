@@ -1,8 +1,10 @@
 package io.github.toquery.framework.dao.repository.impl;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
+import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
 import io.github.toquery.framework.dao.util.UtilJPA;
 import io.github.toquery.framework.dao.validate.ValidateHelper;
 import lombok.Getter;
@@ -11,6 +13,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
+import org.hibernate.query.criteria.internal.CriteriaDeleteImpl;
 import org.hibernate.query.criteria.internal.CriteriaUpdateImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,6 +33,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CompoundSelection;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Predicate;
@@ -281,6 +285,36 @@ public class AppJpaBaseRepositoryImpl<T, ID extends Serializable> extends Simple
     @Override
     public void deleteByIds(Collection<ID> ids) {
         ids.forEach(this::deleteById);
+    }
+
+    class CriteriaDeleteImpl2<T> extends CriteriaDeleteImpl<T> {
+
+        protected CriteriaDeleteImpl2(CriteriaBuilderImpl criteriaBuilder) {
+            super(criteriaBuilder);
+        }
+    }
+
+    public void delete(Map<String, Object> params, AppDaoEnumConnector connector) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaDelete<T> criteriaDelete = new CriteriaDeleteImpl2<>((CriteriaBuilderImpl) builder);
+        Root<T> root = criteriaDelete.from(getDomainClass());
+
+        List<Predicate> predicateList = Lists.newArrayList();
+
+        params.forEach((k, v) -> predicateList.add(builder.equal(root.get(k), v)));
+
+        Predicate[] predicates = new Predicate[predicateList.size()];
+        predicates = predicateList.toArray(predicates);
+
+        Predicate predicate = null;
+        if (connector == AppDaoEnumConnector.AND) {
+             predicate = builder.and(predicates);
+        }else if (connector == AppDaoEnumConnector.OR){
+             predicate = builder.or(predicates);
+        }
+        criteriaDelete.where(predicate);
+        entityManager.createQuery(criteriaDelete).executeUpdate();
     }
 
     protected <S> Root<T> applySpecificationToCriteria(Specification<T> spec, CriteriaQuery<S> query) {

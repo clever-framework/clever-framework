@@ -2,6 +2,7 @@ package com.toquery.framework.demo.test.curd;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.dao.IJpaDemoRepository;
 import com.toquery.framework.demo.entity.TbJpaDemo;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -68,11 +70,8 @@ public class DaoJpaCurdTest extends BaseSpringTest {
 
     @Test
     public void testUpdate() {
-
         TbJpaDemo tbJpaDemo = jpaDemoRepository.getByName("sss");
         log.info("查询到的数据 getByName ：\n{}", JSON.toJSONString(tbJpaDemo));
-
-
     }
 
     @Test
@@ -86,7 +85,7 @@ public class DaoJpaCurdTest extends BaseSpringTest {
         saveAll.forEach(item -> item.setName("saveAll-test-update"));
         List<TbJpaDemo> updateList = jpaDemoRepository.update(saveAll, Sets.newHashSet("name"));
         log.info("修改的数据 updateList ：\n{}", JSON.toJSONString(updateList));
-
-
     }
+
+
 }

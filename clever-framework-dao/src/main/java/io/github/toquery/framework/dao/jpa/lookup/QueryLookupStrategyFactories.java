@@ -43,7 +43,7 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
 
         //添加不同类型资源库的查询策略
         queryLookupStrategyAdvices.add(new MybatisQueryLookupStrategy(beanFactory));
-        log.debug("查询查询策略初始化完成 {}，当前存在 {} 种查询方式", this.getClass().getSimpleName(), queryLookupStrategyAdvices.size());
+        log.info("查询查询策略初始化完成 {}，当前存在 {} 种查询方式", this.getClass().getSimpleName(), queryLookupStrategyAdvices.size());
     }
 
     public static QueryLookupStrategy create(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, EvaluationContextProvider evaluationContextProvider) {
@@ -60,7 +60,7 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
                 .findFirst();
 
         QueryLookupStrategy queryLookupStrategy = optionalQueryLookupStrategyAdvice.isPresent()?optionalQueryLookupStrategyAdvice.get():defaultQueryLookupStrategy;
-        log.debug("使用 {} 方式数据库持久化策略", "JPA 的 " + defaultQueryLookupStrategy.getClass().getSimpleName());
+        log.info("使用 {} 方式数据库持久化策略", "JPA 的 " + defaultQueryLookupStrategy.getClass().getSimpleName());
         return queryLookupStrategy.resolveQuery(method, metadata, factory, namedQueries);
     }
 }
