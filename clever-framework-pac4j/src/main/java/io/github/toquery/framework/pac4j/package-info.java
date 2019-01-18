@@ -1,4 +1,5 @@
 /**
+ * 安全认证相关模块
  * @author toquery
  * @version 1
  */

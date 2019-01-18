@@ -30,6 +30,9 @@ public class AppJpaEntityLongIDGenerator implements IdentifierGenerator, Configu
 
     /**
      * 注册id的映射，可以根据不同的实体生成不同的id，便于以后分库和分表
+     *
+     * @param packagePrefix       包前缀
+     * @param snowflakePrimaryKey 主键
      */
     public static void registerIdPart(String packagePrefix, SnowflakePrimaryKey snowflakePrimaryKey) {
         ID_PART_MAP.put(packagePrefix, snowflakePrimaryKey);
@@ -50,6 +53,9 @@ public class AppJpaEntityLongIDGenerator implements IdentifierGenerator, Configu
 
     /**
      * 根据不同的对象获取不同的id生成方式
+     *
+     * @param object 需要生产主键的对象
+     * @return 获取到主键Key
      */
     public SnowflakePrimaryKey getSnowflakeIDPart(Object object) {
         if (object == null) {

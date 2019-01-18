@@ -51,6 +51,9 @@ public class SearchFilter {
 	/**
 	 * searchParams中key的格式为FIELDNAME:OPERATOR 或 CONNECTOR:FIELDNAME:OPERATOR。
 	 * 例如：primary:EQ 或 AND:businessSystem.primary:EQ将对当前实体属性businessSystem的id属性进行等值查询 ;
+	 * @param searchParams 查询参数
+	 *
+	 * @return 转换后的查询条件
 	 */
 	public static LinkedHashMap<String, SearchFilter> parse(LinkedHashMap<String, Object> searchParams) {
 		

@@ -74,7 +74,7 @@ public class DefaultSnowflakePrimaryKey implements SnowflakePrimaryKey {
     /**
      * 设置当前的id组成信息
      *
-     * @param idItems
+     * @param idItems 获取id的组成
      */
     public void setIdItems(Map<EnumPrimaryKeyRule, Integer> idItems) {
         this.idItems = idItems;

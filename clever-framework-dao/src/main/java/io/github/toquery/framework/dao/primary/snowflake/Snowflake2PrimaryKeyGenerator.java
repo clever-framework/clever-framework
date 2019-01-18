@@ -55,7 +55,8 @@ public class Snowflake2PrimaryKeyGenerator extends ContextPrimaryKeyGenerator<Lo
     /**
      * 将long转换二进制位
      *
-     * @return
+     * @param index 主键
+     * @return 主键
      */
     public String toBinary(long index) {
         return Long.toString(index, 2);
