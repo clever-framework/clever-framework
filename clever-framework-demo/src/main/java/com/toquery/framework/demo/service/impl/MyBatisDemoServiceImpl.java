@@ -1,5 +1,7 @@
 package com.toquery.framework.demo.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.dao.IMyBatisDemoDao;
 import com.toquery.framework.demo.entity.TbMyBatisDemo;
@@ -44,5 +46,11 @@ public class MyBatisDemoServiceImpl extends AppBaseServiceImpl<Long, TbMyBatisDe
     public TbMyBatisDemo update(Long id, String name) {
         TbMyBatisDemo tbMyBatisDemo = new TbMyBatisDemo(id, name);
         return myBatisDemoDao.update(tbMyBatisDemo, Sets.newHashSet("name"));
+    }
+
+    @Override
+    public Page<TbMyBatisDemo> findByName(String name, Integer page, Integer size) {
+        Page<TbMyBatisDemo> page1 = PageHelper.startPage(page,size);
+        return myBatisDemoDao.findByMyBatisName(name);
     }
 }

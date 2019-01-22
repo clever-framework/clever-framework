@@ -7,6 +7,7 @@ import com.toquery.framework.demo.service.IJpaDemoService;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,8 +19,6 @@ import java.util.Map;
  * @version 1
  */
 @Service
-
-//public class JpaDemoServiceImpceImpl implements IJpaDemoService {
 public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpaDemoRepository> implements IJpaDemoService {
 
 
@@ -63,7 +62,9 @@ public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpa
 
     @Override
     public Page<TbJpaDemo> findByName(String name, Integer page, Integer size) {
-        return jpaDemoDao.findAll(PageRequest.of(page, size));
+        Sort sort = new Sort(Sort.Direction.ASC, "name");
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        return jpaDemoDao.findAll(pageRequest);
     }
 
 }

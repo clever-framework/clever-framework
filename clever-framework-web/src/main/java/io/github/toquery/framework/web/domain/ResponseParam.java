@@ -1,6 +1,8 @@
 package io.github.toquery.framework.web.domain;
 
-import lombok.Getter;
+import com.google.common.base.Strings;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,30 +14,45 @@ import java.util.HashMap;
  * @author toquery
  * @version 1
  */
-public class ResponseParam extends HashMap<String, Object> {
+@Scope("request")
+public class ResponseParam extends HashMap<String, Object> implements InitializingBean {
 
     private static final long serialVersionUID = 1L;
 
 
-    public static final String SUCCESS_PARAM_VALUE = "success";
+    private static final String SUCCESS_PARAM_VALUE = "success";
 
-    public static final String MESSAGE_PARAM = "message";
+    private static final String MESSAGE_PARAM = "message";
 
-    public static final String DATA_PARAM = "data";
+    private static final String DATA_PARAM = "data";
 
-    public static final String DATA_LIST_PARAM = "datalist";
+    private static final String DATA_LIST_PARAM = "datalist";
 
-    public static final String CODE_PARAM = "code";
+    private static final String CODE_PARAM = "code";
 
-    public static final String EXCEPTION_ID_PARAM = "exceptionid";
-
-    /**
-     * 默认支持jsonp协议
-     */
-    @Getter
-    private boolean isSupportJSONP = true;
+    private static final String EXCEPTION_ID_PARAM = "exceptionid";
 
     private ResponseParam() {
+    }
+
+    /**
+     * 设置返回的成功状态
+     *
+     * @param flag 成功状态
+     * @return
+     */
+    public static ResponseParam success(boolean flag) {
+        ResponseParam successParam = new ResponseParam();
+        successParam.put(SUCCESS_PARAM_VALUE, flag);
+        return successParam;
+    }
+
+    public static ResponseParam success(boolean flag, String message) {
+        ResponseParam successParam = success(flag);
+        if (!Strings.isNullOrEmpty(message)) {
+            successParam.put(MESSAGE_PARAM, message);
+        }
+        return successParam;
     }
 
     /**
@@ -54,24 +71,9 @@ public class ResponseParam extends HashMap<String, Object> {
      * @return
      */
     public static ResponseParam info(boolean flag) {
-
-        if (flag) {
-            return success();
-        }
-
-        return fail();
+        return success(flag);
     }
 
-    /**
-     * 是否对jsonp协议的支持，如果支持获取request中的参数callback参数值，并重构返回结果。
-     *
-     * @param isSupportJSONP
-     * @return
-     */
-    public ResponseParam supportJSONP(boolean isSupportJSONP) {
-        this.isSupportJSONP = isSupportJSONP;
-        return this;
-    }
 
     public static ResponseParam success() {
         return success(true);
@@ -81,52 +83,38 @@ public class ResponseParam extends HashMap<String, Object> {
         return success(false);
     }
 
-    /**
-     * 设置返回的成功状态
-     *
-     * @param flag
-     * @return
-     */
-    public static ResponseParam success(boolean flag) {
-        ResponseParam successParam = new ResponseParam();
-        successParam.put(SUCCESS_PARAM_VALUE, flag);
-        return successParam;
+    public static ResponseParam success(String message) {
+        return success(true, message);
     }
 
+    public static ResponseParam fail(String message) {
+        return success(false, message);
+    }
+
+
+
     public static ResponseParam updateSuccess() {
-        ResponseParam successParam = success();
-        successParam.message("更新成功");
-        return successParam;
+        return success("更新成功");
     }
 
     public static ResponseParam updateFail() {
-        ResponseParam failParam = fail();
-        failParam.message("更新失败");
-        return failParam;
+        return fail("更新失败");
     }
 
     public static ResponseParam saveSuccess() {
-        ResponseParam successParam = success();
-        successParam.message("添加成功");
-        return successParam;
+        return success("保存成功");
     }
 
     public static ResponseParam saveFail() {
-        ResponseParam failParam = fail();
-        failParam.message("添加失败");
-        return failParam;
+        return fail("保存失败");
     }
 
     public static ResponseParam deleteSuccess() {
-        ResponseParam successParam = success();
-        successParam.message("删除成功");
-        return successParam;
+        return success("删除成功");
     }
 
     public static ResponseParam deleteFail() {
-        ResponseParam failParam = fail();
-        failParam.message("删除失败");
-        return failParam;
+        return fail("删除失败");
     }
 
     /**
@@ -250,5 +238,9 @@ public class ResponseParam extends HashMap<String, Object> {
         return ResponseEntity.status(httpStatus).contentType(contentType).body(this);
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+
+    }
 }
 

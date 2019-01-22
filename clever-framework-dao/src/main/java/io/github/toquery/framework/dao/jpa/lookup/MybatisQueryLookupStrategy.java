@@ -1,7 +1,7 @@
 package io.github.toquery.framework.dao.jpa.lookup;
 
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.dao.jpa.annotation.AppMybatisQuery;
+import io.github.toquery.framework.dao.jpa.annotation.MybatisQuery;
 import io.github.toquery.framework.dao.jpa.lookup.repository.MybatisRepositoryQuery;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class MybatisQueryLookupStrategy extends QueryLookupStrategyAdvice {
     @Override
     public boolean isEnabled(Method method, RepositoryMetadata metadata) {
         //包含自定义注解的方法 或者包含Mapper注解的方法
-        return method.getAnnotation(AppMybatisQuery.class) != null || method.getAnnotation(Mapper.class) != null;
+        return method.getAnnotation(MybatisQuery.class) != null || method.getAnnotation(Mapper.class) != null;
     }
 
     @Override
