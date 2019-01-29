@@ -1,10 +1,10 @@
 package com.toquery.framework.demo;
 
+
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
-import io.github.toquery.framework.dao.jpa.AppJpaRepositoryFactoryBean;
+import io.github.toquery.framework.data.rest.annotation.EnableAppRepositoryRest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * @author toquery
@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @SpringBootApplication
 @EnableAppJpaRepositories
+@EnableAppRepositoryRest
 public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);

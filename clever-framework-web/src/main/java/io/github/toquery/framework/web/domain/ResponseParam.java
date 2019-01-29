@@ -2,8 +2,6 @@ package io.github.toquery.framework.web.domain;
 
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,26 +9,20 @@ import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
 
 /**
+ * 响应参数购将，根据相应的类型，将数据填充到content
+ *
  * @author toquery
  * @version 1
  */
-@Scope("request")
 public class ResponseParam extends HashMap<String, Object> implements InitializingBean {
 
     private static final long serialVersionUID = 1L;
 
-
-    private static final String SUCCESS_PARAM_VALUE = "success";
-
-    private static final String MESSAGE_PARAM = "message";
-
-    private static final String DATA_PARAM = "data";
-
-    private static final String DATA_LIST_PARAM = "datalist";
-
     private static final String CODE_PARAM = "code";
-
-    private static final String EXCEPTION_ID_PARAM = "exceptionid";
+    private static final String MESSAGE_PARAM = "message";
+    private static final String SUCCESS_PARAM_VALUE = "success";
+    private static final String CONTENT_PARAM_VALUE = "content";
+    private static final String PAGE_PARAM_VALUE = "page";
 
     private ResponseParam() {
     }
@@ -39,7 +31,7 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
      * 设置返回的成功状态
      *
      * @param flag 成功状态
-     * @return
+     * @return 响应对象
      */
     public static ResponseParam success(boolean flag) {
         ResponseParam successParam = new ResponseParam();
@@ -47,6 +39,11 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
         return successParam;
     }
 
+    /**
+     * @param flag    成功状态
+     * @param message 响应信息
+     * @return 响应对象
+     */
     public static ResponseParam success(boolean flag, String message) {
         ResponseParam successParam = success(flag);
         if (!Strings.isNullOrEmpty(message)) {
@@ -56,19 +53,10 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
     }
 
     /**
-     * 构建ResponseParam全局属性信息
-     *
-     * @return
-     */
-    public static ResponseParam appProperties() {
-        return new ResponseParam();
-    }
-
-    /**
      * 根据flag返回不同类型的结果信息
      *
-     * @param flag
-     * @return
+     * @param flag 是否处理成功
+     * @return 响应对象
      */
     public static ResponseParam info(boolean flag) {
         return success(flag);
@@ -90,8 +78,6 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
     public static ResponseParam fail(String message) {
         return success(false, message);
     }
-
-
 
     public static ResponseParam updateSuccess() {
         return success("更新成功");
@@ -117,6 +103,12 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
         return fail("删除失败");
     }
 
+
+    public ResponseParam content(Object content) {
+        this.put(CONTENT_PARAM_VALUE, content);
+        return this;
+    }
+
     /**
      * 代码或标识码
      *
@@ -140,35 +132,15 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
     }
 
     /**
-     * 添加单个参数信息，key为data，多次调用addMessage方法会替换相应的key值
+     * 将Spring Page转化为响应书记苏，包含分页相关的参数
      *
-     * @param value
-     * @return
+     * @param page 分页信息
+     * @return 包含分页相关的参数
      */
-    public ResponseParam data(Object value) {
-        this.put(DATA_PARAM, value);
-        return this;
-    }
-
-    /**
-     * 添加单个参数列表信息，key为data，多次调用addMessage方法会替换相应的key值
-     *
-     * @param value 向datalist添加的数据
-     * @return 参数信息
-     */
-    public ResponseParam datalist(Iterable<?> value) {
-        this.put(DATA_LIST_PARAM, value);
-        return this;
-    }
-
-    /**
-     * 异常的id
-     *
-     * @param exceptionId 异常的id
-     * @return 包含异常的id的参数
-     */
-    public ResponseParam exceptionId(Object exceptionId) {
-        this.put(EXCEPTION_ID_PARAM, exceptionId);
+    public ResponseParam page(org.springframework.data.domain.Page<?> page) {
+        ResponsePage responsePage = ResponsePageBuilder.build(page);
+        this.put(PAGE_PARAM_VALUE, responsePage);
+        this.put(CONTENT_PARAM_VALUE, page.getContent());
         return this;
     }
 
@@ -178,15 +150,10 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    public ResponseParam pageParam(Page<?> page) {
-
-        //设置分页参数信息
-        this.put("pagenum", page.getNumber());
-        this.put("pagesize", page.getSize());
-        this.put("pagerealsize", page.getNumberOfElements());
-        this.put("totalelements", page.getTotalElements());
-        this.put("totalpages", page.getTotalPages());
-
+    public ResponseParam page(com.github.pagehelper.Page<?> page) {
+        ResponsePage responsePage = ResponsePageBuilder.build(page);
+        this.put(PAGE_PARAM_VALUE, responsePage);
+        this.put(CONTENT_PARAM_VALUE, page);
         return this;
     }
 

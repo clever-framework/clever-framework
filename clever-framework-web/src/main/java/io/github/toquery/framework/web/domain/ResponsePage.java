@@ -1,6 +1,5 @@
 package io.github.toquery.framework.web.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,15 +15,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResponsePage {
 
-    @JsonProperty(value = "#{app.page.param.pageSize:pageSize}")
+    //    @JsonProperty(value = "#{app.page.param.pageSize:pageSize}")
     private Integer pageSize;
 
-    @JsonProperty(value = "${app.page.param.pageNumber:pageNumber}")
+    //    @JsonProperty(value = "${app.page.param.pageNumber:pageNumber}")
     private Integer pageNumber;
 
-    @JsonProperty(value = "${app.page.param.totalElements:totalElements}")
+    //    @JsonProperty(value = "${app.page.param.totalElements:totalElements}")
     private Long totalElements;
 
-    @JsonProperty(value = "${app.page.param.totalPages:totalPages}")
+    //    @JsonProperty(value = "${app.page.param.totalPages:totalPages}")
     private Integer totalPages;
 }

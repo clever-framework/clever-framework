@@ -5,7 +5,7 @@ import com.toquery.framework.demo.entity.TbMyBatisDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
 import com.toquery.framework.demo.service.IMyBatisDemoService;
 import io.github.toquery.framework.web.domain.ResponsePage;
-import io.github.toquery.framework.web.domain.ResponsePageMap;
+import io.github.toquery.framework.web.domain.ResponsePageBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +32,7 @@ public class TestPageController {
                           @RequestParam(value = "page", defaultValue = "0") Integer page,
                           @RequestParam(value = "size", defaultValue = "15") Integer size) {
         com.github.pagehelper.Page<TbMyBatisDemo> pageInfo = myBatisDemoService.findByName(name, page, size);
-        return ResponsePageMap.build(pageInfo);
+        return ResponsePageBuilder.build(pageInfo);
     }
 
     @Resource
@@ -43,6 +43,6 @@ public class TestPageController {
                       @RequestParam(value = "page", defaultValue = "0") Integer page,
                       @RequestParam(value = "size", defaultValue = "15") Integer size) {
         org.springframework.data.domain.Page<TbJpaDemo> demoPage = demoService.findByName(name, page, size);
-        return ResponsePageMap.build(demoPage);
+        return ResponsePageBuilder.build(demoPage);
     }
 }

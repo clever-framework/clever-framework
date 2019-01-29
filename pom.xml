@@ -59,7 +59,7 @@
         <module>clever-framework-demo</module>
         <module>clever-framework-test</module>
         <module>clever-framework-common</module>
-        <!--<module>clever-framework-pac4j</module>-->
+        <module>clever-framework-security</module>
     </modules>
 
 

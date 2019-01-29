@@ -9,7 +9,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/clever_web_demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
     username: root
     password: 123456
-
+  data:
+    rest:
+      defaultMediaType: application/json
+  hateoas:
+    use-hal-as-default-json-media-type: false
   jpa:
     show-sql: true
     generate-ddl: true
