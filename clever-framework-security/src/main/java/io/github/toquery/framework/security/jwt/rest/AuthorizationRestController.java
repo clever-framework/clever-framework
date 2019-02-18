@@ -1,10 +1,10 @@
 package io.github.toquery.framework.security.jwt.rest;
 
 import com.google.common.collect.Lists;
+import io.github.toquery.framework.security.domain.SysUser;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.JwtUser;
 import io.github.toquery.framework.security.jwt.properties.AppJwtProperties;
-import io.github.toquery.framework.security.jwt.security.User;
 import io.github.toquery.framework.security.jwt.service.JwtUserRegister;
 import io.github.toquery.framework.web.domain.ResponseParam;
 import org.springframework.http.ResponseEntity;
@@ -41,13 +41,13 @@ public class AuthorizationRestController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
         user.setRoles(Lists.newArrayList("admin", "edit"));
-        return ResponseEntity.ok(ResponseParam.success().data(user));
+        return ResponseEntity.ok(ResponseParam.success().content(user));
     }
 
     @PostMapping(value = "${app.jwt.path.register:/user/register}")
-    public ResponseEntity register(@RequestBody User user) {
+    public ResponseEntity register(@RequestBody SysUser user) {
         user = jwtUserRegister.register(user);
-        return ResponseEntity.ok(ResponseParam.success().data(user));
+        return ResponseEntity.ok(ResponseParam.success().content(user));
     }
 
 }

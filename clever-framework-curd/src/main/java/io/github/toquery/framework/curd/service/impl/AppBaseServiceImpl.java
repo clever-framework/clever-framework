@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.dao.entity.AppBaseEntityAudited;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
 import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
@@ -47,7 +47,7 @@ import java.util.Set;
  * @param <D>  Dao操作类
  */
 @Slf4j
-public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppBaseEntity, D extends AppJpaBaseRepository<E, ID>> implements AppBaseService<E, ID> {
+public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppBaseEntityAudited, D extends AppJpaBaseRepository<E, ID>> implements AppBaseService<E, ID> {
 
     @Autowired
     private D baseEntityDao;
@@ -305,7 +305,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
      */
     protected Sort getSort(String[] sorts) {
         //默认按照创建时间排序
-        if ((sorts == null || sorts.length < 1) && AppBaseEntity.class.isAssignableFrom(this.baseEntityDao.getDomainClass())) {
+        if ((sorts == null || sorts.length < 1) && AppBaseEntityAudited.class.isAssignableFrom(this.baseEntityDao.getDomainClass())) {
             sorts = new String[]{"createDatetime"};
         }
 

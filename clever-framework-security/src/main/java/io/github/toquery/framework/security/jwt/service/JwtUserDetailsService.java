@@ -1,8 +1,8 @@
 package io.github.toquery.framework.security.jwt.service;
 
+import io.github.toquery.framework.security.domain.SysUser;
 import io.github.toquery.framework.security.jwt.JwtUserFactory;
-import io.github.toquery.framework.security.jwt.UserRepository;
-import io.github.toquery.framework.security.jwt.security.User;
+import io.github.toquery.framework.security.repository.SysUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,12 +14,11 @@ import javax.annotation.Resource;
 public class JwtUserDetailsService implements UserDetailsService, JwtUserRegister {
 
     @Resource
-    private UserRepository userRepository;
+    private SysUserRepository sysUserRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(username);
-
+        SysUser user = sysUserRepository.findByUserName(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
@@ -28,10 +27,10 @@ public class JwtUserDetailsService implements UserDetailsService, JwtUserRegiste
     }
 
     @Override
-    public User register(User user) {
+    public SysUser register(SysUser user) {
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 //        user.setPassword(encoder.encode(user.getPassword()));
 //        user.setAuthorities(Lists.newArrayList(new Authority(AuthorityName.ROLE_ADMIN),new Authority(AuthorityName.ROLE_USER)));
-        return userRepository.save(user);
+        return sysUserRepository.save(user);
     }
 }

@@ -1,12 +1,26 @@
 package io.github.toquery.framework.security.jwt.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
+
 /**
  * @author toquery
  * @version 1
  */
+@Getter
+@Setter
 public class AppJwtException extends Exception {
+
+    private HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
+
     public AppJwtException() {
     }
+
+    public AppJwtException(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
+    }
+
 
     public AppJwtException(String message) {
         super(message);

@@ -17,18 +17,18 @@ public class JwtUser implements UserDetails {
     private Long id;
 
     private List<String> roles;
+    private String loginName;
     private String userName;
-    private String nickName;
     private String password;
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
     private boolean enabled;
     private Date lastPasswordResetDate;
 
-    public JwtUser(Long id, String userName, String nickName, String password, String email, Collection<? extends GrantedAuthority> authorities, boolean enabled, Date lastPasswordResetDate) {
+    public JwtUser(Long id, String userName, String loginName, String password, String email, Collection<? extends GrantedAuthority> authorities, boolean enabled, Date lastPasswordResetDate) {
         this.id = id;
         this.userName = userName;
-        this.nickName = nickName;
+        this.loginName = loginName;
         this.password = password;
         this.email = email;
         this.authorities = authorities;
@@ -44,12 +44,12 @@ public class JwtUser implements UserDetails {
         this.roles = roles;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public Date getLastPasswordResetDate() {

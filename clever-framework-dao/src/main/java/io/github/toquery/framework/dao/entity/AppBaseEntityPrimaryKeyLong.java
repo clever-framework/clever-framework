@@ -21,7 +21,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @EqualsAndHashCode(callSuper = true)
-public class AppBaseEntityPrimaryKeyLong extends AppBaseEntity {
+public class AppBaseEntityPrimaryKeyLong extends AppBaseEntityAudited {
 
     @Id
     @Column

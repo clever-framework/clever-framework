@@ -1,0 +1,6 @@
+#spring:
+#  data:
+#    rest:
+#      page-param-name: pageNumber
+#      limit-param-name: pageSize
+

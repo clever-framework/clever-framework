@@ -51,7 +51,8 @@ import java.util.Map;
  * <p>扩展JpaRepository，添加对update的支持。</p>
  * <p>会根据查找到的接口名称，自动寻找后缀为Impl的接口实现类，</p>
  * <p>如果接口实现类需要交由spring管理，必须提供不带参数的构造方法。</p>
- * @param <E> 实体类
+ *
+ * @param <E>  实体类
  * @param <ID> 主键类型
  */
 @Slf4j
@@ -77,7 +78,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         this.entityInformation = JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager);
         this.entityManager = entityManager;
         this.enableValidator = enableValidator;
-        log.info("扩展JPA开始实例化{}", getClass().getSimpleName());
+        log.info("Spring Data Jpa 开始实例化");
     }
 
     public AppJpaBaseRepositoryImpl(JpaEntityInformation<E, ?> entityInformation, EntityManager entityManager) {
@@ -89,7 +90,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         this.entityInformation = entityInformation;
         this.entityManager = entityManager;
         this.enableValidator = enableValidator;
-        log.info("扩展JPA开始实例化{}", getClass().getSimpleName());
+        log.info("Spring Data Jpa 开始实例化");
         log.info("是否启用实体属性验证{}", this.enableValidator);
     }
 
@@ -141,19 +142,20 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
      *
      * param entity 效验的实体
 
-    public <S extends E> void validateEntity(S entity) {
-        //进行实体验证
-        if (enableValidator) {
-            List<String> invalidmsg = ValidateHelper.validate(entity);
-            if (CollectionUtils.isNotEmpty(invalidmsg)) {
-                throw new ValidationException(Joiner.on(";").join(invalidmsg));
-            }
-        }
-    }*/
+     public <S extends E> void validateEntity(S entity) {
+     //进行实体验证
+     if (enableValidator) {
+     List<String> invalidmsg = ValidateHelper.validate(entity);
+     if (CollectionUtils.isNotEmpty(invalidmsg)) {
+     throw new ValidationException(Joiner.on(";").join(invalidmsg));
+     }
+     }
+     }*/
 
     /**
      * 验证实体属性，验证出现异常则抛出
-     * @param entity 效验的实体属性
+     *
+     * @param entity     效验的实体属性
      * @param properties 效验的属性集合
      */
     public <S extends E> void validateProperties(S entity, Collection<String> properties) {
@@ -191,8 +193,9 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
 
     /**
      * 判断是否具有复杂的关联关系，如果具有则执行动态更新，否则执行完整更新
-     * @param entity 效验的实体
-     * @param updateFieldsName  更新的字段集合
+     *
+     * @param entity           效验的实体
+     * @param updateFieldsName 更新的字段集合
      */
     public boolean isExecuteDynamicUpdate(E entity, Collection<String> updateFieldsName) {
         //没有执行需要更新的字段

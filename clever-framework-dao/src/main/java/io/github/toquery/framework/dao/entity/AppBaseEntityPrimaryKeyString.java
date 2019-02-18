@@ -21,7 +21,7 @@ import javax.validation.constraints.NotBlank;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @EqualsAndHashCode(callSuper = true)
-public class AppBaseEntityPrimaryKeyString extends AppBaseEntity {
+public class AppBaseEntityPrimaryKeyString extends AppBaseEntityAudited {
 
     @Id
     @NotBlank

@@ -5,6 +5,7 @@ import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -27,10 +28,11 @@ import java.util.Date;
  */
 @Setter
 @Getter
+@Audited
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @EntityListeners(AuditingEntityListener.class)
-public class AppBaseEntity implements Serializable {
+public class AppBaseEntityAudited implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,5 +64,5 @@ public class AppBaseEntity implements Serializable {
      */
     @ColumnDefault("false")
     @Column(name = AppPropertiesDefault.JPA_COLUMN_SOFT_DEL)
-    private boolean delete = false;
+    private boolean dele = false;
 }

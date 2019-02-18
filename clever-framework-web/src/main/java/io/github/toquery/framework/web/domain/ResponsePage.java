@@ -15,15 +15,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResponsePage {
 
-    //    @JsonProperty(value = "#{app.page.param.pageSize:pageSize}")
     private Integer pageSize;
 
-    //    @JsonProperty(value = "${app.page.param.pageNumber:pageNumber}")
     private Integer pageNumber;
 
-    //    @JsonProperty(value = "${app.page.param.totalElements:totalElements}")
     private Long totalElements;
 
-    //    @JsonProperty(value = "${app.page.param.totalPages:totalPages}")
     private Integer totalPages;
 }

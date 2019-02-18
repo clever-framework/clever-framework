@@ -3,20 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>clever-framework</artifactId>
         <groupId>io.github.toquery</groupId>
-        <version>1.0.1</version>
+        <artifactId>clever-framework</artifactId>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>clever-framework-security</artifactId>
-
+    <url>https://github.com/ToQuery/clever-framework</url>
 
     <dependencies>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.0</version>
         </dependency>
         <dependency>
             <groupId>io.github.toquery</groupId>
@@ -27,18 +26,14 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-            <version>2.2</version>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-curd</artifactId>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-jwt</artifactId>
-            <version>1.0.9.RELEASE</version>
-        </dependency>
+
         <dependency>
             <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-dao</artifactId>
+            <artifactId>clever-framework-test</artifactId>
         </dependency>
     </dependencies>
 </project>

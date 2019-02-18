@@ -16,6 +16,10 @@
 - queryXXXByXXX  通过XX条件获取list集合,带分页
 - 使用注解`@SuppressWarnings("MybatisMapperMethodInspection")`忽略IDEA的mybatis mapper检查
 
+## 存在的问题
+
+- 多个不同包路径下，扫描实体，dao存在问题
+
 ## 待完成的功能
 
 - ~~MyBatis和Jpa作用于同一个Dao时，会被Spring注册两个Bean~~
