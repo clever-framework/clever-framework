@@ -1,5 +1,7 @@
 package io.github.toquery.framework.security.jwt.rest;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.JwtUser;
 import io.github.toquery.framework.security.jwt.exception.AppJwtException;
@@ -16,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -41,20 +44,27 @@ public class AuthenticationRestController {
     private UserDetailsService userDetailsService;
 
     @PostMapping(value = "${app.jwt.path.token:/user/token}")
-    public ResponseEntity<?> createAuthenticationToken(HttpServletRequest request) throws AppJwtException {
-        String[] userName = request.getParameterValues(appJwtProperties.getParam().getUserName());
-        if (userName == null || userName.length <= 0) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseParam.fail().message("未配置登录用户名"));
+    public ResponseEntity<?> createAuthenticationToken(HttpServletRequest request, @RequestBody JSONObject jsonObject) throws AppJwtException {
+        String userName = jsonObject.getString(appJwtProperties.getParam().getUserName());
+        String password = jsonObject.getString(appJwtProperties.getParam().getPassword());
+        if (Strings.isNullOrEmpty(userName)) {
+            String[] userNames = request.getParameterValues(appJwtProperties.getParam().getUserName());
+            if (userNames == null || userNames.length <= 0) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseParam.fail().message("未配置登录用户名"));
+            }
+            userName = userNames[0];
         }
-        String[] password = request.getParameterValues(appJwtProperties.getParam().getPassword());
-        if (password == null || password.length <= 0) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseParam.fail().message("未配置登录密码"));
+        if (Strings.isNullOrEmpty(password)) {
+            String[] passwords = request.getParameterValues(appJwtProperties.getParam().getPassword());
+            if (passwords == null || passwords.length <= 0) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseParam.fail().message("未配置登录密码"));
+            }
+            password = passwords[0];
         }
-        authenticate(userName[0], password[0]);
+        authenticate(userName, password);
         // Reload password post-security so we can generate the token
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userName[0]);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         String token = jwtTokenUtil.generateToken(userDetails);
-
         // Return the token
         return ResponseEntity.ok(ResponseParam.success().content(new JwtAuthenticationResponse(token)));
     }

@@ -25,6 +25,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <clever-framework.version>${project.version}</clever-framework.version>
+
         <!-- tool jar -->
         <jackson.version>2.9.8</jackson.version>
         <lombok.version>1.18.2</lombok.version>
@@ -76,42 +78,42 @@
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-common</artifactId>
-                <version>${project.version}</version>
+                <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-core</artifactId>
-                <version>${project.version}</version>
+                <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-curd</artifactId>
-                <version>${project.version}</version>
+                <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-dao</artifactId>
-                <version>${project.version}</version>
+                <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-web</artifactId>
-                <version>${project.version}</version>
+                <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-security</artifactId>
-                <version>${project.version}</version>
+                <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-test</artifactId>
-                <version>${project.version}</version>
+                <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-webmvc</artifactId>
-                <version>${project.version}</version>
+                <version>${clever-framework.version}</version>
             </dependency>
 
 
