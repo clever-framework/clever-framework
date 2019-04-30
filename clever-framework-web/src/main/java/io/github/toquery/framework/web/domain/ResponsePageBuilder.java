@@ -1,6 +1,7 @@
 package io.github.toquery.framework.web.domain;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.hateoas.PagedResources;
 
 import java.util.HashMap;
 
@@ -23,6 +24,15 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
      */
     public static ResponsePageBuilder getInstance() {
         return new ResponsePageBuilder();
+    }
+
+    public static ResponsePage build(PagedResources.PageMetadata pageMetadata) {
+        ResponsePage responsePage = new ResponsePage();
+        responsePage.setPageNumber((int) pageMetadata.getNumber());
+        responsePage.setPageSize((int) pageMetadata.getSize());
+        responsePage.setTotalElements(pageMetadata.getTotalElements());
+        responsePage.setTotalPages((int) pageMetadata.getTotalPages());
+        return responsePage;
     }
 
     /**

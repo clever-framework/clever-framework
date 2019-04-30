@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author toquery
  * @version 1
  */
-@RepositoryRestResource(path = "/sys/menu")
+@RepositoryRestResource(path = "sys-menu")
 public interface SysMenuRepository extends AppJpaBaseRepository<SysMenu, Long> {
 
 }

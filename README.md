@@ -32,3 +32,20 @@
 ## 自定义注解
 
 - 通过自定义注解实现重复名称的注解共存，（首先定义注解类并@intface加入要扩展的注解`@xxxx`，然后根据相应的属性增加`@AliasFor(annotation = XXXX.class)`。例如JPA 的param和mybatis的param可通过这个方式解决冲突）
+
+
+
+## 
+
+```bash
+mvn versions:set -DnewVersion=1.0.2
+```
+
+```bash
+mvn -N versions:update-child-modules
+```
+
+```bash
+mvn versions:commit
+```
+

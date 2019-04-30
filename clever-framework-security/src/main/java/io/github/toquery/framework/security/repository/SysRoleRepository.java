@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * @author toquery
  * @version 1
  */
-@RepositoryRestResource(path = "/sys/role")
+@RepositoryRestResource(path = "sys-role")
 public interface SysRoleRepository extends AppJpaBaseRepository<SysRole, Long> {
 
 }

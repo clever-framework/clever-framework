@@ -5,7 +5,7 @@
     <parent>
         <artifactId>clever-framework</artifactId>
         <groupId>io.github.toquery</groupId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,5 +15,17 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-web</artifactId>
+        </dependency>
     </dependencies>
 </project>

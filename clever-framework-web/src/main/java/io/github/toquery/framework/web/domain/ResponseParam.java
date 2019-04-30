@@ -2,6 +2,7 @@ package io.github.toquery.framework.web.domain;
 
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -141,6 +142,13 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
         ResponsePage responsePage = ResponsePageBuilder.build(page);
         this.put(PAGE_PARAM_VALUE, responsePage);
         this.put(CONTENT_PARAM_VALUE, page.getContent());
+        return this;
+    }
+
+    public ResponseParam page(PagedResources pagedResources) {
+        ResponsePage responsePage = ResponsePageBuilder.build(pagedResources.getMetadata());
+        this.put(PAGE_PARAM_VALUE, responsePage);
+        this.put(CONTENT_PARAM_VALUE, pagedResources.getContent());
         return this;
     }
 

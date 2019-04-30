@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.jwt.rest;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import io.github.toquery.framework.security.domain.SysUser;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -35,9 +37,13 @@ public class AuthorizationRestController {
     @Resource
     private JwtUserRegister jwtUserRegister;
 
-    @GetMapping(value = "${app.jwt.path.info:/user/info}")
+    @RequestMapping(value = "${app.jwt.path.info:/user/info}")
     public ResponseEntity getAuthenticatedUser(HttpServletRequest request) {
-        String token = request.getHeader(appJwtProperties.getHeader()).substring(7);
+        String token = request.getHeader(appJwtProperties.getHeader());
+        if (Strings.isNullOrEmpty(token)) {
+            return ResponseEntity.badRequest().body(ResponseParam.fail("未检测到提交的用户信息"));
+        }
+        token = token.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
         user.setRoles(Lists.newArrayList("admin", "edit"));

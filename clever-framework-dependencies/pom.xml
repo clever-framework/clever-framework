@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>clever-framework</artifactId>
+        <groupId>io.github.toquery</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <artifactId>clever-framework-dependencies</artifactId>
+
+    <properties>
+        <main.basedir>${basedir}/..</main.basedir>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- clever framework -->
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-common</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-core</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-curd</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-dao</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-web</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-security</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-test</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-webmvc</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+            </dependency>
+
+
+            <!-- mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper-spring-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jsqlparser</groupId>
+                <artifactId>jsqlparser</artifactId>
+                <version>${jsqlparse.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>5.0.6.RELEASE</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
