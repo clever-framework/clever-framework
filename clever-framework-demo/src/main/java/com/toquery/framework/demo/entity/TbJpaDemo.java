@@ -23,8 +23,16 @@ import java.util.Date;
 @Table(name = "tb_jpa_demo")
 public class TbJpaDemo extends AppBaseEntityPrimaryKeyLong {
 
+    public TbJpaDemo(String name, Date loginTime) {
+        this.name = name;
+        this.loginTime = loginTime;
+    }
+
     @Column
     private String name;
+
+    @Column
+    private Integer num;
 
     @Column(name = "login_time")
     private Date loginTime;

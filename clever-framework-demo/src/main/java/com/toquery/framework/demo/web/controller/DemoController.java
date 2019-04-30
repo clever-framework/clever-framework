@@ -1,5 +1,6 @@
 package com.toquery.framework.demo.web.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.entity.TbMyBatisDemo;
@@ -60,6 +61,16 @@ public class DemoController {
     @RequestMapping("/jpa/update2")
     public TbJpaDemo jpaUpdate2(TbJpaDemo tbJpaDemo) {
         return demoService.update(tbJpaDemo, Sets.newHashSet("name"));
+    }
+
+
+    @RequestMapping("/mybatis/find")
+    public PageInfo<TbMyBatisDemo> mybatisFindByName(@RequestParam("name") String name,
+                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                      @RequestParam(value = "size", defaultValue = "15") Integer size) {
+
+        PageInfo<TbMyBatisDemo> pageInfo = new PageInfo<>(myBatisDemoService.findByName(name, page, size));
+        return pageInfo;
     }
 
 

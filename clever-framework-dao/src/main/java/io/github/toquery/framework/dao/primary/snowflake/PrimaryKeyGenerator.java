@@ -9,6 +9,7 @@ public interface PrimaryKeyGenerator<T> {
 
     /**
      * 生成id
+     * @return 生成的主键
      */
     T getNextId();
 

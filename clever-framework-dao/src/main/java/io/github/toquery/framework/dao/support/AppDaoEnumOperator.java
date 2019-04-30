@@ -7,11 +7,9 @@ import java.util.Date;
  *
  * @author toquery
  * @version 1
- * <br/>
- * hibernate:
+ * hibernate 已存在的操作符:
  * @see org.hibernate.query.criteria.internal.predicate.ComparisonPredicate.ComparisonOperator
- * <br/>
- * Spring Data Jpa:
+ * Spring Data Jpa 已存在的操作符:
  * @see org.springframework.data.domain.Sort.Direction
  */
 public enum AppDaoEnumOperator {

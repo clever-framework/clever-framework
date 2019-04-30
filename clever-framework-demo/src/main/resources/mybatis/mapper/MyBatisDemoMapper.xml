@@ -3,7 +3,12 @@
 <mapper namespace="com.toquery.framework.demo.dao.IMyBatisDemoDao">
 
     <select id="getByMyBatisName" resultType="com.toquery.framework.demo.entity.TbMyBatisDemo">
-        select *,#{name}
+        select *
+        from tb_my_batis_demo
+        where `name` = #{name}
+    </select>
+    <select id="findByMyBatisName" resultType="com.toquery.framework.demo.entity.TbMyBatisDemo">
+        select *
         from tb_my_batis_demo
         where `name` = #{name}
     </select>

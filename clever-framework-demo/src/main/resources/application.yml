@@ -1,4 +1,7 @@
-
+app:
+  page:
+    param:
+      page-size: ps
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -6,7 +9,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/clever_web_demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
     username: root
     password: 123456
-
+  data:
+    rest:
+      defaultMediaType: application/json
+  hateoas:
+    use-hal-as-default-json-media-type: false
   jpa:
     show-sql: true
     generate-ddl: true
@@ -16,6 +23,8 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL55Dialect #使用innodb引擎
         enable_lazy_load_no_trans: true
+#    hibernate:
+#      ddl-auto: create-drop
 logging:
   level:
     root: info

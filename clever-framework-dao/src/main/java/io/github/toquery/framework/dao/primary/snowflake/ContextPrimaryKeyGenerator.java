@@ -13,6 +13,9 @@ public abstract class ContextPrimaryKeyGenerator<T> implements PrimaryKeyGenerat
 
     /**
      * 根据上下文生成id
+     *
+     * @param object 原始键
+     * @return 主键
      */
     public abstract T getNextId(Object object);
 }
