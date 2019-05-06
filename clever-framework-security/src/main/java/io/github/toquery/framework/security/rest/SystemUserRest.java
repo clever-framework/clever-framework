@@ -18,11 +18,11 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/sys/user")
-public class SystemUserRest extends AppBaseController {
+public class SystemUserRest extends AppBaseController<ISysUserService> {
 
 
-    @Resource
-    private ISysUserService sysUserService;
+//    @Resource
+//    private ISysUserService sysUserService;
 
     //@GetMapping
    // public void list() {

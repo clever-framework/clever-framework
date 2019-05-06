@@ -7,7 +7,7 @@
     <groupId>io.github.toquery</groupId>
     <artifactId>clever-framework</artifactId>
     <packaging>pom</packaging>
-    <version>${revision}</version>
+    <version>1.0.3-SNAPSHOT</version>
 
     <url>https://github.com/ToQuery/clever-framework</url>
     <description>Spring-based rapid development framework</description>
@@ -25,7 +25,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <clever-framework.version>1.0.2</clever-framework.version>
+        <clever-framework.version>1.0.3-SNAPSHOT</clever-framework.version>
 
         <!-- CI-friendly property 必须使用这个名称，否则IDEA报错-->
         <revision>${clever-framework.version}</revision>
