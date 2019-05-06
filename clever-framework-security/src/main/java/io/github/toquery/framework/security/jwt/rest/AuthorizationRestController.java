@@ -43,7 +43,9 @@ public class AuthorizationRestController {
         if (Strings.isNullOrEmpty(token)) {
             return ResponseEntity.badRequest().body(ResponseParam.fail("未检测到提交的用户信息"));
         }
-        token = token.substring(7);
+        if (token.contains("Bearer ")){
+            token = token.substring(7);
+        }
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
         user.setRoles(Lists.newArrayList("admin", "edit"));
