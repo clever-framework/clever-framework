@@ -34,7 +34,7 @@
         <jackson.version>2.9.8</jackson.version>
         <lombok.version>1.18.2</lombok.version>
         <guava.version>26.0-jre</guava.version>
-        <fastjson.version>1.2.49</fastjson.version>
+        <fastjson.version>1.2.58</fastjson.version>
         <jsqlparse.version>0.9.1</jsqlparse.version>
         <reflections.version>0.9.11</reflections.version>
         <commons-collections4.version>4.2</commons-collections4.version>

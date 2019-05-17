@@ -87,6 +87,15 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>one.util</groupId>
+            <artifactId>streamex</artifactId>
+            <version>0.6.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
         </dependency>
     </dependencies>
