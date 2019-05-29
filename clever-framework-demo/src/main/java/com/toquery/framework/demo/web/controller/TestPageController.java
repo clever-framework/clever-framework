@@ -24,7 +24,7 @@ public class TestPageController {
 
     @RequestMapping("/page")
     public ResponsePage test() {
-        return new ResponsePage(12, 13, 14L, 2);
+        return new ResponsePage(12, 13, 14, 2);
     }
 
     @RequestMapping("/mybatis")

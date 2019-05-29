@@ -15,11 +15,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResponsePage {
 
-    private Integer pageSize;
+    private int pageSize;
 
-    private Integer pageNumber;
+    private int pageNumber;
 
-    private Long totalElements;
+    private int totalElements;
 
-    private Integer totalPages;
+    private int totalPages;
 }

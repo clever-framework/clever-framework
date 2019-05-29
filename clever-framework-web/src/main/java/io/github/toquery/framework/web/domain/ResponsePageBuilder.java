@@ -30,7 +30,7 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
         ResponsePage responsePage = new ResponsePage();
         responsePage.setPageNumber((int) pageMetadata.getNumber());
         responsePage.setPageSize((int) pageMetadata.getSize());
-        responsePage.setTotalElements(pageMetadata.getTotalElements());
+        responsePage.setTotalElements((int) pageMetadata.getTotalElements());
         responsePage.setTotalPages((int) pageMetadata.getTotalPages());
         return responsePage;
     }
@@ -45,7 +45,7 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
         ResponsePage responsePage = new ResponsePage();
         responsePage.setPageNumber(page.getPageNum());
         responsePage.setPageSize(page.getPageSize());
-        responsePage.setTotalElements(page.getTotal());
+        responsePage.setTotalElements((int) page.getTotal());
         responsePage.setTotalPages(page.getPages());
         return responsePage;
     }
@@ -54,7 +54,7 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
         ResponsePage responsePage = new ResponsePage();
         responsePage.setPageNumber(page.getNumber());
         responsePage.setPageSize(page.getSize());
-        responsePage.setTotalElements(page.getTotalElements());
+        responsePage.setTotalElements((int) page.getTotalElements());
         responsePage.setTotalPages(page.getTotalPages());
         return responsePage;
     }

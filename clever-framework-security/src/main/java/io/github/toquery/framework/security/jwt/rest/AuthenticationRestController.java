@@ -1,14 +1,16 @@
 package io.github.toquery.framework.security.jwt.rest;
 
+
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
+import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.JwtUser;
 import io.github.toquery.framework.security.jwt.exception.AppJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppJwtProperties;
 import io.github.toquery.framework.security.jwt.service.JwtAuthenticationResponse;
 import io.github.toquery.framework.web.domain.ResponseParam;
-import org.springframework.http.HttpStatus;
+import io.github.toquery.framework.web.controller.AppBaseController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,14 +24,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
  * 用户认证信息
  */
 @RestController
-public class AuthenticationRestController {
+public class AuthenticationRestController extends AppBaseController {
 
     @Resource
     private AppJwtProperties appJwtProperties;
@@ -44,33 +45,48 @@ public class AuthenticationRestController {
     private UserDetailsService userDetailsService;
 
     @PostMapping(value = "${app.jwt.path.token:/user/token}")
-    public ResponseEntity<?> createAuthenticationToken(HttpServletRequest request, @RequestBody JSONObject jsonObject) throws AppJwtException {
-        String userName = jsonObject.getString(appJwtProperties.getParam().getUserName());
-        String password = jsonObject.getString(appJwtProperties.getParam().getPassword());
-        if (Strings.isNullOrEmpty(userName)) {
-            String[] userNames = request.getParameterValues(appJwtProperties.getParam().getUserName());
-            if (userNames == null || userNames.length <= 0) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseParam.fail().message("未配置登录用户名"));
-            }
-            userName = userNames[0];
-        }
-        if (Strings.isNullOrEmpty(password)) {
-            String[] passwords = request.getParameterValues(appJwtProperties.getParam().getPassword());
-            if (passwords == null || passwords.length <= 0) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseParam.fail().message("未配置登录密码"));
-            }
-            password = passwords[0];
-        }
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JSONObject jsonObject) throws AppException {
+        String userName = this.getRequestValue(jsonObject, appJwtProperties.getParam().getUserName(), "未获取到登录用户名");
+        String password = this.getRequestValue(jsonObject, appJwtProperties.getParam().getPassword(), "未获取到登录密码");
+
         authenticate(userName, password);
+
         // Reload password post-security so we can generate the token
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         String token = jwtTokenUtil.generateToken(userDetails);
         // Return the token
-        return ResponseEntity.ok(ResponseParam.success().content(new JwtAuthenticationResponse(token)));
+        return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtAuthenticationResponse(token)));
+    }
+
+    /**
+     * 获取请求提交的数据
+     *
+     * @param jsonObject      post提交的json数据
+     * @param requestParamKey 请求参数的key
+     * @param errorMessage    错误信息,当不为空时获取不到指定参数将会抛出这个错误
+     */
+
+    private String getRequestValue(JSONObject jsonObject, String requestParamKey, String errorMessage) throws AppException {
+        String requestValue = null;
+        if (jsonObject != null && !Strings.isNullOrEmpty(jsonObject.getString(requestParamKey))) {
+            requestValue = jsonObject.getString(requestParamKey);
+        } else {
+            String[] requestParameterValues = request.getParameterValues(requestParamKey);
+            if (requestParameterValues != null && requestParameterValues.length >= 1) {
+                requestValue = requestParameterValues[0];
+            }
+        }
+
+        if (!Strings.isNullOrEmpty(errorMessage) && Strings.isNullOrEmpty(requestValue)) {
+            throw new AppException(errorMessage);
+        }
+
+        return requestValue;
+
     }
 
     @GetMapping(value = "${app.jwt.path.refresh:/user/refresh}")
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
+    public ResponseEntity<?> refreshAndGetAuthenticationToken() {
         String authToken = request.getHeader(appJwtProperties.getHeader());
         String token = authToken.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);

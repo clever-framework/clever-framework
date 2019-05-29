@@ -19,7 +19,12 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
     @Override
     public Map<String, String> getQueryExpressions() {
         Map<String, String> map = new HashMap<>();
-        map.put("","");
+        map.put("userName","userName:EQ");
         return map;
+    }
+
+    @Override
+    public boolean isEnableQueryAllRecord() {
+        return true;
     }
 }

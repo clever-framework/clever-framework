@@ -84,11 +84,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 只有用于web管理页面的url才进行权限效验 todo 临时取消取消权限
                 //.antMatchers("/conf/**", "/import/**").authenticated()
                 // jwt
-                .antMatchers(pathProperties.getRegister(), pathProperties.getToken()).permitAll()
-                .anyRequest().permitAll();
+                .antMatchers(pathProperties.getRegister(), pathProperties.getToken(),"/sys/**").permitAll()
+                .anyRequest().permitAll()
+        ;
 
-        httpSecurity
-                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
         httpSecurity
@@ -101,6 +101,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         AppJwtProperties.AppJwtPathProperties pathProperties = appJwtProperties.getPath();
         // AuthenticationTokenFilter will ignore the below paths
-        web.ignoring().antMatchers(HttpMethod.POST, pathProperties.getRegister(), pathProperties.getToken());
+//        web.ignoring().antMatchers(HttpMethod.POST, pathProperties.getRegister(), pathProperties.getToken(),"/**");
+
+        web.ignoring().antMatchers(pathProperties.getRegister(), pathProperties.getToken(),"/sys/**");
     }
 }

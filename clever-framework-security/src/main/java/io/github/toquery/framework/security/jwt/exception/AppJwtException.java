@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.jwt.exception;
 
+import io.github.toquery.framework.core.exception.AppException;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @Setter
-public class AppJwtException extends Exception {
+public class AppJwtException extends AppException {
 
     private HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
 
