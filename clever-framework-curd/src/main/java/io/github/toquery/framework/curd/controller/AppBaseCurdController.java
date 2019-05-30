@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,5 +39,13 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         //执行分页查询
         return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize());
     }
+
+    protected List<E> handleList() {
+        //获取查询参数
+        Map<String, Object> filterParam = getFilterParam();
+        //执行分页查询
+        return service.find(filterParam);
+    }
+
 
 }

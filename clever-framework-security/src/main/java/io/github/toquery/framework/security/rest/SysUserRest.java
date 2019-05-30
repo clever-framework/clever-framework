@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.rest;
 
+import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.security.domain.SysUser;
 import io.github.toquery.framework.security.service.ISysUserService;
@@ -35,8 +36,8 @@ public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser,
     }
 
     @PutMapping
-    public void update(SysUser sysUser) {
-        service.update(sysUser, null);
+    public void update(@RequestBody SysUser sysUser) {
+        service.update(sysUser, Sets.newHashSet("loginName","roles"));
     }
 
     @DeleteMapping("{id}")

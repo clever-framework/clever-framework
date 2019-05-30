@@ -5,6 +5,7 @@ import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -29,9 +28,15 @@ public class SysRole extends AppBaseEntityPrimaryKeyLong {
 
 
     @NotBlank
-    @Size(max = 50)
+    @Length(min = 2, max = 50)
     @Column(length = 50)
     private String name;
+
+
+    @NotBlank
+    @Length(min = 4, max = 50)
+    @Column(length = 50)
+    private String code;
 
     @JsonIgnore
     @ManyToMany

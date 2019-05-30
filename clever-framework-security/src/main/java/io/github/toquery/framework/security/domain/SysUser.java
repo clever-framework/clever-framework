@@ -7,6 +7,7 @@ import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ import java.util.HashSet;
 public class SysUser extends AppBaseEntityPrimaryKeyLong {
 
     @NotBlank
-    @Size(min = 1, max = 50)
+    @Length(min = 1, max = 50)
     @Column(name = "login_name", length = 50, unique = true, nullable = false)
     private String loginName;
 
@@ -43,9 +44,9 @@ public class SysUser extends AppBaseEntityPrimaryKeyLong {
     @Column(name = "user_name", length = 50, unique = true)
     private String userName;
 
-    @JsonIgnore
+//    @JsonIgnore
     @NotBlank
-    @Size(min = 4, max = 100)
+    @Length(min = 4, max = 100)
     @Column(name = "password", length = 100)
     private String password;
 
@@ -64,7 +65,7 @@ public class SysUser extends AppBaseEntityPrimaryKeyLong {
     @JsonFormat(pattern = AppPropertiesDefault.DATE_TIME_PATTERN, timezone = "GMT+8")
     private Date lastPasswordResetDate = new Date();
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "sys_user_role",

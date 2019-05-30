@@ -27,6 +27,11 @@ public class SysRoleRest extends AppBaseCurdController<ISysRoleService, SysRole,
         return ResponseParam.builder().build().page(super.handleQuery());
     }
 
+    @GetMapping(value = "/list")
+    public ResponseParam list() {
+        return ResponseParam.builder().build().content(super.handleList());
+    }
+
     @PostMapping
     public void save(@Validated @RequestBody SysRole sysUser) {
         service.save(sysUser);

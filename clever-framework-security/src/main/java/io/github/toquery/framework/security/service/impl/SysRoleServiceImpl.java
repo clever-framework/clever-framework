@@ -19,7 +19,8 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRol
     @Override
     public Map<String, String> getQueryExpressions() {
         Map<String, String> map = new HashMap<>();
-        map.put("", "");
+        map.put("name", "name:EQ");
+        map.put("nameLike", "name:LIKE");
         return map;
     }
 
