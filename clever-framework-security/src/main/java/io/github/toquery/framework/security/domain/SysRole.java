@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -27,7 +28,7 @@ import java.util.HashSet;
 public class SysRole extends AppBaseEntityPrimaryKeyLong {
 
 
-    @NotNull
+    @NotBlank
     @Size(max = 50)
     @Column(length = 50)
     private String name;
@@ -47,7 +48,6 @@ public class SysRole extends AppBaseEntityPrimaryKeyLong {
     @JoinTable(name = "sys_role_menu",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "menu_id", referencedColumnName = "id")})
-
     @BatchSize(size = 20)
     private Collection<SysMenu> menus = new HashSet<>();
 

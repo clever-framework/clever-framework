@@ -22,7 +22,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/sys/user")
-public class SystemUserRest extends AppBaseCurdController<ISysUserService, SysUser, Long> {
+public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser, Long> {
 
     @GetMapping
     public ResponseParam query() {
