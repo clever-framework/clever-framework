@@ -30,6 +30,11 @@ public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser,
         return ResponseParam.builder().build().page(super.handleQuery());
     }
 
+    @GetMapping("/list")
+    public ResponseParam list() {
+        return ResponseParam.builder().build().content(super.handleList());
+    }
+
     @PostMapping
     public void save(@Validated @RequestBody SysUser sysUser) {
         service.save(sysUser);
