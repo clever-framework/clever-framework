@@ -20,6 +20,14 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
     public Map<String, String> getQueryExpressions() {
         Map<String, String> map = new HashMap<>();
         map.put("userName","userName:EQ");
+        map.put("loginName","loginName:EQ");
+        map.put("email","email:EQ");
+        map.put("enabled","enabled:EQ");
+
+
+        map.put("userNameLike","userName:LIKE");
+        map.put("loginNameLike","loginName:LIKE");
+        map.put("emailLike","email:LIKE");
         return map;
     }
 

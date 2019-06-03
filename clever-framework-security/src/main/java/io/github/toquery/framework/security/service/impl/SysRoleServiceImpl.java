@@ -21,6 +21,9 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRol
         Map<String, String> map = new HashMap<>();
         map.put("name", "name:EQ");
         map.put("nameLike", "name:LIKE");
+
+        map.put("code", "code:EQ");
+        map.put("codeLike", "code:LIKE");
         return map;
     }
 
