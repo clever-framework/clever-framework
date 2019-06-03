@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
 import lombok.Getter;
@@ -44,7 +44,7 @@ public class SysUser extends AppBaseEntityPrimaryKeyLong {
     @Column(name = "user_name", length = 50, unique = true)
     private String userName;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     @NotBlank
     @Length(min = 4, max = 100)
     @Column(name = "password", length = 100)
@@ -65,7 +65,16 @@ public class SysUser extends AppBaseEntityPrimaryKeyLong {
     @JsonFormat(pattern = AppPropertiesDefault.DATE_TIME_PATTERN, timezone = "GMT+8")
     private Date lastPasswordResetDate = new Date();
 
-//    @JsonIgnore
+    /*
+    @JsonIgnoreProperties("users")
+//    @JsonBackReference
+//    @JsonManagedReference
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "role")
+    private Collection<SysUserRole> roles = new HashSet<>();
+    */
+
+    @JsonIgnoreProperties("users")
     @ManyToMany
     @JoinTable(
             name = "sys_user_role",
@@ -74,7 +83,6 @@ public class SysUser extends AppBaseEntityPrimaryKeyLong {
 
     @BatchSize(size = 20)
     private Collection<SysRole> roles = new HashSet<>();
-
 
     public boolean getEnabled() {
         return enabled == null ? true : enabled;
