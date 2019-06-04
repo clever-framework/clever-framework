@@ -7,11 +7,13 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.data.jpa.provider.PersistenceProvider;
 import org.springframework.data.jpa.provider.QueryExtractor;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
+import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;
-import org.springframework.data.repository.query.EvaluationContextProvider;
 import org.springframework.data.repository.query.QueryLookupStrategy;
+import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
+import org.springframework.data.spel.EvaluationContextProvider;
 
 import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
@@ -42,7 +44,7 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
      * getTargetRepository
      */
     @Override
-    protected SimpleJpaRepository<?, ?> getTargetRepository(RepositoryInformation information, EntityManager entityManager) {
+    protected JpaRepositoryImplementation<?, ?> getTargetRepository(RepositoryInformation information, EntityManager entityManager) {
         log.info("创建实体 {} 的DAO实现类: {} ", information.getDomainType().getName(), information.getRepositoryBaseClass().getName());
         return super.getTargetRepository(information, entityManager);
     }
@@ -57,10 +59,13 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
      * 查找使用自定义注解，然后mybatis执行
      */
     @Override
-    protected Optional<QueryLookupStrategy> getQueryLookupStrategy(@Nullable QueryLookupStrategy.Key key, EvaluationContextProvider evaluationContextProvider) {
+    protected Optional<QueryLookupStrategy> getQueryLookupStrategy(QueryLookupStrategy.Key key, QueryMethodEvaluationContextProvider evaluationContextProvider) {
         QueryLookupStrategy queryLookupStrategy = QueryLookupStrategyFactories.create(entityManager, beanFactory, key, extractor, evaluationContextProvider);
         log.info("获取到数据库查询策略");
         return Optional.of(queryLookupStrategy);
     }
+
+
+
 
 }

@@ -48,7 +48,6 @@ public class AuthorizationRestController extends AppBaseController {
         }
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
-        user.setRoles(Lists.newArrayList("admin", "edit"));
         return ResponseEntity.ok(ResponseParam.builder().build().content(user));
     }
 

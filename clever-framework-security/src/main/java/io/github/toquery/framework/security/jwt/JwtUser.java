@@ -1,6 +1,9 @@
 package io.github.toquery.framework.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.toquery.framework.security.domain.SysRole;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,12 +14,14 @@ import java.util.List;
 /**
  * Created by stephan on 20.03.16.
  */
+@Getter
+@Setter
 public class JwtUser implements UserDetails {
 
 
     private Long id;
 
-    private List<String> roles;
+    private Collection<String> roles;
     private String loginName;
     private String userName;
     private String password;
@@ -33,30 +38,6 @@ public class JwtUser implements UserDetails {
         this.email = email;
         this.authorities = authorities;
         this.enabled = enabled;
-        this.lastPasswordResetDate = lastPasswordResetDate;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
-
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    public Date getLastPasswordResetDate() {
-        return lastPasswordResetDate;
-    }
-
-    public void setLastPasswordResetDate(Date lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 

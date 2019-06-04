@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ import java.util.HashSet;
 @Setter
 @Table(name = "sys_role")
 //@JsonIgnoreProperties("authors")
-public class SysRole extends AppBaseEntityPrimaryKeyLong {
+public class SysRole extends AppBaseEntityPrimaryKeyLong implements GrantedAuthority {
 
 
     @NotBlank
@@ -73,4 +74,8 @@ public class SysRole extends AppBaseEntityPrimaryKeyLong {
     @BatchSize(size = 20)
     private Collection<SysMenu> menus = new HashSet<>();
 
+    @Override
+    public String getAuthority() {
+        return getCode();
+    }
 }
