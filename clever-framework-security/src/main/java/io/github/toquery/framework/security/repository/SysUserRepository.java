@@ -14,5 +14,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface SysUserRepository extends AppJpaBaseRepository<SysUser, Long> {
 
     @Query("from SysUser where userName=:username")
-    SysUser findByUserName(@Param("username") String username);
+    public SysUser findByUserName(@Param("username") String username);
 }

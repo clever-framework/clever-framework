@@ -1,7 +1,7 @@
 package io.github.toquery.framework.curd.controller;
 
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.web.controller.AppBaseController;
+import io.github.toquery.framework.webmvc.controller.AppBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 

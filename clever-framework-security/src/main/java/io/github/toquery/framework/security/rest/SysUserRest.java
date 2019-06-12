@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.security.domain.SysUser;
 import io.github.toquery.framework.security.service.ISysUserService;
-import io.github.toquery.framework.web.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 /**
  * @author toquery
@@ -36,13 +34,13 @@ public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser,
     }
 
     @PostMapping
-    public void save(@Validated @RequestBody SysUser sysUser) {
-        service.save(sysUser);
+    public ResponseParam save(@Validated @RequestBody SysUser sysUser) {
+        return ResponseParam.builder().build().content(service.save(sysUser));
     }
 
     @PutMapping
-    public void update(@RequestBody SysUser sysUser) {
-        service.update(sysUser, Sets.newHashSet("loginName","roles"));
+    public ResponseParam update(@RequestBody SysUser sysUser) {
+        return ResponseParam.builder().build().content(service.update(sysUser, Sets.newHashSet("loginName","roles")));
     }
 
     @DeleteMapping("{id}")
