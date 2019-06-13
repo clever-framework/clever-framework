@@ -6,6 +6,7 @@ import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtPropert
 import io.github.toquery.framework.security.jwt.service.JwtUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -80,19 +81,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
 
-                // 只有用于web管理页面的url才进行权限效验 todo 临时取消取消权限
-                //.antMatchers("/conf/**", "/import/**").authenticated()
                 // jwt
-                .antMatchers(pathProperties.getRegister(), pathProperties.getToken(),"/sys/**").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers(pathProperties.getRegister(), pathProperties.getToken()).permitAll()
+                .anyRequest().authenticated()
         ;
 
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
-        httpSecurity
-                .headers()
-                .frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
+        httpSecurity.headers().frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
                 .cacheControl();
     }
 
@@ -100,8 +97,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
         // AuthenticationTokenFilter will ignore the below paths
-//        web.ignoring().antMatchers(HttpMethod.POST, pathProperties.getRegister(), pathProperties.getToken(),"/**");
-
-        web.ignoring().antMatchers(pathProperties.getRegister(), pathProperties.getToken(),"/sys/**");
+        web.ignoring().antMatchers(HttpMethod.POST, pathProperties.getRegister(), pathProperties.getToken());
     }
 }

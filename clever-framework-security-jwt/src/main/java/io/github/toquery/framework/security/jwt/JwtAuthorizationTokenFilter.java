@@ -18,6 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 检测请求header中token是否合法
+ *
+ * todo 如果参数中携带 token 也可正常请求
+ */
 @Component
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
