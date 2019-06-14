@@ -66,12 +66,12 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         return ResponseParam.builder().build().content(this.handleList());
     }
 
-    public ResponseParam save(E menu) {
-        return ResponseParam.builder().build().content(service.save(menu));
+    public ResponseParam save(E entity) {
+        return ResponseParam.builder().build().content(service.save(entity));
     }
 
-    public ResponseParam update(E menu) {
-        return ResponseParam.builder().build().content(service.update(menu, Sets.newHashSet("name","code","enabled")));
+    public ResponseParam update(E entity,Set<String> updateEntityFields) {
+        return ResponseParam.builder().build().content(service.update(entity, updateEntityFields));
     }
 
     public void delete(Set<ID> ids) {

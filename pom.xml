@@ -65,6 +65,7 @@
         <module>clever-framework-common</module>
         <module>clever-framework-security</module>
         <module>clever-framework-security-jwt</module>
+        <module>clever-framework-front</module>
         <!--
         <module>clever-framework-dependencies</module>
         -->
@@ -105,6 +106,11 @@
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-web</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-front</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
             <dependency>

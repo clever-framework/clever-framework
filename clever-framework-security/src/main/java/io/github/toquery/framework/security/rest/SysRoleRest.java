@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Set;
 
 /**
  * @author toquery
@@ -24,31 +27,31 @@ public class SysRoleRest extends AppBaseCurdController<ISysRoleService, SysRole,
 
     @GetMapping
     public ResponseParam query() {
-        return ResponseParam.builder().build().page(super.handleQuery());
+        return super.query();
     }
 
     @GetMapping(value = "/list")
     public ResponseParam list() {
-        return ResponseParam.builder().build().content(super.handleList());
+        return super.list();
     }
 
     @PostMapping
-    public void save(@Validated @RequestBody SysRole sysUser) {
-        service.save(sysUser);
+    public ResponseParam save(@Validated @RequestBody SysRole sysUser) {
+        return super.save(sysUser);
     }
 
     @PutMapping
-    public void update(SysRole sysUser) {
-        service.update(sysUser, null);
+    public ResponseParam update(SysRole sysUser) {
+        return super.update(sysUser, null);
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteById(id);
+    @DeleteMapping
+    public void delete(@RequestParam Set<Long> ids) {
+        super.delete(ids);
     }
 
     @GetMapping("{id}")
     public ResponseParam detail(@PathVariable Long id) {
-        return ResponseParam.builder().build().content(service.getById(id));
+        return super.detail(id);
     }
 }
