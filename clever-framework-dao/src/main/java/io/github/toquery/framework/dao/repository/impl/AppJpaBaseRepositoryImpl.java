@@ -137,20 +137,6 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         return new PageImpl<S>(content, pageable, total);
     }
 
-    /**
-     * 验证实体，验证出现异常则抛出
-     *
-     * param entity 效验的实体
-
-     public <S extends E> void validateEntity(S entity) {
-     //进行实体验证
-     if (enableValidator) {
-     List<String> invalidmsg = ValidateHelper.validate(entity);
-     if (CollectionUtils.isNotEmpty(invalidmsg)) {
-     throw new ValidationException(Joiner.on(";").join(invalidmsg));
-     }
-     }
-     }*/
 
     /**
      * 验证实体属性，验证出现异常则抛出
