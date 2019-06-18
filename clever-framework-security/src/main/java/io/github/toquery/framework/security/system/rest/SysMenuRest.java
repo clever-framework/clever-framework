@@ -24,15 +24,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/sys/menu")
 public class SysMenuRest extends AppBaseCurdController<ISysMenuService, SysMenu, Long> {
+    private String[] sort = new String[]{"sortNum_desc"};
 
     @GetMapping
     public ResponseParam query() {
-        return super.query();
+        return super.query(sort);
     }
 
     @GetMapping("/list")
     public ResponseParam list() {
-        return super.list();
+        return super.list(sort);
     }
 
     @GetMapping("/tree")
@@ -54,7 +55,7 @@ public class SysMenuRest extends AppBaseCurdController<ISysMenuService, SysMenu,
 
     @PutMapping
     public ResponseParam update(@RequestBody SysMenu menu) {
-        return super.update(menu, Sets.newHashSet("name", "code"));
+        return super.update(menu, Sets.newHashSet("name", "code", "sortNum"));
     }
 
     @DeleteMapping("{id}")

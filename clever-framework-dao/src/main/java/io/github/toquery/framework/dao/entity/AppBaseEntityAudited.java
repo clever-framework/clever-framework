@@ -62,10 +62,5 @@ public class AppBaseEntityAudited implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastUpdateDatetime;
 
-    /**
-     * 是否删除：1已删除；0未删除
-     */
-    @ColumnDefault("false")
-    @Column(name = AppPropertiesDefault.JPA_COLUMN_SOFT_DEL)
-    private boolean dele = false;
+
 }

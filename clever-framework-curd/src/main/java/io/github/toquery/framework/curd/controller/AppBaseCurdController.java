@@ -44,11 +44,25 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize());
     }
 
+    protected Page<E> handleQuery(String[] sorts) {
+        //获取查询参数
+        Map<String, Object> filterParam = getFilterParam();
+        //执行分页查询
+        return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize(), sorts);
+    }
+
     protected List<E> handleList() {
         //获取查询参数
         Map<String, Object> filterParam = getFilterParam();
         //执行分页查询
         return service.find(filterParam);
+    }
+
+    protected List<E> handleList(String[] sorts) {
+        //获取查询参数
+        Map<String, Object> filterParam = getFilterParam();
+        //执行分页查询
+        return service.find(filterParam,sorts);
     }
 
     protected ResponseParam handleResponseParam(Object object) {
@@ -58,6 +72,15 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
 
     public ResponseParam query() {
         return ResponseParam.builder().build().page(this.handleQuery());
+    }
+
+
+    public ResponseParam query(String[] sorts) {
+        return ResponseParam.builder().build().page(this.handleQuery(sorts));
+    }
+
+    public ResponseParam list(String[] sorts) {
+        return ResponseParam.builder().build().content(this.handleList(sorts));
     }
 
     public ResponseParam list() {

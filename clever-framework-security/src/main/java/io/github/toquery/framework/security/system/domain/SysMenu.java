@@ -2,12 +2,16 @@ package io.github.toquery.framework.security.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.common.entity.AppEntityTree;
+import io.github.toquery.framework.core.constant.AppPropertiesDefault;
+import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import io.github.toquery.framework.dao.entity.AppBaseEntitySort;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +37,7 @@ import java.util.HashSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_menu")
-public class SysMenu extends AppBaseEntityPrimaryKeyLong  {
+public class SysMenu extends AppBaseEntityPrimaryKeyLong implements AppBaseEntitySort, AppBaseEntityJpaSoftDelEntity {
 
     public SysMenu(@NotNull @Size(max = 50) String name, @NotNull @Size(max = 50) String code) {
         this.name = name;
@@ -72,6 +76,17 @@ public class SysMenu extends AppBaseEntityPrimaryKeyLong  {
     @Column(name = "has_children")
     private boolean hasChildren = false;
 
+    @Column(name = "sort_num")
+    private int sortNum = 0;
+
+    /**
+     * 是否删除：1已删除；0未删除
+     */
+    @ColumnDefault("false")
+    @Column(name = AppPropertiesDefault.JPA_COLUMN_SOFT_DEL)
+    private boolean del = false;
+
+
     /**
      * 子集
      */
@@ -87,6 +102,11 @@ public class SysMenu extends AppBaseEntityPrimaryKeyLong  {
 
     public boolean isHasChildren() {
         return hasChildren;
+    }
+
+    @Override
+    public boolean getDel() {
+        return del;
     }
 
     public boolean getHasChildren() {

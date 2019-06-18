@@ -44,7 +44,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMen
 
     @Override
     public List<SysMenu> findTree() {
-        List<SysMenu> sysMenuList = this.find(Maps.newHashMap());
+        List<SysMenu> sysMenuList = this.find(Maps.newHashMap(),new String[]{"sortNum_desc"});
         return UtilTree.getTreeData(sysMenuList);
     }
 
