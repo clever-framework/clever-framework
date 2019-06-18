@@ -56,4 +56,9 @@ public class AuthorizationRestController extends AppBaseController {
         return ResponseEntity.ok(ResponseParam.builder().build().content(user));
     }
 
+    @RequestMapping(value = "${app.jwt.path.logout:/user/logout}")
+    public ResponseEntity userLogout() {
+        return ResponseEntity.ok(ResponseParam.builder().build().content("user logout"));
+    }
+
 }

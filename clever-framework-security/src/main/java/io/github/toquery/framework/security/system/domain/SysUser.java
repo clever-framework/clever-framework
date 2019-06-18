@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.domain;
+package io.github.toquery.framework.security.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -62,7 +63,8 @@ public class SysUser extends AppBaseEntityPrimaryKeyLong {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_password_reset_date")
-    @JsonFormat(pattern = AppPropertiesDefault.DATE_TIME_PATTERN, timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastPasswordResetDate = new Date();
 
     /*
@@ -74,7 +76,7 @@ public class SysUser extends AppBaseEntityPrimaryKeyLong {
     private Collection<SysUserRole> roles = new HashSet<>();
     */
 
-    @JsonIgnoreProperties("users")
+    @JsonIgnoreProperties(value = {"users","lastUpdateDatetime","createDatetime"})
     @ManyToMany
     @JoinTable(
             name = "sys_user_role",

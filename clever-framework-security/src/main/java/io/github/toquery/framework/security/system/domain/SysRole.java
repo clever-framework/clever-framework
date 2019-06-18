@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -50,8 +51,8 @@ public class SysRole extends AppBaseEntityPrimaryKeyLong implements GrantedAutho
     private Collection<SysUserRole> users = new HashSet<>();
 */
 
-    @JsonIgnoreProperties("roles")
-    @ManyToMany
+    @JsonIgnoreProperties({"roles","lastUpdateDatetime","createDatetime"})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "sys_user_role",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
@@ -60,8 +61,10 @@ public class SysRole extends AppBaseEntityPrimaryKeyLong implements GrantedAutho
     private Collection<SysUser> users = new HashSet<>();
 
 
-    @JsonIgnoreProperties("roles")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"roles","lastUpdateDatetime","createDatetime"})
+//    @ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH})
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "sys_role_menu",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "menu_id", referencedColumnName = "id")})

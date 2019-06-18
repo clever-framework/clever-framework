@@ -1,7 +1,5 @@
 package io.github.toquery.framework.common.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Collection;
 
 /**
@@ -12,9 +10,8 @@ import java.util.Collection;
  */
 public interface AppEntityTree<T extends AppEntityTree, ID> {
 
-    @JsonIgnore
     public ID getId();
-    @JsonIgnore
+
     public void setId(ID parentId);
 
     public int getLevel();

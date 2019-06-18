@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -43,7 +44,8 @@ public class AppBaseEntityAudited implements Serializable {
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = AppPropertiesDefault.DATE_TIME_PATTERN, timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "create_time", updatable = false, nullable = false)
     private Date createDatetime;
 
@@ -55,8 +57,9 @@ public class AppBaseEntityAudited implements Serializable {
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "last_update_time", nullable = false)
-    @JsonFormat(pattern = AppPropertiesDefault.DATE_TIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastUpdateDatetime;
 
     /**

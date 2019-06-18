@@ -1,8 +1,10 @@
 package io.github.toquery.framework.security.jwt;
 
+import io.github.toquery.framework.security.system.domain.SysMenu;
 import io.github.toquery.framework.security.system.domain.SysRole;
 import io.github.toquery.framework.security.system.domain.SysUser;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class JwtUserFactory {
@@ -22,7 +24,11 @@ public final class JwtUserFactory {
                 user.getLastPasswordResetDate()
         );
 
-        jwtUser.setRoles(user.getRoles().stream().map(SysRole::getCode).collect(Collectors.toSet()));
+        Set<String> roleCodes = user.getRoles().stream().map(SysRole::getCode).collect(Collectors.toSet());
+
+        Set<String> menuCodes = user.getRoles().stream().flatMap(item -> item.getMenus().stream().map(SysMenu::getCode)).collect(Collectors.toSet());
+        menuCodes.addAll(roleCodes);
+        jwtUser.setRoles(menuCodes);
         return jwtUser;
     }
 }
