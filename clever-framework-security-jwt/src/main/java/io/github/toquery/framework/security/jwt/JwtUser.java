@@ -1,7 +1,6 @@
 package io.github.toquery.framework.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.toquery.framework.security.domain.SysRole;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by stephan on 20.03.16.

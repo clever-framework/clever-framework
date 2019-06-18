@@ -1,9 +1,9 @@
-package io.github.toquery.framework.security.service.impl;
+package io.github.toquery.framework.security.system.service.impl;
 
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
-import io.github.toquery.framework.security.domain.SysUser;
-import io.github.toquery.framework.security.repository.SysUserRepository;
-import io.github.toquery.framework.security.service.ISysUserService;
+import io.github.toquery.framework.security.system.domain.SysUser;
+import io.github.toquery.framework.security.system.repository.SysUserRepository;
+import io.github.toquery.framework.security.system.service.ISysUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

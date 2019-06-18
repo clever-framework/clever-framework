@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.jwt.service;
 
 
-import io.github.toquery.framework.security.domain.SysUser;
+import io.github.toquery.framework.security.system.domain.SysUser;
 
 /**
  * @author toquery

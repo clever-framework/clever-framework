@@ -1,6 +1,6 @@
-package io.github.toquery.framework.security.repository;
+package io.github.toquery.framework.security.system.repository;
 
-import io.github.toquery.framework.security.domain.SysRole;
+import io.github.toquery.framework.security.system.domain.SysRole;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

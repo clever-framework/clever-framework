@@ -4,8 +4,10 @@ import io.github.toquery.framework.security.jwt.JwtAuthenticationEntryPoint;
 import io.github.toquery.framework.security.jwt.JwtAuthorizationTokenFilter;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.jwt.service.JwtUserDetailsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,11 +21,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
-
+@Order(50)
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class AppWebSecurityJwtConfig extends WebSecurityConfigurerAdapter {
+
+    public AppWebSecurityJwtConfig() {
+        log.info("初始化 App Web Security Jwt 配置");
+    }
+
+    public AppWebSecurityJwtConfig(boolean disableDefaults) {
+        super(disableDefaults);
+        log.info("初始化 App Web Security Jwt 配置，disableDefaults = {} " ,disableDefaults);
+    }
 
     @Resource
     private JwtAuthenticationEntryPoint unauthorizedHandler;

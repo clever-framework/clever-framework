@@ -1,6 +1,6 @@
-package io.github.toquery.framework.security.repository;
+package io.github.toquery.framework.security.system.repository;
 
-import io.github.toquery.framework.security.domain.SysUser;
+import io.github.toquery.framework.security.system.domain.SysUser;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

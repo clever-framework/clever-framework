@@ -1,18 +1,10 @@
 package io.github.toquery.framework.curd.controller;
 
-import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.service.AppBaseService;
 import io.github.toquery.framework.webmvc.controller.AppBaseController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.Serializable;
 import java.util.List;
@@ -32,6 +24,7 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
 
     /**
      * 获取查询参数
+     *
      * @return 查询参数
      */
     protected Map<String, Object> getFilterParam() {
@@ -41,6 +34,7 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
 
     /**
      * 处理分页和查询参数
+     *
      * @return 查询数据库后的数据
      */
     protected Page<E> handleQuery() {
@@ -57,6 +51,10 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         return service.find(filterParam);
     }
 
+    protected ResponseParam handleResponseParam(Object object) {
+        return ResponseParam.builder().build().content(object);
+    }
+
 
     public ResponseParam query() {
         return ResponseParam.builder().build().page(this.handleQuery());
@@ -70,7 +68,7 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         return ResponseParam.builder().build().content(service.save(entity));
     }
 
-    public ResponseParam update(E entity,Set<String> updateEntityFields) {
+    public ResponseParam update(E entity, Set<String> updateEntityFields) {
         return ResponseParam.builder().build().content(service.update(entity, updateEntityFields));
     }
 
@@ -81,7 +79,6 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
     public ResponseParam detail(ID id) {
         return ResponseParam.builder().build().content(service.getById(id));
     }
-
 
 
 }

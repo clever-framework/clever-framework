@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.jwt;
 
+import com.google.common.base.Strings;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
@@ -20,8 +21,7 @@ import java.io.IOException;
 
 /**
  * 检测请求header中token是否合法
- *
- * todo 如果参数中携带 token 也可正常请求
+ * <p>
  */
 @Component
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
@@ -42,12 +42,18 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         logger.debug("processing authentication for '{}'", request.getRequestURL());
 
-        String requestHeader = request.getHeader(this.tokenHeader);
+        String token = request.getHeader(this.tokenHeader);
+        String[] requestParam = request.getParameterValues(this.tokenHeader);
+        if (Strings.isNullOrEmpty(token)) {
+            if (requestParam != null && requestParam.length > 0 && !Strings.isNullOrEmpty(requestParam[0])) {
+                token = requestParam[0];
+            }
+        }
 
         String username = null;
         String authToken = null;
-        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
-            authToken = requestHeader.substring(7);
+        if (token != null && token.startsWith("Bearer ")) {
+            authToken = token.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {

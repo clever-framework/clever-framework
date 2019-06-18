@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
-import io.github.toquery.framework.security.domain.SysMenu;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,9 @@
-package io.github.toquery.framework.security.rest;
+package io.github.toquery.framework.security.system.rest;
 
+import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
-import io.github.toquery.framework.security.domain.SysRole;
-import io.github.toquery.framework.security.service.ISysRoleService;
+import io.github.toquery.framework.security.system.domain.SysRole;
+import io.github.toquery.framework.security.system.service.ISysRoleService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,8 +42,8 @@ public class SysRoleRest extends AppBaseCurdController<ISysRoleService, SysRole,
     }
 
     @PutMapping
-    public ResponseParam update(SysRole sysUser) {
-        return super.update(sysUser, null);
+    public ResponseParam update(@RequestBody SysRole sysUser) {
+        return super.update(sysUser, Sets.newHashSet("name", "code", "menus"));
     }
 
     @DeleteMapping

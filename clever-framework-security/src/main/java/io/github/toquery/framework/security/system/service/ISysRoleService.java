@@ -1,8 +1,7 @@
-package io.github.toquery.framework.security.service;
+package io.github.toquery.framework.security.system.service;
 
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.security.domain.SysRole;
-import io.github.toquery.framework.security.domain.SysUser;
+import io.github.toquery.framework.security.system.domain.SysRole;
 
 /**
  * @author toquery

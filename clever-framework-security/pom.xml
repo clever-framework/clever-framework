@@ -39,5 +39,9 @@
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-webmvc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-common</artifactId>
+        </dependency>
     </dependencies>
 </project>

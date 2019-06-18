@@ -1,6 +1,7 @@
-package io.github.toquery.framework.security.domain;
+package io.github.toquery.framework.security.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.toquery.framework.common.entity.AppEntityTree;
 import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -29,7 +31,7 @@ import java.util.HashSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_menu")
-public class SysMenu extends AppBaseEntityPrimaryKeyLong {
+public class SysMenu extends AppBaseEntityPrimaryKeyLong  {
 
     public SysMenu(@NotNull @Size(max = 50) String name, @NotNull @Size(max = 50) String code) {
         this.name = name;
@@ -52,8 +54,41 @@ public class SysMenu extends AppBaseEntityPrimaryKeyLong {
     @JoinTable(name = "sys_role_menu",
             joinColumns = {@JoinColumn(name = "menu_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-
     @BatchSize(size = 20)
-    private Collection<SysRole> menus = new HashSet<>();
+    private Collection<SysRole> roles = new HashSet<>();
+
+    // 树状结构
+    @Column(name = "level")
+    private int level = 0;
+
+    @Column(name = "parent_id")
+    private Long parentId;
+
+    @Column(name = "parent_ids")
+    private String parentIds;
+
+    @Column(name = "has_children")
+    private boolean hasChildren = false;
+
+    /**
+     * 子集
+     */
+    @Transient
+    private Collection<SysMenu> children = new HashSet<>();
+
+    /**
+     * 父级信息
+     */
+    @Transient
+    private SysMenu parent;
+
+
+    public boolean isHasChildren() {
+        return hasChildren;
+    }
+
+    public boolean getHasChildren() {
+        return hasChildren;
+    }
 
 }

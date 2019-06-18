@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.jwt;
 
-import io.github.toquery.framework.security.domain.SysRole;
-import io.github.toquery.framework.security.domain.SysUser;
+import io.github.toquery.framework.security.system.domain.SysRole;
+import io.github.toquery.framework.security.system.domain.SysUser;
 
 import java.util.stream.Collectors;
 

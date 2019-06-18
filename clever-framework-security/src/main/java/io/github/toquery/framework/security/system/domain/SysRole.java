@@ -1,10 +1,6 @@
-package io.github.toquery.framework.security.domain;
+package io.github.toquery.framework.security.system.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,15 +8,13 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
@@ -66,8 +60,8 @@ public class SysRole extends AppBaseEntityPrimaryKeyLong implements GrantedAutho
     private Collection<SysUser> users = new HashSet<>();
 
 
-    @JsonIgnore
-    @ManyToMany
+    @JsonIgnoreProperties("roles")
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "sys_role_menu",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "menu_id", referencedColumnName = "id")})

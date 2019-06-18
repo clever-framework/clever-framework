@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.jwt.rest;
 
 import com.google.common.base.Strings;
-import io.github.toquery.framework.security.domain.SysUser;
+import io.github.toquery.framework.security.system.domain.SysUser;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.JwtUser;
 import io.github.toquery.framework.security.jwt.service.JwtUserRegister;
