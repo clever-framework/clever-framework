@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Import;
  */
 @Import(AppRepositoryRestMvcConfiguration.class)
 @SpringBootApplication(exclude = RepositoryRestMvcAutoConfiguration.class)
-@EntityScan(basePackages = {"io.github.toquery.framework.security.domain", "com.toquery.framework.demo.entity"})
-@EnableAppJpaRepositories(basePackages = {"io.github.toquery.framework.security", "com.toquery.framework.demo"})
+@EntityScan // (basePackages = {"io.github.toquery.framework.security.domain", "com.toquery.framework.demo.entity"})
+@EnableAppJpaRepositories //(basePackages = {"io.github.toquery.framework.security", "com.toquery.framework.demo"})
 @EnableAppRepositoryRest
 public class DemoApplication {
     public static void main(String[] args) {

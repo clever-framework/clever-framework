@@ -4,12 +4,13 @@ import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.data.jpa.provider.QueryExtractor;
+import org.springframework.data.jpa.repository.query.EscapeCharacter;
 import org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.RepositoryMetadata;
-import org.springframework.data.repository.query.EvaluationContextProvider;
 import org.springframework.data.repository.query.QueryLookupStrategy;
+import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 import org.springframework.data.repository.query.RepositoryQuery;
 
 import javax.persistence.EntityManager;
@@ -34,9 +35,9 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
 
     private QueryExtractor extractor;
 
-    public QueryLookupStrategyFactories(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, EvaluationContextProvider evaluationContextProvider) {
+    public QueryLookupStrategyFactories(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider queryMethodEvaluationContextProvider) {
         //默认方法查询策略使用jpa
-        this.defaultQueryLookupStrategy = JpaQueryLookupStrategy.create(entityManager, key, extractor, evaluationContextProvider);
+        this.defaultQueryLookupStrategy = JpaQueryLookupStrategy.create(entityManager, key, extractor, queryMethodEvaluationContextProvider, EscapeCharacter.DEFAULT);
         this.extractor = extractor;
         this.entityManager = entityManager;
         this.beanFactory = beanFactory;
@@ -46,9 +47,9 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
         log.info("查询查询策略初始化完成 {}，当前存在 {} 种查询方式", this.getClass().getSimpleName(), queryLookupStrategyAdvices.size());
     }
 
-    public static QueryLookupStrategy create(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, EvaluationContextProvider evaluationContextProvider) {
+    public static QueryLookupStrategy create(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider queryMethodEvaluationContextProvider) {
         return new QueryLookupStrategyFactories(entityManager, beanFactory,
-                key, extractor, evaluationContextProvider);
+                key, extractor, queryMethodEvaluationContextProvider);
     }
 
     @Override

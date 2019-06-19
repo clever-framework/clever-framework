@@ -5,8 +5,8 @@ package io.github.toquery.framework.dao.entity;
  */
 public interface AppBaseEntityJpaSoftDelEntity {
 
-    Boolean getDel() ;
+    boolean getDel() ;
 
-    void setDel(Boolean del) ;
+    void setDel(boolean del) ;
 
 }

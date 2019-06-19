@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.toquery</groupId>
         <artifactId>clever-framework</artifactId>
-        <version>${revision}</version>
+        <version>1.0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -38,6 +38,10 @@
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-common</artifactId>
         </dependency>
     </dependencies>
 </project>

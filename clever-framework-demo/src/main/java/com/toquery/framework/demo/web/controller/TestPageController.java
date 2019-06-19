@@ -4,8 +4,8 @@ import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.entity.TbMyBatisDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
 import com.toquery.framework.demo.service.IMyBatisDemoService;
-import io.github.toquery.framework.web.domain.ResponsePage;
-import io.github.toquery.framework.web.domain.ResponsePageBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponsePage;
+import io.github.toquery.framework.webmvc.domain.ResponsePageBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +24,7 @@ public class TestPageController {
 
     @RequestMapping("/page")
     public ResponsePage test() {
-        return new ResponsePage(12, 13, 14L, 2);
+        return new ResponsePage(12, 13, 14, 2);
     }
 
     @RequestMapping("/mybatis")

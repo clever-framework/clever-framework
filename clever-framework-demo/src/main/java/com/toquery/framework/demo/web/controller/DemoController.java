@@ -6,6 +6,7 @@ import com.toquery.framework.demo.entity.TbJpaDemo;
 import com.toquery.framework.demo.entity.TbMyBatisDemo;
 import com.toquery.framework.demo.service.IJpaDemoService;
 import com.toquery.framework.demo.service.IMyBatisDemoService;
+import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/demo")
-public class DemoController {
+public class DemoController extends AppBaseCurdController<IJpaDemoService,TbJpaDemo,Long> {
 
     @Resource
     private IJpaDemoService demoService;

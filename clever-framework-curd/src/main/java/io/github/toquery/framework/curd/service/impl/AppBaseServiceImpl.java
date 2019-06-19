@@ -429,12 +429,12 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     public abstract Map<String, String> getQueryExpressions();
 
     /**
-     * 在执行查询时是否允许查询所有的记录，默认为false
+     * 在执行查询时是否允许查询所有的记录，默认为 true
      *
      * @return
      */
     public boolean isEnableQueryAllRecord() {
-        return false;
+        return true;
     }
 
     /**
