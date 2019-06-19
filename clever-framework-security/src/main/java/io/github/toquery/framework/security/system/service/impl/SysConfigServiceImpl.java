@@ -24,6 +24,10 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<Long, SysConfig, Sy
             put("configGroup", "configGroup:EQ");
             put("configName", "configName:EQ");
             put("configValue", "configValue:EQ");
+
+            put("configGroupLike", "configGroup:LIKE");
+            put("configNameLike", "configName:LIKE");
+            put("configValueLike", "configValue:LIKE");
         }
     };
 

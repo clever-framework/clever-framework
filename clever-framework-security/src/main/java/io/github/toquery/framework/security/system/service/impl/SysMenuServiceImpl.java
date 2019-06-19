@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +28,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMen
      */
     private Map<String, String> expressionMap = new LinkedHashMap<String, String>() {
         {
+            put("id", "id:EQ");
             put("name", "name:EQ");
             put("code", "code:EQ");
             put("parentId", "parentId:EQ");
@@ -78,5 +80,24 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMen
         }
 
         return this.save(sysMenu);
+    }
+
+    /**
+     * todo 级联删除
+     * @param ids 删除
+     */
+    @Override
+    public void deleteMenu(Set<Long> ids) {
+//        Map<String,Object> params = Maps.newHashMap();
+//        params.put("idIn",ids);
+//        List<SysMenu> sysMenuList =  this.find(params);
+//
+//        Set<Long> pIds = sysMenuList.stream().map(SysMenu::getParentId).collect(Collectors.toSet());
+//
+//        pIds.forEach(item -> {
+//            SysMenu sysMenu = getById(item);
+//            sysMenu.setHasChildren(false);
+//            super.update(sysMenu ,Sets.new Set)
+//        });
     }
 }

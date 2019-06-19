@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author toquery
@@ -58,9 +60,9 @@ public class SysMenuRest extends AppBaseCurdController<ISysMenuService, SysMenu,
         return super.update(menu, Sets.newHashSet("name", "code", "sortNum"));
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteById(id);
+    @DeleteMapping
+    public void delete(@RequestParam Set<Long> ids) {
+        super.delete(ids);
     }
 
     @GetMapping("{id}")

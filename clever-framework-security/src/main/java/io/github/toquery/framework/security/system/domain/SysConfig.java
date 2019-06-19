@@ -30,4 +30,7 @@ public class SysConfig extends AppBaseEntityPrimaryKeyLong {
 
     @Column(name = "config_value", length = 500)
     private String configValue;
+
+    @Column(name = "sort_num")
+    private int sortNum = 0;
 }

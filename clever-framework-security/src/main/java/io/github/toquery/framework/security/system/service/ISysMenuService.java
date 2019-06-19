@@ -4,6 +4,7 @@ import io.github.toquery.framework.curd.service.AppBaseService;
 import io.github.toquery.framework.security.system.domain.SysMenu;
 
 import java.util.List;
+import java.util.Set;
 // import io.github.toquery.cleverweb.MenuDao;
 
 /**
@@ -16,4 +17,6 @@ public interface ISysMenuService extends AppBaseService<SysMenu, Long> {
     List<SysMenu> permission();
 
     SysMenu saveMenu(SysMenu sysMenu);
+
+    void deleteMenu(Set<Long> ids);
 }
