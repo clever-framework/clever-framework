@@ -43,7 +43,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 // jwt
-                .antMatchers(appSecurityProperties.getWhitelist()).permitAll()
+                .antMatchers(appSecurityProperties.getWhitelistArray()).permitAll()
                 .anyRequest().authenticated()
         ;
 
@@ -57,6 +57,6 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // AuthenticationTokenFilter will ignore the below paths
-        web.ignoring().antMatchers(appSecurityProperties.getWhitelist());
+        web.ignoring().antMatchers(appSecurityProperties.getWhitelistArray());
     }
 }

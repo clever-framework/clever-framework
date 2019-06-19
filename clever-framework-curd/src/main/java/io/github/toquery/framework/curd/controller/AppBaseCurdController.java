@@ -100,8 +100,14 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
     }
 
     public ResponseParam detail(ID id) {
-        return ResponseParam.builder().build().content(service.getById(id));
+        return ResponseParam.builder().build().content(this.getById(id));
     }
+
+    public E getById(ID id) {
+        return service.getById(id);
+    }
+
+
 
 
 }

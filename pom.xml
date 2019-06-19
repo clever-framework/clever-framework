@@ -37,11 +37,14 @@
         <fastjson.version>1.2.58</fastjson.version>
         <jsqlparse.version>0.9.1</jsqlparse.version>
         <reflections.version>0.9.11</reflections.version>
+
+        <!-- apache jar -->
         <commons-collections4.version>4.2</commons-collections4.version>
+        <commons-io.version>2.6</commons-io.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
 
         <validation-api.version>2.0.1.Final</validation-api.version>
 
-        <commons-beanutils.version>1.9.3</commons-beanutils.version>
 
         <jjwt.version>0.9.0</jjwt.version>
 
@@ -66,6 +69,7 @@
         <module>clever-framework-security</module>
         <module>clever-framework-security-jwt</module>
         <module>clever-framework-front</module>
+        <module>clever-framework-files</module>
         <!--
         <module>clever-framework-dependencies</module>
         -->
@@ -116,6 +120,11 @@
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-security</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-files</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
@@ -182,6 +191,12 @@
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
             </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>

@@ -1,0 +1,69 @@
+package io.github.toquery.framework.files.service.impl;
+
+import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.files.domain.SysFiles;
+import io.github.toquery.framework.files.properties.AppFilesProperties;
+import io.github.toquery.framework.files.repository.SysFilesRepository;
+import io.github.toquery.framework.files.service.ISysFilesService;
+import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * @author toquery
+ * @version 1
+ */
+@Service
+public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysFilesRepository> implements ISysFilesService {
+    /**
+     * 查询条件表达式
+     */
+    private Map<String, String> expressionMap = new LinkedHashMap<String, String>() {
+        {
+            put("extension", "extension:EQ");
+            put("extensionIn", "extension:IN");
+        }
+    };
+
+    @Resource
+    private AppFilesProperties appFilesProperties;
+
+
+    @Override
+    public Map<String, String> getQueryExpressions() {
+        return expressionMap;
+    }
+
+    @Override
+    public SysFiles saveFiles(MultipartFile file) throws IOException {
+        //文件原名
+        String originalFilename = file.getOriginalFilename();
+        // 文件扩展名
+        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        //文件存储路径
+        String storeWithDate = appFilesProperties.getPath().getStoreWithDate();
+        //新文件名称
+        String newFileName = UUID.randomUUID().toString() + "." + fileExtension;
+        // 新文件存储路径
+        File newFile = new File(storeWithDate + newFileName);
+        //保存文件
+        FileUtils.copyToFile(file.getInputStream(), newFile);
+
+        SysFiles sysFiles = new SysFiles();
+        sysFiles.setOriginName(originalFilename);
+        sysFiles.setSize(file.getSize());
+        sysFiles.setStorageName(newFileName);
+        sysFiles.setExtension(fileExtension);
+        sysFiles.setStoragePath(storeWithDate);
+        sysFiles.setMimeType(file.getContentType());
+        return super.save(sysFiles);
+    }
+
+}

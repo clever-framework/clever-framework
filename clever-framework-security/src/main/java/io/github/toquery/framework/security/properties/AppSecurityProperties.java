@@ -30,9 +30,13 @@ public class AppSecurityProperties {
     //url权限配置
     private List<UrlAuthConfig> urlAuths = Lists.newArrayList();
 
-    public String[] getWhitelist() {
+    public String[] getWhitelistArray() {
         String[] whitelistArray = new String[whitelist.size()];
         return whitelist.toArray(whitelistArray);
+    }
+
+    public Set<String> getWhitelist() {
+        return whitelist;
     }
 
     @Data

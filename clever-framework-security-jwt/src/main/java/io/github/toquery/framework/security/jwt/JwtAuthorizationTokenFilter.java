@@ -2,15 +2,17 @@ package io.github.toquery.framework.security.jwt;
 
 import com.google.common.base.Strings;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -23,24 +25,38 @@ import java.io.IOException;
  * 检测请求header中token是否合法
  * <p>
  */
+@Slf4j
 @Component
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
     private final String tokenHeader;
 
-    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil, AppSecurityJwtProperties appSecurityJwtProperties) {
+    private final AppSecurityProperties appSecurityProperties;
+
+    private final PathMatcher matcher = new AntPathMatcher();
+
+    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil, AppSecurityProperties appSecurityProperties, AppSecurityJwtProperties appSecurityJwtProperties) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.tokenHeader = appSecurityJwtProperties.getHeader();
+        this.appSecurityProperties = appSecurityProperties;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        logger.debug("processing authentication for '{}'", request.getRequestURL());
+
+        if (appSecurityProperties.getWhitelist().stream().anyMatch(item -> matcher.match(item, request.getRequestURI()))) {
+            // 继续而不调用此过滤器...
+            log.info("当前请求 {} 已被设为白名单", request.getRequestURI());
+            chain.doFilter(request, response);
+            return;
+        }
+
+
+        log.debug("processing authentication for '{}'", request.getRequestURL());
 
         String token = request.getHeader(this.tokenHeader);
         String[] requestParam = request.getParameterValues(this.tokenHeader);
@@ -57,17 +73,17 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
-                logger.error("an error occured during getting username from token", e);
+                log.error("an error occured during getting username from token", e);
             } catch (ExpiredJwtException e) {
-                logger.warn("the token is expired and not valid anymore", e);
+                log.warn("the token is expired and not valid anymore", e);
             }
         } else {
-            logger.warn("couldn't find bearer string, will ignore the header");
+            log.warn("couldn't find bearer string, will ignore the header");
         }
 
-        logger.debug("checking authentication for user '{}'", username);
+        log.debug("checking authentication for user '{}'", username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            logger.debug("security context was null, so authorizating user");
+            log.debug("security context was null, so authorizating user");
 
             // It is not compelling necessary to load the use details from the database. You could also store the information
             // in the token and read it from it. It's up to you ;)
@@ -78,7 +94,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                logger.info("authorizated user '{}', setting security context", username);
+                log.info("authorizated user '{}', setting security context", username);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

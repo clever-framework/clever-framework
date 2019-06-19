@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,5 +38,25 @@ public class AppUtilDate {
 
     public static Date localDateTime2Date(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+
+    public static String getCurrentDateTime() {
+        return getCurrentDateTime("yyyy-MM-dd HH:mm:ss");
+    }
+
+
+
+    public static String getCurrentDateTime(String format) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        return LocalDateTime.now().format(formatter);
+    }
+
+    public static String getCurrentDate() {
+        return getCurrentDateTime("yyyy-MM-dd");
+    }
+
+    public static String getCurrentTime() {
+        return getCurrentDateTime("HH:mm:ss");
     }
 }

@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Import;
 @Slf4j
 @Import(AppFrontConfigurer.class)
 @ComponentScan(basePackages = "io.github.toquery.framework.front")
-public class AppFrontAutoConfig {
-    public AppFrontAutoConfig() {
+public class AppFrontAutoConfiguration {
+    public AppFrontAutoConfiguration() {
         log.info("初始化 App Front 自动配置");
     }
 }
