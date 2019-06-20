@@ -3,12 +3,15 @@ package io.github.toquery.framework.webmvc.configurer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.github.toquery.framework.webmvc.resolver.MethodArgumentUpperCaseResolver;
+import io.github.toquery.framework.webmvc.resolver.PathVariableMethodArgumentUpperCaseResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -21,6 +24,11 @@ public class AppWebMvcConfigurer implements WebMvcConfigurer {
         log.info("创建自定义的web-mvc配置 {}", this.getClass().getSimpleName());
     }
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new MethodArgumentUpperCaseResolver());
+        resolvers.add(new PathVariableMethodArgumentUpperCaseResolver());
+    }
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

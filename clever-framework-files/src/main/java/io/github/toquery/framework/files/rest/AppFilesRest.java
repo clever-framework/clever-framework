@@ -7,19 +7,16 @@ import io.github.toquery.framework.files.properties.AppFilesProperties;
 import io.github.toquery.framework.files.service.ISysFilesService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * @author toquery
@@ -38,33 +35,18 @@ public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFil
         sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
         return super.handleResponseParam(sysFiles);
     }
-
-    @RequestMapping("${app.files.path.view:/app/files}")
-    public ResponseEntity viewFile(@RequestParam("id") Long id) {
-        ResponseEntity responseEntity = null;
-        try {
-            SysFiles sysFiles = super.getById(id);
-            responseEntity = DownloadFileUtil.download(appFilesProperties.getPath().getStore(), sysFiles.getStorageName(), sysFiles.getOriginName());
-        }catch (Exception e){
-            e.printStackTrace();
-            responseEntity = super.notFound("文件未找到");
-        }
-        return responseEntity;
-    }
-
     @RequestMapping("${app.files.path.download:/app/files/download}")
     public ResponseEntity downloadFile(@RequestParam("id") Long id) {
         ResponseEntity responseEntity = null;
         try {
             SysFiles sysFiles = super.getById(id);
-            responseEntity = DownloadFileUtil.download(appFilesProperties.getPath().getStore(), sysFiles.getStorageName(), sysFiles.getOriginName());
-        }catch (Exception e){
+            responseEntity = DownloadFileUtil.download(System.getProperty("user.dir") + File.separator + appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
+        } catch (Exception e) {
             e.printStackTrace();
             responseEntity = super.notFound("文件未找到");
         }
         return responseEntity;
     }
-
 
     /**
      * 格式化下载路径
@@ -72,7 +54,7 @@ public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFil
      * @param sysFiles 文件
      * @return 下载路径
      */
-    public String formatDownloadPath(SysFiles sysFiles) {
+    private String formatDownloadPath(SysFiles sysFiles) {
         String result = appFilesProperties.getPath().getDownload() + "?id=" + sysFiles.getId();
        /* try {
             Map<String, Object> uriVariables = PropertyUtils.describe(sysFiles);

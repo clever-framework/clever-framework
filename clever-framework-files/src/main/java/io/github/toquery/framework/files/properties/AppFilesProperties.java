@@ -33,7 +33,7 @@ public class AppFilesProperties {
         /**
          * 临时文件上传路径
          */
-        private String store = "files/";
+        private String store = "files" + File.separator;
 
         private String upload = "/app/files/upload";
 

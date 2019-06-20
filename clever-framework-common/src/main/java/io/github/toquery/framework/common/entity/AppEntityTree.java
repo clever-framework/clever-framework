@@ -1,6 +1,7 @@
 package io.github.toquery.framework.common.entity;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * 实现树状结构
@@ -36,7 +37,7 @@ public interface AppEntityTree<T extends AppEntityTree, ID> {
 
     public void setParent(T parent);
 
-    public Collection<T> getChildren();
+    public Set<T> getChildren();
 
-    public void setChildren(Collection<T> children);
+    public void setChildren(Set<T> children);
 }

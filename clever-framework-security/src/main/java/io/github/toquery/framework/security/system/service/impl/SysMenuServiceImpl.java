@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.system.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -47,7 +48,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMen
     @Override
     public List<SysMenu> findTree() {
         List<SysMenu> sysMenuList = this.find(Maps.newHashMap(),new String[]{"sortNum_desc"});
-        return UtilTree.getTreeData(sysMenuList);
+        return UtilTree.getSysMenuTreeData(sysMenuList);
     }
 
     @Override

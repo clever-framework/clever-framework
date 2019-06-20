@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -27,13 +28,35 @@ public class DownloadFileUtil {
     public static ResponseEntity<InputStreamResource> download(String filePath, String fileName, String newName) {
         String path = filePath + File.separator + fileName;
         ResponseEntity<InputStreamResource> response = null;
+        try {
+            InputStream inputStream = new FileInputStream(path);
+            response = buildInputStream(inputStream, newName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public static ResponseEntity<InputStreamResource> downloadJarFile(String filePath, String fileName, String newName) {
+        String path = filePath + File.separator + fileName;
+        ResponseEntity<InputStreamResource> response = null;
         ClassPathResource classPathResource = new ClassPathResource(path);
-        try (
-                InputStream inputStream = classPathResource.getInputStream();
-        ) {
+        try {
+            InputStream inputStream = classPathResource.getInputStream();
+            response = buildInputStream(inputStream, newName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+
+    public static ResponseEntity<InputStreamResource> buildInputStream(InputStream inputStream, String newName) {
+        ResponseEntity<InputStreamResource> response = null;
+        try {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-            headers.add("Content-Disposition", "attachment; filename=" + new String(newName.getBytes("gbk"), "iso8859-1") + ".xlsx");
+            headers.add("Content-Disposition", "attachment; filename=" + new String(newName.getBytes("gbk"), "iso8859-1"));
             headers.add("Pragma", "no-cache");
             headers.add("Expires", "0");
             response = ResponseEntity.ok().headers(headers)

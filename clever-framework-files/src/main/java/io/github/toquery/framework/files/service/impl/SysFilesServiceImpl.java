@@ -1,5 +1,6 @@
 package io.github.toquery.framework.files.service.impl;
 
+import io.github.toquery.framework.common.util.AppUtilDate;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.files.domain.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
@@ -61,7 +62,7 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
         sysFiles.setSize(file.getSize());
         sysFiles.setStorageName(newFileName);
         sysFiles.setExtension(fileExtension);
-        sysFiles.setStoragePath(storeWithDate);
+        sysFiles.setStoragePath(AppUtilDate.getCurrentDate());
         sysFiles.setMimeType(file.getContentType());
         return super.save(sysFiles);
     }
