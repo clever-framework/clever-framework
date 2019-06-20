@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.system.service.impl;
 
+import com.google.common.collect.Maps;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.security.system.domain.SysConfig;
 import io.github.toquery.framework.security.system.repository.SysConfigRepository;
@@ -7,6 +8,7 @@ import io.github.toquery.framework.security.system.service.ISysConfigService;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,4 +38,11 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<Long, SysConfig, Sy
         return expressionMap;
     }
 
+    @Override
+    public List<SysConfig> reSave(String configGroup, List<SysConfig> sysConfigList) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("configGroup", configGroup);
+        this.delete(params);
+        return this.save(sysConfigList);
+    }
 }
