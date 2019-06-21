@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -39,6 +40,12 @@ public class SysConfigRest extends AppBaseCurdController<ISysConfigService, SysC
         return super.list(sort);
     }
 
+    @GetMapping("/biz/{bizId}")
+    public ResponseParam biz(@PathVariable String bizId) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("bizId", bizId);
+        return super.list(params, sort);
+    }
 
     @GetMapping("/group/{configGroup}")
     public ResponseParam list(@PathVariable String configGroup) {
@@ -48,8 +55,10 @@ public class SysConfigRest extends AppBaseCurdController<ISysConfigService, SysC
     }
 
     @PostMapping("/group/{configGroup}")
-    public ResponseParam list(@PathVariable String configGroup, @RequestBody List<SysConfig> sysConfigList) {
-        return super.handleResponseParam(service.reSave(configGroup, sysConfigList));
+    public ResponseParam list(@RequestParam(required = false) Long bizId,
+                              @PathVariable String configGroup,
+                              @RequestBody List<SysConfig> sysConfigList) {
+        return super.handleResponseParam(service.reSave(bizId, configGroup, sysConfigList));
     }
 
 
@@ -60,12 +69,12 @@ public class SysConfigRest extends AppBaseCurdController<ISysConfigService, SysC
 
     @PutMapping
     public ResponseParam update(@RequestBody SysConfig sysConfig) {
-        return super.update(sysConfig, Sets.newHashSet("configGroup", "configName", "configValue"));
+        return super.update(sysConfig, Sets.newHashSet("bizId", "configGroup", "configName", "configValue"));
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteById(id);
+    @DeleteMapping
+    public void delete(@RequestParam Set<Long> ids) {
+        super.delete(ids);
     }
 
     @GetMapping("{id}")

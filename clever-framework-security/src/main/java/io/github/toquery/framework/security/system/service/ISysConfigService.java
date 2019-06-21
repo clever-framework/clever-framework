@@ -10,5 +10,5 @@ import java.util.List;
  * @version 1
  */
 public interface ISysConfigService extends AppBaseService<SysConfig, Long> {
-    List<SysConfig> reSave(String configGroup, List<SysConfig> sysConfigList);
+    List<SysConfig> reSave(Long bizId, String configGroup, List<SysConfig> sysConfigList);
 }

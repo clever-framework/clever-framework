@@ -23,6 +23,7 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<Long, SysConfig, Sy
      */
     private Map<String, String> expressionMap = new LinkedHashMap<String, String>() {
         {
+            put("bizId", "bizId:EQ");
             put("configGroup", "configGroup:EQ");
             put("configName", "configName:EQ");
             put("configValue", "configValue:EQ");
@@ -39,9 +40,10 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<Long, SysConfig, Sy
     }
 
     @Override
-    public List<SysConfig> reSave(String configGroup, List<SysConfig> sysConfigList) {
+    public List<SysConfig> reSave(Long bizId, String configGroup, List<SysConfig> sysConfigList) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("configGroup", configGroup);
+        params.put("bizId", bizId);
         this.delete(params);
         return this.save(sysConfigList);
     }

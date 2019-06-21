@@ -22,6 +22,9 @@ import javax.persistence.Table;
 @Table(name = "sys_config")
 public class SysConfig extends AppBaseEntityPrimaryKeyLong {
 
+    @Column(name = "biz_id", length = 50)
+    private Long bizId;
+
     @Column(name = "config_group", length = 50)
     private String configGroup;
 
