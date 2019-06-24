@@ -9,6 +9,7 @@ import org.springframework.web.util.WebUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author toquery
@@ -18,6 +19,9 @@ public class AppBaseController extends WebUtils {
 
     @Resource
     protected HttpServletRequest request;
+
+    @Resource
+    protected HttpServletResponse response;
 
 
     @Resource

@@ -285,6 +285,18 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         ids.forEach(this::deleteById);
     }
 
+
+/**
+ * todo
+ *  java.sql.SQLException: Connection is read-only. Queries leading to data modification are not allowed
+ *  at io.github.toquery.framework.dao.repository.impl.AppJpaBaseRepositoryImpl.delete(AppJpaBaseRepositoryImpl.java:308) ~[classes/:na]
+ * 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_121]
+ * 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_121]
+ * 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_121]
+ * 	at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_121]
+ *
+ */
+
     public void delete(Map<String, Object> params, AppDaoEnumConnector connector) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 

@@ -40,7 +40,7 @@ public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFil
         ResponseEntity responseEntity = null;
         try {
             SysFiles sysFiles = super.getById(id);
-            responseEntity = DownloadFileUtil.download(System.getProperty("user.dir") + File.separator + appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
+            responseEntity = DownloadFileUtil.download( appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = super.notFound("文件未找到");

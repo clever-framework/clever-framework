@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author toquery
@@ -43,8 +44,11 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<Long, SysConfig, Sy
     public List<SysConfig> reSave(Long bizId, String configGroup, List<SysConfig> sysConfigList) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("configGroup", configGroup);
-        params.put("bizId", bizId);
-        this.delete(params);
+        if (bizId != null) {
+            params.put("bizId", bizId);
+        }
+        List<SysConfig> dbSysConfig = this.find(params);
+        this.deleteByIds(dbSysConfig.stream().map(SysConfig::getId).collect(Collectors.toSet()));
         return this.save(sysConfigList);
     }
 }

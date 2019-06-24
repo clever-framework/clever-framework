@@ -17,6 +17,17 @@ import java.io.InputStream;
  */
 public class DownloadFileUtil {
 
+    public static ResponseEntity<InputStreamResource> download(String file, String newName) {
+        ResponseEntity<InputStreamResource> response = null;
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            response = buildInputStream(inputStream, newName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
     /**
      * 下载样表
      *

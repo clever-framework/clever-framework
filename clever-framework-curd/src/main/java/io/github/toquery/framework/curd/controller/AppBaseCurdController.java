@@ -41,15 +41,21 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         //获取查询参数
         Map<String, Object> filterParam = getFilterParam();
         //执行分页查询
-        return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize());
+        return this.handleQuery(filterParam);
+    }
+
+    protected Page<E> handleQuery(Map<String, Object> filterParam) {
+        //执行分页查询
+        return this.handleQuery(filterParam, null);
     }
 
     protected Page<E> handleQuery(String[] sorts) {
         //获取查询参数
         Map<String, Object> filterParam = getFilterParam();
         //执行分页查询
-        return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize(), sorts);
+        return this.handleQuery(filterParam, sorts);
     }
+
 
     protected List<E> handleList() {
         //获取查询参数
@@ -65,8 +71,12 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         return service.find(filterParam, sorts);
     }
 
+    protected List<E> handleList(Map<String, Object> filterParam) {
+        //执行分页查询
+        return service.find(filterParam, null);
+    }
+
     protected List<E> handleList(Map<String, Object> filterParam, String[] sorts) {
-        //获取查询参数
         //执行分页查询
         return service.find(filterParam, sorts);
     }
@@ -84,6 +94,15 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
 
     public ResponseParam query(String[] sorts) {
         return ResponseParam.builder().build().page(this.handleQuery(sorts));
+    }
+
+    protected ResponseParam query(Map<String, Object> filterParam, String[] sorts) {
+        return ResponseParam.builder().build().page(this.handleQuery(filterParam, sorts));
+    }
+
+    private Page<E> handleQuery(Map<String, Object> filterParam, String[] sorts) {
+        //执行分页查询
+        return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize(), sorts);
     }
 
     public ResponseParam list(String[] sorts) {

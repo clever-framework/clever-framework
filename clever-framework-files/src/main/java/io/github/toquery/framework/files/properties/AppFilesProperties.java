@@ -31,9 +31,9 @@ public class AppFilesProperties {
     @Data
     public class AppFilesPath {
         /**
-         * 临时文件上传路径
+         * 文件上传保存路径,默认 相对于项目当前路径，否则设置绝对路径
          */
-        private String store = "files" + File.separator;
+        private String store = System.getProperty("user.dir") + File.separator + "files" + File.separator + "biz" + File.separator;
 
         private String upload = "/app/files/upload";
 
