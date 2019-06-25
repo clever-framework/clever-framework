@@ -32,9 +32,9 @@ public class AppInfo {
             this.put(SUCCESS, "SUCCESS");
             this.put(INVALID_ACTION, "无效的Action");
             this.put(CONFIG_ERROR, "配置文件初始化失败");
-            this.put(203, "抓取远程图片失败");
-            this.put(201, "被阻止的远程主机");
-            this.put(202, "远程连接出错");
+            this.put(REMOTE_FAIL, "抓取远程图片失败");
+            this.put(PREVENT_HOST, "被阻止的远程主机");
+            this.put(CONNECTION_ERROR, "远程连接出错");
             this.put(MAX_SIZE, "文件大小超出限制");
             this.put(PERMISSION_DENIED, "权限不足");
             this.put(FAILED_CREATE_FILE, "创建文件失败");

@@ -1,6 +1,11 @@
 package io.github.toquery.framework.ueditor.upload;
 
 
+import io.github.toquery.framework.ueditor.define.AppInfo;
+import io.github.toquery.framework.ueditor.define.BaseState;
+import io.github.toquery.framework.ueditor.define.State;
+import org.apache.commons.io.FileUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -8,148 +13,130 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import io.github.toquery.framework.ueditor.define.AppInfo;
-import io.github.toquery.framework.ueditor.define.BaseState;
-import io.github.toquery.framework.ueditor.define.State;
-import org.apache.commons.io.FileUtils;
-
 public class StorageManager {
-	public static final int BUFFER_SIZE = 8192;
+    public static final int BUFFER_SIZE = 8192;
 
-	public StorageManager() {
-	}
+    public StorageManager() {
+    }
 
-	public static State saveBinaryFile(byte[] data, String path) {
-		File file = new File(path);
+    public static State saveBinaryFile(byte[] data, String path) {
+        File file = new File(path);
+        State state = valid(file);
+        if (!state.isSuccess()) {
+            return state;
+        }
 
-		State state = valid(file);
+        try (
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+        ) {
+            bos.write(data);
+            bos.flush();
+        } catch (IOException ioe) {
+            return new BaseState(false, AppInfo.IO_ERROR);
+        }
 
-		if (!state.isSuccess()) {
-			return state;
-		}
+        state = new BaseState(true, file.getAbsolutePath());
+        state.putInfo("size", data.length);
+        state.putInfo("title", file.getName());
+        return state;
+    }
 
-		try {
-			BufferedOutputStream bos = new BufferedOutputStream(
-					new FileOutputStream(file));
-			bos.write(data);
-			bos.flush();
-			bos.close();
-		} catch (IOException ioe) {
-			return new BaseState(false, AppInfo.IO_ERROR);
-		}
+    public static State saveFileByInputStream(InputStream is, String path, long maxSize) {
+        State state = null;
 
-		state = new BaseState(true, file.getAbsolutePath());
-		state.putInfo( "size", data.length );
-		state.putInfo( "title", file.getName() );
-		return state;
-	}
+        File tmpFile = getTmpFile();
 
-	public static State saveFileByInputStream(InputStream is, String path,
-			long maxSize) {
-		State state = null;
+        byte[] dataBuf = new byte[2048];
+        BufferedInputStream bis = new BufferedInputStream(is, StorageManager.BUFFER_SIZE);
 
-		File tmpFile = getTmpFile();
+        try (
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(tmpFile), StorageManager.BUFFER_SIZE);
+        ) {
 
-		byte[] dataBuf = new byte[ 2048 ];
-		BufferedInputStream bis = new BufferedInputStream(is, StorageManager.BUFFER_SIZE);
 
-		try {
-			BufferedOutputStream bos = new BufferedOutputStream(
-					new FileOutputStream(tmpFile), StorageManager.BUFFER_SIZE);
+            int count = 0;
+            while ((count = bis.read(dataBuf)) != -1) {
+                bos.write(dataBuf, 0, count);
+            }
+            bos.close();
+            if (tmpFile.length() > maxSize) {
+                tmpFile.delete();
+                return new BaseState(false, AppInfo.MAX_SIZE);
+            }
+            state = saveTmpFile(tmpFile, path);
+            if (!state.isSuccess()) {
+                tmpFile.delete();
+            }
+            return state;
+        } catch (IOException e) {
+        }
+        return new BaseState(false, AppInfo.IO_ERROR);
+    }
 
-			int count = 0;
-			while ((count = bis.read(dataBuf)) != -1) {
-				bos.write(dataBuf, 0, count);
-			}
-			bos.flush();
-			bos.close();
+    public static State saveFileByInputStream(InputStream is, String path) {
+        State state = null;
 
-			if (tmpFile.length() > maxSize) {
-				tmpFile.delete();
-				return new BaseState(false, AppInfo.MAX_SIZE);
-			}
+        File tmpFile = getTmpFile();
 
-			state = saveTmpFile(tmpFile, path);
+        byte[] dataBuf = new byte[2048];
+        BufferedInputStream bis = new BufferedInputStream(is, StorageManager.BUFFER_SIZE);
 
-			if (!state.isSuccess()) {
-				tmpFile.delete();
-			}
+        try (
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(tmpFile), StorageManager.BUFFER_SIZE);
+        ) {
 
-			return state;
-			
-		} catch (IOException e) {
-		}
-		return new BaseState(false, AppInfo.IO_ERROR);
-	}
 
-	public static State saveFileByInputStream(InputStream is, String path) {
-		State state = null;
+            int count = 0;
+            while ((count = bis.read(dataBuf)) != -1) {
+                bos.write(dataBuf, 0, count);
+            }
+            bos.flush();
+            state = saveTmpFile(tmpFile, path);
 
-		File tmpFile = getTmpFile();
+            if (!state.isSuccess()) {
+                tmpFile.delete();
+            }
 
-		byte[] dataBuf = new byte[ 2048 ];
-		BufferedInputStream bis = new BufferedInputStream(is, StorageManager.BUFFER_SIZE);
+            return state;
+        } catch (IOException e) {
+        }
+        return new BaseState(false, AppInfo.IO_ERROR);
+    }
 
-		try {
-			BufferedOutputStream bos = new BufferedOutputStream(
-					new FileOutputStream(tmpFile), StorageManager.BUFFER_SIZE);
+    private static File getTmpFile() {
+        File tmpDir = FileUtils.getTempDirectory();
+        String tmpFileName = (Math.random() * 10000 + "").replace(".", "");
+        return new File(tmpDir, tmpFileName);
+    }
 
-			int count = 0;
-			while ((count = bis.read(dataBuf)) != -1) {
-				bos.write(dataBuf, 0, count);
-			}
-			bos.flush();
-			bos.close();
+    private static State saveTmpFile(File tmpFile, String path) {
+        State state = null;
+        File targetFile = new File(path);
 
-			state = saveTmpFile(tmpFile, path);
+        if (targetFile.canWrite()) {
+            return new BaseState(false, AppInfo.PERMISSION_DENIED);
+        }
+        try {
+            FileUtils.moveFile(tmpFile, targetFile);
+        } catch (IOException e) {
+            return new BaseState(false, AppInfo.IO_ERROR);
+        }
 
-			if (!state.isSuccess()) {
-				tmpFile.delete();
-			}
+        state = new BaseState(true);
+        state.putInfo("size", targetFile.length());
+        state.putInfo("title", targetFile.getName());
 
-			return state;
-		} catch (IOException e) {
-		}
-		return new BaseState(false, AppInfo.IO_ERROR);
-	}
+        return state;
+    }
 
-	private static File getTmpFile() {
-		File tmpDir = FileUtils.getTempDirectory();
-		String tmpFileName = (Math.random() * 10000 + "").replace(".", "");
-		return new File(tmpDir, tmpFileName);
-	}
-
-	private static State saveTmpFile(File tmpFile, String path) {
-		State state = null;
-		File targetFile = new File(path);
-
-		if (targetFile.canWrite()) {
-			return new BaseState(false, AppInfo.PERMISSION_DENIED);
-		}
-		try {
-			FileUtils.moveFile(tmpFile, targetFile);
-		} catch (IOException e) {
-			return new BaseState(false, AppInfo.IO_ERROR);
-		}
-
-		state = new BaseState(true);
-		state.putInfo( "size", targetFile.length() );
-		state.putInfo( "title", targetFile.getName() );
-		
-		return state;
-	}
-
-	private static State valid(File file) {
-		File parentPath = file.getParentFile();
-
-		if ((!parentPath.exists()) && (!parentPath.mkdirs())) {
-			return new BaseState(false, AppInfo.FAILED_CREATE_FILE);
-		}
-
-		if (!parentPath.canWrite()) {
-			return new BaseState(false, AppInfo.PERMISSION_DENIED);
-		}
-
-		return new BaseState(true);
-	}
+    private static State valid(File file) {
+        File parentPath = file.getParentFile();
+        if ((!parentPath.exists()) && (!parentPath.mkdirs())) {
+            return new BaseState(false, AppInfo.FAILED_CREATE_FILE);
+        }
+        if (!parentPath.canWrite()) {
+            return new BaseState(false, AppInfo.PERMISSION_DENIED);
+        }
+        return new BaseState(true);
+    }
 }

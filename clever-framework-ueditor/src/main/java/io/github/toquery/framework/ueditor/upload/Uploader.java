@@ -1,7 +1,6 @@
 package io.github.toquery.framework.ueditor.upload;
 
 import io.github.toquery.framework.ueditor.define.State;
-import org.springframework.web.multipart.MultipartRequest;
 
 import java.io.IOException;
 import java.util.Map;

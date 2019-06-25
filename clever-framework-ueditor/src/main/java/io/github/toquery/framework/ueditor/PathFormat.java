@@ -65,24 +65,24 @@ public class PathFormat {
 
     private static String getString(String pattern) {
         pattern = pattern.toLowerCase();
-        if (pattern.contains("time")) {
+        if (pattern.contains(TIME)) {
             return getTimestamp();
-        } else if (pattern.contains("yyyy")) {
+        } else if (pattern.contains(FULL_YEAR)) {
             return getFullYear();
-        } else if (pattern.contains("yy")) {
+        } else if (pattern.contains(YEAR)) {
             return getYear();
-        } else if (pattern.contains("mm")) {
+        } else if (pattern.contains(MONTH)) {
             return getMonth();
-        } else if (pattern.contains("dd")) {
+        } else if (pattern.contains(DAY)) {
             return getDay();
-        } else if (pattern.contains("hh")) {
+        } else if (pattern.contains(HOUR)) {
             return getHour();
-        } else if (pattern.contains("ii")) {
+        } else if (pattern.contains(MINUTE)) {
             return getMinute();
-        } else if (pattern.contains("ss")) {
+        } else if (pattern.contains(SECOND)) {
             return getSecond();
         } else {
-            return pattern.contains("rand") ? getRandom(pattern) : pattern;
+            return pattern.contains(RAND) ? getRandom(pattern) : pattern;
         }
     }
 
@@ -91,31 +91,31 @@ public class PathFormat {
     }
 
     private static String getFullYear() {
-        return (new SimpleDateFormat("yyyy")).format(currentDate);
+        return (new SimpleDateFormat(FULL_YEAR)).format(currentDate);
     }
 
     private static String getYear() {
-        return (new SimpleDateFormat("yy")).format(currentDate);
+        return (new SimpleDateFormat(YEAR)).format(currentDate);
     }
 
     private static String getMonth() {
-        return (new SimpleDateFormat("MM")).format(currentDate);
+        return (new SimpleDateFormat(MONTH)).format(currentDate);
     }
 
     private static String getDay() {
-        return (new SimpleDateFormat("dd")).format(currentDate);
+        return (new SimpleDateFormat(DAY)).format(currentDate);
     }
 
     private static String getHour() {
-        return (new SimpleDateFormat("HH")).format(currentDate);
+        return (new SimpleDateFormat(HOUR)).format(currentDate);
     }
 
     private static String getMinute() {
-        return (new SimpleDateFormat("mm")).format(currentDate);
+        return (new SimpleDateFormat(MINUTE)).format(currentDate);
     }
 
     private static String getSecond() {
-        return (new SimpleDateFormat("ss")).format(currentDate);
+        return (new SimpleDateFormat(SECOND)).format(currentDate);
     }
 
     private static String getRandom(String pattern) {

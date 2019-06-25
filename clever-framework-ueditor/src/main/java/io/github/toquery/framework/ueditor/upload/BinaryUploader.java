@@ -6,7 +6,6 @@ import io.github.toquery.framework.ueditor.define.AppInfo;
 import io.github.toquery.framework.ueditor.define.BaseState;
 import io.github.toquery.framework.ueditor.define.FileType;
 import io.github.toquery.framework.ueditor.define.State;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +19,6 @@ import java.util.Map;
 public class BinaryUploader {
 
     public static final State save(HttpServletRequest request, String uploadFileParamName,String storeFilePath, Map<String, Object> conf) {
-        boolean isAjaxUpload = request.getHeader("X_Requested_With") != null;
-
-        if (!ServletFileUpload.isMultipartContent(request)) {
-            return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT);
-        }
-
         try {
             Part part = request.getPart(uploadFileParamName);
 
