@@ -3,9 +3,9 @@ package com.toquery.framework.demo.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Sets;
-import com.toquery.framework.demo.dao.IMyBatisDemoDao;
-import com.toquery.framework.demo.entity.TbMyBatisDemo;
-import com.toquery.framework.demo.service.IMyBatisDemoService;
+import com.toquery.framework.demo.dao.IBizBatisNewsMapper;
+import com.toquery.framework.demo.entity.BizBatisNews;
+import com.toquery.framework.demo.service.IBizBatisNewsService;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.Map;
  * @version 1
  */
 @Service
-public class MyBatisDemoServiceImpl extends AppBaseServiceImpl<Long, TbMyBatisDemo, IMyBatisDemoDao> implements IMyBatisDemoService {
+public class BizBatisNewsServiceImpl extends AppBaseServiceImpl<Long, BizBatisNews, IBizBatisNewsMapper> implements IBizBatisNewsService {
 
     @Override
     public boolean isEnableQueryAllRecord() {
@@ -30,27 +30,27 @@ public class MyBatisDemoServiceImpl extends AppBaseServiceImpl<Long, TbMyBatisDe
     }
 
     @Resource
-    private IMyBatisDemoDao myBatisDemoDao;
+    private IBizBatisNewsMapper myBatisDemoDao;
 
     @Override
-    public TbMyBatisDemo getByName(String name) {
+    public BizBatisNews getByName(String name) {
         return myBatisDemoDao.getByMyBatisName(name);
     }
 
     @Override
-    public TbMyBatisDemo getByName3(String name) {
+    public BizBatisNews getByName3(String name) {
         return myBatisDemoDao.getByName2(name);
     }
 
     @Override
-    public TbMyBatisDemo update(Long id, String name) {
-        TbMyBatisDemo tbMyBatisDemo = new TbMyBatisDemo(id, name);
+    public BizBatisNews update(Long id, String name) {
+        BizBatisNews tbMyBatisDemo = new BizBatisNews(id, name);
         return myBatisDemoDao.update(tbMyBatisDemo, Sets.newHashSet("name"));
     }
 
     @Override
-    public Page<TbMyBatisDemo> findByName(String name, Integer page, Integer size) {
-        Page<TbMyBatisDemo> page1 = PageHelper.startPage(page,size);
+    public Page<BizBatisNews> findByName(String name, Integer page, Integer size) {
+        Page<BizBatisNews> page1 = PageHelper.startPage(page,size);
         return myBatisDemoDao.findByMyBatisName(name);
     }
 }

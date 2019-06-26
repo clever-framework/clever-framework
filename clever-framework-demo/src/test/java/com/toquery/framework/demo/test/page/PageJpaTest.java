@@ -2,8 +2,8 @@ package com.toquery.framework.demo.test.page;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import com.toquery.framework.demo.entity.TbJpaDemo;
-import com.toquery.framework.demo.service.IJpaDemoService;
+import com.toquery.framework.demo.entity.BizJpaNews;
+import com.toquery.framework.demo.service.IBizJpanewsService;
 import com.toquery.framework.demo.test.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -21,15 +21,15 @@ public class PageJpaTest extends BaseSpringTest {
 
 
     @Resource
-    private IJpaDemoService jpaDemoService;
+    private IBizJpanewsService jpaDemoService;
 
     @Test
     public void insertData() {
         int size = 12;
 
-        List<TbJpaDemo> saveAll = Lists.newArrayList();
+        List<BizJpaNews> saveAll = Lists.newArrayList();
         for (int i = 0; i < size; i++) {
-            TbJpaDemo tbJpaDemo = new TbJpaDemo("test-page-" + (i + 1),size - i - 1, new Date());
+            BizJpaNews tbJpaDemo = new BizJpaNews("test-page-" + (i + 1),size - i - 1, new Date());
             saveAll.add(tbJpaDemo);
         }
         saveAll = jpaDemoService.save(saveAll);

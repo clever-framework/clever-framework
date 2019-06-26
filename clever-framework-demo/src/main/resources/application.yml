@@ -3,8 +3,15 @@ app:
     param:
       page-size: ps
 
+  security:
+    whitelist:
+      - /**
 
 spring:
   profiles:
     active: dev
 
+
+# todo 这个配置是干什么的
+  main:
+    allow-bean-definition-overriding: true

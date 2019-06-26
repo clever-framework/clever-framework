@@ -1,16 +1,15 @@
 package com.toquery.framework.demo.service.impl;
 
 import com.google.common.collect.Sets;
-import com.toquery.framework.demo.dao.IJpaDemoRepository;
-import com.toquery.framework.demo.entity.TbJpaDemo;
-import com.toquery.framework.demo.service.IJpaDemoService;
+import com.toquery.framework.demo.dao.IBizJpaNewsRepository;
+import com.toquery.framework.demo.entity.BizJpaNews;
+import com.toquery.framework.demo.service.IBizJpanewsService;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,19 +18,16 @@ import java.util.Map;
  * @version 1
  */
 @Service
-public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpaDemoRepository> implements IJpaDemoService {
+public class BizJpaNewsServiceImpl extends AppBaseServiceImpl<Long, BizJpaNews, IBizJpaNewsRepository> implements IBizJpanewsService {
 
 
     private static final Map<String, String> map = new HashMap<String, String>() {
         {
             put("name", "name:EQ");
+            put("num", "num:EQ");
+            put("showTime", "showTime:EQ");
         }
     };
-
-    @Override
-    public boolean isEnableQueryAllRecord() {
-        return true;
-    }
 
     @Override
     public Map<String, String> getQueryExpressions() {
@@ -39,32 +35,29 @@ public class JpaDemoServiceImpl extends AppBaseServiceImpl<Long, TbJpaDemo, IJpa
     }
 
 
-    @Resource
-    private IJpaDemoRepository jpaDemoDao;
-
     @Override
-    public TbJpaDemo getByName(String name) {
-        return jpaDemoDao.getByName(name);
+    public BizJpaNews getByName(String name) {
+        return entityDao.getByName(name);
     }
 
     @Override
-    public TbJpaDemo update(Long id, String name) {
-        TbJpaDemo tbJpaDemo = new TbJpaDemo();
+    public BizJpaNews update(Long id, String name) {
+        BizJpaNews tbJpaDemo = new BizJpaNews();
         tbJpaDemo.setId(id);
         tbJpaDemo.setName(name);
-        return jpaDemoDao.update(tbJpaDemo, Sets.newHashSet("name"));
+        return super.update(tbJpaDemo, Sets.newHashSet("name"));
     }
 
     @Override
-    public TbJpaDemo getById(Long id) {
-        return jpaDemoDao.getOne(id);
+    public BizJpaNews getById(Long id) {
+        return entityDao.getOne(id);
     }
 
     @Override
-    public Page<TbJpaDemo> findByName(String name, Integer page, Integer size) {
+    public Page<BizJpaNews> findByName(String name, Integer page, Integer size) {
         Sort sort = new Sort(Sort.Direction.ASC, "name");
         PageRequest pageRequest = PageRequest.of(page, size, sort);
-        return jpaDemoDao.findAll(pageRequest);
+        return entityDao.findAll(pageRequest);
     }
 
 }

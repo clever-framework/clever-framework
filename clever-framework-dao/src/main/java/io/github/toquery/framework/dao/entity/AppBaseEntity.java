@@ -2,10 +2,15 @@ package io.github.toquery.framework.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.constant.AppPropertiesDefault;
+import io.github.toquery.framework.dao.audit.AppRevisionListener;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.RevisionEntity;
+import org.hibernate.envers.RevisionNumber;
+import org.hibernate.envers.RevisionTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -17,6 +22,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,13 +40,30 @@ import java.util.Date;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @EntityListeners(AuditingEntityListener.class)
-public class AppBaseEntityAudited implements Serializable {
+@RevisionEntity(AppRevisionListener.class)
+public class AppBaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @Column
+    @RevisionNumber
+    @GeneratedValue(generator = "generatedkey")
+    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppJpaEntityLongIDGenerator")
+    protected Long id;
+
+
+    @RevisionTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @Column(name = "revision_time", updatable = false, nullable = false)
+    private Date revisionDatetime;
+
+
     @CreatedBy
     @Column(name = "create_user_id", length = 32, updatable = false)
-    private String createUserId;
+    private Long createUserId;
 
 
     @CreatedDate
@@ -52,7 +76,7 @@ public class AppBaseEntityAudited implements Serializable {
 
     @LastModifiedBy
     @Column(name = "last_update_user_id", length = 32)
-    private String lastUpdateUserId;
+    private Long lastUpdateUserId;
 
 
     @LastModifiedDate

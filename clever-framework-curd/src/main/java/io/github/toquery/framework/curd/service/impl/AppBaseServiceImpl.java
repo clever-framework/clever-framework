@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.dao.entity.AppBaseEntityAudited;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
 import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
@@ -47,16 +47,16 @@ import java.util.Set;
  * @param <D>  Dao操作类
  */
 @Slf4j
-public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppBaseEntityAudited, D extends AppJpaBaseRepository<E, ID>> implements AppBaseService<E, ID> {
+public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppBaseEntity, D extends AppJpaBaseRepository<E, ID>> implements AppBaseService<E, ID> {
 
     @Autowired
-    private D baseEntityDao;
+    protected D entityDao;
 
     @Override
     @Transactional
     public E save(E entity) {
         preSaveHandler(entity);
-        E e = baseEntityDao.save(entity);
+        E e = entityDao.save(entity);
         postSaveHandler(entity);
         return e;
     }
@@ -79,7 +79,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     @Transactional
     public List<E> save(List<E> entityList) {
         preSaveBatchHandler(entityList);
-        List<E> saveData = baseEntityDao.saveAll(entityList);
+        List<E> saveData = entityDao.saveAll(entityList);
         postSaveBatchHandler(entityList);
         return saveData;
     }
@@ -116,14 +116,14 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
                 this.update(entity, Arrays.asList("del"));
             }
         } else {
-            baseEntityDao.deleteById(id);
+            entityDao.deleteById(id);
         }
         postDeleteHandler(id);
     }
 
     public void postDeleteHandler(ID id) {
         //在进行刷新操作前，先刷新当前实体缓存
-        this.baseEntityDao.flush();
+        this.entityDao.flush();
     }
 
     /**
@@ -147,7 +147,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
             List<E> entityList = this.find(params);
             this.update(entityList,Sets.newHashSet(""));
         }else {
-            this.baseEntityDao.delete(params,connector);
+            this.entityDao.delete(params,connector);
         }
     }
 
@@ -229,9 +229,9 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
      * @return
      */
     public boolean isSoftDel() {
-        boolean isSoftDel = ClassUtils.isAssignable(this.baseEntityDao.getDomainClass(), AppBaseEntityJpaSoftDelEntity.class);
+        boolean isSoftDel = ClassUtils.isAssignable(this.entityDao.getDomainClass(), AppBaseEntityJpaSoftDelEntity.class);
         if (isSoftDel) {
-            log.info("{} 删除为软删除", this.baseEntityDao.getDomainClass().getName());
+            log.info("{} 删除为软删除", this.entityDao.getDomainClass().getName());
         }
         return isSoftDel;
     }
@@ -239,16 +239,16 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     @Override
     public boolean existsById(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
-        return baseEntityDao.count(specification) > 0;
+        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, entityDao.getDomainClass());
+        return entityDao.count(specification) > 0;
     }
 
 
     @Override
     public long count(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
-        return baseEntityDao.count(specification);
+        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, entityDao.getDomainClass());
+        return entityDao.count(specification);
     }
 
     @Override
@@ -259,7 +259,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
         Pageable pageable = PageRequest.of(pageNum, pageSize, getSort(sorts));
 
-        return baseEntityDao.findAll(specification, pageable);
+        return entityDao.findAll(specification, pageable);
 
 //		Page<E> page = entityDao.findAll(specification, pageable) ;
 //		//将page对象转换为可以在dubbo中进行序列化和反序列化的分页对象
@@ -272,7 +272,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     @Override
     public List<E> find(Map<String, Object> searchParams, String[] sorts) {
         Specification<E> specification = getQuerySpecification(searchParams);
-        return baseEntityDao.findAll(specification, getSort(sorts));
+        return entityDao.findAll(specification, getSort(sorts));
     }
 
     /**
@@ -296,7 +296,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
         }
 
         //构建查询条件
-        return DynamicJPASpecifications.bySearchParam(queryExpressionMap, baseEntityDao.getDomainClass());
+        return DynamicJPASpecifications.bySearchParam(queryExpressionMap, entityDao.getDomainClass());
     }
 
     /**
@@ -305,7 +305,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
      */
     protected Sort getSort(String[] sorts) {
         //默认按照创建时间排序
-        if ((sorts == null || sorts.length < 1) && AppBaseEntityAudited.class.isAssignableFrom(this.baseEntityDao.getDomainClass())) {
+        if ((sorts == null || sorts.length < 1) && AppBaseEntity.class.isAssignableFrom(this.entityDao.getDomainClass())) {
             sorts = new String[]{"createDatetime"};
         }
 
@@ -355,7 +355,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
     @Override
     public E getById(ID id) {
-        Optional<E> result = baseEntityDao.findById(id);
+        Optional<E> result = entityDao.findById(id);
         return result.isPresent() ? result.get() : null;
     }
 
@@ -368,7 +368,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
             newUpdateFields.addAll(updateFields);
         }
         preUpdateHandler(entity, newUpdateFields);
-        E e = baseEntityDao.update(entity, newUpdateFields);
+        E e = entityDao.update(entity, newUpdateFields);
         postUpdateHandler(entity, newUpdateFields);
         return e;
     }
@@ -407,7 +407,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
     @Override
     public boolean existsById(ID id) {
-        return baseEntityDao.existsById(id);
+        return entityDao.existsById(id);
     }
 
     @Override

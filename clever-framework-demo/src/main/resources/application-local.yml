@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/clever_web_demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    username: root
+    password: 123456
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    open-in-view: true
+#    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        enable_lazy_load_no_trans: true
+  data:
+    rest:
+      defaultMediaType: application/json
+#    hibernate:
+#      ddl-auto: create-drop
+  hateoas:
+    use-hal-as-default-json-media-type: true
+
+
+
+logging:
+  level:
+    root: info
+    org.springframework.security: debug
+    io.github.toquery.framework: debug
+    io.github.toquery.framework.security: debug
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  config-location: classpath:mybatis/config/mybatis-config.xml
+
+server:
+  port: 8888

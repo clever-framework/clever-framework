@@ -8,12 +8,11 @@ import java.util.Optional;
  * @author toquery
  * @version 1
  */
-public class AppAuditorAwareImpl implements AuditorAware<String> {
+public class AppAuditorAwareImpl implements AuditorAware<Long> {
 
     @Override
-    public Optional<String> getCurrentAuditor() {
-        // your custom logic
-        return Optional.of("admin");
+    public Optional<Long> getCurrentAuditor() {
+        return Optional.of(1L);
     }
 
 }
