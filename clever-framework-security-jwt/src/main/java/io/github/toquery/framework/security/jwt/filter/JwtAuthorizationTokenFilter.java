@@ -1,6 +1,7 @@
-package io.github.toquery.framework.security.jwt;
+package io.github.toquery.framework.security.jwt.filter;
 
 import com.google.common.base.Strings;
+import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.jsonwebtoken.ExpiredJwtException;

@@ -2,7 +2,7 @@ package io.github.toquery.framework.files.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -12,13 +12,12 @@ import javax.persistence.Transient;
 
 /**
  * 附件持久化存储对象
- *
  */
 
 @Data
 @Entity
 @Table(name = "sys_files")
-public class SysFiles extends AppBaseEntityPrimaryKeyLong {
+public class SysFiles extends AppBaseEntity {
 
     /**
      * 存储名称

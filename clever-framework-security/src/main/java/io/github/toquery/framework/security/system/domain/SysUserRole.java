@@ -1,6 +1,6 @@
 package io.github.toquery.framework.security.system.domain;
 
-import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 
 /**
  * A user.
@@ -9,7 +9,7 @@ import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
 //@Getter
 //@Setter
 //@Table(name = "sys_user_role")
-public class SysUserRole extends AppBaseEntityPrimaryKeyLong {
+public class SysUserRole extends AppBaseEntity {
 
 //    @Column(name = "user_id")
 //     private Long userId;

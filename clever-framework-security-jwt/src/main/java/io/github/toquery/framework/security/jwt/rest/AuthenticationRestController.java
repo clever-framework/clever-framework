@@ -5,10 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
-import io.github.toquery.framework.security.jwt.JwtUser;
 import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.jwt.service.JwtAuthenticationResponse;
+import io.github.toquery.framework.security.system.domain.SysUser;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.controller.AppBaseController;
 import org.springframework.http.ResponseEntity;
@@ -90,7 +90,7 @@ public class AuthenticationRestController extends AppBaseController {
         String authToken = request.getHeader(appSecurityJwtProperties.getHeader());
         String token = authToken.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
+        SysUser user = (SysUser) userDetailsService.loadUserByUsername(username);
 
         if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = jwtTokenUtil.refreshToken(token);

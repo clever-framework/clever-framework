@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
@@ -28,7 +28,7 @@ import java.util.HashSet;
 @Setter
 @Table(name = "sys_role")
 //@JsonIgnoreProperties("authors")
-public class SysRole extends AppBaseEntityPrimaryKeyLong implements GrantedAuthority {
+public class SysRole extends AppBaseEntity implements GrantedAuthority {
 
 
     @NotBlank
@@ -51,7 +51,7 @@ public class SysRole extends AppBaseEntityPrimaryKeyLong implements GrantedAutho
     private Collection<SysUserRole> users = new HashSet<>();
 */
 
-    @JsonIgnoreProperties({"roles","lastUpdateDatetime","createDatetime"})
+    @JsonIgnoreProperties({"roles", "lastUpdateDatetime", "createDatetime"})
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "sys_user_role",
@@ -61,7 +61,7 @@ public class SysRole extends AppBaseEntityPrimaryKeyLong implements GrantedAutho
     private Collection<SysUser> users = new HashSet<>();
 
 
-    @JsonIgnoreProperties({"roles","lastUpdateDatetime","createDatetime"})
+    @JsonIgnoreProperties({"roles", "lastUpdateDatetime", "createDatetime"})
 //    @ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH})
 
     @ManyToMany(fetch = FetchType.EAGER)

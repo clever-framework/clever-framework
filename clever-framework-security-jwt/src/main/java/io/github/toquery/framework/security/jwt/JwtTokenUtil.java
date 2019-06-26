@@ -1,6 +1,7 @@
 package io.github.toquery.framework.security.jwt;
 
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.system.domain.SysUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
@@ -106,9 +107,9 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        JwtUser user = (JwtUser) userDetails;
-        final String username = getUsernameFromToken(token);
-        final Date created = getIssuedAtDateFromToken(token);
+        SysUser user = (SysUser) userDetails;
+        String username = getUsernameFromToken(token);
+        Date created = getIssuedAtDateFromToken(token);
         //final Date expiration = getExpirationDateFromToken(token);
         return (
                 username.equals(user.getUsername())

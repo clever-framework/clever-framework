@@ -1,7 +1,6 @@
 package io.github.toquery.framework.security.jwt.service;
 
 import io.github.toquery.framework.security.system.domain.SysUser;
-import io.github.toquery.framework.security.jwt.JwtUserFactory;
 import io.github.toquery.framework.security.system.repository.SysUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +21,7 @@ public class JwtUserDetailsService implements UserDetailsService, JwtUserRegiste
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-            return JwtUserFactory.create(user);
+            return user;
         }
     }
 

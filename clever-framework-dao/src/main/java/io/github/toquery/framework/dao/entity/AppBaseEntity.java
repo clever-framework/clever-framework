@@ -1,20 +1,19 @@
 package io.github.toquery.framework.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.toquery.framework.core.constant.AppPropertiesDefault;
-import io.github.toquery.framework.dao.audit.AppRevisionListener;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.AfterDomainEventPublication;
+import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,18 +28,22 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author toquery
  * @version 1
  */
+@Slf4j
 @Setter
 @Getter
 @Audited
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @EntityListeners(AuditingEntityListener.class)
-@RevisionEntity(AppRevisionListener.class)
+//@RevisionEntity(AppRevisionListener.class)
 public class AppBaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,11 +57,10 @@ public class AppBaseEntity implements Serializable {
 
 
     @RevisionTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "revision_time", updatable = false, nullable = false)
-    private Date revisionDatetime;
+    private long revisionDatetime;
 
 
     @CreatedBy
@@ -87,4 +89,14 @@ public class AppBaseEntity implements Serializable {
     private Date lastUpdateDatetime;
 
 
+    @DomainEvents
+    public List<Object> domainEvents() {
+        log.info(" AppBaseEntity ---- @DomainEvents");
+        return Stream.of(this).collect(Collectors.toList());
+    }
+
+    @AfterDomainEventPublication
+    public void afterDomainEventPublication() {
+        log.info(" AppBaseEntity ---- @AfterDomainEventPublication");
+    }
 }

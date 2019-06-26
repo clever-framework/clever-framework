@@ -1,32 +1,29 @@
 package io.github.toquery.framework.security.system.domain;
 
-import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Persist AuditEvent managed by the Spring Boot actuator.
- *
+ * <p>
  * org.springframework.boot.actuate.audit.AuditEvent
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "sys_audit_event")
-public class SysAuditEvent extends AppBaseEntityPrimaryKeyLong {
+//@Entity
+//@Table(name = "sys_audit_event")
+public class SysAuditEvent extends AppBaseEntity {
 
 
     @NotNull
@@ -45,24 +42,6 @@ public class SysAuditEvent extends AppBaseEntityPrimaryKeyLong {
     @CollectionTable(name = "sys_audit_event_data", joinColumns = @JoinColumn(name = "event_id"))
     private Map<String, String> data = new HashMap<>();
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        SysAuditEvent sysAuditEvent = (SysAuditEvent) o;
-        return !(sysAuditEvent.getId() == null || getId() == null) && Objects.equals(getId(), sysAuditEvent.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
 
     @Override
     public String toString() {

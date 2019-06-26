@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @Slf4j
 @Configuration
 //启用jpa审计
-@EnableJpaAuditing(auditorAwareRef="auditorProvider")
+//@EnableJpaAuditing(auditorAwareRef="auditorProvider")
 @ConditionalOnBean(DataSource.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableJpaRepositories(basePackages = {"io.github.toquery.framework"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
@@ -28,9 +28,9 @@ public class AppJPAAutoConfiguration {
     }
 
 
-    @Bean
-    AuditorAware<Long> auditorProvider() {
-        return new AppAuditorAwareImpl();
-    }
+//    @Bean
+//    AuditorAware<Long> auditorProvider() {
+//        return new AppAuditorAwareImpl();
+//    }
 
 }

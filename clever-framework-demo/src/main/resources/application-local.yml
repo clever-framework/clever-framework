@@ -9,13 +9,13 @@ spring:
     show-sql: true
     generate-ddl: true
     open-in-view: true
-#    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         show_sql: true
-        use_sql_comments: true
+        use_sql_comments: false
+        dialect: org.hibernate.dialect.MySQL55Dialect #使用innodb引擎
         format_sql: true
         enable_lazy_load_no_trans: true
   data:

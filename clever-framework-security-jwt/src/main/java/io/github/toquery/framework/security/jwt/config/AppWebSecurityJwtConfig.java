@@ -2,14 +2,13 @@ package io.github.toquery.framework.security.jwt.config;
 
 import io.github.toquery.framework.security.config.AppWebSecurityConfig;
 import io.github.toquery.framework.security.jwt.JwtAuthenticationEntryPoint;
-import io.github.toquery.framework.security.jwt.JwtAuthorizationTokenFilter;
+import io.github.toquery.framework.security.jwt.filter.JwtAuthorizationTokenFilter;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.jwt.service.JwtUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -69,11 +68,6 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
         };
     }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {

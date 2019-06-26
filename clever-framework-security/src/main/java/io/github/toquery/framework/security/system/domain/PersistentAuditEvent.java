@@ -1,16 +1,14 @@
 package io.github.toquery.framework.security.system.domain;
 
-import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.HashMap;
@@ -18,14 +16,14 @@ import java.util.Map;
 
 /**
  * Persist AuditEvent managed by the Spring Boot actuator.
- *
+ * <p>
  * org.springframework.boot.actuate.audit.AuditEvent
  */
-@Entity
+//@Entity
 @Getter
 @Setter
-@Table(name = "sys_audit_event")
-public class PersistentAuditEvent extends AppBaseEntityPrimaryKeyLong {
+//@Table(name = "sys_audit_event")
+public class PersistentAuditEvent extends AppBaseEntity {
 
     @NotNull
     @Column(nullable = false)

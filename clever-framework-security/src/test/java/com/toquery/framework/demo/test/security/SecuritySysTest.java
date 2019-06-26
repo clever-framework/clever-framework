@@ -56,7 +56,7 @@ public class SecuritySysTest extends BaseSpringTest {
         sysRole2 = sysRoleDao.saveAndFlush(sysRole2);
 
 
-        sysUser.setRoles(Sets.newHashSet(sysRole1, sysRole2));
+        sysUser.setAuthorities(Sets.newHashSet(sysRole1, sysRole2));
         sysUser.setEmail("1@qq.com");
         sysUser.setLoginName("1");
         sysUser.setUserName("1111");

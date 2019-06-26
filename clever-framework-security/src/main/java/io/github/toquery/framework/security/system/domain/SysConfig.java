@@ -1,6 +1,6 @@
 package io.github.toquery.framework.security.system.domain;
 
-import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_config")
-public class SysConfig extends AppBaseEntityPrimaryKeyLong {
+public class SysConfig extends AppBaseEntity {
 
     @Column(name = "biz_id", length = 50)
     private Long bizId;

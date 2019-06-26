@@ -3,7 +3,6 @@ package io.github.toquery.framework.security.jwt.rest;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.security.system.domain.SysUser;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
-import io.github.toquery.framework.security.jwt.JwtUser;
 import io.github.toquery.framework.security.jwt.service.JwtUserRegister;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -46,7 +45,8 @@ public class AuthorizationRestController extends AppBaseController {
             token = token.substring(7);
         }
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
+        SysUser user = (SysUser) userDetailsService.loadUserByUsername(username);
+        user.authorities2Roles();
         return ResponseEntity.ok(ResponseParam.builder().build().content(user));
     }
 

@@ -1,10 +1,9 @@
 package io.github.toquery.framework.security.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.toquery.framework.common.entity.AppEntityTree;
 import io.github.toquery.framework.core.constant.AppPropertiesDefault;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
-import io.github.toquery.framework.dao.entity.AppBaseEntityPrimaryKeyLong;
 import io.github.toquery.framework.dao.entity.AppBaseEntitySort;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +12,6 @@ import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,7 +35,7 @@ import java.util.HashSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_menu")
-public class SysMenu extends AppBaseEntityPrimaryKeyLong implements AppBaseEntitySort, AppBaseEntityJpaSoftDelEntity {
+public class SysMenu extends AppBaseEntity implements AppBaseEntitySort, AppBaseEntityJpaSoftDelEntity {
 
     public SysMenu(@NotNull @Size(max = 50) String name, @NotNull @Size(max = 50) String code) {
         this.name = name;
