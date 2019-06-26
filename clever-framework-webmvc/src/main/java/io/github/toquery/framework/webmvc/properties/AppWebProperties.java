@@ -1,4 +1,4 @@
-package io.github.toquery.framework.webmvc.config;
+package io.github.toquery.framework.webmvc.properties;
 
 import lombok.Getter;
 import lombok.Setter;

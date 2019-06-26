@@ -1,7 +1,7 @@
 package io.github.toquery.framework.webmvc.controller;
 
 import com.google.common.base.Strings;
-import io.github.toquery.framework.webmvc.config.AppWebProperties;
+import io.github.toquery.framework.webmvc.properties.AppWebProperties;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,6 @@ public class AppBaseController extends WebUtils {
 
     @Resource
     protected HttpServletResponse response;
-
 
     @Resource
     protected AppWebProperties appWebProperties;

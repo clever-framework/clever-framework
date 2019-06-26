@@ -2,6 +2,7 @@ package io.github.toquery.framework.security.config;
 
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -31,6 +32,10 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("初始化 App Web Security 配置，disableDefaults = {} ", disableDefaults);
     }
 
+    /**
+     * @param httpSecurity
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -43,7 +48,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 // jwt
-                .antMatchers(appSecurityProperties.getWhitelistArray()).permitAll()
+                .antMatchers(this.getWhitelist()).permitAll()
                 .anyRequest().authenticated()
         ;
 
@@ -57,6 +62,20 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // AuthenticationTokenFilter will ignore the below paths
-        web.ignoring().antMatchers(appSecurityProperties.getWhitelistArray());
+        web.ignoring().antMatchers(this.getWhitelist());
+    }
+
+    /**
+     * 加载白名单
+     */
+    private String[] getWhitelist() {
+        return ArrayUtils.addAll(appSecurityProperties.getWhitelistArray(), this.getCustomizeWhitelist());
+    }
+
+    /**
+     * 加载自定义白名单
+     */
+    protected String[] getCustomizeWhitelist() {
+        return new String[]{};
     }
 }

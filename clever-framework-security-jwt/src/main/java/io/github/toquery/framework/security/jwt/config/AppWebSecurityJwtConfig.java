@@ -9,19 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
+
 @Order(50)
 @Slf4j
 @Configuration
@@ -35,7 +31,7 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
 
     public AppWebSecurityJwtConfig(boolean disableDefaults) {
         super(disableDefaults);
-        log.info("初始化 App Web Security Jwt 配置，disableDefaults = {} " ,disableDefaults);
+        log.info("初始化 App Web Security Jwt 配置，disableDefaults = {} ", disableDefaults);
     }
 
     @Resource
@@ -82,7 +78,6 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         super.configure(httpSecurity);
-        AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
 
         httpSecurity
                 // we don't need CSRF because our token is invulnerable
@@ -96,7 +91,7 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
                 .authorizeRequests()
 
                 // jwt
-                .antMatchers(pathProperties.getRegister(), pathProperties.getToken()).permitAll()
+                // .antMatchers(pathProperties.getRegister(), pathProperties.getToken()).permitAll()
                 .anyRequest().authenticated()
         ;
 
@@ -108,11 +103,18 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
     }
 
     @Override
+    protected String[] getCustomizeWhitelist() {
+        AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
+        return new String[]{pathProperties.getRegister(), pathProperties.getToken()};
+    }
+
+   /*
+   @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
 
         AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
         // AuthenticationTokenFilter will ignore the below paths
-        web.ignoring().antMatchers(HttpMethod.POST, pathProperties.getRegister(), pathProperties.getToken());
-    }
+        // web.ignoring().antMatchers(HttpMethod.POST, pathProperties.getRegister(), pathProperties.getToken());
+    }*/
 }

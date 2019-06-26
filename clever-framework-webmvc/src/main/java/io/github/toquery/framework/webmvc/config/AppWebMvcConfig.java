@@ -1,4 +1,4 @@
-package io.github.toquery.framework.webmvc.configurer;
+package io.github.toquery.framework.webmvc.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -18,16 +18,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Slf4j
-public class AppWebMvcConfigurer implements WebMvcConfigurer {
+public class AppWebMvcConfig implements WebMvcConfigurer {
 
-    public AppWebMvcConfigurer() {
-        log.info("创建自定义的web-mvc配置 {}", this.getClass().getSimpleName());
+    public AppWebMvcConfig() {
+        log.info("初始化 App Web Mvc 配置 {}", this.getClass().getSimpleName());
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        log.debug("获取到原始解析器 {} 个", resolvers.size());
         resolvers.add(new MethodArgumentUpperCaseResolver());
+        log.debug("增加自定义解析器 MethodArgumentUpperCaseResolver ");
         resolvers.add(new PathVariableMethodArgumentUpperCaseResolver());
+        log.debug("增加自定义解析器 PathVariableMethodArgumentUpperCaseResolver ");
     }
 
     @Override
@@ -44,14 +47,14 @@ public class AppWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         for (HttpMessageConverter<?> httpMessageConverter : converters) {
-            log.info("添加HttpMessageConverter : {}", httpMessageConverter.getClass().getName());
+            log.info("添加 HttpMessageConverter : {}", httpMessageConverter.getClass().getName());
             if (httpMessageConverter instanceof MappingJackson2HttpMessageConverter) {
                 ObjectMapper objectMapper = ((MappingJackson2HttpMessageConverter) httpMessageConverter).getObjectMapper();
                 SimpleModule simpleModule = new SimpleModule();
                 simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
                 simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
                 objectMapper.registerModule(simpleModule);
-                log.info("向MappingJackson2HttpMessageConverter添加Long类型转换规则");
+                log.info("向 MappingJackson2HttpMessageConverter 添加Long类型转换规则");
             }
         }
     }
