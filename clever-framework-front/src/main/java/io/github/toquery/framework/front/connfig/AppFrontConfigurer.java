@@ -21,7 +21,6 @@ import static java.net.URLDecoder.decode;
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Slf4j
-@Configuration
 public class AppFrontConfigurer implements WebServerFactoryCustomizer<WebServerFactory> {
 
     @Resource

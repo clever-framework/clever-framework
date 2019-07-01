@@ -6,6 +6,8 @@
 
 - 引入百度富文本编辑器模块
 - 修改代码生成模板
+- 增加数据日志审计功能
+- 修改front、log模块自动装配设置
 
 
 ## [v1.0.4](https://github.com/ToQuery/clever-framework/tree/v1.0.2) (2019-06-19)

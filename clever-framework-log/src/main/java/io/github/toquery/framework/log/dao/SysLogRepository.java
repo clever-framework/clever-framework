@@ -18,12 +18,12 @@ import org.springframework.stereotype.Repository;
 public interface SysLogRepository extends AppJpaBaseRepository<SysLog, Long> {
 
 //    @MybatisQuery
-    SysLog getById(@Param("id") Long id);
+//    SysLog getById(@Param("id") Long id);
 
 //    @MybatisQuery
 //    SysLog save(@Param("sysLog") SysLog sysLog);
 
 //    @MybatisQuery
-    Page<SysLog> query();
+//    Page<SysLog> query();
 
 }
