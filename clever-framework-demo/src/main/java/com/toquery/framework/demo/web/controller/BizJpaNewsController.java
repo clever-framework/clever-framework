@@ -2,7 +2,7 @@ package com.toquery.framework.demo.web.controller;
 
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.BizJpaNews;
-import com.toquery.framework.demo.service.IBizJpanewsService;
+import com.toquery.framework.demo.service.IBizJpaNewsService;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +24,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/biz-jpa-news")
-public class BizJpaNewsController extends AppBaseCurdController<IBizJpanewsService, BizJpaNews, Long> {
+public class BizJpaNewsController extends AppBaseCurdController<IBizJpaNewsService, BizJpaNews, Long> {
 
 
     @GetMapping

@@ -1,7 +1,7 @@
 package io.github.toquery.framework.curd.controller;
 
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.webmvc.controller.AppBaseController;
+import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +15,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extends Serializable> extends AppBaseController {
+public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extends Serializable> extends AppBaseWebMvcController {
 
 
     @Autowired
@@ -126,10 +126,6 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         return this.handleResponseParam(this.handleList(filterParam, sorts));
     }
 
-
-    protected ResponseParam handleResponseParam(Object object) {
-        return ResponseParam.builder().build().content(object);
-    }
 
     public E saveEntity(E entity) {
         return service.save(entity);

@@ -3,7 +3,7 @@ package com.toquery.framework.demo.test.page;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.toquery.framework.demo.entity.BizJpaNews;
-import com.toquery.framework.demo.service.IBizJpanewsService;
+import com.toquery.framework.demo.service.IBizJpaNewsService;
 import com.toquery.framework.demo.test.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class PageJpaTest extends BaseSpringTest {
 
 
     @Resource
-    private IBizJpanewsService jpaDemoService;
+    private IBizJpaNewsService jpaDemoService;
 
     @Test
     public void insertData() {

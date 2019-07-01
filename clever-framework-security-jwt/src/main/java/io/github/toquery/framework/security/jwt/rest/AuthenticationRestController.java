@@ -10,7 +10,7 @@ import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtPropert
 import io.github.toquery.framework.security.jwt.service.JwtAuthenticationResponse;
 import io.github.toquery.framework.security.system.domain.SysUser;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.controller.AppBaseController;
+import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,7 +30,7 @@ import java.util.Objects;
  * 用户认证信息
  */
 @RestController
-public class AuthenticationRestController extends AppBaseController {
+public class AuthenticationRestController extends AppBaseWebMvcController {
 
     @Resource
     private AppSecurityJwtProperties appSecurityJwtProperties;

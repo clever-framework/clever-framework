@@ -3,7 +3,7 @@ package com.toquery.framework.demo.service.impl;
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.dao.IBizJpaNewsRepository;
 import com.toquery.framework.demo.entity.BizJpaNews;
-import com.toquery.framework.demo.service.IBizJpanewsService;
+import com.toquery.framework.demo.service.IBizJpaNewsService;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @version 1
  */
 @Service
-public class BizJpaNewsServiceImpl extends AppBaseServiceImpl<Long, BizJpaNews, IBizJpaNewsRepository> implements IBizJpanewsService {
+public class BizJpaNewsServiceImpl extends AppBaseServiceImpl<Long, BizJpaNews, IBizJpaNewsRepository> implements IBizJpaNewsService {
 
 
     private static final Map<String, String> map = new HashMap<String, String>() {

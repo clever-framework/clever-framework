@@ -4,7 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.BizJpaNews;
 import com.toquery.framework.demo.entity.BizBatisNews;
-import com.toquery.framework.demo.service.IBizJpanewsService;
+import com.toquery.framework.demo.service.IBizJpaNewsService;
 import com.toquery.framework.demo.service.IBizBatisNewsService;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import org.springframework.data.domain.Page;
@@ -21,10 +21,10 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/demo")
-public class DemoController extends AppBaseCurdController<IBizJpanewsService, BizJpaNews,Long> {
+public class DemoController extends AppBaseCurdController<IBizJpaNewsService, BizJpaNews,Long> {
 
     @Resource
-    private IBizJpanewsService demoService;
+    private IBizJpaNewsService demoService;
 
     @Resource
     private IBizBatisNewsService myBatisDemoService;

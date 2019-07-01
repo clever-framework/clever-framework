@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
  * @version 1
  */
 
-public interface IBizJpanewsService extends AppBaseService<BizJpaNews, Long> {
+public interface IBizJpaNewsService extends AppBaseService<BizJpaNews, Long> {
     BizJpaNews getByName(String name);
 
     BizJpaNews update(Long id, String name);

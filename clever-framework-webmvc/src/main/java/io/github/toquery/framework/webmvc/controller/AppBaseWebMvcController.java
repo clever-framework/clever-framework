@@ -1,11 +1,11 @@
 package io.github.toquery.framework.webmvc.controller;
 
 import com.google.common.base.Strings;
-import io.github.toquery.framework.webmvc.properties.AppWebProperties;
+import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.properties.AppWebProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.util.WebUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author toquery
  * @version 1
  */
-public class AppBaseController extends WebUtils {
+public class AppBaseWebMvcController extends AppBaseWebController {
 
     @Resource
     protected HttpServletRequest request;
@@ -42,6 +42,11 @@ public class AppBaseController extends WebUtils {
     protected int getRequestPageNumber() {
         String pageNumber = this.getRequestParameterValue(appWebProperties.getParam().getPageNumber());
         return Strings.isNullOrEmpty(pageNumber) ? appWebProperties.getDefaultValue().getPageNumber() : Integer.valueOf(pageNumber);
+    }
+
+
+    protected ResponseParam handleResponseParam(Object object) {
+        return ResponseParam.builder().build().content(object);
     }
 
     protected ResponseEntity responseEntity(ResponseParam responseParam, HttpStatus httpStatus) {

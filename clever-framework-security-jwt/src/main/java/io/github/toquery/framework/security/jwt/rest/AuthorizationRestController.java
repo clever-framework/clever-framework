@@ -6,7 +6,7 @@ import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.service.JwtUserRegister;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.controller.AppBaseController;
+import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * 用户授权信息
  */
 @RestController
-public class AuthorizationRestController extends AppBaseController {
+public class AuthorizationRestController extends AppBaseWebMvcController {
 
     @Resource
     private AppSecurityJwtProperties appJwtProperties;

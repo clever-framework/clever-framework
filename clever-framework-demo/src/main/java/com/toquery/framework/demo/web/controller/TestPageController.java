@@ -2,7 +2,7 @@ package com.toquery.framework.demo.web.controller;
 
 import com.toquery.framework.demo.entity.BizJpaNews;
 import com.toquery.framework.demo.entity.BizBatisNews;
-import com.toquery.framework.demo.service.IBizJpanewsService;
+import com.toquery.framework.demo.service.IBizJpaNewsService;
 import com.toquery.framework.demo.service.IBizBatisNewsService;
 import io.github.toquery.framework.webmvc.domain.ResponsePage;
 import io.github.toquery.framework.webmvc.domain.ResponsePageBuilder;
@@ -36,7 +36,7 @@ public class TestPageController {
     }
 
     @Resource
-    private IBizJpanewsService demoService;
+    private IBizJpaNewsService demoService;
 
     @RequestMapping("/jpa")
     public Object jap(@RequestParam("name") String name,

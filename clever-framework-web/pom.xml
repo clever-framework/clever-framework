@@ -13,6 +13,10 @@
     <url>https://github.com/ToQuery/clever-framework</url>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

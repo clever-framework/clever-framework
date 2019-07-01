@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.BizJpaNews;
-import com.toquery.framework.demo.service.IBizJpanewsService;
+import com.toquery.framework.demo.service.IBizJpaNewsService;
 import com.toquery.framework.demo.test.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class ServiceJpaCurdTest extends BaseSpringTest {
 
     @Resource
-    private IBizJpanewsService jpaDemoService;
+    private IBizJpaNewsService jpaDemoService;
 
     @Test
     public void curd() {
