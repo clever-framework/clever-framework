@@ -114,6 +114,7 @@ public class SysUser extends AppBaseEntity implements UserDetails {
     public void authorities2Roles() {
         if (authorities != null && !authorities.isEmpty()) {
             this.roles = authorities.stream().flatMap(item -> item.getMenus().stream().map(SysMenu::getCode)).collect(Collectors.toSet());
+            this.roles.addAll(authorities.stream().map(SysRole::getCode).collect(Collectors.toSet()));
         }
     }
 

@@ -35,15 +35,21 @@ import java.util.Map;
 @RequestMapping("/app")
 public class AppUeditorRest {
 
-    @Resource
     private HttpServletRequest request;
 
-    @Resource
     private UeditorConfigManager ueditorConfigManager;
 
-    @Resource
     private AppUeditorProperties appUeditorProperties;
 
+
+    public AppUeditorRest() {
+    }
+
+    public AppUeditorRest(HttpServletRequest request, UeditorConfigManager ueditorConfigManager, AppUeditorProperties appUeditorProperties) {
+        this.request = request;
+        this.ueditorConfigManager = ueditorConfigManager;
+        this.appUeditorProperties = appUeditorProperties;
+    }
 
     /**
      * ueditor 编辑器获取配置接口

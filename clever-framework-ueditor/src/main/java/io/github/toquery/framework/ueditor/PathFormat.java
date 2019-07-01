@@ -99,7 +99,7 @@ public class PathFormat {
     }
 
     private static String getMonth() {
-        return (new SimpleDateFormat(MONTH)).format(currentDate);
+        return (new SimpleDateFormat("MM")).format(currentDate);
     }
 
     private static String getDay() {

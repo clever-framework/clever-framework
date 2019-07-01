@@ -8,10 +8,7 @@ import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,11 +21,17 @@ import java.util.Map;
  */
 @Setter
 @Getter
-@Component
 public class UeditorConfigManager {
 
-    @Resource
     private AppUeditorProperties appUeditorProperties;
+
+    public UeditorConfigManager() {
+    }
+
+    public UeditorConfigManager(AppUeditorProperties appUeditorProperties) {
+        this.appUeditorProperties = appUeditorProperties;
+        this.init();
+    }
 
     private final String rootPath = "config.json";
 
@@ -40,8 +43,7 @@ public class UeditorConfigManager {
     private static final String REMOTE_FILE_NAME = "remote";
 
 
-    @PostConstruct
-    public void init() throws IOException {
+    public void init() {
         // 读取配置文件转换为 json
         try {
             this.jsonConfig = new JSONObject(this.readInputStream());
