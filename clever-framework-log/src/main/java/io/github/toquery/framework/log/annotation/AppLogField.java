@@ -19,17 +19,20 @@ public @interface AppLogField {
 
     /**
      * 实体唯一的标识，新增 删除的时候会以标识 为 true 的字段展示
+     * @return false 不是唯一标志
      */
     boolean uniqueFlag() default false;
 
     /**
      * 要显示的名称
+     * @return 显示的名称
      */
     @AliasFor("name")
     String value() default "";
 
     /**
      * 要显示的名称
+     * @return 显示的名称
      */
     @AliasFor("value")
     String name() default "";

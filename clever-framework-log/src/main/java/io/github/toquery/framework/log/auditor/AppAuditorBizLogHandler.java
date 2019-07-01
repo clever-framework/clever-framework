@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 /**
  * ApplicationContextAware 获取 ApplicationContext
- * ApplicationListener<ContextRefreshedEvent> Spring 容器加载完毕后，执行操作
+ * ApplicationListener ContextRefreshedEvent : Spring 容器加载完毕后，执行操作
  *
  * @author toquery
  * @version 1
