@@ -1,7 +1,7 @@
-package io.github.toquery.framework.log.rest;
+package io.github.toquery.framework.log.biz.rest;
 
 
-import io.github.toquery.framework.log.service.ISysLogService;
+import io.github.toquery.framework.log.biz.service.ISysLogService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.web.bind.annotation.GetMapping;

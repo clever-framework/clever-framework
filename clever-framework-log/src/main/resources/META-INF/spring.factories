@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.toquery.framework.log.autoconfig.AppLogAutoConfiguration
+io.github.toquery.framework.log.autoconfig.AppBizLogAutoConfiguration

@@ -1,7 +1,7 @@
-package io.github.toquery.framework.log.service;
+package io.github.toquery.framework.log.biz.service;
 
 import com.github.pagehelper.Page;
-import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.biz.entity.SysLog;
 // import io.github.toquery.cleverweb.MenuDao;
 
 /**

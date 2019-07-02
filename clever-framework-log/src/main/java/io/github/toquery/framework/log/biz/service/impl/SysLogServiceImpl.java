@@ -1,9 +1,9 @@
-package io.github.toquery.framework.log.service.impl;
+package io.github.toquery.framework.log.biz.service.impl;
 
 import com.github.pagehelper.Page;
-import io.github.toquery.framework.log.dao.SysLogRepository;
-import io.github.toquery.framework.log.entity.SysLog;
-import io.github.toquery.framework.log.service.ISysLogService;
+import io.github.toquery.framework.log.biz.dao.SysLogRepository;
+import io.github.toquery.framework.log.biz.entity.SysLog;
+import io.github.toquery.framework.log.biz.service.ISysLogService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

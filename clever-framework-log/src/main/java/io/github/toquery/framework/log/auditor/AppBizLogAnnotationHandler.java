@@ -7,7 +7,7 @@ import io.github.toquery.framework.log.annotation.AppLogEntity;
 import io.github.toquery.framework.log.annotation.AppLogField;
 import io.github.toquery.framework.log.annotation.AppLogIgnoreField;
 import io.github.toquery.framework.log.constant.AppLogType;
-import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.biz.entity.SysLog;
 import io.github.toquery.framework.log.properties.AppLogProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @version 1
  */
 @Slf4j
-public class AppAuditorBizLogAnnotationHandler {
+public class AppBizLogAnnotationHandler {
     @Resource
     private AppLogProperties appLogProperties;
 

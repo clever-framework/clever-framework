@@ -1,16 +1,12 @@
 package io.github.toquery.framework.log.auditor;
 
-import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Maps;
 import io.github.toquery.framework.dao.audit.AppAuditorHandler;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.annotation.AppLogEntity;
-import io.github.toquery.framework.log.annotation.AppLogField;
-import io.github.toquery.framework.log.annotation.AppLogIgnoreField;
 import io.github.toquery.framework.log.constant.AppLogType;
-import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.biz.entity.SysLog;
 import io.github.toquery.framework.log.properties.AppLogProperties;
-import io.github.toquery.framework.log.service.ISysLogService;
+import io.github.toquery.framework.log.biz.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,15 +16,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
 
 import javax.annotation.Resource;
-import javax.persistence.Transient;
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * ApplicationContextAware 获取 ApplicationContext
@@ -40,7 +30,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @Scope("singleton")
-public class AppAuditorBizLogHandler extends AppAuditorBizLogAnnotationHandler implements AppAuditorHandler, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, InitializingBean {
+public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppAuditorHandler, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, InitializingBean {
 
     @Resource
     private AppLogProperties appLogProperties;
@@ -51,7 +41,7 @@ public class AppAuditorBizLogHandler extends AppAuditorBizLogAnnotationHandler i
     private ISysLogService sysLogService;
 
 
-    public AppAuditorBizLogHandler() {
+    public AppBizLogHandler() {
         log.info("初始化 App Biz Log 审计日志");
     }
 

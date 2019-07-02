@@ -1,4 +1,4 @@
-package io.github.toquery.framework.log.entity;
+package io.github.toquery.framework.log.biz.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.log.constant.AppLogType;
