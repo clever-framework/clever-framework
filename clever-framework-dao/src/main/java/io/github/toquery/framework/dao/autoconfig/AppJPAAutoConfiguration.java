@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 
 @Slf4j
 @Configuration
-//启用jpa审计
 @ConditionalOnBean(DataSource.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableJpaRepositories(basePackages = {"io.github.toquery.framework"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)

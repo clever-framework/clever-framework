@@ -33,6 +33,11 @@ public class DaoJpaCurdTest extends BaseSpringTest {
         BizJpaNews saveAndFlush = jpaDemoRepository.saveAndFlush(new BizJpaNews("saveAndFlush-test", new Date()));
         log.info("插入的数据 saveAndFlush ：\n{}", JSON.toJSONString(saveAndFlush));
 
+
+        saveAndFlush.setName("secede update");
+        saveAndFlush = jpaDemoRepository.saveAndFlush(saveAndFlush);
+        log.info("插入的数据 saveAndFlush ：\n{}", JSON.toJSONString(saveAndFlush));
+
         save.setName("save-test-update");
         BizJpaNews update = jpaDemoRepository.update(save, Sets.newHashSet("name"));
         log.info("修改的数据 update ：\n{}", JSON.toJSONString(update));

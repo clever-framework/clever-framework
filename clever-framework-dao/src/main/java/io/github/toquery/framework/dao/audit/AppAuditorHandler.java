@@ -17,4 +17,13 @@ public interface AppAuditorHandler extends Ordered {
     public void onPreUpdate(AppBaseEntity appBaseEntity);
 
     public void onPreRemove(AppBaseEntity appBaseEntity);
+
+
+    void onPostLoad(AppBaseEntity appBaseEntity);
+
+    void onPostPersist(AppBaseEntity appBaseEntity);
+
+    void onPostUpdate(AppBaseEntity appBaseEntity);
+
+    void onPostRemove(AppBaseEntity appBaseEntity);
 }

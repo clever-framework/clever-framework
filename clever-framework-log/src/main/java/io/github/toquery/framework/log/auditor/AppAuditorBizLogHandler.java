@@ -40,10 +40,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @Scope("singleton")
-public class AppAuditorBizLogHandler implements AppAuditorHandler, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, InitializingBean {
+public class AppAuditorBizLogHandler extends AppAuditorBizLogAnnotationHandler implements AppAuditorHandler, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, InitializingBean {
 
     @Resource
     private AppLogProperties appLogProperties;
+
+    private ApplicationContext applicationContext;
 
     // Spring 容器加载完毕后 set bean
     private ISysLogService sysLogService;
@@ -59,71 +61,6 @@ public class AppAuditorBizLogHandler implements AppAuditorHandler, ApplicationCo
         return appLogProperties.isEnable();
     }
 
-
-    private SysLog fill2SysLog(AppBaseEntity appBaseEntity, Map<String, Object> rawData, Map<String, Object> targetData, AppLogEntity appLogEntity, AppLogType logType) {
-        SysLog sysLog = new SysLog();
-        sysLog.setModuleName(appLogEntity.modelName());
-        sysLog.setBizName(appLogEntity.bizName());
-        sysLog.setRawData(JSON.toJSONString(rawData));
-        sysLog.setTargetData(JSON.toJSONString(targetData));
-        sysLog.setLogType(logType);
-        sysLog.setUserId(appBaseEntity.getLastUpdateUserId());
-        return sysLog;
-    }
-
-    private AppLogEntity handleEntityAnnotation(AppBaseEntity appBaseEntity) {
-        // 获取当前类，或父类的注解
-        AppLogEntity appLogEntity = appBaseEntity.getClass().getAnnotation(AppLogEntity.class);
-        // AppLogEntity superAppLogEntity = appBaseEntity.getClass().getSuperclass().getAnnotation(AppLogEntity.class);
-        if (appLogEntity == null) {
-            log.debug("当前实体类 {} , 未配置 @AppLogEntity 注解，将不记录日志", appBaseEntity.getClass().getSimpleName());
-            return null;
-        }
-        log.debug("当前实体类 {}, 已配置 @AppLogEntity 注解，将记录日志, modelName = {}, bizName = {}", appBaseEntity.getClass().getSimpleName(), appLogEntity.modelName(), appLogEntity.bizName());
-
-        return appLogEntity;
-    }
-
-
-    private Set<Field> handleEntityFields(AppBaseEntity appBaseEntity, AppLogEntity appLogEntity) {
-
-        // 标识为 AppLogIgnoreField、Transient 或者 在全局设置中的字段 将不记录日志
-        return Arrays.stream(appBaseEntity.getClass().getDeclaredFields())
-                .filter(item -> item.getAnnotation(AppLogIgnoreField.class) == null && item.getAnnotation(Transient.class) == null && !appLogProperties.getIgnoreFields().contains(item.getName()))
-                .map(item -> {
-                    // 设置 private 为可访问
-                    item.setAccessible(true);
-                    return item;
-                }).collect(Collectors.toSet());
-    }
-
-
-    private Map<String, Object> handleTargetData(AppBaseEntity appBaseEntity, Set<Field> fieldSet) {
-        Map<String, Object> targetData = Maps.newHashMap();
-
-        // 是否存在唯一标识
-        boolean hasUniqueFlag = fieldSet.stream().anyMatch(field -> {
-            AppLogField appLogField = field.getAnnotation(AppLogField.class);
-            return appLogField != null && appLogField.uniqueFlag();
-        });
-
-        if (hasUniqueFlag) {
-            fieldSet.stream().filter(field -> field.getAnnotation(AppLogField.class) != null && field.getAnnotation(AppLogField.class).uniqueFlag()).forEach(field -> {
-                AppLogField appLogField = field.getAnnotation(AppLogField.class);
-                Object value = ReflectionUtils.getField(field, appBaseEntity);
-                targetData.put(appLogField.value(), value);
-            });
-        } else {
-            fieldSet.forEach(field -> {
-                AppLogField appLogField = field.getAnnotation(AppLogField.class);
-                String key = appLogField == null ? field.getName() : appLogField.value();
-                Object value = ReflectionUtils.getField(field, appBaseEntity);
-                targetData.put(key, value);
-            });
-        }
-
-        return targetData;
-    }
 
     @Override
     public void onPrePersist(AppBaseEntity appBaseEntity) {
@@ -170,11 +107,30 @@ public class AppAuditorBizLogHandler implements AppAuditorHandler, ApplicationCo
     }
 
     @Override
+    public void onPostLoad(AppBaseEntity appBaseEntity) {
+
+    }
+
+    @Override
+    public void onPostPersist(AppBaseEntity appBaseEntity) {
+
+    }
+
+    @Override
+    public void onPostUpdate(AppBaseEntity appBaseEntity) {
+
+    }
+
+    @Override
+    public void onPostRemove(AppBaseEntity appBaseEntity) {
+
+    }
+
+    @Override
     public int getOrder() {
         return 0;
     }
 
-    private ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

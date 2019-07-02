@@ -38,6 +38,26 @@ public class MyAudit implements AppAuditorHandler {
     }
 
     @Override
+    public void onPostLoad(AppBaseEntity appBaseEntity) {
+
+    }
+
+    @Override
+    public void onPostPersist(AppBaseEntity appBaseEntity) {
+
+    }
+
+    @Override
+    public void onPostUpdate(AppBaseEntity appBaseEntity) {
+
+    }
+
+    @Override
+    public void onPostRemove(AppBaseEntity appBaseEntity) {
+
+    }
+
+    @Override
     public int getOrder() {
         return 0;
     }

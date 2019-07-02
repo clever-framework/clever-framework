@@ -5,6 +5,7 @@ import io.github.toquery.framework.dao.audit.AppEntityD3Listener;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+//import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RevisionNumber;
@@ -31,6 +32,7 @@ import java.util.Date;
 @Getter
 @Audited
 @MappedSuperclass
+//@DynamicUpdate
 @Access(AccessType.FIELD)
 @EntityListeners({AuditingEntityListener.class, AppEntityD3Listener.class})
 //@RevisionEntity(AppRevisionListener.class)
