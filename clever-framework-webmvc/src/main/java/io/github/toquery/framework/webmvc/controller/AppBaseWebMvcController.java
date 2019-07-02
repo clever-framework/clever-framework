@@ -3,13 +3,11 @@ package io.github.toquery.framework.webmvc.controller;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.properties.AppWebProperties;
+import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author toquery
@@ -17,14 +15,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AppBaseWebMvcController extends AppBaseWebController {
 
-    @Resource
-    protected HttpServletRequest request;
 
     @Resource
-    protected HttpServletResponse response;
+    protected AppWebMvcProperties appWebMvcProperties;
 
-    @Resource
-    protected AppWebProperties appWebProperties;
 
     protected String getRequestParameterValue(String name) {
         String[] values = request.getParameterValues(name);
@@ -35,13 +29,13 @@ public class AppBaseWebMvcController extends AppBaseWebController {
     }
 
     protected int getRequestPageSize() {
-        String pageSize = this.getRequestParameterValue(appWebProperties.getParam().getPageSize());
-        return Strings.isNullOrEmpty(pageSize) ? appWebProperties.getDefaultValue().getPageSize() : Integer.valueOf(pageSize);
+        String pageSize = this.getRequestParameterValue(appWebMvcProperties.getParam().getPageSize());
+        return Strings.isNullOrEmpty(pageSize) ? appWebMvcProperties.getDefaultValue().getPageSize() : Integer.valueOf(pageSize);
     }
 
     protected int getRequestPageNumber() {
-        String pageNumber = this.getRequestParameterValue(appWebProperties.getParam().getPageNumber());
-        return Strings.isNullOrEmpty(pageNumber) ? appWebProperties.getDefaultValue().getPageNumber() : Integer.valueOf(pageNumber);
+        String pageNumber = this.getRequestParameterValue(appWebMvcProperties.getParam().getPageNumber());
+        return Strings.isNullOrEmpty(pageNumber) ? appWebMvcProperties.getDefaultValue().getPageNumber() : Integer.valueOf(pageNumber);
     }
 
 

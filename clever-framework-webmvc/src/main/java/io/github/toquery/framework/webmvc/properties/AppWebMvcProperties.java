@@ -12,8 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Getter
 @Configuration
-@ConfigurationProperties(prefix = "app.web")
-public class AppWebProperties {
+@ConfigurationProperties(prefix = AppWebMvcProperties.PREFIX)
+public class AppWebMvcProperties {
+
+    public static final String PREFIX = "app.web-mvc";
 
     private AppWebParamProperties param = new AppWebParamProperties();
 

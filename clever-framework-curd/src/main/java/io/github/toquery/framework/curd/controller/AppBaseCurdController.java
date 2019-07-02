@@ -28,7 +28,7 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
      * @return 查询参数
      */
     protected Map<String, Object> getFilterParam() {
-        return getParametersStartingWith(request, appWebProperties.getParam().getFilterPrefix());
+        return getParametersStartingWith(request, appWebMvcProperties.getParam().getFilterPrefix());
     }
 
     /**
