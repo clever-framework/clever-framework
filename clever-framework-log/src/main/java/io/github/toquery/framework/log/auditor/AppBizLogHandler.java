@@ -4,9 +4,9 @@ import io.github.toquery.framework.dao.audit.AppAuditorHandler;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.annotation.AppLogEntity;
 import io.github.toquery.framework.log.constant.AppLogType;
-import io.github.toquery.framework.log.biz.entity.SysLog;
+import io.github.toquery.framework.log.rest.entity.SysLog;
 import io.github.toquery.framework.log.properties.AppLogProperties;
-import io.github.toquery.framework.log.biz.service.ISysLogService;
+import io.github.toquery.framework.log.rest.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @version 1
  */
 @Slf4j
-@Component
+//@Component
 @Scope("singleton")
 public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppAuditorHandler, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, InitializingBean {
 
@@ -39,7 +39,6 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
 
     // Spring 容器加载完毕后 set bean
     private ISysLogService sysLogService;
-
 
     public AppBizLogHandler() {
         log.info("初始化 App Biz Log 审计日志");
@@ -54,7 +53,7 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
 
     @Override
     public void onPrePersist(AppBaseEntity appBaseEntity) {
-        log.debug("接收到新增数据操作，将记录日志。");
+       log.debug("接收到新增数据操作，将记录日志。");
         AppLogEntity appLogEntity = handleEntityAnnotation(appBaseEntity);
         if (appLogEntity == null) {
             return;

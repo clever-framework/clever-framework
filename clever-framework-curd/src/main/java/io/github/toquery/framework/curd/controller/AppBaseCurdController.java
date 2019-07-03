@@ -80,6 +80,9 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         return ResponseParam.builder().build().page(this.handleQuery());
     }
 
+    public ResponseParam query(Map<String, Object> filterParam) {
+        return ResponseParam.builder().build().page(this.handleQuery(filterParam));
+    }
 
     public ResponseParam query(String[] sorts) {
         return ResponseParam.builder().build().page(this.handleQuery(sorts));
@@ -116,6 +119,11 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
 
     public ResponseParam list() {
         return this.handleResponseParam(this.handleList());
+    }
+
+
+    public ResponseParam list(Map<String, Object> filterParam) {
+        return this.handleResponseParam(this.handleList(filterParam));
     }
 
     public ResponseParam list(String[] sorts) {

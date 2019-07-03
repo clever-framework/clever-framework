@@ -1,22 +1,38 @@
 package io.github.toquery.framework.log.autoconfig;
 
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
+import io.github.toquery.framework.log.event.AppHibernateListenerConfigurer;
+import io.github.toquery.framework.log.event.listener.AppBizLogDeleteEventListener;
+import io.github.toquery.framework.log.event.listener.AppBizLogMergeEventListener;
+import io.github.toquery.framework.log.event.listener.AppBizLogPersistEventListener;
 import io.github.toquery.framework.log.properties.AppLogProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.event.service.spi.EventListenerRegistry;
+import org.hibernate.event.spi.EventType;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
 /**
+ * TODO 如果不启用，则会报找不到 SysLog 实体
+ *
  * @author toquery
  * @version 1
  */
 @Slf4j
 @Configuration
 @ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@Import(AppHibernateListenerConfigurer.class)
 @ComponentScan(basePackages = "io.github.toquery.framework.log")
-@EntityScan(basePackages = "io.github.toquery.framework.log.biz.entity")
+@EntityScan(basePackages = "io.github.toquery.framework.log.rest.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.log")
 public class AppBizLogAutoConfiguration {
 
@@ -31,4 +47,32 @@ public class AppBizLogAutoConfiguration {
 //        return new HibernateListenerConfigurer();
 //    }
 
+    @Bean
+    public AppBizLogPersistEventListener getAppBizLogPersistEventListener() {
+        return new AppBizLogPersistEventListener();
+    }
+
+    @Bean
+    public AppBizLogMergeEventListener getAppBizLogMergeEventListener() {
+        return new AppBizLogMergeEventListener();
+    }
+
+    @Bean
+    public AppBizLogDeleteEventListener getAppBizLogDeleteEventListener() {
+        return new AppBizLogDeleteEventListener();
+    }
+
+
+//    @PersistenceUnit
+//    private EntityManagerFactory entityManagerFactory;
+//
+//
+//
+//    @PostConstruct
+//    protected void init() {
+//        SessionFactoryImpl sessionFactory = entityManagerFactory.unwrap(SessionFactoryImpl.class);
+//        EventListenerRegistry registry = sessionFactory.getServiceRegistry().getService(EventListenerRegistry.class);
+//        log.debug("加载 自定义 Listener AppBizLogPersistEventListener");
+//        registry.getEventListenerGroup(EventType.PERSIST).appendListener(getAppBizLogPersistEventListener());
+//    }
 }

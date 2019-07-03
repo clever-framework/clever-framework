@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 public @interface AppLogField {
 
     /**
-     * 实体唯一的标识，新增 删除的时候会以标识 为 true 的字段展示
+     * 实体的标识，新增 删除的时候会以标识 为 true 的字段展示
      * @return false 不是唯一标志
      */
     boolean uniqueFlag() default false;

@@ -1,7 +1,7 @@
-package io.github.toquery.framework.log.biz.dao;
+package io.github.toquery.framework.log.rest.dao;
 
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
-import io.github.toquery.framework.log.biz.entity.SysLog;
+import io.github.toquery.framework.log.rest.entity.SysLog;
 
 /**
  * @author toquery

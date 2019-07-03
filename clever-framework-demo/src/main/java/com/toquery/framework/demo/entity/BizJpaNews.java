@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.annotation.AppLogEntity;
 import io.github.toquery.framework.log.annotation.AppLogField;
-import io.github.toquery.framework.log.annotation.AppLogIgnoreField;
+import io.github.toquery.framework.log.annotation.AppLogFieldIgnore;
 import io.github.toquery.framework.security.AppEntityAuditorListener;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,7 +41,7 @@ public class BizJpaNews extends AppBaseEntity implements AppEntityAuditorListene
     @Column
     private String name;
 
-    @AppLogIgnoreField
+    @AppLogFieldIgnore
     @Column
     private Integer num;
 
