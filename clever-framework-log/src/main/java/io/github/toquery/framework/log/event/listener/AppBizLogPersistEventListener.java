@@ -44,7 +44,7 @@ public class AppBizLogPersistEventListener implements PersistEventListener {
                 return;
             }
             Map<String, Object> targetData = appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity, appLogEntity));
-            SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(appBaseEntity, null, targetData, appLogEntity, AppLogType.CREA);
+            SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(appBaseEntity, null, targetData, appLogEntity.modelName(), appLogEntity.bizName(), AppLogType.CREA);
             sysLogService.save(sysLog);
             log.debug("接收到新增 {} 的数据操作，记录日志完成。", entity.getClass().getSimpleName());
         } else {

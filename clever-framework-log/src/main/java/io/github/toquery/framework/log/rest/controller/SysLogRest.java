@@ -4,6 +4,7 @@ package io.github.toquery.framework.log.rest.controller;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.log.annotation.AppLogMethod;
 import io.github.toquery.framework.log.rest.entity.SysLog;
 import io.github.toquery.framework.log.rest.service.ISysLogService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -54,6 +55,7 @@ public class SysLogRest extends AppBaseCurdController<ISysLogService, SysLog, Lo
         }
         return super.list(filterParam);
     }
+
 
 
     @PostMapping

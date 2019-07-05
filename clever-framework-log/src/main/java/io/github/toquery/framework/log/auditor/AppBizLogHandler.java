@@ -4,8 +4,8 @@ import io.github.toquery.framework.dao.audit.AppAuditorHandler;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.annotation.AppLogEntity;
 import io.github.toquery.framework.log.constant.AppLogType;
-import io.github.toquery.framework.log.rest.entity.SysLog;
 import io.github.toquery.framework.log.properties.AppLogProperties;
+import io.github.toquery.framework.log.rest.entity.SysLog;
 import io.github.toquery.framework.log.rest.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -15,7 +15,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
 
     @Override
     public void onPrePersist(AppBaseEntity appBaseEntity) {
-       log.debug("接收到新增数据操作，将记录日志。");
+        log.debug("接收到新增数据操作，将记录日志。");
         AppLogEntity appLogEntity = handleEntityAnnotation(appBaseEntity);
         if (appLogEntity == null) {
             return;
@@ -61,7 +60,7 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
 
         Map<String, Object> targetData = handleTargetData(appBaseEntity, handleEntityFields(appBaseEntity, appLogEntity));
 
-        SysLog sysLog = this.fill2SysLog(appBaseEntity, null, targetData, appLogEntity, AppLogType.CREA);
+        SysLog sysLog = this.fill2SysLog(appBaseEntity, null, targetData, appLogEntity.modelName(), appLogEntity.bizName(), AppLogType.CREA);
 
         sysLogService.save(sysLog);
         log.debug("接收到");
@@ -76,7 +75,7 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
         }
 
         Map<String, Object> targetData = handleTargetData(appBaseEntity, handleEntityFields(appBaseEntity, appLogEntity));
-        SysLog sysLog = this.fill2SysLog(appBaseEntity, null, targetData, appLogEntity, AppLogType.MODF);
+        SysLog sysLog = this.fill2SysLog(appBaseEntity, null, targetData, appLogEntity.modelName(), appLogEntity.bizName(), AppLogType.MODF);
         sysLogService.save(sysLog);
         log.debug("接收到");
 
@@ -90,7 +89,7 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
             return;
         }
         Map<String, Object> targetData = handleTargetData(appBaseEntity, handleEntityFields(appBaseEntity, appLogEntity));
-        SysLog sysLog = this.fill2SysLog(appBaseEntity, null, targetData, appLogEntity, AppLogType.DEL);
+        SysLog sysLog = this.fill2SysLog(appBaseEntity, null, targetData, appLogEntity.modelName(), appLogEntity.bizName(), AppLogType.DEL);
         sysLogService.save(sysLog);
         log.debug("接收到");
     }

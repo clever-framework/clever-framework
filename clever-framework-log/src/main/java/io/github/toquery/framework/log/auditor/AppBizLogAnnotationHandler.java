@@ -35,10 +35,10 @@ public class AppBizLogAnnotationHandler {
     @Resource
     private AppLogProperties appLogProperties;
 
-    public SysLog fill2SysLog(AppBaseEntity appBaseEntity, Map<String, Object> rawData, Map<String, Object> targetData, AppLogEntity appLogEntity, AppLogType logType) {
+    public SysLog fill2SysLog(AppBaseEntity appBaseEntity, Map<String, Object> rawData, Map<String, Object> targetData, String modelName,String bizName, AppLogType logType) {
         SysLog sysLog = new SysLog();
-        sysLog.setModuleName(appLogEntity.modelName());
-        sysLog.setBizName(appLogEntity.bizName());
+        sysLog.setModuleName(modelName);
+        sysLog.setBizName(bizName);
         sysLog.setRawData(JSON.toJSONString(rawData));
         sysLog.setTargetData(JSON.toJSONString(targetData));
         sysLog.setLogType(logType);
