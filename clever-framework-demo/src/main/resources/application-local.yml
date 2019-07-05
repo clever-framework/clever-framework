@@ -39,7 +39,8 @@ logging:
     com.toquery: debug
 
 mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  # 匹配多个包，下指定路径的多个xml文件
+  mapper-locations: classpath*:mybatis/mapper/*.xml
   config-location: classpath:mybatis/config/mybatis-config.xml
 
 server:
