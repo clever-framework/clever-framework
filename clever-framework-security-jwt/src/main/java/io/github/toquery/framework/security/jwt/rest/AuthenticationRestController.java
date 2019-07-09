@@ -7,7 +7,7 @@ import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
-import io.github.toquery.framework.security.jwt.service.JwtAuthenticationResponse;
+import io.github.toquery.framework.security.jwt.JwtAuthenticationResponse;
 import io.github.toquery.framework.security.system.domain.SysUser;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;

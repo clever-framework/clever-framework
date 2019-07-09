@@ -2,9 +2,10 @@ package io.github.toquery.framework.security.jwt.config;
 
 import io.github.toquery.framework.security.config.AppWebSecurityConfig;
 import io.github.toquery.framework.security.jwt.JwtAuthenticationEntryPoint;
+import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.filter.JwtAuthorizationTokenFilter;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
-import io.github.toquery.framework.security.jwt.service.JwtUserDetailsService;
+import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
 
@@ -37,35 +41,44 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Resource
-    private JwtUserDetailsService jwtUserDetailsService;
-
-    // Custom JWT based security filter
-    @Resource
-    private JwtAuthorizationTokenFilter authenticationTokenFilter;
+    private UserDetailsService userDetailsService;
 
     @Resource
     private AppSecurityJwtProperties appSecurityJwtProperties;
 
     @Resource
+    private AppSecurityProperties appSecurityProperties;
+
+
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Resource
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(jwtUserDetailsService)
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoderBean());
     }
 
     @Bean
-    public PasswordEncoder passwordEncoderBean() {
-        //BCryptPasswordEncoder
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return "admin";
-            }
+    public OncePerRequestFilter getFilter() {
+        return new JwtAuthorizationTokenFilter(userDetailsService, jwtTokenUtil, appSecurityProperties, appSecurityJwtProperties);
+    }
 
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return true;
-            }
-        };
+    @Bean
+    public PasswordEncoder passwordEncoderBean() {
+        return new BCryptPasswordEncoder();
+        //BCryptPasswordEncoder
+//        return new PasswordEncoder() {
+//            @Override
+//            public String encode(CharSequence rawPassword) {
+//                return "admin";
+//            }
+//
+//            @Override
+//            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+//                return true;
+//            }
+//        };
     }
 
 
@@ -89,7 +102,7 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
                 .anyRequest().authenticated()
         ;
 
-        httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(getFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
         httpSecurity.headers().frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
