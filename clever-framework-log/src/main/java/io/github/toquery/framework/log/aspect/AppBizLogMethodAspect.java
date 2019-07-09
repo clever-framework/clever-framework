@@ -3,13 +3,11 @@ package io.github.toquery.framework.log.aspect;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.annotation.AppLogMethod;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
-import io.github.toquery.framework.log.constant.AppLogType;
 import io.github.toquery.framework.log.rest.entity.SysLog;
 import io.github.toquery.framework.log.rest.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,7 +16,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -57,7 +57,7 @@ public class AppBizLogMethodAspect {
 
     @AfterReturning(returning = "response", pointcut = "pointcut(appLogMethod)", argNames = "joinPoint,appLogMethod,response")
     public void doAfterReturning(JoinPoint joinPoint, AppLogMethod appLogMethod, Object response) throws Throwable {
-        Signature signature = joinPoint.getSignature();
+//        Signature signature = joinPoint.getSignature();
         AppBaseEntity argBaseEntity = this.argObjectsInclude(joinPoint.getArgs());
         if (argBaseEntity == null) {
             log.info("记录日志失败，获取到参数类型不正确。");
@@ -78,7 +78,6 @@ public class AppBizLogMethodAspect {
         SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(argBaseEntity, null, targetData, modelName, bizName, appLogMethod.logType());
 
         sysLogService.save(sysLog);
-        sysLogService.save(sysLog);
         log.info("doAfterReturning");
     }
 
@@ -96,8 +95,11 @@ public class AppBizLogMethodAspect {
             return null;
         }
         Optional<AppBaseEntity> appBaseEntityOptional = Stream.of(argObjects).filter(item -> item instanceof AppBaseEntity).map(item -> (AppBaseEntity) item).findAny();
-        return appBaseEntityOptional.orElse(null);
+        Optional<Collection<AppBaseEntity>> appBaseEntityCollection = Stream.of(argObjects).filter(item -> item instanceof Collection).map(item -> (Collection<AppBaseEntity>) item).findAny();
 
+        // 如果接受参数为单个实体，则去获取单个实体
+        // 如果接收参数为List，则去获取list的任意一个
+        return appBaseEntityOptional.orElseGet(() -> appBaseEntityCollection.map(appBaseEntities -> appBaseEntities.stream().filter(Objects::nonNull).findAny().orElse(null)).orElse(null));
     }
 
 

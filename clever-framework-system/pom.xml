@@ -12,4 +12,14 @@
     <artifactId>clever-framework-system</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-curd</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+    </dependencies>
 </project>

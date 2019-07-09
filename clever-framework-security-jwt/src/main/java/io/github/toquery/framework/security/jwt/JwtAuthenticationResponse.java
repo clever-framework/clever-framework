@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.jwt.service;
+package io.github.toquery.framework.security.jwt;
 
 import java.io.Serializable;
 

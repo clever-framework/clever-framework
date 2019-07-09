@@ -7,19 +7,12 @@ import io.github.toquery.framework.log.event.listener.AppBizLogMergeEventListene
 import io.github.toquery.framework.log.event.listener.AppBizLogPersistEventListener;
 import io.github.toquery.framework.log.properties.AppLogProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.event.service.spi.EventListenerRegistry;
-import org.hibernate.event.spi.EventType;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 
 /**
  * TODO 如果不启用，则会报找不到 SysLog 实体
