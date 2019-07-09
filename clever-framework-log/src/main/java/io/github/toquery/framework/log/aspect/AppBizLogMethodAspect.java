@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 /**
  * 实现AOP的切面主要有以下几个要素：
- * around > before > around > after > afterReturning
+ * around , before , around , after , afterReturning
  * <p>
  * 使用@Aspect注解将一个java类定义为切面类
  * 使用@Pointcut定义一个切入点，可以是一个规则表达式，比如下例中某个package下的所有函数，也可以是一个注解等。
