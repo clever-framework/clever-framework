@@ -14,6 +14,12 @@ import java.util.Date;
  */
 public class AppUtilDate {
 
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
+
+    public static final String TIME_PATTERN = "HH:mm:ss";
+
+    public static final String DATETIME_PATTERN = DATE_PATTERN + " " + TIME_PATTERN;
+
     public static Date theDayMin(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -40,23 +46,20 @@ public class AppUtilDate {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-
-    public static String getCurrentDateTime() {
-        return getCurrentDateTime("yyyy-MM-dd HH:mm:ss");
-    }
-
-
-
     public static String getCurrentDateTime(String format) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return LocalDateTime.now().format(formatter);
     }
 
     public static String getCurrentDate() {
-        return getCurrentDateTime("yyyy-MM-dd");
+        return getCurrentDateTime(DATE_PATTERN);
     }
 
     public static String getCurrentTime() {
-        return getCurrentDateTime("HH:mm:ss");
+        return getCurrentDateTime(TIME_PATTERN);
+    }
+
+    public static String getCurrentDateTime() {
+        return getCurrentDateTime(DATETIME_PATTERN);
     }
 }

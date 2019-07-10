@@ -48,11 +48,11 @@ public class AppBaseEntity implements Serializable {
     protected Long id;
 
 
-    @RevisionTimestamp
+//    @RevisionTimestamp
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @Column(name = "revision_time", updatable = false, nullable = false)
-    private long revisionDatetime;
+//    @Column(name = "revision_time", updatable = false, nullable = false)
+//    private long revisionDatetime;
 
 
     @CreatedBy
@@ -105,21 +105,4 @@ public class AppBaseEntity implements Serializable {
         log.debug("Spring DDD Model: AppBaseEntity ---- @AfterDomainEventPublication");
     }
 
-    /*@PrePersist
-    public void onPrePersist() {
-        log.debug("Spring DDD Model: AppBaseEntity ---- @PrePersist");
-    }
-
-    *//**
-     * todo BUG，修改数据时不经过这个
-     *//*
-    @PreUpdate
-    public void onPreUpdate() {
-        log.debug("Spring DDD Model: AppBaseEntity - @PreUpdate");
-    }
-
-    @PreRemove
-    public void onPreRemove() {
-        log.info("Spring DDD Model: AppBaseEntity - @PreRemove");
-    }*/
 }

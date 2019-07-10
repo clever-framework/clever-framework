@@ -28,14 +28,22 @@ public class AppBaseWebMvcController extends AppBaseWebController {
         return values[0];
     }
 
+    /**
+     * 获取每页数量
+     * @return  每页数量
+     */
     protected int getRequestPageSize() {
         String pageSize = this.getRequestParameterValue(appWebMvcProperties.getParam().getPageSize());
         return Strings.isNullOrEmpty(pageSize) ? appWebMvcProperties.getDefaultValue().getPageSize() : Integer.valueOf(pageSize);
     }
 
+    /**
+     * 获取当前第几页，第一页为1（1 转换为 0）
+     * @return  当前第几页
+     */
     protected int getRequestPageNumber() {
         String pageNumber = this.getRequestParameterValue(appWebMvcProperties.getParam().getPageNumber());
-        return Strings.isNullOrEmpty(pageNumber) ? appWebMvcProperties.getDefaultValue().getPageNumber() : Integer.valueOf(pageNumber);
+        return Strings.isNullOrEmpty(pageNumber) ? appWebMvcProperties.getDefaultValue().getPageNumber() : Integer.valueOf(pageNumber) - 1;
     }
 
 

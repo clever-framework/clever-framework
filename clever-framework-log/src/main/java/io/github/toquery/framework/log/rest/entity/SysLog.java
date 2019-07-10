@@ -15,6 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,18 +66,20 @@ public class SysLog extends AppBaseEntity {
     /**
      * 原数据
      */
-    @Column(name = "raw_data")
+    @Lob
+    @Column(columnDefinition = "text",name = "raw_data")
     private String rawData;
 
     /**
      * 目标数据
      */
-    @Column(name = "target_data")
+    @Lob
+    @Column(columnDefinition = "text",name = "target_data")
     private String targetData;
 
 
     /**
-     * 目标数据
+     * 日志产生时间
      */
     @Column(name = "create_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)

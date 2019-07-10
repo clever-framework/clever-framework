@@ -1,5 +1,12 @@
 /* 前后端通信相关的配置,注释只允许使用多行方式 */
 {
+  /* 上传音频配置项 */
+  "audioActionName": "uploadaudio", /* 执行上传音频的action名称 */
+  "audioFieldName": "file", /* 提交的音频表单名称 */
+  "audioMaxSize": 30720000, /* 上传大小限制，单位B */
+  "audioAllowFiles": [".mp3", ".wma", ".wav", ".amr"], /* 上传音频格式限制 */
+  "audioUrlPrefix": "http://audio.ushallnotpass.com/", /* 音频访问路径前缀 */
+
   /* 上传图片配置项 */
   "imageActionName": "uploadimage",
   /* 执行上传图片的action名称 */

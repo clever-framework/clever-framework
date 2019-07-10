@@ -9,8 +9,11 @@ import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtExceptio
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.jwt.JwtAuthenticationResponse;
 import io.github.toquery.framework.security.system.domain.SysUser;
+import io.github.toquery.framework.security.system.domain.dto.ChangePassword;
+import io.github.toquery.framework.security.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,9 +21,11 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -44,6 +49,14 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
     @Resource
     private UserDetailsService userDetailsService;
 
+    @Resource
+    private ISysUserService sysUserService;
+
+
+    @Resource
+    private AppSecurityJwtProperties appJwtProperties;
+
+
     @PostMapping(value = "${app.jwt.path.token:/user/token}")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JSONObject jsonObject) throws AppException {
         String userName = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getUserName(), "未获取到登录用户名");
@@ -56,6 +69,22 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         String token = jwtTokenUtil.generateToken(userDetails);
         // Return the token
         return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtAuthenticationResponse(token)));
+    }
+
+    /**
+     * Authenticates the user. If something is wrong, an {@link AppSecurityJwtException} will be thrown
+     */
+    private void authenticate(String username, String password) throws AppSecurityJwtException {
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(password);
+
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new AppSecurityJwtException("User is disabled!", e);
+        } catch (BadCredentialsException e) {
+            throw new AppSecurityJwtException("用户名或密码错误！", e, HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**
@@ -101,19 +130,49 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
     }
 
 
-    /**
-     * Authenticates the user. If something is wrong, an {@link AppSecurityJwtException} will be thrown
-     */
-    private void authenticate(String username, String password) throws AppSecurityJwtException {
-        Objects.requireNonNull(username);
-        Objects.requireNonNull(password);
 
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new AppSecurityJwtException("User is disabled!", e);
-        } catch (BadCredentialsException e) {
-            throw new AppSecurityJwtException("Bad credentials!", e);
+
+
+    @RequestMapping(value = "${app.jwt.path.info:/user/info}")
+    public ResponseEntity getAuthenticatedUser() throws AppSecurityJwtException {
+        String username = this.getUserName();
+        SysUser user = (SysUser) userDetailsService.loadUserByUsername(username);
+        user.authorities2Roles();
+        return ResponseEntity.ok(ResponseParam.builder().build().content(user));
+    }
+
+    @RequestMapping(value = "${app.jwt.path.password:/user/password}")
+    public ResponseEntity changePassword(@Validated @RequestBody ChangePassword changePassword) throws AppException {
+        if (!changePassword.getRawPassword().equals(changePassword.getRawPasswordConfirm())) {
+            return ResponseEntity.badRequest().body(ResponseParam.builder().build().message("两次密码输入不一致"));
         }
+        String userName = this.getUserName();
+        SysUser user = sysUserService.changePassword(userName, changePassword);
+        return ResponseEntity.ok(ResponseParam.builder().build().content(user));
+    }
+
+
+    private String getUserName() throws AppSecurityJwtException {
+        String token = request.getHeader(appJwtProperties.getHeader());
+        if (Strings.isNullOrEmpty(token)) {
+            throw new AppSecurityJwtException("未检测到提交的用户信息");
+        }
+        // 如果协议中以 Bearer 开始，则去获取真正的token
+        if (token.contains("Bearer ")) {
+            token = token.substring(7);
+        }
+        return jwtTokenUtil.getUsernameFromToken(token);
+    }
+
+
+    @PostMapping(value = "${app.jwt.path.register:/user/register}")
+    public ResponseEntity register(@RequestBody SysUser user) throws AppException {
+        user = sysUserService.saveSysUserCheck(user);
+        return ResponseEntity.ok(ResponseParam.builder().build().content(user));
+    }
+
+    @RequestMapping(value = "${app.jwt.path.logout:/user/logout}")
+    public ResponseEntity userLogout() {
+        return ResponseEntity.ok(ResponseParam.builder().build().content("user logout"));
     }
 }
