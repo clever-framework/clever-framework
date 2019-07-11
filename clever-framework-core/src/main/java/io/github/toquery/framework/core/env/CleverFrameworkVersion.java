@@ -1,4 +1,4 @@
-package io.github.toquery.framework.core;
+package io.github.toquery.framework.core.env;
 
 /**
  * Class that exposes the Spring Boot version. Fetches the "Implementation-Version"
@@ -14,8 +14,6 @@ package io.github.toquery.framework.core;
  * @since 1.0.4
  */
 public class CleverFrameworkVersion {
-    private CleverFrameworkVersion() {
-    }
 
     /**
      * Return the full version string of the present Spring Boot codebase, or {@code null}

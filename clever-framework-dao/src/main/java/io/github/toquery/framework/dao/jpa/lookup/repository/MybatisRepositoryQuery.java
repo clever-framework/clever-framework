@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * 基于Spring JPA 的 RepositoryQuery 的 mybatis 查询 实现
+ * 基于Spring JPA RepositoryQuery 的 mybatis 查询 实现
  */
 @Slf4j
 public class MybatisRepositoryQuery implements RepositoryQuery {

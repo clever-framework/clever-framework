@@ -48,8 +48,7 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
     }
 
     public static QueryLookupStrategy create(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider queryMethodEvaluationContextProvider) {
-        return new QueryLookupStrategyFactories(entityManager, beanFactory,
-                key, extractor, queryMethodEvaluationContextProvider);
+        return new QueryLookupStrategyFactories(entityManager, beanFactory, key, extractor, queryMethodEvaluationContextProvider);
     }
 
     @Override

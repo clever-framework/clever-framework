@@ -37,15 +37,15 @@ import java.util.stream.Collectors;
 @Table(name = "sys_user")
 public class SysUser extends AppBaseEntity implements UserDetails {
 
-    @NotBlank
-    @Length(min = 1, max = 50)
-    @Column(name = "login_name", length = 50, unique = true, nullable = false)
-    private String loginName;
+//    @NotBlank
+//    @Length(min = 1, max = 50)
+//    @Column(name = "login_name", length = 50, unique = true, nullable = false)
+//    private String loginName;
 
     @NotBlank
     @Size(min = 4, max = 50)
     @Column(name = "user_name", length = 50, unique = true)
-    private String userName;
+    private String username;
 
     //    @JsonIgnore
     @NotBlank
@@ -100,13 +100,6 @@ public class SysUser extends AppBaseEntity implements UserDetails {
         return this.enabled == null ? true : this.enabled;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     /**
      * 将Spring属性转换为角色code
@@ -127,13 +120,6 @@ public class SysUser extends AppBaseEntity implements UserDetails {
      }
      */
 
-    /**
-     * Spring 用户属性
-     */
-    @Override
-    public String getUsername() {
-        return this.userName;
-    }
 
     /**
      * Spring 用户属性

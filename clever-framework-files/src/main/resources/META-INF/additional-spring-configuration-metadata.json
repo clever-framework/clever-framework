@@ -1,0 +1,29 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "app.files.uploadParam",
+      "type": "java.lang.String",
+      "description": "文件上传参数名称.",
+      "defaultValue": "file"
+    },
+    {
+      "name": "app.files.path.store",
+      "type": "java.lang.String",
+      "description": "文件上传保存路径,默认相对于项目当前路径，否则设置绝对路径."
+    },
+    {
+      "name": "app.files.path.upload",
+      "type": "java.lang.String",
+      "description": "文件上传的url地址.",
+      "defaultValue": "/app/files/upload"
+    },
+    {
+      "name": "app.files.path.download",
+      "type": "java.lang.String",
+      "description": "下载查看文件的url地址,需追加?id=xxxx参数.",
+      "defaultValue": "/app/files/download"
+    }
+  ],
+  "hints": []
+}

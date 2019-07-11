@@ -31,6 +31,7 @@
         <revision>${clever-framework.version}</revision>
 
         <!-- tool jar -->
+        <json.version>20180813</json.version>
         <jackson.version>2.9.8</jackson.version>
         <lombok.version>1.18.2</lombok.version>
         <guava.version>26.0-jre</guava.version>
@@ -39,6 +40,7 @@
         <reflections.version>0.9.11</reflections.version>
 
         <!-- apache jar -->
+        <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-collections4.version>4.2</commons-collections4.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
@@ -179,6 +181,16 @@
                 <version>${guava.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>

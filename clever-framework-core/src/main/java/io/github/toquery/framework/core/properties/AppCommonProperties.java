@@ -1,4 +1,4 @@
-package io.github.toquery.framework.core.config;
+package io.github.toquery.framework.core.properties;
 
 import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import lombok.Getter;

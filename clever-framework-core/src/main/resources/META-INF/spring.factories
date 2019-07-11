@@ -1,0 +1,7 @@
+# Environment Post Processors
+org.springframework.boot.env.EnvironmentPostProcessor=\
+io.github.toquery.framework.core.env.CleverFrameworkEnvironmentPostProcessor
+
+# Enable Auto Configuration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.toquery.framework.core.autoconfig.AppCoreAutoConfiguration

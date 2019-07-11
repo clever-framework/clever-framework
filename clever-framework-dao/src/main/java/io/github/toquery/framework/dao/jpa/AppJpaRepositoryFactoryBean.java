@@ -33,5 +33,4 @@ public class AppJpaRepositoryFactoryBean<T extends Repository<S, ID>, S, ID exte
         this.beanFactory = beanFactory;
         super.setBeanFactory(beanFactory);
     }
-
 }
