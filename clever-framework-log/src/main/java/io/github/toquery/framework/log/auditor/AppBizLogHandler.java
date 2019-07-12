@@ -2,11 +2,11 @@ package io.github.toquery.framework.log.auditor;
 
 import io.github.toquery.framework.dao.audit.AppAuditorHandler;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.log.annotation.AppLogEntity;
-import io.github.toquery.framework.log.constant.AppLogType;
+import io.github.toquery.framework.core.annotation.AppLogEntity;
+import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.log.properties.AppLogProperties;
-import io.github.toquery.framework.log.rest.entity.SysLog;
-import io.github.toquery.framework.log.rest.service.ISysLogService;
+import io.github.toquery.framework.system.domain.SysLog;
+import io.github.toquery.framework.system.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;

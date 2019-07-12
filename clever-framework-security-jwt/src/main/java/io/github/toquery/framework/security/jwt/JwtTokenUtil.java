@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.jwt;
 
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
-import io.github.toquery.framework.security.system.domain.SysUser;
+import io.github.toquery.framework.system.domain.SysUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;

@@ -8,9 +8,9 @@ import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.jwt.JwtAuthenticationResponse;
-import io.github.toquery.framework.security.system.domain.SysUser;
-import io.github.toquery.framework.security.system.domain.dto.ChangePassword;
-import io.github.toquery.framework.security.system.service.ISysUserService;
+import io.github.toquery.framework.security.domain.ChangePassword;
+import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import org.springframework.http.HttpStatus;
@@ -59,7 +59,7 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
 
     @PostMapping(value = "${app.jwt.path.token:/user/token}")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JSONObject jsonObject) throws AppException {
-        String userName = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getUserName(), "未获取到登录用户名");
+        String userName = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getUsername(), "未获取到登录用户名");
         String password = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getPassword(), "未获取到登录密码");
 
         authenticate(userName, password);
@@ -147,7 +147,7 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
             return ResponseEntity.badRequest().body(ResponseParam.builder().build().message("两次密码输入不一致"));
         }
         String userName = this.getUserName();
-        SysUser user = sysUserService.changePassword(userName, changePassword);
+        SysUser user = sysUserService.changePassword(userName, changePassword.getRawPassword());
         return ResponseEntity.ok(ResponseParam.builder().build().content(user));
     }
 

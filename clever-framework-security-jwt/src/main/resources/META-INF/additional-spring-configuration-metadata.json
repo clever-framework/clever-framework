@@ -1,0 +1,60 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "app.jwt.header",
+      "type": "java.lang.String",
+      "description": "JWT认证时传递token的header参数名.",
+      "defaultValue": "Authorization"
+    },
+    {
+      "name": "app.jwt.secret",
+      "type": "java.lang.String",
+      "description": "JWT认证secret密钥.",
+      "defaultValue": ""
+    },
+    {
+      "name": "app.jwt.expiration",
+      "type": "java.lang.Long",
+      "description": "JWT认证token有效期.",
+      "defaultValue": "3600L"
+    },
+    {
+      "name": "app.jwt.path.token",
+      "type": "java.lang.String",
+      "description": "JWT认证获取token的url.",
+      "defaultValue": "/user/token"
+    },
+    {
+      "name": "app.jwt.path.info",
+      "type": "java.lang.String",
+      "description": "JWT认证获取用户信息的url.",
+      "defaultValue": "/user/info"
+    },
+    {
+      "name": "app.jwt.path.refresh",
+      "type": "java.lang.String",
+      "description": "JWT认证刷新token的url.",
+      "defaultValue": "/user/refresh"
+    },
+    {
+      "name": "app.jwt.path.register",
+      "type": "java.lang.String",
+      "description": "JWT认证注册用户的url.",
+      "defaultValue": "/user/register"
+    },
+    {
+      "name": "app.jwt.param.username",
+      "type": "java.lang.String",
+      "description": "JWT认证时，登录用户提交用户的参数名.",
+      "defaultValue": "username"
+    },
+    {
+      "name": "app.jwt.param.password",
+      "type": "java.lang.String",
+      "description": "JWT认证时，登录用户提交密码的参数名.",
+      "defaultValue": "password"
+    }
+  ],
+  "hints": []
+}

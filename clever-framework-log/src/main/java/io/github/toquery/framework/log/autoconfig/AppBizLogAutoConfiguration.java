@@ -1,6 +1,5 @@
 package io.github.toquery.framework.log.autoconfig;
 
-import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.log.event.AppHibernateListenerConfigurer;
 import io.github.toquery.framework.log.event.listener.AppBizLogDeleteEventListener;
 import io.github.toquery.framework.log.event.listener.AppBizLogMergeEventListener;
@@ -8,7 +7,6 @@ import io.github.toquery.framework.log.event.listener.AppBizLogPersistEventListe
 import io.github.toquery.framework.log.properties.AppLogProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,13 +23,11 @@ import org.springframework.context.annotation.Import;
 @ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 @Import(AppHibernateListenerConfigurer.class)
 @ComponentScan(basePackages = "io.github.toquery.framework.log")
-@EntityScan(basePackages = "io.github.toquery.framework.log.rest.entity")
-@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.log")
 public class AppBizLogAutoConfiguration {
 
 
     public AppBizLogAutoConfiguration() {
-        log.info("开始自动装配App Log 配置");
+        log.info("开始自动装配 App Log 自动化配置");
     }
 
 

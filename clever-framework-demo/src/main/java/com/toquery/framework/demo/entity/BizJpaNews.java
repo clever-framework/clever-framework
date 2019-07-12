@@ -2,9 +2,9 @@ package com.toquery.framework.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.log.annotation.AppLogEntity;
-import io.github.toquery.framework.log.annotation.AppLogField;
-import io.github.toquery.framework.log.annotation.AppLogFieldIgnore;
+import io.github.toquery.framework.core.annotation.AppLogEntity;
+import io.github.toquery.framework.core.annotation.AppLogField;
+import io.github.toquery.framework.core.annotation.AppLogFieldIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

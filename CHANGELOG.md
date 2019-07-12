@@ -8,6 +8,8 @@
 - 修改代码生成模板
 - 增加数据日志审计功能
 - 修改front、log模块自动装配设置
+- 新增system模块
+- 新增配置文件优化
 
 
 ## [v1.0.4](https://github.com/ToQuery/clever-framework/tree/v1.0.2) (2019-06-19)

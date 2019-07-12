@@ -1,10 +1,10 @@
 package io.github.toquery.framework.log.aspect;
 
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.log.annotation.AppLogMethod;
+import io.github.toquery.framework.core.annotation.AppLogMethod;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
-import io.github.toquery.framework.log.rest.entity.SysLog;
-import io.github.toquery.framework.log.rest.service.ISysLogService;
+import io.github.toquery.framework.system.domain.SysLog;
+import io.github.toquery.framework.system.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.aspectj.lang.JoinPoint;

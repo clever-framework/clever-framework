@@ -1,0 +1,18 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "app.log.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否期待用日志.",
+      "defaultValue": true
+    },
+    {
+      "name": "app.log.ignoreFields",
+      "type": "java.util.Set<java.lang.String>",
+      "description": "是否期待用日志.",
+      "defaultValue": ["log"]
+    }
+  ],
+  "hints": []
+}
