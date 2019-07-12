@@ -10,13 +10,13 @@
     {
       "name": "app.common.pattern.time",
       "type": "java.lang.String",
-      "description": "日期格式.",
+      "description": "时间格式.",
       "defaultValue": "HH:mm:ss"
     },
     {
       "name": "app.common.pattern.dateTime",
       "type": "java.lang.String",
-      "description": "日期格式.",
+      "description": "日期时间格式.",
       "defaultValue": "yyyy-MM-dd HH:mm:ss"
     }
   ],

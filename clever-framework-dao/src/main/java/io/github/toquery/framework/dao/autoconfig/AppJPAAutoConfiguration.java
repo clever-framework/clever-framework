@@ -6,22 +6,19 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import javax.sql.DataSource;
 
 @Slf4j
 @Configuration
-//启用jpa审计
-@EnableJpaAuditing
 @ConditionalOnBean(DataSource.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableJpaRepositories(basePackages = {"io.github.toquery.framework"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppJPAAutoConfiguration {
 
     public AppJPAAutoConfiguration() {
-        log.info("初始化{}", this.getClass().getSimpleName());
+        log.info("初始化 App Dao 模块 {}", this.getClass().getSimpleName());
     }
 
 }

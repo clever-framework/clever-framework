@@ -18,7 +18,11 @@
 
 ## 存在的问题
 
-- 多个不同包路径下，扫描实体，dao存在问题
+
+- [x] 多个不同包路径下，扫描实体，dao存在问题
+- [ ] security ,在父模块中配置后，在子模块中不会被继承，会被覆盖！！！
+- [ ] mybatis ,在父模块中配置 编写相应xml 的Mapper，在子模块中会被覆盖，导致XML读取接口失败
+
 
 ## 待完成的功能
 
@@ -38,8 +42,8 @@
 ## 
 
 ```bash
-mvn versions:set -DnewVersion=1.0.4
-mvn versions:set -DnewVersion=1.0.5-SNAPSHOT
+mvn versions:set -DnewVersion=1.0.5
+mvn versions:set -DnewVersion=1.0.6-SNAPSHOT
 
 ```
 

@@ -1,9 +1,9 @@
 package com.toquery.framework.demo.web.controller;
 
-import com.toquery.framework.demo.entity.TbJpaDemo;
-import com.toquery.framework.demo.entity.TbMyBatisDemo;
-import com.toquery.framework.demo.service.IJpaDemoService;
-import com.toquery.framework.demo.service.IMyBatisDemoService;
+import com.toquery.framework.demo.entity.BizJpaNews;
+import com.toquery.framework.demo.entity.BizBatisNews;
+import com.toquery.framework.demo.service.IBizJpaNewsService;
+import com.toquery.framework.demo.service.IBizBatisNewsService;
 import io.github.toquery.framework.webmvc.domain.ResponsePage;
 import io.github.toquery.framework.webmvc.domain.ResponsePageBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 @RequestMapping("/page")
 public class TestPageController {
     @Resource
-    private IMyBatisDemoService myBatisDemoService;
+    private IBizBatisNewsService myBatisDemoService;
 
     @RequestMapping("/page")
     public ResponsePage test() {
@@ -31,18 +31,18 @@ public class TestPageController {
     public Object mybatis(@RequestParam("name") String name,
                           @RequestParam(value = "page", defaultValue = "0") Integer page,
                           @RequestParam(value = "size", defaultValue = "15") Integer size) {
-        com.github.pagehelper.Page<TbMyBatisDemo> pageInfo = myBatisDemoService.findByName(name, page, size);
+        com.github.pagehelper.Page<BizBatisNews> pageInfo = myBatisDemoService.findByName(name, page, size);
         return ResponsePageBuilder.build(pageInfo);
     }
 
     @Resource
-    private IJpaDemoService demoService;
+    private IBizJpaNewsService demoService;
 
     @RequestMapping("/jpa")
     public Object jap(@RequestParam("name") String name,
                       @RequestParam(value = "page", defaultValue = "0") Integer page,
                       @RequestParam(value = "size", defaultValue = "15") Integer size) {
-        org.springframework.data.domain.Page<TbJpaDemo> demoPage = demoService.findByName(name, page, size);
+        org.springframework.data.domain.Page<BizJpaNews> demoPage = demoService.findByName(name, page, size);
         return ResponsePageBuilder.build(demoPage);
     }
 }

@@ -3,13 +3,13 @@ package com.toquery.framework.demo.test.security;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.security.system.domain.SysMenu;
-import io.github.toquery.framework.security.system.domain.SysRole;
-import io.github.toquery.framework.security.system.domain.SysUser;
 import com.toquery.framework.demo.test.BaseSpringTest;
-import io.github.toquery.framework.security.system.repository.SysMenuRepository;
-import io.github.toquery.framework.security.system.repository.SysRoleRepository;
-import io.github.toquery.framework.security.system.repository.SysUserRepository;
+import io.github.toquery.framework.system.domain.SysMenu;
+import io.github.toquery.framework.system.domain.SysRole;
+import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.repository.SysMenuRepository;
+import io.github.toquery.framework.system.repository.SysRoleRepository;
+import io.github.toquery.framework.system.repository.SysUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -56,10 +56,9 @@ public class SecuritySysTest extends BaseSpringTest {
         sysRole2 = sysRoleDao.saveAndFlush(sysRole2);
 
 
-        sysUser.setRoles(Sets.newHashSet(sysRole1, sysRole2));
+        sysUser.setAuthorities(Sets.newHashSet(sysRole1, sysRole2));
         sysUser.setEmail("1@qq.com");
-        sysUser.setLoginName("1");
-        sysUser.setUserName("1111");
+        sysUser.setUsername("1111");
         sysUser.setPassword("1111");
         sysUserDao.saveAndFlush(sysUser);
     }

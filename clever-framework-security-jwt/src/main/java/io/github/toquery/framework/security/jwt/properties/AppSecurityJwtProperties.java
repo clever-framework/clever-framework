@@ -4,14 +4,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author toquery
  * @version 1
  */
 @Data
-@Configuration
 @ConfigurationProperties(prefix = AppSecurityJwtProperties.PATH)
 public class AppSecurityJwtProperties {
 
@@ -19,14 +17,13 @@ public class AppSecurityJwtProperties {
 
     private String header = "Authorization";
 
-    private AppJwtParamProperties param = new AppJwtParamProperties();
-
     private String secret = "";
 
     private Long expiration = 3600L;
 
-    private AppJwtPathProperties path = new AppJwtPathProperties();
+    private AppJwtParamProperties param = new AppJwtParamProperties();
 
+    private AppJwtPathProperties path = new AppJwtPathProperties();
 
     @Getter
     @Setter
@@ -40,7 +37,7 @@ public class AppSecurityJwtProperties {
     @Getter
     @Setter
     public static class AppJwtParamProperties {
-        private String userName = "username";
+        private String username = "username";
         private String password = "password";
     }
 

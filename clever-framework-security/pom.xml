@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.github.toquery</groupId>
         <artifactId>clever-framework</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,8 +22,16 @@
             <artifactId>clever-framework-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-log</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-system</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.toquery</groupId>
@@ -43,5 +51,6 @@
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-common</artifactId>
         </dependency>
+
     </dependencies>
 </project>

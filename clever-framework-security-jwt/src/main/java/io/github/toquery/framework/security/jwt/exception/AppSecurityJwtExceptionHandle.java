@@ -18,6 +18,7 @@ public class AppSecurityJwtExceptionHandle {
     @ResponseBody
     @ExceptionHandler(AppSecurityJwtException.class)
     public ResponseEntity<ResponseParam> handleAuthenticationException(AppSecurityJwtException e) {
+        e.printStackTrace();
         return ResponseEntity.status(e.getHttpStatus()).body(ResponseParam.builder().build().message(e.getMessage()));
     }
 }

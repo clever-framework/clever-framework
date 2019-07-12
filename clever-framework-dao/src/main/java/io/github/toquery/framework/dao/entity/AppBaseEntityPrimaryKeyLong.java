@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.envers.RevisionNumber;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -18,13 +19,15 @@ import javax.persistence.MappedSuperclass;
  */
 @Setter
 @Getter
+@Deprecated
 @MappedSuperclass
 @Access(AccessType.FIELD)
 @EqualsAndHashCode(callSuper = true)
-public class AppBaseEntityPrimaryKeyLong extends AppBaseEntityAudited {
+public class AppBaseEntityPrimaryKeyLong extends AppBaseEntity {
 
     @Id
     @Column
+    @RevisionNumber
     @GeneratedValue(generator = "generatedkey")
     @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppJpaEntityLongIDGenerator")
     protected Long id;

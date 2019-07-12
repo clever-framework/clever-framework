@@ -11,11 +11,12 @@ import java.io.File;
  * @version 1
  */
 @Data
-@Configuration
-@ConfigurationProperties(prefix = AppFrontProperties.PATH)
+@ConfigurationProperties(prefix = AppFrontProperties.PREFIX)
 public class AppFrontProperties {
 
-    public static final String PATH = "app.front";
+    public static final String PREFIX = "app.front";
+
+    private boolean enable = true;
 
     private String prefix = "target" + File.separator;
 

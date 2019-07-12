@@ -165,6 +165,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         //查询是否存在待更新的实体
         E existEntity = findExistEntity((ID) entityInformation.getId(entity));
         Assert.notNull(existEntity, "no exist " + entity.getClass() + " in database .");
+        /* deprecated 1.0.5 直接修改不会经过lister,新版本会执行动态更新
         //如果存在需要更新的字段，则按照字段进行更新；否则整个更新实体
         if (isExecuteDynamicUpdate(entity, updateFieldsName)) {
             validateProperties(entity, updateFieldsName);
@@ -174,7 +175,9 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
             //更新实体
             entity = updateComplexField(existEntity, entity, updateFieldsName);
         }
-        return entity;
+     */
+        log.debug("废弃 CriteriaUpdate 方式修改数据库，将使用 Jpa merge 动态更新");
+        return updateComplexField(existEntity, entity, updateFieldsName);
     }
 
     /**
@@ -182,7 +185,9 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
      *
      * @param entity           效验的实体
      * @param updateFieldsName 更新的字段集合
+     * @deprecated 1.0.5 直接修改不会经过lister
      */
+    @Deprecated
     public boolean isExecuteDynamicUpdate(E entity, Collection<String> updateFieldsName) {
         //没有执行需要更新的字段
         if (updateFieldsName == null || updateFieldsName.size() < 1) {
@@ -199,7 +204,9 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
      *
      * @param entity           要修改的对象
      * @param updateFieldsName 将要修改对象的字段
+     * @deprecated 1.0.5 直接修改不会经过lister
      */
+    @Deprecated
     public E updateSimpleField(E entity, Collection<String> updateFieldsName) {
         Assert.notEmpty(updateFieldsName, entity.getClass() + "更新字段不能为空。");
 
@@ -232,33 +239,31 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
      * @param updateFieldsName 更新字段
      */
     public E updateComplexField(E existEntity, E newEntity, Collection<String> updateFieldsName) {
+        Assert.notEmpty(updateFieldsName, existEntity.getClass() + "更新字段不能为空。");
         //设置托管实体中需要更新的属性
-        if (updateFieldsName != null && updateFieldsName.size() > 0) {
-            for (String updateField : updateFieldsName) {
-                try {
-                    //设置已有实体的属性
-                    PropertyUtils.setProperty(existEntity, updateField, PropertyUtils.getProperty(newEntity, updateField));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e.getMessage());
-                }
+        for (String updateField : updateFieldsName) {
+            try {
+                //设置已有实体的属性
+                PropertyUtils.setProperty(existEntity, updateField, PropertyUtils.getProperty(newEntity, updateField));
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e.getMessage());
             }
-        } else {
-            throw new IllegalArgumentException("必须指定更新的字段");
         }
         //更新实体及相关属性
         newEntity = entityManager.merge(existEntity);
-
         return newEntity;
     }
 
     @Override
     @Transactional
     public List<E> update(List<E> entityList, Collection<String> updateFieldsName) {
+        List<E> resultList = Lists.newArrayList();
         for (E entity : entityList) {
             entity = update(entity, updateFieldsName);
+            resultList.add(entity);
         }
-        return entityList;
+        return resultList;
     }
 
     /**
@@ -284,6 +289,17 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
     public void deleteByIds(Collection<ID> ids) {
         ids.forEach(this::deleteById);
     }
+
+
+    /**
+     * todo
+     * java.sql.SQLException: Connection is read-only. Queries leading to data modification are not allowed
+     * at io.github.toquery.framework.dao.repository.impl.AppJpaBaseRepositoryImpl.delete(AppJpaBaseRepositoryImpl.java:308) ~[classes/:na]
+     * at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_121]
+     * at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_121]
+     * at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_121]
+     * at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_121]
+     */
 
     public void delete(Map<String, Object> params, AppDaoEnumConnector connector) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();

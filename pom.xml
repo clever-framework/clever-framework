@@ -7,7 +7,7 @@
     <groupId>io.github.toquery</groupId>
     <artifactId>clever-framework</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <url>https://github.com/ToQuery/clever-framework</url>
     <description>Spring-based rapid development framework</description>
@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.5.RELEASE</version>
+        <version>2.1.6.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -25,12 +25,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <clever-framework.version>1.0.4</clever-framework.version>
+        <clever-framework.version>1.0.5</clever-framework.version>
 
         <!-- CI-friendly property 必须使用这个名称，否则IDEA报错-->
         <revision>${clever-framework.version}</revision>
 
         <!-- tool jar -->
+        <json.version>20180813</json.version>
         <jackson.version>2.9.8</jackson.version>
         <lombok.version>1.18.2</lombok.version>
         <guava.version>26.0-jre</guava.version>
@@ -39,6 +40,7 @@
         <reflections.version>0.9.11</reflections.version>
 
         <!-- apache jar -->
+        <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-collections4.version>4.2</commons-collections4.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
@@ -50,10 +52,12 @@
 
         <druid.version>1.1.10</druid.version>
 
+        <swagger.version>2.0.8</swagger.version>
+
         <!-- mybatis version -->
-        <mybatis.version>3.4.6</mybatis.version>
-        <mybatis-spring.version>1.3.2</mybatis-spring.version>
-        <mybatis-spring-boot-starter.version>1.3.2</mybatis-spring-boot-starter.version>
+        <mybatis.version>3.5.1</mybatis.version>
+        <mybatis-spring.version>2.0.1</mybatis-spring.version>
+        <mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.2.10</pagehelper-spring-boot-starter.version>
     </properties>
 
@@ -70,6 +74,10 @@
         <module>clever-framework-security-jwt</module>
         <module>clever-framework-front</module>
         <module>clever-framework-files</module>
+        <module>clever-framework-ueditor</module>
+        <module>clever-framework-log</module>
+        <module>clever-framework-system</module>
+        <module>clever-framework-swagger</module>
         <!--
         <module>clever-framework-dependencies</module>
         -->
@@ -77,6 +85,15 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -104,6 +121,16 @@
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-system</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-log</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-dao</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
@@ -125,6 +152,11 @@
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-files</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-ueditor</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
@@ -163,6 +195,16 @@
                 <version>${guava.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -202,6 +244,13 @@
                 <artifactId>reflections</artifactId>
                 <version>${reflections.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-core</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
 
 
             <!-- mybatis -->

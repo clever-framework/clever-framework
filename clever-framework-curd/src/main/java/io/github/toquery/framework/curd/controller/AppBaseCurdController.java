@@ -1,7 +1,7 @@
 package io.github.toquery.framework.curd.controller;
 
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.webmvc.controller.AppBaseController;
+import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +15,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extends Serializable> extends AppBaseController {
+public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extends Serializable> extends AppBaseWebMvcController {
 
 
     @Autowired
@@ -28,9 +28,8 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
      * @return 查询参数
      */
     protected Map<String, Object> getFilterParam() {
-        return getParametersStartingWith(request, appWebProperties.getParam().getFilterPrefix());
+        return getParametersStartingWith(request, appWebMvcProperties.getParam().getFilterPrefix());
     }
-
 
     /**
      * 处理分页和查询参数
@@ -41,32 +40,39 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         //获取查询参数
         Map<String, Object> filterParam = getFilterParam();
         //执行分页查询
-        return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize());
+        return this.handleQuery(filterParam);
     }
 
+    /**
+     * 处理分页和查询参数
+     *
+     * @return 查询数据库后的数据
+     */
+    protected Page<E> handleQuery(Map<String, Object> filterParam) {
+        //执行分页查询
+        return this.handleQuery(filterParam, null);
+    }
+
+    /**
+     * 处理分页和查询参数
+     *
+     * @return 查询数据库后的数据
+     */
     protected Page<E> handleQuery(String[] sorts) {
         //获取查询参数
         Map<String, Object> filterParam = getFilterParam();
         //执行分页查询
+        return this.handleQuery(filterParam, sorts);
+    }
+
+    /**
+     * 处理分页和查询参数
+     *
+     * @return 查询数据库后的数据
+     */
+    private Page<E> handleQuery(Map<String, Object> filterParam, String[] sorts) {
+        //执行分页查询
         return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize(), sorts);
-    }
-
-    protected List<E> handleList() {
-        //获取查询参数
-        Map<String, Object> filterParam = getFilterParam();
-        //执行分页查询
-        return service.find(filterParam);
-    }
-
-    protected List<E> handleList(String[] sorts) {
-        //获取查询参数
-        Map<String, Object> filterParam = getFilterParam();
-        //执行分页查询
-        return service.find(filterParam,sorts);
-    }
-
-    protected ResponseParam handleResponseParam(Object object) {
-        return ResponseParam.builder().build().content(object);
     }
 
 
@@ -74,40 +80,85 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
         return ResponseParam.builder().build().page(this.handleQuery());
     }
 
+    public ResponseParam query(Map<String, Object> filterParam) {
+        return ResponseParam.builder().build().page(this.handleQuery(filterParam));
+    }
 
     public ResponseParam query(String[] sorts) {
         return ResponseParam.builder().build().page(this.handleQuery(sorts));
     }
 
-    public ResponseParam list(String[] sorts) {
-        return ResponseParam.builder().build().content(this.handleList(sorts));
+    protected ResponseParam query(Map<String, Object> filterParam, String[] sorts) {
+        return ResponseParam.builder().build().page(this.handleQuery(filterParam, sorts));
+    }
+
+
+    protected List<E> handleList() {
+        //获取查询参数
+        Map<String, Object> filterParam = getFilterParam();
+        //执行分页查询
+        return this.handleList(filterParam);
+    }
+
+    protected List<E> handleList(Map<String, Object> filterParam) {
+        //执行分页查询
+        return this.handleList(filterParam, null);
+    }
+
+    protected List<E> handleList(String[] sorts) {
+        //获取查询参数
+        Map<String, Object> filterParam = getFilterParam();
+        //执行分页查询
+        return service.find(filterParam, sorts);
+    }
+
+    protected List<E> handleList(Map<String, Object> filterParam, String[] sorts) {
+        //执行分页查询
+        return service.find(filterParam, sorts);
     }
 
     public ResponseParam list() {
-        return ResponseParam.builder().build().content(this.handleList());
+        return this.handleResponseParam(this.handleList());
+    }
+
+
+    public ResponseParam list(Map<String, Object> filterParam) {
+        return this.handleResponseParam(this.handleList(filterParam));
+    }
+
+    public ResponseParam list(String[] sorts) {
+        return this.handleResponseParam(this.handleList(sorts));
+    }
+
+    public ResponseParam list(Map<String, Object> filterParam, String[] sorts) {
+        return this.handleResponseParam(this.handleList(filterParam, sorts));
+    }
+
+
+    public E saveEntity(E entity) {
+        return service.save(entity);
     }
 
     public ResponseParam save(E entity) {
-        return ResponseParam.builder().build().content(service.save(entity));
+        return this.handleResponseParam(this.saveEntity(entity));
     }
 
     public ResponseParam update(E entity, Set<String> updateEntityFields) {
-        return ResponseParam.builder().build().content(service.update(entity, updateEntityFields));
+        return this.handleResponseParam(service.update(entity, updateEntityFields));
     }
 
     public void delete(Set<ID> ids) {
         service.deleteByIds(ids);
     }
 
-    public ResponseParam detail(ID id) {
-        return ResponseParam.builder().build().content(this.getById(id));
-    }
 
     public E getById(ID id) {
         return service.getById(id);
     }
 
-
+    public ResponseParam detail(ID id) {
+        return this.handleResponseParam(this.getById(id));
+    }
 
 
 }

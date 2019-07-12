@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.toquery.framework.demo.entity.TbJpaDemo;
-import com.toquery.framework.demo.service.IJpaDemoService;
+import com.toquery.framework.demo.entity.BizJpaNews;
+import com.toquery.framework.demo.service.IBizJpaNewsService;
 import com.toquery.framework.demo.test.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -24,43 +24,43 @@ import java.util.stream.Collectors;
 public class ServiceJpaCurdTest extends BaseSpringTest {
 
     @Resource
-    private IJpaDemoService jpaDemoService;
+    private IBizJpaNewsService jpaDemoService;
 
     @Test
     public void curd() {
-        TbJpaDemo save = jpaDemoService.save(new TbJpaDemo("save-test", new Date()));
+        BizJpaNews save = jpaDemoService.save(new BizJpaNews("save-test", new Date()));
         log.info("插入的数据 save ：\n{}", JSON.toJSONString(save));
 
-        List<TbJpaDemo> saveAll = jpaDemoService.save(Lists.newArrayList(
-                new TbJpaDemo("saveAll-test", new Date()),
-                new TbJpaDemo("saveAll-test", new Date())
+        List<BizJpaNews> saveAll = jpaDemoService.save(Lists.newArrayList(
+                new BizJpaNews("saveAll-test", new Date()),
+                new BizJpaNews("saveAll-test", new Date())
         ));
         log.info("插入的数据 saveBatch ：\n{}", JSON.toJSONString(saveAll));
 
-        TbJpaDemo updateEntity = jpaDemoService.update(save.getId(), "update-entity");
+        BizJpaNews updateEntity = jpaDemoService.update(save.getId(), "update-entity");
         log.info("插入的数据 updateEntity ：\n{}", JSON.toJSONString(updateEntity));
 
         save.setName("save-test-update");
-        TbJpaDemo update = jpaDemoService.update(save, Sets.newHashSet("name"));
+        BizJpaNews update = jpaDemoService.update(save, Sets.newHashSet("name"));
         log.info("修改的数据 update ：\n{}", JSON.toJSONString(update));
 
-        TbJpaDemo getOne = jpaDemoService.getById(save.getId());
+        BizJpaNews getOne = jpaDemoService.getById(save.getId());
         log.info("查询的数据 getOne ：\n{}", JSON.toJSONString(getOne));
 
         jpaDemoService.deleteById(save.getId());
         log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));
 
-        TbJpaDemo getByName = jpaDemoService.getByName("123");
+        BizJpaNews getByName = jpaDemoService.getByName("123");
         log.info("查询的数据 getByName ：\n{}", JSON.toJSONString(getByName));
 
         saveAll.forEach(item -> item.setName("saveAll-test-update"));
-        List<TbJpaDemo> updateList = jpaDemoService.update(saveAll, Sets.newHashSet("name"));
+        List<BizJpaNews> updateList = jpaDemoService.update(saveAll, Sets.newHashSet("name"));
         log.info("修改的数据 updateList ：\n{}", JSON.toJSONString(updateList));
 
-        List<TbJpaDemo> findAll = jpaDemoService.find(null);
+        List<BizJpaNews> findAll = jpaDemoService.find(null);
         log.info("查询的数据 findAll ：\n{}", JSON.toJSONString(findAll));
 
-        jpaDemoService.deleteByIds(findAll.stream().map(TbJpaDemo::getId).collect(Collectors.toList()));
+        jpaDemoService.deleteByIds(findAll.stream().map(BizJpaNews::getId).collect(Collectors.toList()));
         log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));
 
     }
@@ -69,9 +69,9 @@ public class ServiceJpaCurdTest extends BaseSpringTest {
 
     @Test
     public void deleteByParam() {
-        List<TbJpaDemo> saveAll = jpaDemoService.save(Lists.newArrayList(
-                new TbJpaDemo("delete-param-test", new Date()),
-                new TbJpaDemo("delete-param-test", new Date())
+        List<BizJpaNews> saveAll = jpaDemoService.save(Lists.newArrayList(
+                new BizJpaNews("delete-param-test", new Date()),
+                new BizJpaNews("delete-param-test", new Date())
         ));
 
         Map<String,Object> map = Maps.newHashMap();

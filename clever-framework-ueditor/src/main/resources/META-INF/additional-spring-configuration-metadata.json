@@ -1,0 +1,29 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "app.ueditor.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否启用ueditor.",
+      "defaultValue": true
+    },
+    {
+      "name": "app.ueditor.configFile",
+      "type": "java.lang.String",
+      "description": "ueditor配置文件地址.",
+      "defaultValue": "ueditor-config.json"
+    },
+    {
+      "name": "app.ueditor.uploadParam",
+      "type": "java.lang.String",
+      "description": "下载查看文件的url地址,需追加?id=xxxx参数.",
+      "defaultValue": "upfile"
+    },
+    {
+      "name": "app.ueditor.storePath",
+      "type": "java.lang.String",
+      "description": "文件上传保存路径,默认 相对于项目当前路径，否则设置绝对路径."
+    }
+  ],
+  "hints": []
+}
