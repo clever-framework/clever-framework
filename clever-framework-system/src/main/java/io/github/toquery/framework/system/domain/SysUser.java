@@ -6,6 +6,7 @@ import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,20 +38,24 @@ import java.util.stream.Collectors;
 @Table(name = "sys_user")
 public class SysUser extends AppBaseEntity implements UserDetails {
 
-//    @NotBlank
-//    @Length(min = 1, max = 50)
-//    @Column(name = "login_name", length = 50, unique = true, nullable = false)
-//    private String loginName;
 
+    // 用户名，唯一
     @NotBlank
     @Size(min = 4, max = 50)
     @Column(name = "user_name", length = 50, unique = true)
     private String username;
 
+    // 用户昵称
+    @NotBlank
+    @Length(min = 1, max = 50)
+    @Column(name = "nick_name", length = 50, nullable = false)
+    private String nickname;
+
+
     //    @JsonIgnore
     @NotBlank
     @Length(min = 4, max = 100)
-    @Column(name = "password", length = 100)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
     @Email
@@ -60,8 +65,10 @@ public class SysUser extends AppBaseEntity implements UserDetails {
     private String email;
 
     @NotNull
+    @ColumnDefault("true")
     @Column(name = "enabled")
     private Boolean enabled = true;
+
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_password_reset_date")
@@ -111,15 +118,6 @@ public class SysUser extends AppBaseEntity implements UserDetails {
         }
     }
 
-    /**
-     * Spring 用户属性
-
-     @JsonIgnoreProperties(value = {"users","lastUpdateDatetime","createDatetime"})
-     @Override public Collection<? extends GrantedAuthority> getAuthorities() {
-     return this.getRoles();
-     }
-     */
-
 
     /**
      * Spring 用户属性
@@ -150,6 +148,6 @@ public class SysUser extends AppBaseEntity implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return getEnabled();
+        return this.getEnabled();
     }
 }

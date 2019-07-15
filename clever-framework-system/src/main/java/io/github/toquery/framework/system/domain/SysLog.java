@@ -1,25 +1,25 @@
 package io.github.toquery.framework.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.core.annotation.AppLogEntityIgnore;
 import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -67,14 +67,14 @@ public class SysLog extends AppBaseEntity {
      * 原数据
      */
     @Lob
-    @Column(columnDefinition = "text",name = "raw_data")
+    @Column(columnDefinition = "text", name = "raw_data")
     private String rawData;
 
     /**
      * 目标数据
      */
     @Lob
-    @Column(columnDefinition = "text",name = "target_data")
+    @Column(columnDefinition = "text", name = "target_data")
     private String targetData;
 
 
@@ -88,6 +88,7 @@ public class SysLog extends AppBaseEntity {
     private Date createDate = new Date();
 
 
-    @Transient
-    private UserDetails user;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private SysUser user;
 }
