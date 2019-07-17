@@ -1,10 +1,10 @@
 package io.github.toquery.framework.log.event.listener;
 
 import com.alibaba.fastjson.JSON;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.core.annotation.AppLogEntity;
-import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
 import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
 import io.github.toquery.framework.system.domain.SysLog;
 import io.github.toquery.framework.system.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class AppBizLogPersistEventListener implements PersistEventListener {
                 return;
             }
             Map<String, Object> targetData = appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity, appLogEntity));
-            SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(appBaseEntity, null, targetData, appLogEntity.modelName(), appLogEntity.bizName(), AppLogType.CREA);
+            SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(AppLogType.CREA, null, targetData, appLogEntity.modelName(), appLogEntity.bizName());
             sysLogService.save(sysLog);
             log.debug("接收到新增 {} 的数据操作，记录日志完成。", entity.getClass().getSimpleName());
         } else {

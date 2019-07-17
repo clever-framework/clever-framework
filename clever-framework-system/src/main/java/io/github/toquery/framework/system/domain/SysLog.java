@@ -14,15 +14,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
 /**
+ * app 设计日志，通过 createUserId 获取日志操作人信息ø
+ *
  * @author toquery
  * @version 1
  */
@@ -34,17 +34,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Table(name = "sys_log")
 public class SysLog extends AppBaseEntity {
-
-
-   /* @Id
-    @Column
-    @RevisionNumber
-    @GeneratedValue(generator = "generatedkey")
-    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppJpaEntityLongIDGenerator")
-    protected Long id;*/
-
-    @Column(name = "user_id")
-    private Long userId;
 
     /**
      * 模块名称
@@ -80,15 +69,13 @@ public class SysLog extends AppBaseEntity {
 
     /**
      * 日志产生时间
+     * 可通过 createDateTime 获取响应时间
      */
+    @Deprecated
     @Column(name = "create_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createDate = new Date();
 
-
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private SysUser user;
 }

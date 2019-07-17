@@ -11,7 +11,7 @@
       "name": "app.jwt.secret",
       "type": "java.lang.String",
       "description": "JWT认证secret密钥.",
-      "defaultValue": ""
+      "defaultValue": "clever"
     },
     {
       "name": "app.jwt.expiration",

@@ -17,7 +17,7 @@ public class AppSecurityJwtProperties {
 
     private String header = "Authorization";
 
-    private String secret = "";
+    private String secret = "clever";
 
     private Long expiration = 3600L;
 

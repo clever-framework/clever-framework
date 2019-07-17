@@ -25,7 +25,7 @@ import java.util.Map;
  *
  * @author toquery
  * @version 1
- */
+
 @Slf4j
 //@Component
 @Scope("singleton")
@@ -35,6 +35,7 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
     private AppLogProperties appLogProperties;
 
     private ApplicationContext applicationContext;
+
 
     // Spring 容器加载完毕后 set bean
     private ISysLogService sysLogService;
@@ -60,7 +61,7 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
 
         Map<String, Object> targetData = handleTargetData(appBaseEntity, handleEntityFields(appBaseEntity, appLogEntity));
 
-        SysLog sysLog = this.fill2SysLog(appBaseEntity, null, targetData, appLogEntity.modelName(), appLogEntity.bizName(), AppLogType.CREA);
+        SysLog sysLog = this.fill2SysLog(appLogEntity, null, targetData, appLogEntity.modelName(), appLogEntity.bizName());
 
         sysLogService.save(sysLog);
         log.debug("接收到");
@@ -137,3 +138,4 @@ public class AppBizLogHandler extends AppBizLogAnnotationHandler implements AppA
         log.debug("系统启动成功，获取 ApplicationContext 成功，获取审核日志服务成功！");
     }
 }
+ */

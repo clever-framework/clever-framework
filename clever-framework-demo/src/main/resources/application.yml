@@ -1,11 +1,16 @@
 app:
-  page:
-    param:
-      page-size: ps
-
   security:
     whitelist:
-      - /**
+      - /
+      - /index.html
+      - /static/**
+      - /error
+      - /h2-console/**
+      - /app/ueditor
+      - /app/files
+      - /app/files/**
+  jwt:
+    secret: 123456
 
 spring:
   profiles:

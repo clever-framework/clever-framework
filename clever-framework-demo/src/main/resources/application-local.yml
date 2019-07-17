@@ -9,8 +9,8 @@ spring:
     show-sql: true
     generate-ddl: true
     open-in-view: true
-    hibernate:
-      ddl-auto: create
+#    hibernate:
+#      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
@@ -26,9 +26,6 @@ spring:
   hateoas:
     use-hal-as-default-json-media-type: true
 
-app:
-  log:
-    enable: true
 
 logging:
   level:
