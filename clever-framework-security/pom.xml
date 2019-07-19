@@ -14,10 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-web</artifactId>
         </dependency>

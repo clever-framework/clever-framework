@@ -19,6 +19,7 @@ public class AppSecurityJwtProperties {
 
     private String secret = "clever";
 
+    // 秒
     private Long expiration = 3600L;
 
     private AppJwtParamProperties param = new AppJwtParamProperties();

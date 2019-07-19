@@ -1,11 +1,11 @@
 package io.github.toquery.framework.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.toquery.framework.common.entity.AppBaseEntitySort;
 import io.github.toquery.framework.common.entity.AppEntityTree;
 import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
-import io.github.toquery.framework.dao.entity.AppBaseEntitySort;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +23,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author toquery
@@ -37,7 +38,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_menu")
-public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>,AppBaseEntitySort, AppBaseEntityJpaSoftDelEntity {
+public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, AppBaseEntitySort, AppBaseEntityJpaSoftDelEntity {
 
     public SysMenu(@NotNull @Size(max = 50) String name, @NotNull @Size(max = 50) String code) {
         this.name = name;
@@ -91,7 +92,7 @@ public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>,App
      * 子集
      */
     @Transient
-    private Set<SysMenu> children = new HashSet<>();
+    private List<SysMenu> children = new ArrayList<>();
 
     /**
      * 父级信息
@@ -113,4 +114,14 @@ public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>,App
         return hasChildren;
     }
 
+    //    @Override
+//    public int compare(SysMenu o1, SysMenu o2) {
+//        return o1.getSortNum() - o2.getSortNum();
+//    }
+
+
+    @Override
+    public int compareTo(SysMenu sysMenu) {
+        return sysMenu.getSortNum();
+    }
 }

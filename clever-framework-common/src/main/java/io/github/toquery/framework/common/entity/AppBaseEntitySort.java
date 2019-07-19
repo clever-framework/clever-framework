@@ -1,4 +1,4 @@
-package io.github.toquery.framework.dao.entity;
+package io.github.toquery.framework.common.entity;
 
 
 /**

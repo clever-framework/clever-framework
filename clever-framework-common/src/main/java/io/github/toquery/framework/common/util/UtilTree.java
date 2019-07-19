@@ -1,17 +1,19 @@
 package io.github.toquery.framework.common.util;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import io.github.toquery.framework.common.entity.AppEntityTree;
-import org.apache.commons.beanutils.PropertyUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import org.apache.commons.beanutils.PropertyUtils;
+
+import io.github.toquery.framework.common.entity.AppEntityTree;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 树形层级数据操作类
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1.0.4
  */
+@Slf4j
 public class UtilTree {
 
     public static final String TREE_ENTITY_FIELD_ID = "id";
@@ -87,8 +90,14 @@ public class UtilTree {
             //在id映射map中存在父节点的映射
             if (treeDataIDMap.containsKey(parentId) && parentId != id) {
                 E parentTreeItemMap = treeDataIDMap.get(parentId);
-                Set<E> childrenList = (Set<E>) PropertyUtils.getProperty(parentTreeItemMap, TREE_ENTITY_FIELD_CHILDREN);
+                List<E> childrenList = (List<E>) PropertyUtils.getProperty(parentTreeItemMap, TREE_ENTITY_FIELD_CHILDREN);
                 childrenList.add(node);
+                Collections.sort(childrenList);
+//                Comparator<AppEntityTree> entityTreeComparator = Comparator.comparing(AppEntityTree::getSortNum);
+//                childrenList = new HashSet<>(childrenList);
+//                childrenList = childrenList.stream().sorted(entityTreeComparator).collect(Collectors.toSet());
+//                PropertyUtils.setProperty(parentTreeItemMap,TREE_ENTITY_FIELD_CHILDREN,childrenList);
+//log.info(JSON.toJSONString(childrenList));
             } else {
                 //存储根节点数据
                 resultList.add(node);

@@ -1,6 +1,6 @@
 package io.github.toquery.framework.common.entity;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * 实现树状结构
@@ -8,7 +8,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public interface AppEntityTree<E> {
+public interface AppEntityTree<E> extends AppBaseEntitySort,Comparable<E> {
 
     public int getLevel();
 
@@ -28,7 +28,7 @@ public interface AppEntityTree<E> {
 
     public void setParent(E parent);
 
-    public Set<E> getChildren();
+    public List<E> getChildren();
 
-    public void setChildren(Set<E> children);
+    public void setChildren(List<E> children);
 }

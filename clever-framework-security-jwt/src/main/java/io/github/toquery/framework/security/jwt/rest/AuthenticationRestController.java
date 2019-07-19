@@ -7,7 +7,7 @@ import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
-import io.github.toquery.framework.security.jwt.JwtAuthenticationResponse;
+import io.github.toquery.framework.security.jwt.domain.JwtResponse;
 import io.github.toquery.framework.security.domain.ChangePassword;
 import io.github.toquery.framework.system.domain.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
@@ -68,7 +68,7 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         String token = jwtTokenUtil.generateToken(userDetails);
         // Return the token
-        return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtAuthenticationResponse(token)));
+        return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtResponse(token)));
     }
 
     /**
@@ -123,7 +123,7 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
 
         if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
+            return ResponseEntity.ok(new JwtResponse(refreshedToken));
         } else {
             return ResponseEntity.badRequest().body(null);
         }
