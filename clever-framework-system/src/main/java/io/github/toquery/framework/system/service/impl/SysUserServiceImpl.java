@@ -9,7 +9,6 @@ import io.github.toquery.framework.system.service.ISysUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -27,14 +26,14 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
     @Override
     public Map<String, String> getQueryExpressions() {
         Map<String, String> map = new HashMap<>();
-        map.put("userName", "userName:EQ");
-        map.put("loginName", "loginName:EQ");
+        map.put("username", "username:EQ");
+        map.put("nickname", "nickname:EQ");
         map.put("email", "email:EQ");
         map.put("enabled", "enabled:EQ");
 
 
-        map.put("userNameLike", "userName:LIKE");
-        map.put("loginNameLike", "loginName:LIKE");
+        map.put("usernameLike", "username:LIKE");
+        map.put("loginnameLike", "loginname:LIKE");
         map.put("emailLike", "email:LIKE");
         return map;
     }

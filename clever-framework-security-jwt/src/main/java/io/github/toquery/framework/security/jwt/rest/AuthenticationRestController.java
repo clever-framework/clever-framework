@@ -19,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
@@ -62,11 +63,10 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         String userName = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getUsername(), "未获取到登录用户名");
         String password = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getPassword(), "未获取到登录密码");
 
-        authenticate(userName, password);
+        Authentication authentication = authenticate(userName, password);
 
         // Reload password post-security so we can generate the token
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        String token = jwtTokenUtil.generateToken(userDetails);
+        String token = jwtTokenUtil.generateToken((UserDetails)authentication.getPrincipal());
         // Return the token
         return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtResponse(token)));
     }
@@ -74,12 +74,12 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
     /**
      * Authenticates the user. If something is wrong, an {@link AppSecurityJwtException} will be thrown
      */
-    private void authenticate(String username, String password) throws AppSecurityJwtException {
+    private Authentication authenticate(String username, String password) throws AppSecurityJwtException {
         Objects.requireNonNull(username);
         Objects.requireNonNull(password);
 
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
             throw new AppSecurityJwtException("User is disabled!", e);
         } catch (BadCredentialsException e) {
