@@ -1,5 +1,7 @@
 package io.github.toquery.framework.common.util;
 
+import io.github.toquery.framework.common.constant.AppCommonConstant;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,13 +14,7 @@ import java.util.Date;
  * @author toquery
  * @version 1
  */
-public class AppUtilDate {
-
-    public static final String DATE_PATTERN = "yyyy-MM-dd";
-
-    public static final String TIME_PATTERN = "HH:mm:ss";
-
-    public static final String DATETIME_PATTERN = DATE_PATTERN + " " + TIME_PATTERN;
+public class AppDateUtil {
 
     public static Date theDayMin(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -52,14 +48,14 @@ public class AppUtilDate {
     }
 
     public static String getCurrentDate() {
-        return getCurrentDateTime(DATE_PATTERN);
+        return getCurrentDateTime(AppCommonConstant.DATE_PATTERN);
     }
 
     public static String getCurrentTime() {
-        return getCurrentDateTime(TIME_PATTERN);
+        return getCurrentDateTime(AppCommonConstant.TIME_PATTERN);
     }
 
     public static String getCurrentDateTime() {
-        return getCurrentDateTime(DATETIME_PATTERN);
+        return getCurrentDateTime(AppCommonConstant.DATE_TIME_PATTERN);
     }
 }

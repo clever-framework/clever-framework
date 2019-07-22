@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.criteria.Predicate;
+
 /**
  * DAO查询支持的查询连接符和比较条件
  */
@@ -35,9 +37,9 @@ public class SearchFilter {
      */
     private String group;
 
-    private AppDaoEnumConnector connector;
+    private Predicate.BooleanOperator connector;
 
-    public SearchFilter(String fieldName, AppDaoEnumOperator operator, Object value, AppDaoEnumConnector connector) {
+    public SearchFilter(String fieldName, AppDaoEnumOperator operator, Object value, Predicate.BooleanOperator connector) {
         this.fieldName = fieldName;
         this.value = value;
         this.operator = operator;

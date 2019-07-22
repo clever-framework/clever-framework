@@ -1,4 +1,4 @@
-package io.github.toquery.framework.common.entity;
+package io.github.toquery.framework.core.domain;
 
 import java.util.List;
 

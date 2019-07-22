@@ -1,6 +1,6 @@
 package io.github.toquery.framework.files.properties;
 
-import io.github.toquery.framework.common.util.AppUtilDate;
+import io.github.toquery.framework.common.util.AppDateUtil;
 import lombok.Data;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -44,7 +44,7 @@ public class AppFilesProperties {
 
         public String getStoreWithDate() {
 
-            String pathWithDate = getStore() + AppUtilDate.getCurrentDate() + File.separator;
+            String pathWithDate = getStore() + AppDateUtil.getCurrentDate() + File.separator;
 
             // 创建文件目录
             try {

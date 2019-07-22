@@ -1,7 +1,7 @@
 package io.github.toquery.framework.ueditor.rest;
 
 import com.google.common.base.Strings;
-import io.github.toquery.framework.common.util.DownloadFileUtil;
+import io.github.toquery.framework.common.util.AppDownloadFileUtil;
 import io.github.toquery.framework.ueditor.UeditorConfigManager;
 import io.github.toquery.framework.ueditor.define.ActionMap;
 import io.github.toquery.framework.ueditor.define.AppInfo;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -85,7 +84,7 @@ public class AppUeditorRest {
     public ResponseEntity viewFile(@PathVariable String type, @PathVariable String date, @PathVariable String fileName) {
         // 文件存储的全路径
         String fullFilePath = appUeditorProperties.getStorePath() + File.separator + type + File.separator + date + File.separator + fileName;
-        return DownloadFileUtil.download(fullFilePath, fileName);
+        return AppDownloadFileUtil.download(fullFilePath, fileName);
     }
 
     public String invoke(String action) throws IOException, ServletException {

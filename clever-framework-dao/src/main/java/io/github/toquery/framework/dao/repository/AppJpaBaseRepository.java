@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.Predicate;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -81,5 +82,5 @@ public interface AppJpaBaseRepository<T, ID extends Serializable> extends JpaRep
     /**
      * 根据相应的条件参数删除数据
      */
-    void delete(Map<String,Object> params, AppDaoEnumConnector connector);
+    void delete(Map<String,Object> params, Predicate.BooleanOperator connector);
 }

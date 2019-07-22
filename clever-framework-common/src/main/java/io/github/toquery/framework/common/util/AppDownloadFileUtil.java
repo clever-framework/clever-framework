@@ -15,7 +15,7 @@ import java.io.InputStream;
  * @author toquery
  * @version 1
  */
-public class DownloadFileUtil {
+public class AppDownloadFileUtil {
 
     public static ResponseEntity<InputStreamResource> download(String file, String newName) {
         ResponseEntity<InputStreamResource> response = null;

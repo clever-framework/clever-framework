@@ -60,6 +60,13 @@ public class ServiceJpaCurdTest extends BaseSpringTest {
         List<BizJpaNews> findAll = jpaDemoService.find(null);
         log.info("查询的数据 findAll ：\n{}", JSON.toJSONString(findAll));
 
+        Map<String, Object> filterParams = Maps.newHashMap();
+        filterParams.put("name","saveAll-test-update");
+        List<BizJpaNews> findByFilter = jpaDemoService.find(filterParams);
+        log.info("查询的数据 findByFilter: {}", JSON.toJSONString(filterParams));
+        log.info("查询的数据 findByFilter: {}", JSON.toJSONString(findByFilter));
+
+
         jpaDemoService.deleteByIds(findAll.stream().map(BizJpaNews::getId).collect(Collectors.toList()));
         log.info("查询的数据 deleteById ：\n{}", JSON.toJSONString(save));
 

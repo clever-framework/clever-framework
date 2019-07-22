@@ -1,6 +1,7 @@
 package io.github.toquery.framework.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.audit.AppEntityD3Listener;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,8 +63,8 @@ public class AppBaseEntity implements Serializable {
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
     @Column(name = "create_time", updatable = false, nullable = false)
     private Date createDatetime;
 
@@ -75,9 +76,9 @@ public class AppBaseEntity implements Serializable {
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern =AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
     @Column(name = "last_update_time", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastUpdateDatetime;
 
 

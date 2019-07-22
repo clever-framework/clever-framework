@@ -1,17 +1,12 @@
 package io.github.toquery.framework.dao.entity;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.MappedSuperclass;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotBlank;
 
 /**
  * 定义主键为 String 类型，指定主键生成规则

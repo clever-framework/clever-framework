@@ -1,6 +1,6 @@
 package io.github.toquery.framework.core.properties;
 
-import io.github.toquery.framework.core.constant.AppPropertiesDefault;
+import io.github.toquery.framework.common.constant.AppCommonConstant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +18,9 @@ public class AppCommonProperties {
     @Getter
     public static class AppCommonPatternProperties {
 
-        private String date = AppPropertiesDefault.DATE_PATTERN;
+        private String date = AppCommonConstant.DATE_PATTERN;
 
-        private String dateTime = AppPropertiesDefault.DATE_TIME_PATTERN;
+        private String dateTime = AppCommonConstant.DATE_TIME_PATTERN;
 
     }
 }

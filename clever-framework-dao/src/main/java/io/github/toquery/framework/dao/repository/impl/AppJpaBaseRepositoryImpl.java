@@ -301,7 +301,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
      * at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_121]
      */
 
-    public void delete(Map<String, Object> params, AppDaoEnumConnector connector) {
+    public void delete(Map<String, Object> params, Predicate.BooleanOperator connector) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
         CriteriaDelete<E> criteriaDelete = new CriteriaDeleteDefaultImpl<>((CriteriaBuilderImpl) builder);
@@ -315,9 +315,9 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         predicates = predicateList.toArray(predicates);
 
         Predicate predicate = null;
-        if (connector == AppDaoEnumConnector.AND) {
+        if (connector == Predicate.BooleanOperator.AND) {
             predicate = builder.and(predicates);
-        } else if (connector == AppDaoEnumConnector.OR) {
+        } else if (connector == Predicate.BooleanOperator.OR) {
             predicate = builder.or(predicates);
         }
         criteriaDelete.where(predicate);

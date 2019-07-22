@@ -1,9 +1,10 @@
 package io.github.toquery.framework.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.toquery.framework.common.entity.AppBaseEntitySort;
-import io.github.toquery.framework.common.entity.AppEntityTree;
-import io.github.toquery.framework.core.constant.AppPropertiesDefault;
+import io.github.toquery.framework.common.constant.AppDomainFieldConstant;
+import io.github.toquery.framework.core.domain.AppBaseEntitySort;
+import io.github.toquery.framework.core.domain.AppEntityTree;
+import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
 import lombok.AllArgsConstructor;
@@ -84,7 +85,7 @@ public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, Ap
      * 是否删除：1已删除；0未删除
      */
     @ColumnDefault("false")
-    @Column(name = AppPropertiesDefault.JPA_COLUMN_SOFT_DEL)
+    @Column(name = "is_del")
     private boolean del = false;
 
 

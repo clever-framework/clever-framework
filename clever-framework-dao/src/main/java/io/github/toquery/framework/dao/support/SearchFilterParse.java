@@ -1,9 +1,9 @@
 package io.github.toquery.framework.dao.support;
 
 import com.google.common.collect.Maps;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.persistence.criteria.Predicate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,16 +26,14 @@ public class SearchFilterParse {
      * @param searchParams 查询参数
      * @return 转换后的查询条件
      */
-    public static LinkedHashMap<String, SearchFilter> parse(LinkedHashMap<String, Object> searchParams) {
+    public static LinkedHashMap<String, SearchFilter> parse(Map<String, Object> searchParams) {
 
-        if (MapUtils.isEmpty(searchParams)) {
+        if (searchParams == null || searchParams.isEmpty()) {
             return null;
         }
 
         //使用有序的列表
         LinkedHashMap<String, SearchFilter> filters = null;
-
-        // searchParams.forEach( (key,value) -> {});
 
         for (Map.Entry<String, Object> entry : searchParams.entrySet()) {
             // 过滤掉空值
@@ -46,7 +44,7 @@ public class SearchFilterParse {
             String[] names = StringUtils.split(key, SEPARATOR);
 
             //构造不同条件之间的连接符
-            AppDaoEnumConnector connector = null;
+            Predicate.BooleanOperator connector = null;
 
             //查询字段
             String fieldName = null;
@@ -56,36 +54,43 @@ public class SearchFilterParse {
 
             String group = "";
 
-            if (names.length == 2) {
-                //默认使用and连接符
-                connector = AppDaoEnumConnector.AND;
-                fieldName = names[0];
-                //最后一位为操作比较符号
-                operator = AppDaoEnumOperator.valueOf(names[1]);
-            } else if (names.length == 3) {
-                //长度为3时，根据是否有连接符确定不同的格式
-                if (names[0].equals(AppDaoEnumConnector.AND.name()) || names[0].equals(AppDaoEnumConnector.OR.name())) {
-                    connector = AppDaoEnumConnector.valueOf(names[0]);
+
+            switch (names.length){
+                case 2:{
+                    //默认使用and连接符
+                    connector = Predicate.BooleanOperator.AND;
+                    fieldName = names[0];
+                    //最后一位为操作比较符号
+                    operator = AppDaoEnumOperator.valueOf(names[1]);
+                    break;
+                }case 3:{
+                    //长度为3时，根据是否有连接符确定不同的格式
+                    if (names[0].equalsIgnoreCase(Predicate.BooleanOperator.AND.name()) || names[0].equalsIgnoreCase(Predicate.BooleanOperator.OR.name())) {
+                        connector = Predicate.BooleanOperator.valueOf(names[0]);
+                        fieldName = names[1];
+                        //最后一位为操作比较符号
+                        operator = AppDaoEnumOperator.valueOf(names[2]);
+                    } else {
+                        connector = Predicate.BooleanOperator.AND;
+                        fieldName = names[0];
+                        operator = AppDaoEnumOperator.valueOf(names[1]);
+                        group = names[2];
+                    }
+                    break;
+                }case 4:{
+                    connector = Predicate.BooleanOperator.valueOf(names[0]);
                     fieldName = names[1];
                     //最后一位为操作比较符号
                     operator = AppDaoEnumOperator.valueOf(names[2]);
-                } else {
-                    connector = AppDaoEnumConnector.AND;
-                    fieldName = names[0];
-                    operator = AppDaoEnumOperator.valueOf(names[1]);
-                    group = names[2];
+                    //组名称
+                    group = names[3];
+                    break;
                 }
-
-            } else if (names.length == 4) {
-                connector = AppDaoEnumConnector.valueOf(names[0]);
-                fieldName = names[1];
-                //最后一位为操作比较符号
-                operator = AppDaoEnumOperator.valueOf(names[2]);
-                //组名称
-                group = names[3];
-            } else {
-                throw new IllegalArgumentException(key + " is not a valid search filter name");
+                default:{
+                    throw new IllegalArgumentException(key + " is not a valid search filter name");
+                }
             }
+
 
             if (value == null || StringUtils.isBlank(value.toString())) {
                 //操作标识的比较值不允许为null，则进行过滤

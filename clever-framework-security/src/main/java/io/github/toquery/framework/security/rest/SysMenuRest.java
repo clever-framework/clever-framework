@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.rest;
 
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.common.util.UtilTree;
+import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.core.annotation.AppLogMethod;
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
@@ -46,7 +46,7 @@ public class SysMenuRest extends AppBaseCurdController<ISysMenuService, SysMenu,
     public ResponseParam tree() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         List<SysMenu> sysMenuList = service.find(null, sort);
         // 将lits数据转为tree
-        sysMenuList = UtilTree.getTreeData(sysMenuList);
+        sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
         return ResponseParam.builder().build().content(sysMenuList);
     }
 
