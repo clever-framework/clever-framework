@@ -22,10 +22,11 @@ public interface ISysUserService extends UserDetailsService, AppBaseService<SysU
     /**
      * 根据用户名，修改用户密码
      *
-     * @param userName    用户名
-     * @param rawPassword 用户密码明文
+     * @param userName       用户名
+     * @param sourcePassword 用户原密码明文
+     * @param rawPassword    用户新密码明文
      * @return 用户
      * @throws AppException 修改用户密码失败
      */
-    SysUser changePassword(String userName, String rawPassword) throws AppException;
+    SysUser changePassword(String userName, String sourcePassword, String rawPassword) throws AppException;
 }

@@ -70,7 +70,7 @@ public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extend
      *
      * @return 查询数据库后的数据
      */
-    private Page<E> handleQuery(Map<String, Object> filterParam, String[] sorts) {
+    protected Page<E> handleQuery(Map<String, Object> filterParam, String[] sorts) {
         //执行分页查询
         return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize(), sorts);
     }

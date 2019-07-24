@@ -66,16 +66,4 @@ public class SysLog extends AppBaseEntity {
     @Column(columnDefinition = "text", name = "target_data")
     private String targetData;
 
-
-    /**
-     * 日志产生时间
-     * 可通过 createDateTime 获取响应时间
-     */
-    @Deprecated
-    @Column(name = "create_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createDate = new Date();
-
 }

@@ -147,7 +147,7 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
             return ResponseEntity.badRequest().body(ResponseParam.builder().build().message("两次密码输入不一致"));
         }
         String userName = this.getUserName();
-        SysUser user = sysUserService.changePassword(userName, changePassword.getRawPassword());
+        SysUser user = sysUserService.changePassword(userName, changePassword.getSourcePassword(), changePassword.getRawPassword());
         return ResponseEntity.ok(ResponseParam.builder().build().content(user));
     }
 

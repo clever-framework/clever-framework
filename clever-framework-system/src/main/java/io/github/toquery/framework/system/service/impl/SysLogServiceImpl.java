@@ -22,8 +22,8 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<Long, SysLog, SysLogRe
             put("logType", "logType:EQ");
             put("moduleNameLIKE", "moduleName:LIKE");
             put("bizNameLIKE", "bizName:LIKE");
-            put("createDateGT", "createDate:GTDATE");
-            put("createDateLT", "createDate:LTDATE");
+            put("createDatetimeGT", "createDatetime:GTDATE");
+            put("createDatetimeLT", "createDatetime:LTDATE");
         }
     };
 

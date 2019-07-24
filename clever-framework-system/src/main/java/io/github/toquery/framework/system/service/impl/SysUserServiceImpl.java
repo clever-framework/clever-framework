@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,17 +70,18 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
      * @throws AppException 修改用户密码失败
      */
     @Override
-    public SysUser changePassword(String userName, String rawPassword) throws AppException {
+    public SysUser changePassword(String userName, String sourcePassword,String rawPassword) throws AppException {
         SysUser sysUser = entityDao.getByUsername(userName);
         if (sysUser == null) {
             throw new AppException("未找到用户");
         }
-        boolean flag = passwordEncoder.matches(rawPassword, sysUser.getPassword());
+        boolean flag = passwordEncoder.matches(sourcePassword, sysUser.getPassword());
         if (!flag) {
             throw new AppException("用户原密码错误！");
         }
         String encodePassword = passwordEncoder.encode(rawPassword);
         sysUser.setPassword(encodePassword);
-        return this.update(sysUser, Sets.newHashSet("password"));
+        sysUser.setLastPasswordResetDate(new Date());
+        return this.update(sysUser, Sets.newHashSet("password", "lastPasswordResetDate"));
     }
 }
