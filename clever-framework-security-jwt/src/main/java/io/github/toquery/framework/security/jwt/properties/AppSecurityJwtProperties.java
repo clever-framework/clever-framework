@@ -22,6 +22,8 @@ public class AppSecurityJwtProperties {
     // 秒
     private Long expiration = 3600L;
 
+    private boolean ignoreTokenExpiration = false;
+
     private AppJwtParamProperties param = new AppJwtParamProperties();
 
     private AppJwtPathProperties path = new AppJwtPathProperties();

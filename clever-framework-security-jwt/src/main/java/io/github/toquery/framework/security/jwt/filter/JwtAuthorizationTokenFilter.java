@@ -56,8 +56,8 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             log.debug("processing authentication for '{}'", request.getRequestURL());
 
             String token = request.getHeader(this.tokenHeader);
-            String[] requestParam = request.getParameterValues(this.tokenHeader);
             if (Strings.isNullOrEmpty(token)) {
+                String[] requestParam = request.getParameterValues(this.tokenHeader);
                 if (requestParam != null && requestParam.length > 0 && !Strings.isNullOrEmpty(requestParam[0])) {
                     token = requestParam[0];
                 }

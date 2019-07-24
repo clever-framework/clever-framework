@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
- * TODO 如果不启用，则会报找不到 SysLog 实体
  *
  * @author toquery
  * @version 1

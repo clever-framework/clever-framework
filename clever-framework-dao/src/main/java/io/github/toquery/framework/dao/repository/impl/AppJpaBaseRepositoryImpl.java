@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import io.github.toquery.framework.dao.query.criteria.internal.CriteriaDeleteDefaultImpl;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
-import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
 import io.github.toquery.framework.dao.util.UtilJPA;
 import io.github.toquery.framework.dao.validate.ValidateHelper;
 import lombok.Getter;

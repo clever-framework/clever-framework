@@ -80,13 +80,20 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(clock.now());
     }
 
+    /**
+     * 检测token是否在修改密码之前
+     *
+     * @param created token创建时间
+     * @param lastPasswordReset 最后修改密码时间
+     * @return  true 创建token在修改密码之前，false 创建token在修改密码之后
+     */
     private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
     private Boolean ignoreTokenExpiration(String token) {
         // here you specify tokens, for that the expiration is ignored
-        return false;
+        return appSecurityJwtProperties.isIgnoreTokenExpiration();
     }
 
     public String generateToken(UserDetails userDetails) {

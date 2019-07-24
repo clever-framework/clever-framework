@@ -1,7 +1,6 @@
 package io.github.toquery.framework.dao.repository;
 
 
-import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

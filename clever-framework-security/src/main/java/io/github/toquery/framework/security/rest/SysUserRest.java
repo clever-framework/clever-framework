@@ -5,6 +5,7 @@ import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.system.domain.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Set;
 
 /**
@@ -25,6 +27,9 @@ import java.util.Set;
 @RestController
 @RequestMapping("/sys/user")
 public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser, Long> {
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseParam query() {
@@ -38,12 +43,14 @@ public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser,
 
     @PostMapping
     public ResponseParam save(@Validated @RequestBody SysUser sysUser) {
+        String encodePassword = passwordEncoder.encode(sysUser.getPassword());
+        sysUser.setPassword(encodePassword);
         return super.save(sysUser);
     }
 
     @PutMapping
     public ResponseParam update(@RequestBody SysUser sysUser) {
-        return super.update(sysUser, Sets.newHashSet("loginName", "authorities"));
+        return super.update(sysUser, Sets.newHashSet("nickname", "authorities"));
     }
 
     @DeleteMapping
