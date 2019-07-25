@@ -2,6 +2,7 @@ package io.github.toquery.framework.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -72,8 +73,8 @@ public class SysUser extends AppBaseEntity implements UserDetails {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_password_reset_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
     private Date lastPasswordResetDate = new Date();
 
     /*

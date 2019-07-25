@@ -58,7 +58,8 @@ public class SysLogRest extends AppBaseCurdController<ISysLogService, SysLog, Lo
 
     @GetMapping("{id}")
     public ResponseParam detail(@PathVariable Long id) {
-        return super.detail(id);
+        SysLog sysLog = super.getById(id);
+        return super.handleResponseParam(new SysLogVo(sysLog, sysUserService.getById(sysLog.getCreateUserId())));
     }
 
    /*

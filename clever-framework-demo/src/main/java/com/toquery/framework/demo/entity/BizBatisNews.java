@@ -1,6 +1,7 @@
 package com.toquery.framework.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,8 +29,8 @@ public class BizBatisNews extends AppBaseEntity {
     @Column
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
     @Column(name = "show_time")
     private Date showTime;
 
