@@ -1,7 +1,9 @@
 package io.github.toquery.framework.system.repository;
 
+import io.github.toquery.framework.dao.jpa.annotation.MybatisQuery;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import io.github.toquery.framework.system.domain.SysLog;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author toquery
@@ -9,5 +11,8 @@ import io.github.toquery.framework.system.domain.SysLog;
  */
 
 public interface SysLogRepository extends AppJpaBaseRepository<SysLog, Long> {
+
+    @MybatisQuery
+    public int insertSysLog(@Param("sysLog") SysLog sysLog);
 
 }

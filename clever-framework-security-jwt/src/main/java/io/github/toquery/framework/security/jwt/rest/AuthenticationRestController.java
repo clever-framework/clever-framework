@@ -4,15 +4,16 @@ package io.github.toquery.framework.security.jwt.rest;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.core.exception.AppException;
+import io.github.toquery.framework.security.domain.ChangePassword;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
+import io.github.toquery.framework.security.jwt.domain.JwtResponse;
 import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
-import io.github.toquery.framework.security.jwt.domain.JwtResponse;
-import io.github.toquery.framework.security.domain.ChangePassword;
 import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.service.ISysLogService;
 import io.github.toquery.framework.system.service.ISysUserService;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
+import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,6 +54,9 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
     @Resource
     private ISysUserService sysUserService;
 
+    @Resource
+    private ISysLogService sysLogService;
+
 
     @Resource
     private AppSecurityJwtProperties appJwtProperties;
@@ -66,7 +70,8 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         Authentication authentication = authenticate(userName, password);
 
         // Reload password post-security so we can generate the token
-        String token = jwtTokenUtil.generateToken((UserDetails)authentication.getPrincipal());
+        String token = jwtTokenUtil.generateToken((UserDetails) authentication.getPrincipal());
+        sysLogService.insertSysLog(((SysUser) authentication.getPrincipal()).getId(), "系统", "登录成功", null, userName, null);
         // Return the token
         return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtResponse(token)));
     }
@@ -81,8 +86,10 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         try {
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
+            sysLogService.insertSysLog(null, "系统", "登录失败", null, username, null);
             throw new AppSecurityJwtException("User is disabled!", e);
         } catch (BadCredentialsException e) {
+            sysLogService.insertSysLog(null, "系统", "登录失败", null, username + "密码错误", null);
             throw new AppSecurityJwtException("用户名或密码错误！", e, HttpStatus.BAD_REQUEST);
         }
     }
@@ -128,9 +135,6 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
             return ResponseEntity.badRequest().body(null);
         }
     }
-
-
-
 
 
     @RequestMapping(value = "${app.jwt.path.info:/user/info}")

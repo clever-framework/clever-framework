@@ -12,8 +12,11 @@ import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,6 +65,12 @@ public class SysLogRest extends AppBaseCurdController<ISysLogService, SysLog, Lo
         return super.handleResponseParam(new SysLogVo(sysLog, sysUserService.getById(sysLog.getCreateUserId())));
     }
 
+    @PostMapping
+    public ResponseParam save(@Validated @RequestBody SysLog sysLog) {
+        return super.save(sysLog);
+    }
+
+
    /*
    @GetMapping("/list")
     public ResponseParam list(@RequestParam(value = "filter_createDateGT", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8") Date createDataGT,
@@ -76,10 +85,6 @@ public class SysLogRest extends AppBaseCurdController<ISysLogService, SysLog, Lo
 
 
 
-    @PostMapping
-    public ResponseParam save(@Validated @RequestBody SysLog sysLog) {
-        return super.save(sysLog);
-    }
 
     @PutMapping
     public ResponseParam update(@RequestBody SysLog sysLog) {
