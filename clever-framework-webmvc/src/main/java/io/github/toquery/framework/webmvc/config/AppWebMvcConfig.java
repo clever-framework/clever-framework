@@ -12,6 +12,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -57,6 +58,21 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
                 log.info("向 MappingJackson2HttpMessageConverter 添加Long类型转换规则");
             }
         }
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        log.info("app - cors 开启");
+        //添加映射路径
+        registry.addMapping("/**")
+                //放行哪些原始域
+                .allowedOrigins("*")
+                //是否发送Cookie信息
+                .allowCredentials(true)
+                //放行哪些原始域(请求方式)
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                //放行哪些原始域(头部信息)
+                .allowedHeaders("*");
     }
 
     @Override

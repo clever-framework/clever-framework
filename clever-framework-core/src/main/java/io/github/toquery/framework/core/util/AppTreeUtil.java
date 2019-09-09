@@ -48,8 +48,12 @@ public class AppTreeUtil {
             if (treeDataIDMap.containsKey(parentId) && parentId != id) {
                 E parentTreeItemMap = treeDataIDMap.get(parentId);
                 List<E> childrenList = (List<E>) PropertyUtils.getProperty(parentTreeItemMap, AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_CHILDREN);
+                if (childrenList == null){
+                    childrenList = new ArrayList<>();
+                }
                 childrenList.add(node);
                 Collections.sort(childrenList);
+                PropertyUtils.setProperty(parentTreeItemMap,AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_CHILDREN,childrenList);
             } else {
                 //存储根节点数据
                 resultList.add(node);
