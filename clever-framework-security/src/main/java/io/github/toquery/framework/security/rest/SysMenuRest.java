@@ -43,7 +43,7 @@ public class SysMenuRest extends AppBaseCurdController<ISysMenuService, SysMenu,
     }
 
     @GetMapping("/tree")
-    public ResponseParam tree() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public ResponseParam tree() throws Exception {
         List<SysMenu> sysMenuList = service.find(null, sort);
         // 将lits数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);

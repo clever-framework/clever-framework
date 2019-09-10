@@ -24,7 +24,6 @@ import java.io.IOException;
 
 /**
  * 检测请求header中token是否合法
- * <p>
  */
 @Slf4j
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {

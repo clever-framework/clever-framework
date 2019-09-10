@@ -25,9 +25,11 @@ public class AppTreeUtil {
      * 由简单的数组对象构造树形结构的数据数组
      *
      * @param treeDataList 在结构上不存在层次关系的简单数组数据
-     * @return
+     * @param <E>          实现AppEntityTree 的实体
+     * @return 树状结构
+     * @throws Exception 反射失败异常
      */
-    public static <E extends AppEntityTree, ID> List<E> getTreeData(List<E> treeDataList) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static <E extends AppEntityTree, ID> List<E> getTreeData(List<E> treeDataList) throws Exception{
         //进行数据有效性校验
         if (treeDataList == null || treeDataList.size() < 1) {
             return null;
@@ -48,12 +50,12 @@ public class AppTreeUtil {
             if (treeDataIDMap.containsKey(parentId) && parentId != id) {
                 E parentTreeItemMap = treeDataIDMap.get(parentId);
                 List<E> childrenList = (List<E>) PropertyUtils.getProperty(parentTreeItemMap, AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_CHILDREN);
-                if (childrenList == null){
+                if (childrenList == null) {
                     childrenList = new ArrayList<>();
                 }
                 childrenList.add(node);
                 Collections.sort(childrenList);
-                PropertyUtils.setProperty(parentTreeItemMap,AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_CHILDREN,childrenList);
+                PropertyUtils.setProperty(parentTreeItemMap, AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_CHILDREN, childrenList);
             } else {
                 //存储根节点数据
                 resultList.add(node);
