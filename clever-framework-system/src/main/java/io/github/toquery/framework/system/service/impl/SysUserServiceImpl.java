@@ -30,7 +30,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
         map.put("username", "username:EQ");
         map.put("nickname", "nickname:EQ");
         map.put("email", "email:EQ");
-        map.put("enabled", "enabled:EQ");
+        map.put("status", "status:EQ");
 
 
         map.put("usernameLike", "username:LIKE");

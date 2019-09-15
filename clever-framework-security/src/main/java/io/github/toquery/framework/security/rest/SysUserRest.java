@@ -50,7 +50,7 @@ public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser,
 
     @PutMapping
     public ResponseParam update(@RequestBody SysUser sysUser) {
-        return super.update(sysUser, Sets.newHashSet("nickname", "authorities"));
+        return super.update(sysUser, Sets.newHashSet("nickname", "status", "email", "authorities"));
     }
 
     @DeleteMapping

@@ -69,7 +69,7 @@ public class SysUser extends AppBaseEntity implements UserDetails {
     @NotNull
     @ColumnDefault("true")
     @Column(name = "enabled")
-    private Boolean enabled = true;
+    private Boolean status = true;
 
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -105,10 +105,6 @@ public class SysUser extends AppBaseEntity implements UserDetails {
     @Transient
     private Set<String> roles = new HashSet<>();
 
-    public boolean getEnabled() {
-        return this.enabled == null ? true : this.enabled;
-    }
-
 
     /**
      * 将Spring属性转换为角色code
@@ -126,7 +122,7 @@ public class SysUser extends AppBaseEntity implements UserDetails {
      */
     @Override
     public boolean isAccountNonExpired() {
-        return this.getEnabled();
+        return this.getStatus();
     }
 
     /**
@@ -134,7 +130,7 @@ public class SysUser extends AppBaseEntity implements UserDetails {
      */
     @Override
     public boolean isAccountNonLocked() {
-        return this.getEnabled();
+        return this.getStatus();
     }
 
     /**
@@ -142,7 +138,7 @@ public class SysUser extends AppBaseEntity implements UserDetails {
      */
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.getEnabled();
+        return this.getStatus();
     }
 
     /**
@@ -150,6 +146,6 @@ public class SysUser extends AppBaseEntity implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return this.getEnabled();
+        return this.getStatus();
     }
 }
