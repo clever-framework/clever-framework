@@ -28,6 +28,7 @@ import java.util.HashSet;
 @Setter
 @Table(name = "sys_role")
 //@JsonIgnoreProperties("authors")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"})
 public class SysRole extends AppBaseEntity implements GrantedAuthority {
 
 

@@ -5,6 +5,8 @@ import io.github.toquery.framework.curd.service.AppBaseService;
 import io.github.toquery.framework.system.domain.SysUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Set;
+
 /**
  * @author toquery
  * @version 1
@@ -29,4 +31,11 @@ public interface ISysUserService extends UserDetailsService, AppBaseService<SysU
      * @throws AppException 修改用户密码失败
      */
     SysUser changePassword(String userName, String sourcePassword, String rawPassword) throws AppException;
+
+    /**
+     * 删除用户，并效验
+     *
+     * @param ids 用户
+     */
+    void deleteSysUserCheck(Set<Long> ids) throws AppException;
 }

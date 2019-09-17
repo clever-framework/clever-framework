@@ -1,5 +1,6 @@
 package io.github.toquery.framework.curd.controller;
 
+import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.service.AppBaseService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;

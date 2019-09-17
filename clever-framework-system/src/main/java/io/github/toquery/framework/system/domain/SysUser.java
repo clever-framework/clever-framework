@@ -74,8 +74,9 @@ public class SysUser extends AppBaseEntity implements UserDetails {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_password_reset_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
+    //@JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
     private Date lastPasswordResetDate = new Date();
 
     /*

@@ -1,7 +1,9 @@
 package io.github.toquery.framework.security.rest;
 
 import com.google.common.collect.Sets;
+import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.github.toquery.framework.system.domain.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -29,6 +31,9 @@ import java.util.Set;
 public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser, Long> {
 
     @Resource
+    private AppSecurityProperties appSecurityProperties;
+
+    @Resource
     private PasswordEncoder passwordEncoder;
 
     @GetMapping
@@ -42,20 +47,23 @@ public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser,
     }
 
     @PostMapping
-    public ResponseParam save(@Validated @RequestBody SysUser sysUser) {
+    public ResponseParam saveSysUserCheck(@Validated @RequestBody SysUser sysUser) throws AppException {
         String encodePassword = passwordEncoder.encode(sysUser.getPassword());
         sysUser.setPassword(encodePassword);
-        return super.save(sysUser);
+        return super.handleResponseParam(service.saveSysUserCheck(sysUser));
     }
 
     @PutMapping
-    public ResponseParam update(@RequestBody SysUser sysUser) {
+    public ResponseParam update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
+        if ( ("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appSecurityProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
+            throw new AppException("禁止修改 admin root 角色！");
+        }
         return super.update(sysUser, Sets.newHashSet("nickname", "status", "email", "authorities"));
     }
 
     @DeleteMapping
-    public void delete(@RequestParam Set<Long> ids) {
-        super.delete(ids);
+    public void deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
+        service.deleteSysUserCheck(ids);
     }
 
     @GetMapping("{id}")
