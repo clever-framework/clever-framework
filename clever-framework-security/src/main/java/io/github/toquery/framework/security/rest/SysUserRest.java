@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.rest;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -55,10 +57,23 @@ public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser,
 
     @PutMapping
     public ResponseParam update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
-        if ( ("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appSecurityProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
-            throw new AppException("禁止修改 admin root 角色！");
+        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appSecurityProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
+            throw new AppException("禁止修改 admin root 用户！");
         }
         return super.update(sysUser, Sets.newHashSet("nickname", "status", "email", "authorities"));
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseParam restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
+        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appSecurityProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
+            throw new AppException("禁止修改 admin root 用户！");
+        }
+        if (Strings.isNullOrEmpty(rawPassword)){
+            throw new AppException("新密码不能为空！");
+        }
+        sysUser.setPassword(passwordEncoder.encode(rawPassword));
+        sysUser.setLastPasswordResetDate(new Date());
+        return super.update(sysUser, Sets.newHashSet("password","lastPasswordResetDate"));
     }
 
     @DeleteMapping
