@@ -1,4 +1,4 @@
-package io.github.toquery.framework.system.domain;
+package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -59,6 +58,11 @@ public class SysUser extends AppBaseEntity implements UserDetails {
     @Length(min = 4, max = 100)
     @Column(name = "password", length = 100, nullable = false)
     private String password;
+
+    @NotBlank
+    @Length(min = 11, max = 11)
+    @Column(name = "phone", length = 50)
+    private String phone;
 
     @Email
     @NotBlank

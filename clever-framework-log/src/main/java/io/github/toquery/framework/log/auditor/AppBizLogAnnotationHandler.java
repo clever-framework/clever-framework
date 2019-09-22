@@ -9,7 +9,7 @@ import io.github.toquery.framework.core.annotation.AppLogFieldIgnore;
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.properties.AppLogProperties;
-import io.github.toquery.framework.system.domain.SysLog;
+import io.github.toquery.framework.system.entity.SysLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

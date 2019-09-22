@@ -7,7 +7,7 @@ package io.github.toquery.framework.core.domain;
  * @version 1
  */
 public interface AppBaseEntitySort {
-    public void setSortNum(int sortNum);
+    public void setSortNum(Integer sortNum);
 
-    public int getSortNum();
+    public Integer getSortNum();
 }

@@ -1,4 +1,4 @@
-package io.github.toquery.framework.system.domain;
+package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;

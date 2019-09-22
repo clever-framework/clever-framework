@@ -2,7 +2,7 @@ package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.system.domain.SysRole;
+import io.github.toquery.framework.system.entity.SysRole;
 
 import java.util.List;
 import java.util.Set;

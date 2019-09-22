@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.log.domain.SysLogVo;
-import io.github.toquery.framework.system.domain.SysLog;
+import io.github.toquery.framework.system.entity.SysLog;
 import io.github.toquery.framework.system.service.ISysLogService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;

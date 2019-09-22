@@ -1,24 +1,5 @@
 package io.github.toquery.framework.log.auditor;
 
-import io.github.toquery.framework.dao.audit.AppAuditorHandler;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.core.annotation.AppLogEntity;
-import io.github.toquery.framework.core.constant.AppLogType;
-import io.github.toquery.framework.log.properties.AppLogProperties;
-import io.github.toquery.framework.system.domain.SysLog;
-import io.github.toquery.framework.system.service.ISysLogService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.event.ContextRefreshedEvent;
-
-import javax.annotation.Resource;
-import java.util.Map;
-
 /**
  * ApplicationContextAware 获取 ApplicationContext
  * ApplicationListener ContextRefreshedEvent : Spring 容器加载完毕后，执行操作

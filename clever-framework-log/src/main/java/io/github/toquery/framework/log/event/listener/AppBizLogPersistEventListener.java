@@ -5,7 +5,7 @@ import io.github.toquery.framework.core.annotation.AppLogEntity;
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
-import io.github.toquery.framework.system.domain.SysLog;
+import io.github.toquery.framework.system.entity.SysLog;
 import io.github.toquery.framework.system.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;

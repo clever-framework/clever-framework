@@ -2,7 +2,7 @@ package io.github.toquery.framework.system.service.impl;
 
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
-import io.github.toquery.framework.system.domain.SysRole;
+import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.repository.SysRoleRepository;
 import io.github.toquery.framework.system.service.ISysRoleService;
 

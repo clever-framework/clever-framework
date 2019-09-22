@@ -1,4 +1,4 @@
-package io.github.toquery.framework.system.domain;
+package io.github.toquery.framework.system.entity;
 
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Getter;
@@ -19,11 +19,12 @@ import java.util.Map;
  * <p>
  * org.springframework.boot.actuate.audit.AuditEvent
  */
-//@Entity
 @Getter
 @Setter
+//@Entity
 //@Table(name = "sys_audit_event")
-public class PersistentAuditEvent extends AppBaseEntity {
+public class SysAuditEvent extends AppBaseEntity {
+
 
     @NotNull
     @Column(nullable = false)
@@ -38,7 +39,16 @@ public class PersistentAuditEvent extends AppBaseEntity {
     @ElementCollection
     @MapKeyColumn(name = "name")
     @Column(name = "value")
-    @CollectionTable(name = "sys_audit_event_data", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable(name = "sys_audit_event_data", joinColumns = @JoinColumn(name = "event_id"))
     private Map<String, String> data = new HashMap<>();
 
+
+    @Override
+    public String toString() {
+        return "SysAuditEvent{" +
+                "principal='" + principal + '\'' +
+                ", auditEventDate=" + auditEventDate +
+                ", auditEventType='" + auditEventType + '\'' +
+                '}';
+    }
 }

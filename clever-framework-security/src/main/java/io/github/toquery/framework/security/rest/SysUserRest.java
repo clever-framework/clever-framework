@@ -5,7 +5,7 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
-import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,7 +60,7 @@ public class SysUserRest extends AppBaseCurdController<ISysUserService, SysUser,
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appSecurityProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
-        return super.update(sysUser, Sets.newHashSet("nickname", "status", "email", "authorities"));
+        return super.update(sysUser, Sets.newHashSet("nickname", "phone", "status", "email", "authorities"));
     }
 
     @PutMapping("/reset-password")

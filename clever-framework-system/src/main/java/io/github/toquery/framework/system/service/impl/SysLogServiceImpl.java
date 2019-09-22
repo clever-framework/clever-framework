@@ -3,7 +3,7 @@ package io.github.toquery.framework.system.service.impl;
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.dao.primary.snowflake.Snowflake2PrimaryKeyGenerator;
-import io.github.toquery.framework.system.domain.SysLog;
+import io.github.toquery.framework.system.entity.SysLog;
 import io.github.toquery.framework.system.repository.SysLogRepository;
 import io.github.toquery.framework.system.service.ISysLogService;
 

@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
-import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.repository.SysUserRepository;
 import io.github.toquery.framework.system.service.ISysUserService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -51,6 +52,11 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
         }
     }
 
+
+    @Override
+    public List<SysUser> findByIds(Set<Long> ids) {
+        return entityDao.findAllById(ids);
+    }
 
     @Override
     public SysUser saveSysUserCheck(SysUser sysUser) throws AppException {

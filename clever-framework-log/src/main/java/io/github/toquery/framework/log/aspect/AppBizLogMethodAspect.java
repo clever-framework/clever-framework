@@ -5,7 +5,7 @@ import com.google.common.base.Strings;
 import io.github.toquery.framework.core.annotation.AppLogMethod;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
-import io.github.toquery.framework.system.domain.SysLog;
+import io.github.toquery.framework.system.entity.SysLog;
 import io.github.toquery.framework.system.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;

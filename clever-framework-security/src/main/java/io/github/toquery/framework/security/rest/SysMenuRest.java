@@ -5,7 +5,7 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.core.annotation.AppLogMethod;
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
-import io.github.toquery.framework.system.domain.SysMenu;
+import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Set;
 

@@ -86,12 +86,14 @@ public class AppBaseEntity implements Serializable {
      * App Log 模块名称
      */
     @Transient
+    @Deprecated
     private String moduleName;
 
     /**
      * App Log 业务名称
      */
     @Transient
+    @Deprecated
     private String bizName;
 
 

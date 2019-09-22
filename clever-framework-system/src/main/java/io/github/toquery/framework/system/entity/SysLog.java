@@ -1,4 +1,4 @@
-package io.github.toquery.framework.system.domain;
+package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.annotation.AppLogEntityIgnore;

@@ -1,10 +1,8 @@
-package io.github.toquery.framework.system.domain;
+package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.toquery.framework.common.constant.AppDomainFieldConstant;
 import io.github.toquery.framework.core.domain.AppBaseEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
-import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
 import lombok.AllArgsConstructor;
@@ -79,7 +77,7 @@ public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, Ap
     private boolean hasChildren = false;
 
     @Column(name = "sort_num")
-    private int sortNum = 0;
+    private Integer sortNum = 0;
 
     /**
      * 是否删除：1已删除；0未删除

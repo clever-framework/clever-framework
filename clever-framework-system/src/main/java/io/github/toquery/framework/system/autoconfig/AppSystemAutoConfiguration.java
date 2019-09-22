@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties({AppSystemProperties.class})
-@EntityScan(basePackages = "io.github.toquery.framework.system.domain")
+@EntityScan(basePackages = "io.github.toquery.framework.system.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system.repository")
 @ConditionalOnProperty(prefix = AppSystemProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class AppSystemAutoConfiguration {

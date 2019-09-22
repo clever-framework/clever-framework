@@ -2,9 +2,10 @@ package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.entity.SysUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,6 +13,8 @@ import java.util.Set;
  * @version 1
  */
 public interface ISysUserService extends UserDetailsService, AppBaseService<SysUser, Long> {
+
+    List<SysUser> findByIds(Set<Long> ids);
 
     /**
      * 保存用户，并效验

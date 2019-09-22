@@ -56,6 +56,10 @@ public class AppTreeUtil {
                 childrenList.add(node);
                 Collections.sort(childrenList);
                 PropertyUtils.setProperty(parentTreeItemMap, AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_CHILDREN, childrenList);
+                // 重新判定是否有子集
+                if (childrenList.size() > 0){
+                    PropertyUtils.setProperty(parentTreeItemMap, AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_HAS_CHILDREN, false);
+                }
             } else {
                 //存储根节点数据
                 resultList.add(node);

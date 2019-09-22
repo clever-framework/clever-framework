@@ -1,7 +1,7 @@
 package io.github.toquery.framework.log.domain;
 
-import io.github.toquery.framework.system.domain.SysLog;
-import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.entity.SysLog;
+import io.github.toquery.framework.system.entity.SysUser;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,4 +1,4 @@
-package io.github.toquery.framework.system.domain;
+package io.github.toquery.framework.system.entity;
 
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.core.annotation.AppLogEntity;
