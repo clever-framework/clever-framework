@@ -71,8 +71,8 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
         if (dbSysUser != null) {
             throw new AppException("用户已存在");
         }
-        String encodePassword = passwordEncoder.encode(sysUser.getPassword());
-        sysUser.setPassword(encodePassword);
+//        String encodePassword = passwordEncoder.encode(sysUser.getPassword());
+//        sysUser.setPassword(encodePassword);
         return save(sysUser);
     }
 

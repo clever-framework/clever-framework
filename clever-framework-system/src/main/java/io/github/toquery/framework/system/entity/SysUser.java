@@ -42,7 +42,7 @@ public class SysUser extends AppBaseEntity implements UserDetails {
 
     // 用户名，唯一
     @NotBlank
-    @Size(min = 4, max = 50)
+    @Length(min = 4, max = 50)
     @Column(name = "user_name", length = 50, unique = true)
     private String username;
 
@@ -59,14 +59,14 @@ public class SysUser extends AppBaseEntity implements UserDetails {
     @Column(name = "password", length = 100, nullable = false)
     private String password;
 
-    @NotBlank
-    @Length(min = 11, max = 11)
+    // @NotBlank
+    // @Length(min = 11, max = 11)
     @Column(name = "phone", length = 50)
     private String phone;
 
-    @Email
-    @NotBlank
-    @Size(min = 4, max = 50)
+//    @Email
+//    @NotBlank
+//    @Size(min = 4, max = 50)
     @Column(name = "email", length = 50)
     private String email;
 

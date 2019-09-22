@@ -23,6 +23,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -167,10 +168,14 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         }
         return jwtTokenUtil.getUsernameFromToken(token);
     }
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
 
     @PostMapping(value = "${app.jwt.path.register:/user/register}")
     public ResponseEntity register(@RequestBody SysUser user) throws AppException {
+        String encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
         user = sysUserService.saveSysUserCheck(user);
         return ResponseEntity.ok(ResponseParam.builder().build().content(user));
     }
