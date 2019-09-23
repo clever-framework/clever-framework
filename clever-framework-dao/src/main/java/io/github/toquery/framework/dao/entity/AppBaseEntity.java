@@ -64,7 +64,7 @@ public class AppBaseEntity implements Serializable {
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @Column(name = "create_time", updatable = false, nullable = false)
     private Date createDatetime;
 
@@ -77,7 +77,7 @@ public class AppBaseEntity implements Serializable {
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern =AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern =AppCommonConstant.DATE_TIME_PATTERN)
     @Column(name = "last_update_time", nullable = false)
     private Date lastUpdateDatetime;
 

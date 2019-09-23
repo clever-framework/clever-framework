@@ -43,8 +43,8 @@ public class SysLogRest extends AppBaseCurdController<ISysLogService, SysLog, Lo
     private static final String[] PAGE_SORT = new String[]{"createDatetime_desc"};
 
     @GetMapping
-    public ResponseParam query(@RequestParam(value = "filter_createDatetimeGT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8") Date createDataGT,
-                               @RequestParam(value = "filter_createDatetimeLT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8") Date createDataLT) {
+    public ResponseParam query(@RequestParam(value = "filter_createDatetimeGT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) Date createDataGT,
+                               @RequestParam(value = "filter_createDatetimeLT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) Date createDataLT) {
         Map<String, Object> filterParam = super.getFilterParam();
         if (createDataGT != null && createDataLT != null) {
             filterParam.put("createDatetimeGT", createDataGT);
