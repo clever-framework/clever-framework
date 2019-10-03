@@ -43,7 +43,7 @@ public class AppBaseEntity implements Serializable {
 
     @Id
     @Column
-    @RevisionNumber
+    // @RevisionNumber
     @GeneratedValue(generator = "generatedkey")
     @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppJpaEntityLongIDGenerator")
     protected Long id;
