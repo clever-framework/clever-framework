@@ -52,7 +52,7 @@ public class SysRoleRest extends AppBaseCurdController<ISysRoleService, SysRole,
         if (("admin".equalsIgnoreCase(sysRole.getCode()) || "root".equalsIgnoreCase(sysRole.getCode())) && !appSecurityProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 角色！");
         }
-        return super.update(sysRole, Sets.newHashSet("name", "code", "menus"));
+        return super.handleResponseParam(service.updateSysRoleCheck(sysRole, Sets.newHashSet("name", "code", "menus")));
     }
 
     @DeleteMapping

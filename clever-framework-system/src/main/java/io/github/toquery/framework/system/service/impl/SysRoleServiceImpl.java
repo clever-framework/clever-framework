@@ -7,6 +7,7 @@ import io.github.toquery.framework.system.repository.SysRoleRepository;
 import io.github.toquery.framework.system.service.ISysRoleService;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,11 +39,26 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRol
         return super.find(filter);
     }
 
+
+    @Override
+    public List<SysRole> findByName(String name) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("name", name);
+        return super.find(filter);
+    }
+
     @Override
     public SysRole saveSysRoleCheck(SysRole sysRole) throws AppException {
+        if ("admin".equalsIgnoreCase(sysRole.getCode()) || "root".equalsIgnoreCase(sysRole.getCode())) {
+            throw new AppException("保存角色错误，禁止保存 admin root角色");
+        }
         List<SysRole> sysRoleList = this.findByCode(sysRole.getCode());
         if (sysRoleList != null && sysRoleList.size() > 0) {
-            throw new AppException("保存角色错误，禁止保存 admin root角色");
+            throw new AppException("保存角色错误，存在相同code的角色");
+        }
+        sysRoleList = this.findByName(sysRole.getName());
+        if (sysRoleList != null && sysRoleList.size() > 0) {
+            throw new AppException("保存角色错误，存在相同名称的角色");
         }
         return super.save(sysRole);
     }
@@ -57,5 +73,17 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRol
         }
         super.deleteByIds(ids);
 
+    }
+
+    @Override
+    public SysRole updateSysRoleCheck(SysRole sysRole, HashSet<String> newHashSet) throws AppException {
+        List<SysRole> sysRoleList = entityDao.findByCodeOrName(sysRole.getCode(), sysRole.getName());
+
+        Optional<SysRole> sysRoleOptional = sysRoleList.stream().filter(item -> !sysRole.getId().equals(item.getId())).findAny();
+        if (sysRoleOptional.isPresent()) {
+            throw new AppException("已存在相同code或名称的角色");
+        }
+
+        return super.update(sysRole, newHashSet);
     }
 }
