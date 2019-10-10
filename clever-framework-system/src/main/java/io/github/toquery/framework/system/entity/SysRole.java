@@ -53,7 +53,7 @@ public class SysRole extends AppBaseEntity implements GrantedAuthority {
 */
 
     @JsonIgnoreProperties({"roles", "lastUpdateDatetime", "createDatetime"})
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany // (cascade = CascadeType.ALL)
     @JoinTable(
             name = "sys_user_role",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
