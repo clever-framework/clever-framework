@@ -21,7 +21,7 @@ public class AppProperties {
 
     private boolean enable = true;
 
-    private AppCommonProperties common = new AppCommonProperties();
+//    private AppCommonProperties common = new AppCommonProperties();
 
     // private AppJpaProperties jpa = new AppJpaProperties();
 }

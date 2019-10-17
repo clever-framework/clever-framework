@@ -5,7 +5,7 @@
     <parent>
         <artifactId>clever-framework</artifactId>
         <groupId>io.github.toquery</groupId>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,6 +20,10 @@
             <artifactId>spring-boot</artifactId>
         </dependency>
         -->
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-common</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>

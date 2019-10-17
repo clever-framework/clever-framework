@@ -1,35 +1,42 @@
 package io.github.toquery.framework.security.jwt;
 
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
-import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.entity.SysUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
+import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClock;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Component
+@Slf4j
 public class JwtTokenUtil implements Serializable {
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_CREATED = "iat";
-    private static final long serialVersionUID = -3301605591108950415L;
+    private static final long serialVersionUID = 1L;
+
     //   @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "It's okay here")
     private Clock clock = DefaultClock.INSTANCE;
 
+    private final AppSecurityJwtProperties appSecurityJwtProperties;
 
-    @Resource
-    private AppSecurityJwtProperties appSecurityJwtProperties;
+    public JwtTokenUtil(AppSecurityJwtProperties appSecurityJwtProperties) {
+        this.appSecurityJwtProperties = appSecurityJwtProperties;
+    }
 
+    /**
+     * 通过 token 获取 username
+     *
+     * @param token token
+     * @return username
+     */
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
@@ -42,12 +49,26 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
+    /**
+     * 解析 token，获取相应属性
+     *
+     * @param token          token
+     * @param claimsResolver 获取相应属性
+     * @param <T>            获取相应属性
+     * @return 获取相应属性
+     */
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
+        Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
-    private Claims getAllClaimsFromToken(String token) {
+    /**
+     * 解析 token 对象获取实体
+     *
+     * @param token 实体
+     * @return 实体
+     */
+    public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(appSecurityJwtProperties.getSecret())
                 .parseClaimsJws(token)
@@ -55,17 +76,24 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
+        Date expiration = getExpirationDateFromToken(token);
         return expiration.before(clock.now());
     }
 
+    /**
+     * 检测token是否在修改密码之前
+     *
+     * @param created token创建时间
+     * @param lastPasswordReset 最后修改密码时间
+     * @return  true 创建token在修改密码之前，false 创建token在修改密码之后
+     */
     private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
     private Boolean ignoreTokenExpiration(String token) {
         // here you specify tokens, for that the expiration is ignored
-        return false;
+        return appSecurityJwtProperties.isIgnoreTokenExpiration();
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -73,11 +101,12 @@ public class JwtTokenUtil implements Serializable {
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
-        final Date createdDate = clock.now();
-        final Date expirationDate = calculateExpirationDate(createdDate);
+    public String doGenerateToken(Map<String, Object> claims, String subject) {
+        Date createdDate = clock.now();
+        Date expirationDate = calculateExpirationDate(createdDate);
 
         return Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(createdDate)
@@ -87,16 +116,16 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
-        final Date created = getIssuedAtDateFromToken(token);
+        Date created = getIssuedAtDateFromToken(token);
         return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
                 && (!isTokenExpired(token) || ignoreTokenExpiration(token));
     }
 
     public String refreshToken(String token) {
-        final Date createdDate = clock.now();
-        final Date expirationDate = calculateExpirationDate(createdDate);
+        Date createdDate = clock.now();
+        Date expirationDate = calculateExpirationDate(createdDate);
 
-        final Claims claims = getAllClaimsFromToken(token);
+        Claims claims = getAllClaimsFromToken(token);
         claims.setIssuedAt(createdDate);
         claims.setExpiration(expirationDate);
 
@@ -118,6 +147,12 @@ public class JwtTokenUtil implements Serializable {
         );
     }
 
+    /**
+     * 在当前时间增加过期时间
+     *
+     * @param createdDate 当前时间
+     * @return 当前时间+过期时间
+     */
     private Date calculateExpirationDate(Date createdDate) {
         return new Date(createdDate.getTime() + appSecurityJwtProperties.getExpiration() * 1000);
     }

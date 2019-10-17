@@ -1,7 +1,4 @@
-app:
-  page:
-    param:
-      page-size: ps
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

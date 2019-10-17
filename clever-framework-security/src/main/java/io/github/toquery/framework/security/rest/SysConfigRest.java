@@ -5,7 +5,7 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.core.annotation.AppLogMethod;
 import io.github.toquery.framework.core.constant.AppLogType;
-import io.github.toquery.framework.system.domain.SysConfig;
+import io.github.toquery.framework.system.entity.SysConfig;
 import io.github.toquery.framework.system.service.ISysConfigService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.validation.annotation.Validated;

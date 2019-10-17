@@ -10,12 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -49,36 +46,12 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
     @Resource
     private AppSecurityProperties appSecurityProperties;
 
-
     @Resource
     private JwtTokenUtil jwtTokenUtil;
-
-    @Resource
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoderBean());
-    }
 
     @Bean
     public OncePerRequestFilter getFilter() {
         return new JwtAuthorizationTokenFilter(userDetailsService, jwtTokenUtil, appSecurityProperties, appSecurityJwtProperties);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoderBean() {
-        return new BCryptPasswordEncoder();
-        //BCryptPasswordEncoder
-//        return new PasswordEncoder() {
-//            @Override
-//            public String encode(CharSequence rawPassword) {
-//                return "admin";
-//            }
-//
-//            @Override
-//            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-//                return true;
-//            }
-//        };
     }
 
 
@@ -115,13 +88,4 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
         return new String[]{pathProperties.getRegister(), pathProperties.getToken()};
     }
 
-   /*
-   @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
-
-        AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
-        // AuthenticationTokenFilter will ignore the below paths
-        // web.ignoring().antMatchers(HttpMethod.POST, pathProperties.getRegister(), pathProperties.getToken());
-    }*/
 }

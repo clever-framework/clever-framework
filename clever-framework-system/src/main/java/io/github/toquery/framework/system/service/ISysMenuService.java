@@ -1,7 +1,7 @@
 package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.system.domain.SysMenu;
+import io.github.toquery.framework.system.entity.SysMenu;
 
 import java.util.List;
 import java.util.Set;

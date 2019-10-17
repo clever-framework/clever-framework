@@ -7,7 +7,7 @@
     <groupId>io.github.toquery</groupId>
     <artifactId>clever-framework</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 
     <url>https://github.com/ToQuery/clever-framework</url>
     <description>Spring-based rapid development framework</description>
@@ -25,7 +25,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <clever-framework.version>1.0.5</clever-framework.version>
+        <clever-framework.version>1.0.6</clever-framework.version>
 
         <!-- CI-friendly property 必须使用这个名称，否则IDEA报错-->
         <revision>${clever-framework.version}</revision>
@@ -54,10 +54,11 @@
 
         <swagger.version>2.0.8</swagger.version>
 
-        <!-- mybatis version -->
-        <mybatis.version>3.5.1</mybatis.version>
-        <mybatis-spring.version>2.0.1</mybatis-spring.version>
-        <mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
+        <!-- mybatis version
+        <mybatis.version>3.5.2</mybatis.version>
+        <mybatis-spring.version>2.0.2</mybatis-spring.version>
+        -->
+        <mybatis-spring-boot-starter.version>2.1.0</mybatis-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.2.10</pagehelper-spring-boot-starter.version>
     </properties>
 
@@ -151,6 +152,11 @@
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-swagger</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-files</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
@@ -188,6 +194,24 @@
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.version}</version>
             </dependency>
+
+            <!--
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>0.10.7</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>0.10.7</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>0.10.7</version>
+            </dependency>
+            -->
 
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -253,7 +277,7 @@
 
 
 
-            <!-- mybatis -->
+            <!-- mybatis
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
@@ -264,6 +288,7 @@
                 <artifactId>mybatis-spring</artifactId>
                 <version>${mybatis-spring.version}</version>
             </dependency>
+            -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>

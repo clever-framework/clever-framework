@@ -1,7 +1,7 @@
 package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.system.domain.SysConfig;
+import io.github.toquery.framework.system.entity.SysConfig;
 
 import java.util.List;
 

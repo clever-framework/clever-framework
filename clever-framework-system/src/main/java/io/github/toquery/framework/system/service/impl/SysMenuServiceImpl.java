@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
-import io.github.toquery.framework.system.domain.SysMenu;
+import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.repository.SysMenuRepository;
 import io.github.toquery.framework.system.service.ISysMenuService;
 

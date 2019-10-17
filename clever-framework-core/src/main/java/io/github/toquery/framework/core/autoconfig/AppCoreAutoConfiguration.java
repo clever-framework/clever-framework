@@ -15,4 +15,9 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(AppProperties.class)
 @ConditionalOnProperty(prefix = AppProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class AppCoreAutoConfiguration {
+
+    public AppCoreAutoConfiguration() {
+        log.info("自动装配 App Core 模块");
+    }
+    
 }

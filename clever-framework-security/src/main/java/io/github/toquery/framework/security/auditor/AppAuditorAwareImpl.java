@@ -1,6 +1,6 @@
 package io.github.toquery.framework.security.auditor;
 
-import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;

@@ -1,18 +1,27 @@
 package io.github.toquery.framework.curd.service.impl;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.persistence.Transient;
+import javax.persistence.criteria.Predicate;
+
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.curd.service.AppBaseService;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
-import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;
-import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
-import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
-import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ClassUtils;
@@ -26,18 +35,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.persistence.Transient;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import io.github.toquery.framework.curd.service.AppBaseService;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
+import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;
+import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * jpa快速curd方法
@@ -142,7 +145,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
     @Override
     @Transactional
-    public void delete(Map<String, Object> params, AppDaoEnumConnector connector){
+    public void delete(Map<String, Object> params, Predicate.BooleanOperator connector){
         if (isSoftDel()){
             List<E> entityList = this.find(params);
             this.update(entityList,Sets.newHashSet(""));
@@ -154,7 +157,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     @Override
     @Transactional
     public void delete(Map<String, Object> params) {
-        this.delete(params,AppDaoEnumConnector.AND);
+        this.delete(params, Predicate.BooleanOperator.AND);
     }
 
 

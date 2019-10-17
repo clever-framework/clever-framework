@@ -1,12 +1,13 @@
 package io.github.toquery.framework.curd.service;
 
-import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
-import org.springframework.data.domain.Page;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.criteria.Predicate;
+
+import org.springframework.data.domain.Page;
 
 public interface AppBaseService<E, ID extends Serializable> {
 
@@ -42,7 +43,7 @@ public interface AppBaseService<E, ID extends Serializable> {
     /**
      * 根据相应的条件参数删除数据，如果实现软删除接口则软删除
      */
-    void delete(Map<String, Object> params, AppDaoEnumConnector connector);
+    void delete(Map<String, Object> params, Predicate.BooleanOperator connector);
 
     /**
      * 根据ID判断实体是否存在

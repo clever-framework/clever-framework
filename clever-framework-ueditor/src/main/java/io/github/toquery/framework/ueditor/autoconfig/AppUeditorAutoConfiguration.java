@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @Configuration
-@EnableConfigurationProperties({AppUeditorProperties.class})
+@EnableConfigurationProperties(AppUeditorProperties.class)
 @ConditionalOnProperty(prefix = AppUeditorProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class AppUeditorAutoConfiguration {
 

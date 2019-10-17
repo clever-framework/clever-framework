@@ -1,6 +1,6 @@
 package io.github.toquery.framework.files.rest;
 
-import io.github.toquery.framework.common.util.DownloadFileUtil;
+import io.github.toquery.framework.common.util.AppDownloadFileUtil;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.files.domain.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartRequest;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -40,7 +39,7 @@ public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFil
         ResponseEntity responseEntity = null;
         try {
             SysFiles sysFiles = super.getById(id);
-            responseEntity = DownloadFileUtil.download( appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
+            responseEntity = AppDownloadFileUtil.download( appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = super.notFound("文件未找到");

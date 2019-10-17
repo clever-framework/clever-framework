@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import io.github.toquery.framework.dao.query.criteria.internal.CriteriaDeleteDefaultImpl;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
-import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
 import io.github.toquery.framework.dao.util.UtilJPA;
 import io.github.toquery.framework.dao.validate.ValidateHelper;
 import lombok.Getter;
@@ -301,7 +300,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
      * at java.lang.reflect.Method.invoke(Method.java:498) ~[na:1.8.0_121]
      */
 
-    public void delete(Map<String, Object> params, AppDaoEnumConnector connector) {
+    public void delete(Map<String, Object> params, Predicate.BooleanOperator connector) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
         CriteriaDelete<E> criteriaDelete = new CriteriaDeleteDefaultImpl<>((CriteriaBuilderImpl) builder);
@@ -315,9 +314,9 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         predicates = predicateList.toArray(predicates);
 
         Predicate predicate = null;
-        if (connector == AppDaoEnumConnector.AND) {
+        if (connector == Predicate.BooleanOperator.AND) {
             predicate = builder.and(predicates);
-        } else if (connector == AppDaoEnumConnector.OR) {
+        } else if (connector == Predicate.BooleanOperator.OR) {
             predicate = builder.or(predicates);
         }
         criteriaDelete.where(predicate);

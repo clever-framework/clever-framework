@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 方法aop拦截，如果以$开头，则默认获取实体相应字段
+ * 方法aop拦截，如果以$开头，则默认获取实体相应字段，如果是接受参数非实体，则获取接受参数的值
  *
  * @author toquery
  * @version 1

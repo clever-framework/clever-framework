@@ -4,23 +4,26 @@ package io.github.toquery.framework.security.jwt.rest;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.core.exception.AppException;
+import io.github.toquery.framework.security.domain.ChangePassword;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
+import io.github.toquery.framework.security.jwt.domain.JwtResponse;
 import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
-import io.github.toquery.framework.security.jwt.JwtAuthenticationResponse;
-import io.github.toquery.framework.security.domain.ChangePassword;
-import io.github.toquery.framework.system.domain.SysUser;
+import io.github.toquery.framework.system.entity.SysUser;
+import io.github.toquery.framework.system.service.ISysLogService;
 import io.github.toquery.framework.system.service.ISysUserService;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
+import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +55,9 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
     @Resource
     private ISysUserService sysUserService;
 
+    @Resource
+    private ISysLogService sysLogService;
+
 
     @Resource
     private AppSecurityJwtProperties appJwtProperties;
@@ -62,27 +68,29 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         String userName = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getUsername(), "未获取到登录用户名");
         String password = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getPassword(), "未获取到登录密码");
 
-        authenticate(userName, password);
+        Authentication authentication = authenticate(userName, password);
 
         // Reload password post-security so we can generate the token
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        String token = jwtTokenUtil.generateToken(userDetails);
+        String token = jwtTokenUtil.generateToken((UserDetails) authentication.getPrincipal());
+        sysLogService.insertSysLog(((SysUser) authentication.getPrincipal()).getId(), "系统", "登录成功", null, userName, null);
         // Return the token
-        return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtAuthenticationResponse(token)));
+        return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtResponse(token)));
     }
 
     /**
      * Authenticates the user. If something is wrong, an {@link AppSecurityJwtException} will be thrown
      */
-    private void authenticate(String username, String password) throws AppSecurityJwtException {
+    private Authentication authenticate(String username, String password) throws AppSecurityJwtException {
         Objects.requireNonNull(username);
         Objects.requireNonNull(password);
 
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
+            sysLogService.insertSysLog(null, "系统", "登录失败", null, username, null);
             throw new AppSecurityJwtException("User is disabled!", e);
         } catch (BadCredentialsException e) {
+            sysLogService.insertSysLog(null, "系统", "登录失败", null, username + "密码错误", null);
             throw new AppSecurityJwtException("用户名或密码错误！", e, HttpStatus.BAD_REQUEST);
         }
     }
@@ -123,14 +131,11 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
 
         if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
+            return ResponseEntity.ok(new JwtResponse(refreshedToken));
         } else {
             return ResponseEntity.badRequest().body(null);
         }
     }
-
-
-
 
 
     @RequestMapping(value = "${app.jwt.path.info:/user/info}")
@@ -147,7 +152,7 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
             return ResponseEntity.badRequest().body(ResponseParam.builder().build().message("两次密码输入不一致"));
         }
         String userName = this.getUserName();
-        SysUser user = sysUserService.changePassword(userName, changePassword.getRawPassword());
+        SysUser user = sysUserService.changePassword(userName, changePassword.getSourcePassword(), changePassword.getRawPassword());
         return ResponseEntity.ok(ResponseParam.builder().build().content(user));
     }
 
@@ -163,10 +168,14 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         }
         return jwtTokenUtil.getUsernameFromToken(token);
     }
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
 
     @PostMapping(value = "${app.jwt.path.register:/user/register}")
     public ResponseEntity register(@RequestBody SysUser user) throws AppException {
+        String encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
         user = sysUserService.saveSysUserCheck(user);
         return ResponseEntity.ok(ResponseParam.builder().build().content(user));
     }

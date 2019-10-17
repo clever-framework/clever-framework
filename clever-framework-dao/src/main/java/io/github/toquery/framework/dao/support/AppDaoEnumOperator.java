@@ -18,7 +18,8 @@ public enum AppDaoEnumOperator {
     GT(Comparable.class, false), LT(Comparable.class, false), GTE(Comparable.class, false), LTE(Comparable.class, false),
     EQDATE(Date.class, false), NEQDATE(Date.class, false), GTDATE(Date.class, false), LTDATE(Date.class, false), GTEDATE(Date.class, false), LTEDATE(Date.class, false),
     ISNULL(Object.class, true), ISNOTNULL(Object.class, true),
-    IN(String.class, false), NOTIN(String.class, false), BOOLEANQE(Boolean.class, false);
+    IN(String.class, false), NOTIN(String.class, false),
+    BOOLEANQE(Boolean.class, false);
 
     public Class applyClass;
 

@@ -1,7 +1,6 @@
 package io.github.toquery.framework.dao.jpa.support;
 
-import io.github.toquery.framework.core.constant.AppPropertiesDefault;
-import io.github.toquery.framework.dao.support.AppDaoEnumConnector;
+import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.support.AppDaoEnumOperator;
 import io.github.toquery.framework.dao.support.SearchFilter;
 import io.github.toquery.framework.dao.util.UtilEscape;
@@ -82,7 +81,7 @@ public class AppSpecification<T> implements Specification<T> {
 
         for (Map.Entry<String, List<SearchFilter>> filterGroupEntry : groupFilterMap.entrySet()) {
             Predicate predicate = null;
-            AppDaoEnumConnector connector = filterGroupEntry.getValue().get(0).getConnector();
+            Predicate.BooleanOperator connector = filterGroupEntry.getValue().get(0).getConnector();
             for (SearchFilter filter : filterGroupEntry.getValue()) {
                 String[] attributeNames = filter.getFieldName().split("[\\.]");
                 if (attributeNames.length > 2) {
@@ -126,7 +125,7 @@ public class AppSpecification<T> implements Specification<T> {
      * @param builder        查询条件构造器
      * @return
      */
-    private static <T> Predicate joinPredicate(final Class<T> entityClazz, Predicate existPredicate, Expression expression, SearchFilter filter, CriteriaBuilder builder) {
+    private static <T> Predicate joinPredicate(Class<T> entityClazz, Predicate existPredicate, Expression expression, SearchFilter filter, CriteriaBuilder builder) {
         //创建新的predicate
         Predicate newPredicate = createPredicate(entityClazz, expression, filter, builder);
         //根据条件连接符构造查询条件
@@ -142,7 +141,7 @@ public class AppSpecification<T> implements Specification<T> {
      * @param builder        查询构建器CriteriaBuilder
      * @return 连接后的查询条件
      */
-    private static <T> Predicate joinPredicate(final Class<T> entityClazz, Predicate existPredicate, Predicate newPredicate, AppDaoEnumConnector connector, CriteriaBuilder builder) {
+    private static <T> Predicate joinPredicate(Class<T> entityClazz, Predicate existPredicate, Predicate newPredicate, Predicate.BooleanOperator connector, CriteriaBuilder builder) {
         if (newPredicate == null) {
             return existPredicate;
         }
@@ -171,7 +170,7 @@ public class AppSpecification<T> implements Specification<T> {
      * @param builder
      * @return
      */
-    private static <T> Predicate createPredicate(final Class<T> entityClazz, Expression expression, SearchFilter filter, CriteriaBuilder builder) {
+    private static <T> Predicate createPredicate(Class<T> entityClazz, Expression expression, SearchFilter filter, CriteriaBuilder builder) {
 
         Predicate predicate = null;
         switch (filter.getOperator()) {
@@ -377,7 +376,7 @@ public class AppSpecification<T> implements Specification<T> {
         } else if (operator.applyClass.getName().equals(Date.class.getName()) && !(value instanceof Date)) {
             //将字符串转换为日期
             String dateString = value.toString().trim();
-            String[] datePatterns = {AppPropertiesDefault.DATE_PATTERN, AppPropertiesDefault.DATE_TIME_PATTERN, AppPropertiesDefault.TIME_PATTERN};
+            String[] datePatterns = {AppCommonConstant.DATE_PATTERN, AppCommonConstant.DATE_TIME_PATTERN, AppCommonConstant.TIME_PATTERN};
             try {
                 value = DateUtils.parseDate(dateString, datePatterns);
             } catch (ParseException e) {

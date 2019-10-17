@@ -2,14 +2,14 @@ package io.github.toquery.framework.log.auditor;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.core.annotation.AppLogEntity;
 import io.github.toquery.framework.core.annotation.AppLogEntityIgnore;
 import io.github.toquery.framework.core.annotation.AppLogField;
 import io.github.toquery.framework.core.annotation.AppLogFieldIgnore;
 import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.properties.AppLogProperties;
-import io.github.toquery.framework.system.domain.SysLog;
+import io.github.toquery.framework.system.entity.SysLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -35,14 +35,13 @@ public class AppBizLogAnnotationHandler {
     @Resource
     private AppLogProperties appLogProperties;
 
-    public SysLog fill2SysLog(AppBaseEntity appBaseEntity, Map<String, Object> rawData, Map<String, Object> targetData, String modelName, String bizName, AppLogType logType) {
+    public SysLog fill2SysLog(AppLogType logType, Map<String, Object> rawData, Map<String, Object> targetData, String modelName, String bizName) {
         SysLog sysLog = new SysLog();
         sysLog.setModuleName(modelName);
         sysLog.setBizName(bizName);
         sysLog.setRawData(JSON.toJSONString(rawData));
         sysLog.setTargetData(JSON.toJSONString(targetData));
         sysLog.setLogType(logType);
-        sysLog.setUserId(appBaseEntity.getLastUpdateUserId());
         return sysLog;
     }
 

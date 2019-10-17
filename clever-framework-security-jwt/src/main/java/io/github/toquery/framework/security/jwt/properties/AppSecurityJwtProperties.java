@@ -17,9 +17,12 @@ public class AppSecurityJwtProperties {
 
     private String header = "Authorization";
 
-    private String secret = "";
+    private String secret = "clever";
 
+    // 秒
     private Long expiration = 3600L;
+
+    private boolean ignoreTokenExpiration = false;
 
     private AppJwtParamProperties param = new AppJwtParamProperties();
 
