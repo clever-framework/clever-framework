@@ -1,6 +1,7 @@
 package io.github.toquery.framework.files.properties;
 
 import io.github.toquery.framework.common.util.AppDateUtil;
+import io.github.toquery.framework.files.constant.AppFileStoreTypeEnum;
 import lombok.Data;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -25,6 +26,15 @@ public class AppFilesProperties {
      * 文件上传参数名称
      */
     private String uploadParam = "file";
+
+    /**
+     * 文件存储方式
+     */
+    private AppFileStoreTypeEnum storeType = AppFileStoreTypeEnum.DATABASE;
+
+    // 展示用的地址，只有在 storeType = FILE 时使用，不填写时将使用当前访问的域名的相对路径
+    private String showDomain = "";
+
 
     private AppFilesPath path = new AppFilesPath();
 

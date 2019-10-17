@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 //import com.toquery.framework.demo.entity.TbJpaDemo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityLinks;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.ResourceProcessor;
+//import org.springframework.hateoas.EntityLinks;
+//import org.springframework.hateoas.Resource;
+//import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.stereotype.Component;
 
 /**

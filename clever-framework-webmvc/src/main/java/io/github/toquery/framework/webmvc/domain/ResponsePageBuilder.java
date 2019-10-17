@@ -1,7 +1,7 @@
 package io.github.toquery.framework.webmvc.domain;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.HashMap;
 
@@ -31,7 +31,7 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
         return new ResponsePageBuilder();
     }
 
-    public static ResponsePage build(PagedResources.PageMetadata pageMetadata) {
+    public static ResponsePage build(PagedModel.PageMetadata pageMetadata) {
         ResponsePage responsePage = new ResponsePage();
         responsePage.setPageNumber((int) pageMetadata.getNumber() + 1);
         responsePage.setPageSize((int) pageMetadata.getSize());

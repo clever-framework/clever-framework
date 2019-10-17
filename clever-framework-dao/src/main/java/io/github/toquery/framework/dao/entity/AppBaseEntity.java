@@ -82,22 +82,6 @@ public class AppBaseEntity implements Serializable {
     private Date lastUpdateDatetime;
 
 
-    /**
-     * App Log 模块名称
-     */
-    @Transient
-    @Deprecated
-    private String moduleName;
-
-    /**
-     * App Log 业务名称
-     */
-    @Transient
-    @Deprecated
-    private String bizName;
-
-
-
     @DomainEvents
     public void domainEvents() {
         log.debug("Spring DDD Model: AppBaseEntity ---- @DomainEvents");

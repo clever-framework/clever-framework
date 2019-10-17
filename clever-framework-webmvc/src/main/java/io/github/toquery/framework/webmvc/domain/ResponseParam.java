@@ -2,7 +2,7 @@ package io.github.toquery.framework.webmvc.domain;
 
 import lombok.Builder;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +69,7 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
         return this;
     }
 
-    public ResponseParam page(PagedResources pagedResources) {
+    public ResponseParam page(PagedModel pagedResources) {
         ResponsePage responsePage = ResponsePageBuilder.build(pagedResources.getMetadata());
         this.put(PAGE_PARAM_VALUE, responsePage);
         this.put(CONTENT_PARAM_VALUE, pagedResources.getContent());

@@ -67,4 +67,22 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
         return super.save(sysFiles);
     }
 
+    @Override
+    public String storeFiles(MultipartFile file) throws IOException {
+        //文件原名
+        String originalFilename = file.getOriginalFilename();
+        //文件存储路径
+        String storeWithDate = appFilesProperties.getPath().getStoreWithDate();
+        // 文件扩展名
+        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        //新文件路径名称
+        String newFileName = storeWithDate + UUID.randomUUID().toString() + "." + fileExtension;
+
+        // 新文件存储路径
+        File newFile = new File(newFileName);
+        //保存文件
+        FileUtils.copyToFile(file.getInputStream(), newFile);
+        return appFilesProperties.getShowDomain() + newFileName;
+    }
+
 }

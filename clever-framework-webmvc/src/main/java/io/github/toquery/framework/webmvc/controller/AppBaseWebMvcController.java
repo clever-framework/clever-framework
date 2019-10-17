@@ -34,7 +34,7 @@ public class AppBaseWebMvcController extends AppBaseWebController {
      */
     protected int getRequestPageSize() {
         String pageSize = this.getRequestParameterValue(appWebMvcProperties.getParam().getPageSize());
-        return Strings.isNullOrEmpty(pageSize) ? appWebMvcProperties.getDefaultValue().getPageSize() : Integer.valueOf(pageSize);
+        return Strings.isNullOrEmpty(pageSize) ? appWebMvcProperties.getDefaultValue().getPageSize() : Integer.parseInt(pageSize);
     }
 
     /**
@@ -43,7 +43,7 @@ public class AppBaseWebMvcController extends AppBaseWebController {
      */
     protected int getRequestPageNumber() {
         String pageNumber = this.getRequestParameterValue(appWebMvcProperties.getParam().getPageNumber());
-        return Strings.isNullOrEmpty(pageNumber) ? appWebMvcProperties.getDefaultValue().getPageNumber() : Integer.valueOf(pageNumber) - 1;
+        return Strings.isNullOrEmpty(pageNumber) ? appWebMvcProperties.getDefaultValue().getPageNumber() : Integer.parseInt(pageNumber) - 1;
     }
 
 

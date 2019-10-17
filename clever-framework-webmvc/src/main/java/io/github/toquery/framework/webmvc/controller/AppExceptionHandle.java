@@ -24,6 +24,13 @@ public class AppExceptionHandle {
     }
 
     @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseParam> handleAppException(Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseParam.builder().build().message(e.getMessage()));
+    }
+
+    @ResponseBody
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ResponseParam> handleAppException(AppException e) {
         e.printStackTrace();

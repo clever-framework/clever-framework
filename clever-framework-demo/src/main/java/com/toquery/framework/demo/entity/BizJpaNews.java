@@ -32,9 +32,9 @@ import java.util.Date;
 @Table(name = "biz_jpa_news")
 public class BizJpaNews extends AppBaseEntity  {
 
-    public BizJpaNews(String name, Date loginTime) {
+    public BizJpaNews(String name, Date showTime) {
         this.name = name;
-        this.showTime = loginTime;
+        this.showTime = showTime;
     }
 
     @AppLogField("名称")

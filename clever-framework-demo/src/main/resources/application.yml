@@ -1,6 +1,7 @@
 app:
   security:
     whitelist:
+      - /favicon.ico
       - /
       - /index.html
       - /static/**
@@ -28,3 +29,13 @@ spring:
 # todo 这个配置是干什么的
   main:
     allow-bean-definition-overriding: true
+
+logging:
+  level:
+    root: DEBUG
+    org:
+      apache:
+        coyote:
+          http11: debug
+      springframework:
+        security: debug

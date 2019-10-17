@@ -15,7 +15,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
 import org.springframework.data.rest.webmvc.convert.UriListHttpMessageConverter;
 import org.springframework.data.rest.webmvc.mapping.LinkCollector;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.hateoas.mvc.TypeConstrainedMappingJackson2HttpMessageConverter;
+import org.springframework.hateoas.server.mvc.TypeConstrainedMappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
@@ -55,10 +55,12 @@ public class AppRepositoryRestMvcConfiguration extends RepositoryRestMvcConfigur
     }
 
 
+    /*
     @Override
     public MessageSourceAccessor resourceDescriptionMessageSourceAccessor() {
         return super.resourceDescriptionMessageSourceAccessor();
     }
+    */
 
     @Override
     public TypeConstrainedMappingJackson2HttpMessageConverter jacksonHttpMessageConverter() {
@@ -92,8 +94,7 @@ public class AppRepositoryRestMvcConfiguration extends RepositoryRestMvcConfigur
         ConfigurableWebBindingInitializer initializer = new ConfigurableWebBindingInitializer();
         initializer.setConversionService(defaultConversionService());
 
-        RepositoryRestHandlerAdapter handlerAdapter = new RepositoryRestHandlerAdapter(defaultMethodArgumentResolvers(),
-                resourceProcessorInvoker());
+        RepositoryRestHandlerAdapter handlerAdapter = new RepositoryRestHandlerAdapter(defaultMethodArgumentResolvers());
         handlerAdapter.setWebBindingInitializer(initializer);
         handlerAdapter.setMessageConverters(defaultMessageConverters());
 

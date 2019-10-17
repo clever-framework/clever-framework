@@ -3,6 +3,7 @@ package io.github.toquery.framework.files.service;
 import io.github.toquery.framework.curd.service.AppBaseService;
 import io.github.toquery.framework.files.domain.SysFiles;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import java.io.IOException;
 
@@ -12,4 +13,7 @@ import java.io.IOException;
  */
 public interface ISysFilesService extends AppBaseService<SysFiles, Long> {
     SysFiles saveFiles(MultipartFile file) throws IOException;
+
+    String storeFiles(MultipartFile multipartRequest) throws IOException;
+
 }

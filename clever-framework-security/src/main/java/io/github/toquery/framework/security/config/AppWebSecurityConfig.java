@@ -17,8 +17,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
+import javax.servlet.Filter;
 
 @Order(51)
 @Slf4j
@@ -50,8 +52,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoderBean());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoderBean());
     }
 
 
@@ -82,7 +83,9 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
         ;
 
-        // httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        if (getCustomizeFilter() != null) {
+            httpSecurity.addFilterBefore(getCustomizeFilter(), UsernamePasswordAuthenticationFilter.class);
+        }
 
         // disable page caching
         httpSecurity.headers().frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
@@ -90,7 +93,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         // AuthenticationTokenFilter will ignore the below paths
         web.ignoring().antMatchers(this.getWhitelist());
     }
@@ -107,5 +110,12 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     protected String[] getCustomizeWhitelist() {
         return new String[]{};
+    }
+
+    /**
+     * 加载自定义白名单
+     */
+    protected Filter getCustomizeFilter() {
+        return null;
     }
 }

@@ -2,9 +2,11 @@ package io.github.toquery.framework.files.rest;
 
 import io.github.toquery.framework.common.util.AppDownloadFileUtil;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.files.constant.AppFileStoreTypeEnum;
 import io.github.toquery.framework.files.domain.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
 import io.github.toquery.framework.files.service.ISysFilesService;
+import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,17 +31,29 @@ public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFil
     private AppFilesProperties appFilesProperties;
 
     @PostMapping("${app.files.path.upload:/app/files/upload}")
-    public ResponseParam uploadFile(MultipartRequest multipartRequest) throws IOException {
-        SysFiles sysFiles = service.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
-        sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
-        return super.handleResponseParam(sysFiles);
+    public ResponseParam uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "DATABASE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
+        ResponseParam responseParam = ResponseParam.builder().build();
+        if (fileStoreType == AppFileStoreTypeEnum.DATABASE) {
+            SysFiles sysFiles = service.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
+            responseParam.content(sysFiles);
+        } else if (fileStoreType == AppFileStoreTypeEnum.FILE) {
+            String filePath = service.storeFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            SysFiles sysFiles = new SysFiles();
+            sysFiles.setFullDownloadPath(filePath);
+            responseParam.content(sysFiles);
+        } else {
+            responseParam.message("上传文件错误");
+        }
+        return responseParam;
     }
+
     @RequestMapping("${app.files.path.download:/app/files/download}")
     public ResponseEntity downloadFile(@RequestParam("id") Long id) {
         ResponseEntity responseEntity = null;
         try {
             SysFiles sysFiles = super.getById(id);
-            responseEntity = AppDownloadFileUtil.download( appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
+            responseEntity = AppDownloadFileUtil.download(appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = super.notFound("文件未找到");

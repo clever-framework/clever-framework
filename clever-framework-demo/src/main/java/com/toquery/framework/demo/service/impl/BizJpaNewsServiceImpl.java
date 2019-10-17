@@ -55,7 +55,7 @@ public class BizJpaNewsServiceImpl extends AppBaseServiceImpl<Long, BizJpaNews, 
 
     @Override
     public Page<BizJpaNews> findByName(String name, Integer page, Integer size) {
-        Sort sort = new Sort(Sort.Direction.ASC, "name");
+        Sort sort = Sort.by(Sort.Direction.ASC, "name");
         PageRequest pageRequest = PageRequest.of(page, size, sort);
         return entityDao.findAll(pageRequest);
     }

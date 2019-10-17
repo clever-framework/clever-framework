@@ -17,12 +17,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AppLogEntity {
 
-    @AliasFor("modelName")
-    String value() default "";
+    // @AliasFor("modelName")
+    // String value() default "";
 
-    @AliasFor("value")
+    // @AliasFor("value")
     String modelName() default "system";
 
-    @AliasFor("value")
+    // @AliasFor("value")
     String bizName() default "system";
 }

@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -52,10 +51,11 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             log.info("当前请求 {} 已被设为白名单", request.getRequestURI());
             chain.doFilter(request, response);
         } else {
-            log.debug("processing authentication for '{}'", request.getRequestURL());
+            log.debug("正在处理认证请求 {}", request.getRequestURL());
 
             String token = request.getHeader(this.tokenHeader);
             if (Strings.isNullOrEmpty(token)) {
+                log.debug("处理认证请求 {} 时未从 header 获取 {} 将从请求param中读取。", request.getRequestURL(), this.tokenHeader);
                 String[] requestParam = request.getParameterValues(this.tokenHeader);
                 if (requestParam != null && requestParam.length > 0 && !Strings.isNullOrEmpty(requestParam[0])) {
                     token = requestParam[0];
@@ -66,7 +66,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             if (Strings.isNullOrEmpty(token)) {
                 log.warn("couldn't find bearer string, will ignore the header");
             } else {
-                if (token.startsWith("Bearer ")){
+                if (token.startsWith("Bearer ") || token.startsWith("bearer ")) {
                     token = token.substring(7);
                 }
                 try {
@@ -84,12 +84,8 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 log.debug("security context was null, so authorizating user");
 
-                // It is not compelling necessary to load the use details from the database. You could also store the information
-                // in the token and read it from it. It's up to you ;)
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-                // For simple validation it is completely sufficient to just check the token integrity. You don't have to call
-                // the database compellingly. Again it's up to you ;)
                 if (jwtTokenUtil.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

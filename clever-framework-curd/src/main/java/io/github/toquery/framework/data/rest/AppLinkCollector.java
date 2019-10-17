@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class AppLinkCollector extends LinkCollector {
 
-    private Links links = new Links();
+    //private Links links = new Links();
 
     /**
      * Creates a new {@link PersistentEntities}, {@link SelfLinkProvider} and {@link Associations}.
@@ -36,9 +36,9 @@ public class AppLinkCollector extends LinkCollector {
      * @param object        原数据对象
      * @param existingLinks 已经存在的Link对象
      * @return 获取到新的Links 对象
-     */
+
     @Override
     public Links getLinksFor(Object object, List<Link> existingLinks) {
         return links;
-    }
+    }*/
 }

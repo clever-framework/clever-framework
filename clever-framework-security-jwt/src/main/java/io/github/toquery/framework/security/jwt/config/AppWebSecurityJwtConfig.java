@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
+import javax.servlet.Filter;
 
 @Order(50)
 @Slf4j
@@ -55,6 +56,7 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
     }
 
 
+    /*
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         super.configure(httpSecurity);
@@ -81,6 +83,7 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
         httpSecurity.headers().frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
                 .cacheControl();
     }
+    */
 
     @Override
     protected String[] getCustomizeWhitelist() {
@@ -88,4 +91,8 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
         return new String[]{pathProperties.getRegister(), pathProperties.getToken()};
     }
 
+    @Override
+    protected Filter getCustomizeFilter() {
+        return getFilter();
+    }
 }
