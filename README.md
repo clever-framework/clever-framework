@@ -49,8 +49,8 @@
 ## 
 
 ```bash
-mvn versions:set -DnewVersion=1.0.5
-mvn versions:set -DnewVersion=1.0.6-SNAPSHOT
+mvn versions:set -DnewVersion=1.0.6
+mvn versions:set -DnewVersion=1.0.7-SNAPSHOT
 
 ```
 

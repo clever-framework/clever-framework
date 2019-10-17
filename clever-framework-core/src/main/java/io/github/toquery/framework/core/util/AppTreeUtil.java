@@ -6,7 +6,6 @@ import io.github.toquery.framework.core.domain.AppEntityTree;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,10 +25,11 @@ public class AppTreeUtil {
      *
      * @param treeDataList 在结构上不存在层次关系的简单数组数据
      * @param <E>          实现AppEntityTree 的实体
+     * @param <ID>         主键类型
      * @return 树状结构
      * @throws Exception 反射失败异常
      */
-    public static <E extends AppEntityTree, ID> List<E> getTreeData(List<E> treeDataList) throws Exception{
+    public static <E extends AppEntityTree, ID> List<E> getTreeData(List<E> treeDataList) throws Exception {
         //进行数据有效性校验
         if (treeDataList == null || treeDataList.size() < 1) {
             return null;
@@ -57,7 +57,7 @@ public class AppTreeUtil {
                 Collections.sort(childrenList);
                 PropertyUtils.setProperty(parentTreeItemMap, AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_CHILDREN, childrenList);
                 // 重新判定是否有子集
-                if (childrenList.size() > 0){
+                if (childrenList.size() > 0) {
                     PropertyUtils.setProperty(parentTreeItemMap, AppDomainTreeFieldConstant.DOMAIN_TREE_FIELD_HAS_CHILDREN, false);
                 }
             } else {
