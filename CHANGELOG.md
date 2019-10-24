@@ -1,5 +1,23 @@
 # Changelog
 
+
+## [v1.0.7](https://github.com/ToQuery/clever-framework/tree/v1.0.7) (2019-10-17)
+
+### fix bug:
+
+- 删除 clever-framework-ueditor 模块，建议使用 tiny mec 编辑器
+- 增加 minio 对象存储服务
+
+## [v1.0.6](https://github.com/ToQuery/clever-framework/tree/v1.0.6) (2019-10-17)
+
+### fix bug:
+
+- 删除角色级联删除用户
+- root admin 用户，角色删除增加限制
+- 修改构建树时，空指针异常
+- 优化业务日志处理流程
+- 拆分app dao标签处理
+
 ## [v1.0.5](https://github.com/ToQuery/clever-framework/tree/v1.0.5) (2019-07-01)
 
 ### New Features:
