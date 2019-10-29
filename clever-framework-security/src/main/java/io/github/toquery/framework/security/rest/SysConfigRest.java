@@ -56,13 +56,6 @@ public class SysConfigRest extends AppBaseCurdController<ISysConfigService, SysC
         return super.list(params, sort);
     }
 
-    @PostMapping("/group/{configGroup}")
-    public ResponseParam list(@RequestParam(required = false) Long bizId,
-                              @PathVariable String configGroup,
-                              @RequestBody List<SysConfig> sysConfigList) {
-        return super.handleResponseParam(service.reSave(bizId, configGroup, sysConfigList));
-    }
-
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.CREA, modelName = "$moduleName", bizName = "$bizName")
     @PostMapping

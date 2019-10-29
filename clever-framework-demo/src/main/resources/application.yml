@@ -2,7 +2,7 @@ app:
   security:
     whitelist:
       - /favicon.ico
-      - /
+      - /**
       - /index.html
       - /static/**
       - /error
