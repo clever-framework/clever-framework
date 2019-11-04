@@ -162,11 +162,13 @@
                 <artifactId>clever-framework-files</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
+            <!--
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-ueditor</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
+            -->
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-security-jwt</artifactId>
