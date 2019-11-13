@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0.7-SNAPSHOT</version>
 
+    <name>Clever Framework</name>
     <url>https://github.com/ToQuery/clever-framework</url>
     <description>Spring-based rapid development framework</description>
 
@@ -16,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.0.RELEASE</version>
+        <version>2.2.1.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -454,6 +455,13 @@
             <name>OSS Staging Repository</name>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+        <!-- 只能推送到一个仓库
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/ToQuery/clever-framework/</url>
+        </repository>
+        -->
     </distributionManagement>
 
 </project>

@@ -9,8 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>Clever Framework :: Minio</name>
     <artifactId>clever-framework-minio</artifactId>
-
+    <url>https://github.com/ToQuery/clever-framework</url>
 
     <dependencies>
         <dependency>

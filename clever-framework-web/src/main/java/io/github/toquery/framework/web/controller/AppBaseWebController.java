@@ -1,8 +1,8 @@
 package io.github.toquery.framework.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.util.WebUtils;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1
  */
 public class AppBaseWebController extends WebUtils {
-    @Resource
+    @Autowired
     protected HttpServletRequest request;
 
-    @Resource
+    @Autowired
     protected HttpServletResponse response;
 }

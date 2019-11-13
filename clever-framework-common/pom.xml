@@ -9,7 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>Clever Framework :: Common</name>
     <artifactId>clever-framework-common</artifactId>
+    <url>https://github.com/ToQuery/clever-framework</url>
+
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>

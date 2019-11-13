@@ -9,8 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>Clever Framework :: Files</name>
     <artifactId>clever-framework-files</artifactId>
-
+    <url>https://github.com/ToQuery/clever-framework</url>
 
     <dependencies>
         <dependency>

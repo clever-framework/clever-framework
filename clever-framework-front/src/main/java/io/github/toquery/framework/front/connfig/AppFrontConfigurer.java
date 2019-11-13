@@ -2,6 +2,7 @@ package io.github.toquery.framework.front.connfig;
 
 import io.github.toquery.framework.front.properties.AppFrontProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.MimeMappings;
 import org.springframework.boot.web.server.WebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -9,7 +10,6 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +23,7 @@ import static java.net.URLDecoder.decode;
 @Slf4j
 public class AppFrontConfigurer implements WebServerFactoryCustomizer<WebServerFactory> {
 
-    @Resource
+    @Autowired
     private AppFrontProperties appFrontProperties;
 
     public AppFrontConfigurer() {

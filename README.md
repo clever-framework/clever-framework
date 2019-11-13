@@ -48,17 +48,20 @@
 
 ## 
 
-```bash
+```shell script
 mvn versions:set -DnewVersion=1.0.6
 mvn versions:set -DnewVersion=1.0.7-SNAPSHOT
 
 ```
 
-```bash
+```shell script
 mvn -N versions:update-child-modules
 ```
 
-```bash
+```shell script
 mvn versions:commit
 ```
 
+```shell script
+mvn deploy -Dregistry=https://maven.pkg.github.com/ToQuery -Dtoken=xxx -X -DskipTests
+```

@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>Clever Framework :: Dao</name>
     <artifactId>clever-framework-dao</artifactId>
     <url>https://github.com/ToQuery/clever-framework</url>
 
