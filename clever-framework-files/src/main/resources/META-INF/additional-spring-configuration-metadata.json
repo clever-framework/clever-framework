@@ -1,5 +1,11 @@
 {
-  "groups": [],
+  "groups": [
+    {
+      "name": "app.files",
+      "type": "io.github.toquery.framework.files.properties.AppFilesProperties",
+      "sourceType": "io.github.toquery.framework.files.properties.AppFilesProperties"
+    }
+  ],
   "properties": [
     {
       "name": "app.files.uploadParam",

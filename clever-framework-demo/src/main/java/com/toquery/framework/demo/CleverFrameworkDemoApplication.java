@@ -21,8 +21,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EnableAppRepositoryRest
 @EnableAppJpaRepositories
 @SpringBootApplication //(scanBasePackages = "com.toquery.framework.demo")
-public class DemoApplication {
+public class CleverFrameworkDemoApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(CleverFrameworkDemoApplication.class, args);
     }
 }

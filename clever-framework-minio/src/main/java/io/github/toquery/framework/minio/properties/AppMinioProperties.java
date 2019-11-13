@@ -16,6 +16,7 @@ public class AppMinioProperties {
     private boolean enable = true;
 
     private String endpoint;
+    private int port = 0;
     private String accessKey;
     private String secretKey;
     private String bucket;

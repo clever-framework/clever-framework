@@ -78,6 +78,10 @@
         </dependency>
         <dependency>
             <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-minio</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-curd</artifactId>
         </dependency>
         <dependency>

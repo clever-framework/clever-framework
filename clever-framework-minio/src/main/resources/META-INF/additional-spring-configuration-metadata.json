@@ -1,17 +1,43 @@
 {
-  "groups": [],
+  "groups": [
+    {
+      "name": "app.minio",
+      "type": "io.github.toquery.framework.minio.properties.AppMinioProperties",
+      "sourceType": "io.github.toquery.framework.minio.properties.AppMinioProperties"
+    }
+  ],
   "properties": [
     {
-      "name": "app.log.enable",
+      "name": "app.minio.enable",
       "type": "java.lang.Boolean",
-      "description": "是否期待用日志.",
+      "description": "是否启用 minio 服务.",
       "defaultValue": true
     },
     {
-      "name": "app.log.ignoreFields",
-      "type": "java.util.Set<java.lang.String>",
-      "description": "是否期待用日志.",
-      "defaultValue": ["log"]
+      "name": "app.minio.endpoint",
+      "type": "java.lang.String",
+      "description": "配置 minio 的 endpoint 地址."
+    },
+    {
+      "name": "app.minio.port",
+      "type": "java.lang.Integer",
+      "description": "配置 minio 的 endpoint 地址.",
+      "defaultValue": 80
+    },
+    {
+      "name": "app.minio.accessKey",
+      "type": "java.lang.String",
+      "description": "配置 minio 服务的 accessKey ."
+    },
+    {
+      "name": "app.minio.secretKey",
+      "type": "java.lang.String",
+      "description": "配置 minio 服务的 secretKey ."
+    },
+    {
+      "name": "app.minio.bucket",
+      "type": "java.lang.String",
+      "description": "配置 minio 服务的 bucket ."
     }
   ],
   "hints": []

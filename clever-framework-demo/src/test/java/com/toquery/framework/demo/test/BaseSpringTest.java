@@ -1,6 +1,6 @@
 package com.toquery.framework.demo.test;
 
-import com.toquery.framework.demo.DemoApplication;
+import com.toquery.framework.demo.CleverFrameworkDemoApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 @Slf4j
 @ActiveProfiles("local")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = DemoApplication.class)
+@SpringBootTest(classes = CleverFrameworkDemoApplication.class)
 // @WithMockUser 使用 WithMockUser 伪造 用户信息
 //@WithMockUser(username="admin",roles={"USER","ADMIN"})
 // @WithUserDetails 使用指定的Bean 查找 'admin' 用户的信息

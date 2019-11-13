@@ -1,4 +1,6 @@
 app:
+  minio:
+    enable: false
   security:
     whitelist:
       - /favicon.ico

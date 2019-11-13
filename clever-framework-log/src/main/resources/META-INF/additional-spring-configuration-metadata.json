@@ -1,5 +1,11 @@
 {
-  "groups": [],
+  "groups": [
+    {
+      "name": "app.log",
+      "type": "io.github.toquery.framework.log.properties.AppLogProperties",
+      "sourceType": "io.github.toquery.framework.log.properties.AppLogProperties"
+    }
+  ],
   "properties": [
     {
       "name": "app.log.enable",

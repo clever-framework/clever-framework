@@ -6,7 +6,7 @@
 ### fix bug:
 
 - 删除 clever-framework-ueditor 模块，建议使用 tiny mec 编辑器
-- 增加 minio 对象存储服务
+- 增加 minio 对象存储服务，修改优化配置文件提示
 
 ## [v1.0.6](https://github.com/ToQuery/clever-framework/tree/v1.0.6) (2019-10-17)
 
