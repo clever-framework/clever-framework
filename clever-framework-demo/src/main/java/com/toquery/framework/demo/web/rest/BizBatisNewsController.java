@@ -1,10 +1,11 @@
-package com.toquery.framework.demo.web.controller;
+package com.toquery.framework.demo.web.rest;
 
 import com.google.common.collect.Sets;
-import com.toquery.framework.demo.entity.BizJpaNews;
-import com.toquery.framework.demo.service.IBizJpaNewsService;
+import com.toquery.framework.demo.entity.BizBatisNews;
+import com.toquery.framework.demo.service.IBizBatisNewsService;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +23,10 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
+@Slf4j
 @RestController
-@RequestMapping("/biz-jpa-news")
-public class BizJpaNewsController extends AppBaseCurdController<IBizJpaNewsService, BizJpaNews, Long> {
-
+@RequestMapping("/biz-batis-news")
+public class BizBatisNewsController extends AppBaseCurdController<IBizBatisNewsService, BizBatisNews, Long> {
 
     @GetMapping
     public ResponseParam query() {
@@ -38,13 +39,13 @@ public class BizJpaNewsController extends AppBaseCurdController<IBizJpaNewsServi
     }
 
     @PostMapping
-    public ResponseParam save(@Validated @RequestBody BizJpaNews bizJpaNews) {
-        return super.save(bizJpaNews);
+    public ResponseParam save(@Validated @RequestBody BizBatisNews bizBatisNews) {
+        return super.save(bizBatisNews);
     }
 
     @PutMapping
-    public ResponseParam update(@RequestBody BizJpaNews bizJpaNews) {
-        return super.update(bizJpaNews, Sets.newHashSet("name", "showTime"));
+    public ResponseParam update(@RequestBody BizBatisNews bizBatisNews) {
+        return super.update(bizBatisNews, Sets.newHashSet("name", "showTime"));
     }
 
     @DeleteMapping

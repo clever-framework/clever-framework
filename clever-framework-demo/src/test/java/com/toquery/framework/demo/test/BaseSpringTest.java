@@ -1,6 +1,7 @@
 package com.toquery.framework.demo.test;
 
 import com.toquery.framework.demo.CleverFrameworkDemoApplication;
+import io.toquery.framework.test.AppTestSpringBase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -27,7 +28,7 @@ import javax.annotation.Resource;
 //@WithMockUser(username="admin",roles={"USER","ADMIN"})
 // @WithUserDetails 使用指定的Bean 查找 'admin' 用户的信息
 //@WithUserDetails(value = "admin")
-public class BaseSpringTest {
+public class BaseSpringTest extends AppTestSpringBase {
 
     @Resource
     private AuthenticationManager authenticationManager;

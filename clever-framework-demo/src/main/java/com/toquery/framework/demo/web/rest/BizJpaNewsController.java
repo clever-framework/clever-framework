@@ -1,10 +1,8 @@
-package com.toquery.framework.demo.web.controller;
+package com.toquery.framework.demo.web.rest;
 
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.BizJpaNews;
-import com.toquery.framework.demo.entity.BizJpaNewsSub;
 import com.toquery.framework.demo.service.IBizJpaNewsService;
-import com.toquery.framework.demo.service.IBizJpaNewsSubService;
 import io.github.toquery.framework.curd.controller.AppBaseCurdController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +23,8 @@ import java.util.Set;
  * @version 1
  */
 @RestController
-@RequestMapping("/biz-jpa-news-sub")
-public class BizJpaNewsSubController extends AppBaseCurdController<IBizJpaNewsSubService, BizJpaNewsSub, Long> {
+@RequestMapping("/biz-jpa-news")
+public class BizJpaNewsController extends AppBaseCurdController<IBizJpaNewsService, BizJpaNews, Long> {
 
 
     @GetMapping
@@ -40,12 +38,12 @@ public class BizJpaNewsSubController extends AppBaseCurdController<IBizJpaNewsSu
     }
 
     @PostMapping
-    public ResponseParam save(@Validated @RequestBody BizJpaNewsSub bizJpaNews) {
+    public ResponseParam save(@Validated @RequestBody BizJpaNews bizJpaNews) {
         return super.save(bizJpaNews);
     }
 
     @PutMapping
-    public ResponseParam update(@RequestBody BizJpaNewsSub bizJpaNews) {
+    public ResponseParam update(@RequestBody BizJpaNews bizJpaNews) {
         return super.update(bizJpaNews, Sets.newHashSet("name", "showTime"));
     }
 

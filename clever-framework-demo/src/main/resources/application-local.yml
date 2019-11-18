@@ -42,3 +42,11 @@ mybatis:
 
 server:
   port: 8888
+app:
+  minio:
+    enable: true
+    access-key: admin
+    secret-key: admin123
+    endpoint: http://127.0.0.1:9000/
+    port: 9000
+

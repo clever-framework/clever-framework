@@ -1,7 +1,10 @@
 app:
+  minio:
+    enable: false
   security:
     whitelist:
-      - /
+      - /favicon.ico
+      - /**
       - /index.html
       - /static/**
       - /error
@@ -13,15 +16,8 @@ app:
     secret: 123456
 
 spring:
-  security:
-    user:
-      name: 'admin'
-      password: '123456'
-      roles:
-        - 'admin'
-        - 'root'
-#  profiles:
-#    active: dev
+  profiles:
+    active: dev
   # 输出带有颜色的控制台日志
   output:
     ansi:
@@ -32,6 +28,13 @@ spring:
   resources:
     add-mappings: false
 
-# todo 这个配置是干什么的
+  # todo 这个配置是干什么的
   main:
     allow-bean-definition-overriding: true
+
+logging:
+  level:
+    root: DEBUG
+    org:
+      apache.coyote.http11: debug
+      springframework.security: debug

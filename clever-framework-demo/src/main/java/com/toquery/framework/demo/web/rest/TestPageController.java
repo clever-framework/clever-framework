@@ -1,4 +1,4 @@
-package com.toquery.framework.demo.web.controller;
+package com.toquery.framework.demo.web.rest;
 
 import com.toquery.framework.demo.entity.BizJpaNews;
 import com.toquery.framework.demo.entity.BizBatisNews;

@@ -1,4 +1,4 @@
-package com.toquery.framework.demo.web.controller;
+package com.toquery.framework.demo.web.rest;
 
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Sets;
