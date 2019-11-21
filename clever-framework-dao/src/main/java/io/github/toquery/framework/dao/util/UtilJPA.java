@@ -1,6 +1,6 @@
 package io.github.toquery.framework.dao.util;
 
-import org.reflections.ReflectionUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class UtilJPA {
             return null;
         }
         //获取所有声明的字段
-        Set<Field> fields = ReflectionUtils.getAllFields(entityClass);
+        List<Field> fields = FieldUtils.getAllFieldsList(entityClass);
         List<String> simpleFields = new ArrayList<String>();
         for (Field field : fields) {
             if (isSimpleORMField(field)) {

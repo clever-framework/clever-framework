@@ -9,8 +9,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.reflections.ReflectionUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -34,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author toquery
@@ -338,7 +339,8 @@ public class AppSpecification<T> implements Specification<T> {
     public static <T> Object getFormattedValue(final Class<T> entityClazz, SearchFilter filter) {
 
         //获取所有的字段，包括父类中的字段
-        Set<Field> fields = ReflectionUtils.getAllFields(entityClazz, ReflectionUtils.withName(filter.getFieldName()));
+        // Set<Field> fields = ReflectionUtils.getAllFields(entityClazz, ReflectionUtils.withName(filter.getFieldName()));
+        Set<Field> fields = FieldUtils.getAllFieldsList(entityClazz).stream().filter(item -> item.getName().equalsIgnoreCase(filter.getFieldName())).collect(Collectors.toSet());
 
         Field field = fields != null && fields.size() > 0 ? fields.toArray(new Field[]{})[0] : null;
 

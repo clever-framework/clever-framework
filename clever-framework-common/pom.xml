@@ -35,10 +35,10 @@
             <artifactId>spring-web</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
 

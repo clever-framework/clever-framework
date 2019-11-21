@@ -113,10 +113,10 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>one.util</groupId>
             <artifactId>streamex</artifactId>

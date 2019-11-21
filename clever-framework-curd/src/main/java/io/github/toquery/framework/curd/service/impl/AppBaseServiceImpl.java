@@ -1,6 +1,7 @@
 package io.github.toquery.framework.curd.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -15,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ClassUtils;
-import org.reflections.ReflectionUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * jpa快速curd方法
@@ -178,16 +180,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
         //获取当前实体的所有属性
         if (entityFields == null) {
-            entityFields = Sets.newHashSet();
-            for (Field field : ReflectionUtils.getAllFields(entity.getClass())) {
-                //过滤掉需要映射的jpa字段
-                Transient fieldTransient = field.getAnnotation(Transient.class);
-                if (fieldTransient != null) {
-                    continue;
-                }
-
-                entityFields.add(field.getName());
-            }
+            entityFields = FieldUtils.getAllFieldsList(entity.getClass()).stream().filter(field -> field.getAnnotation(Transient.class) == null).map(Field::getName).collect(Collectors.toSet());
         }
 
         //检查更新实体的属性，如果不是实体的属性，则自动移除
