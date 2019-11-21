@@ -59,7 +59,7 @@
         <mybatis-spring.version>2.0.2</mybatis-spring.version>
         -->
         <mybatis-spring-boot-starter.version>2.1.0</mybatis-spring-boot-starter.version>
-        <pagehelper-spring-boot-starter.version>1.2.10</pagehelper-spring-boot-starter.version>
+        <pagehelper-spring-boot-starter.version>1.2.12</pagehelper-spring-boot-starter.version>
     </properties>
 
     <modules>
