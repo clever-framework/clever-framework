@@ -28,6 +28,7 @@ public class AppMinioInit {
 
     @EventListener(classes = ApplicationStartedEvent.class)
     public void onApplicationEvent(ApplicationStartedEvent event) throws Exception {
+        /*
         log.info("AppMinioInit ==> onApplicationEvent method");
         boolean bucketExists = minioClient.bucketExists(BUCKET_NAME);
         log.info("检查 minio 是否存在 {} 为 {}", BUCKET_NAME, bucketExists);
@@ -38,6 +39,7 @@ public class AppMinioInit {
         String getBucketPolicy = minioClient.getBucketPolicy(BUCKET_NAME);
 
         log.info("检查 minio 服务 {} 的 PolicyType 类型： getBucketPolicy {} , {}", BUCKET_NAME, getBucketPolicy, objectUrl);
+        */
         // map.forEach((k, v) -> log.info("key = {} , value = {}", k, v));
     }
 }
