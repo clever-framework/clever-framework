@@ -33,7 +33,7 @@
         <!-- tool jar -->
         <json.version>20180813</json.version>
         <jackson.version>2.10.1</jackson.version>
-        <lombok.version>1.18.2</lombok.version>
+        <lombok.version>1.18.10</lombok.version>
         <guava.version>26.0-jre</guava.version>
         <fastjson.version>1.2.58</fastjson.version>
         <jsqlparse.version>0.9.1</jsqlparse.version>
