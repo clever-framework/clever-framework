@@ -32,7 +32,7 @@
         <revision>${clever-framework.version}</revision>
 
         <!-- tool jar -->
-        <json.version>20180813</json.version>
+        <json.version>20190722</json.version>
         <jackson.version>2.10.1</jackson.version>
         <lombok.version>1.18.10</lombok.version>
         <guava.version>26.0-jre</guava.version>
