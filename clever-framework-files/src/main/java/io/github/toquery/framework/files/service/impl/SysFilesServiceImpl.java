@@ -1,5 +1,6 @@
 package io.github.toquery.framework.files.service.impl;
 
+import com.google.common.io.Files;
 import io.github.toquery.framework.common.util.AppDateUtil;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.files.domain.SysFiles;
@@ -74,12 +75,12 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
         //文件存储路径
         String storeWithDate = appFilesProperties.getPath().getStoreWithDate();
         // 文件扩展名
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        String fileExtension = Files.getFileExtension(originalFilename);
         //新文件路径名称
-        String newFileName = storeWithDate + UUID.randomUUID().toString() + "." + fileExtension;
+        String newFileName =  UUID.randomUUID().toString() + "." + fileExtension;
 
         // 新文件存储路径
-        File newFile = new File(newFileName);
+        File newFile = new File(storeWithDate + newFileName);
         //保存文件
         FileUtils.copyToFile(file.getInputStream(), newFile);
         return appFilesProperties.getShowDomain() + newFileName;
