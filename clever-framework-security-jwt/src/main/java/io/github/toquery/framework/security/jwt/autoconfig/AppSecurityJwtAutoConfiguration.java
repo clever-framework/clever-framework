@@ -4,6 +4,7 @@ import io.github.toquery.framework.security.jwt.JwtTokenUtil;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
 @Configuration
 @EnableConfigurationProperties(AppSecurityJwtProperties.class)
 @ComponentScan(basePackages = "io.github.toquery.framework.security.jwt")
+@ConditionalOnProperty(prefix = AppSecurityJwtProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class AppSecurityJwtAutoConfiguration {
 
     @Resource

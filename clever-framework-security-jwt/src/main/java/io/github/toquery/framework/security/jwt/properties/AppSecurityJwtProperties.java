@@ -10,10 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @version 1
  */
 @Data
-@ConfigurationProperties(prefix = AppSecurityJwtProperties.PATH)
+@ConfigurationProperties(prefix = AppSecurityJwtProperties.PREFIX)
 public class AppSecurityJwtProperties {
 
-    public static final String PATH = "app.jwt";
+    public static final String PREFIX = "app.jwt";
 
     private String header = "Authorization";
 

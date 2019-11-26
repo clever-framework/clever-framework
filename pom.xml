@@ -31,6 +31,8 @@
         <!-- CI-friendly property 必须使用这个名称，否则IDEA报错-->
         <revision>${clever-framework.version}</revision>
 
+        <spring-cloud.version>Greenwich.SR4</spring-cloud.version>
+
         <!-- tool jar -->
         <json.version>20180813</json.version>
         <jackson.version>2.10.1</jackson.version>
@@ -110,6 +112,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- clever framework -->
             <dependency>
                 <groupId>io.github.toquery</groupId>

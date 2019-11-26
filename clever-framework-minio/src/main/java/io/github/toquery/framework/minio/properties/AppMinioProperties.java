@@ -19,5 +19,10 @@ public class AppMinioProperties {
     private int port = 0;
     private String accessKey;
     private String secretKey;
-    private String bucket;
+    private String bucket = "clever-framework-minio";
+
+    private AppMinioPathProperties path = new AppMinioPathProperties();
+
+
+
 }

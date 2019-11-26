@@ -2,6 +2,7 @@ package io.github.toquery.framework.data.rest.config;
 
 import io.github.toquery.framework.data.rest.annotation.EnableAppRepositoryRest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 /**
  * @author toquery
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @EnableAppRepositoryRest
+// @ConditionalOnProperty(prefix = AppSecurityJwtProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class AppRepositoryRestAutoConfiguration {
 
     public AppRepositoryRestAutoConfiguration() {

@@ -4,6 +4,11 @@
       "name": "app.minio",
       "type": "io.github.toquery.framework.minio.properties.AppMinioProperties",
       "sourceType": "io.github.toquery.framework.minio.properties.AppMinioProperties"
+    },
+    {
+      "name": "app.minio.path",
+      "type": "io.github.toquery.framework.minio.properties.AppMinioPathProperties",
+      "sourceType": "io.github.toquery.framework.minio.properties.AppMinioPathProperties"
     }
   ],
   "properties": [
@@ -21,23 +26,38 @@
     {
       "name": "app.minio.port",
       "type": "java.lang.Integer",
-      "description": "配置 minio 的 endpoint 地址.",
+      "description": "配置 minio 的 endpoint 端口.",
       "defaultValue": 80
     },
     {
       "name": "app.minio.accessKey",
       "type": "java.lang.String",
-      "description": "配置 minio 服务的 accessKey ."
+      "description": "配置 minio 服务的 accessKey."
     },
     {
       "name": "app.minio.secretKey",
       "type": "java.lang.String",
-      "description": "配置 minio 服务的 secretKey ."
+      "description": "配置 minio 服务的 secretKey."
     },
     {
       "name": "app.minio.bucket",
       "type": "java.lang.String",
-      "description": "配置 minio 服务的 bucket ."
+      "description": "配置 minio 服务的 bucket."
+    },
+    {
+      "name": "app.minio.path.upload",
+      "type": "java.lang.String",
+      "description": "上传文件服务的地址."
+    },
+    {
+      "name": "app.minio.path.uploadParam",
+      "type": "java.lang.String",
+      "description": "上传文件参数key."
+    },
+    {
+      "name": "app.minio.path.domain",
+      "type": "java.lang.String",
+      "description": "上传文件后返回的域名地址."
     }
   ],
   "hints": []

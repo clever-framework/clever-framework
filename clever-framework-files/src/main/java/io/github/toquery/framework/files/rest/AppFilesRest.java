@@ -31,7 +31,7 @@ public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFil
     private AppFilesProperties appFilesProperties;
 
     @PostMapping("${app.files.path.upload:/app/files/upload}")
-    public ResponseParam uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "DATABASE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
+    public ResponseParam uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "FILE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
         ResponseParam responseParam = ResponseParam.builder().build();
         if (fileStoreType == AppFileStoreTypeEnum.DATABASE) {
             SysFiles sysFiles = service.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));

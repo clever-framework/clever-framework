@@ -1,0 +1,2 @@
+INSERT INTO clever_framework_demo.sys_role (id, create_time, create_user_id, last_update_time, last_update_user_id, code, name) VALUES (1, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11', 1, 'admin', '前端演示角色');
+INSERT INTO clever_framework_demo.sys_role (id, create_time, create_user_id, last_update_time, last_update_user_id, code, name) VALUES (2, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11', 1, 'root', '后端超级管理员');
