@@ -74,7 +74,7 @@
         <module>clever-framework-dao</module>
         <module>clever-framework-web</module>
         <module>clever-framework-webmvc</module>
-        <module>clever-framework-curd</module>
+        <module>clever-framework-crud</module>
         <module>clever-framework-demo</module>
         <module>clever-framework-test</module>
         <module>clever-framework-common</module>

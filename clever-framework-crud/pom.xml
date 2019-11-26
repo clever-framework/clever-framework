@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>Clever Framework :: Curd</name>
-    <artifactId>clever-framework-curd</artifactId>
+    <name>Clever Framework :: Crud</name>
+    <artifactId>clever-framework-crud</artifactId>
     <url>https://github.com/ToQuery/clever-framework</url>
 
     <dependencies>
