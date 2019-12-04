@@ -15,8 +15,8 @@ import java.util.Map;
 @Component
 public class AppMinioInit {
 
-    @Resource
-    private MinioClient minioClient;
+    //@Resource
+    // MinioClient minioClient;
 
 //    @Resource
 //    private AppMinioService appMinioService;

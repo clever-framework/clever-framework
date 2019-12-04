@@ -2,6 +2,7 @@ package io.github.toquery.framework.files.service.impl;
 
 import com.google.common.io.Files;
 import io.github.toquery.framework.common.util.AppDateUtil;
+import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.files.domain.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
@@ -14,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -29,6 +32,7 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
      */
     private Map<String, String> expressionMap = new LinkedHashMap<String, String>() {
         {
+            put("id", "id:EQ");
             put("extension", "extension:EQ");
             put("extensionIn", "extension:IN");
         }
@@ -77,13 +81,23 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
         // 文件扩展名
         String fileExtension = Files.getFileExtension(originalFilename);
         //新文件路径名称
-        String newFileName =  UUID.randomUUID().toString() + "." + fileExtension;
+        String newFileName = UUID.randomUUID().toString() + "." + fileExtension;
 
         // 新文件存储路径
         File newFile = new File(storeWithDate + newFileName);
         //保存文件
         FileUtils.copyToFile(file.getInputStream(), newFile);
         return appFilesProperties.getShowDomain() + File.separator + AppDateUtil.getCurrentDate() + File.separator + newFileName;
+    }
+
+    @Override
+    public SysFiles getByIdAndExtension(Long id, String extension) throws AppException {
+        Map<String, Object> map = new HashMap<>();
+        List<SysFiles> sysFilesList = this.find(map);
+        if (sysFilesList == null || sysFilesList.isEmpty()) {
+            throw new AppException("未找到 " + id + "." + extension + " 文件");
+        }
+        return sysFilesList.get(0);
     }
 
 }

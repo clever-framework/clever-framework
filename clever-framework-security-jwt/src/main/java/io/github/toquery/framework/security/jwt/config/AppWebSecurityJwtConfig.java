@@ -7,6 +7,7 @@ import io.github.toquery.framework.security.jwt.filter.JwtAuthorizationTokenFilt
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -38,7 +39,7 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
     @Resource
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Resource
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Resource

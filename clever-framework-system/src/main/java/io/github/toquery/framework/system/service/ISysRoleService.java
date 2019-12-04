@@ -3,6 +3,7 @@ package io.github.toquery.framework.system.service;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.curd.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysRole;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
+//@Service
 public interface ISysRoleService extends AppBaseService<SysRole, Long> {
     List<SysRole> findByCode(String code);
 

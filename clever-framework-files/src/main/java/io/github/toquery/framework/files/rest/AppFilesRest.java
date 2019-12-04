@@ -10,6 +10,7 @@ import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +38,10 @@ public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFil
             SysFiles sysFiles = service.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
             responseParam.content(sysFiles);
+        } else if (fileStoreType == AppFileStoreTypeEnum.DB) {
+            SysFiles sysFiles = service.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
+            responseParam.content(sysFiles);
         } else if (fileStoreType == AppFileStoreTypeEnum.FILE) {
             String filePath = service.storeFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             SysFiles sysFiles = new SysFiles();
@@ -46,6 +51,19 @@ public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFil
             responseParam.message("上传文件错误");
         }
         return responseParam;
+    }
+
+    @RequestMapping("/app/files/download/{id}.{extension}}")
+    public ResponseEntity downloadFile(@PathVariable("id") Long id, @PathVariable String extension) {
+        ResponseEntity responseEntity = null;
+        try {
+            SysFiles sysFiles = service.getByIdAndExtension(id,extension);
+            responseEntity = AppDownloadFileUtil.download(appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = super.notFound("文件未找到");
+        }
+        return responseEntity;
     }
 
     @RequestMapping("${app.files.path.download:/app/files/download}")

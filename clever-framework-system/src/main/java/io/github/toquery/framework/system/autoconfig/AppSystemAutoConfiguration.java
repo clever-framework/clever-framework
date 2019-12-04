@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -23,10 +24,11 @@ import org.springframework.context.annotation.Configuration;
  * @version 1
  */
 @Slf4j
-@Configuration
+//@Configuration
+//@ComponentScan("io.github.toquery.framework.system.service")
 @EnableConfigurationProperties({AppSystemProperties.class})
-@EntityScan(basePackages = "io.github.toquery.framework.system.entity")
-@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system.repository")
+//@EntityScan(basePackages = "io.github.toquery.framework.system.entity")
+//@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system.repository")
 @ConditionalOnProperty(prefix = AppSystemProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class AppSystemAutoConfiguration {
 
@@ -36,26 +38,26 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysConfigService getSysConfigService() {
+    public SysConfigServiceImpl getSysConfigService() {
         return new SysConfigServiceImpl();
     }
 
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysMenuService getSysMenuService() {
+    public SysMenuServiceImpl getSysMenuService() {
         return new SysMenuServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysRoleService getSysRoleService() {
+    public SysRoleServiceImpl getSysRoleService() {
         return new SysRoleServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysUserService getSysUserService() {
+    public SysUserServiceImpl getSysUserService() {
         return new SysUserServiceImpl();
     }
 }

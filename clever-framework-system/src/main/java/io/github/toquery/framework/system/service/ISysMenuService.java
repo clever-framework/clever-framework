@@ -2,6 +2,7 @@ package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.curd.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysMenu;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
+//@Service
 public interface ISysMenuService extends AppBaseService<SysMenu, Long> {
     /**
      * 自定义保存，变更上级的 hasChildren
