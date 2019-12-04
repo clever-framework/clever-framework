@@ -1,0 +1,10 @@
+# Datasource local storage ignored files
+/libraries
+/dataSources/
+compiler.xml
+/dataSources.local.xml
+encodings.xml
+misc.xml
+modules.xml
+vcs.xml
+workspace.xml
