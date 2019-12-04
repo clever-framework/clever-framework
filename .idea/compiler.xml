@@ -15,11 +15,12 @@
         <module name="clever-framework-demo" />
         <module name="clever-framework-security" />
         <module name="clever-framework-dao" />
-        <module name="clever-framework-minio" />
+        <module name="clever-framework-crud" />
         <module name="clever-framework-system" />
         <module name="clever-framework-common" />
         <module name="clever-framework-test" />
         <module name="clever-framework-swagger" />
+        <module name="clever-framework-minio" />
         <module name="clever-framework-core" />
         <module name="clever-framework-web" />
       </profile>
@@ -29,6 +30,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="clever-framework-common" options="-parameters" />
       <module name="clever-framework-core" options="-parameters" />
+      <module name="clever-framework-crud" options="-parameters" />
       <module name="clever-framework-curd" options="-parameters" />
       <module name="clever-framework-dao" options="-parameters" />
       <module name="clever-framework-demo" options="-parameters" />

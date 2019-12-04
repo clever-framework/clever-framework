@@ -83,7 +83,7 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
         File newFile = new File(storeWithDate + newFileName);
         //保存文件
         FileUtils.copyToFile(file.getInputStream(), newFile);
-        return appFilesProperties.getShowDomain() + newFileName;
+        return appFilesProperties.getShowDomain() + File.separator + AppDateUtil.getCurrentDate() + File.separator + newFileName;
     }
 
 }

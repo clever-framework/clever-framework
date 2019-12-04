@@ -31,7 +31,7 @@
         <!-- CI-friendly property 必须使用这个名称，否则IDEA报错-->
         <revision>${clever-framework.version}</revision>
 
-        <spring-cloud.version>Greenwich.SR4</spring-cloud.version>
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
 
         <!-- tool jar -->
         <json.version>20180813</json.version>
