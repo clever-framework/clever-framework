@@ -39,7 +39,7 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
     @Resource
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Autowired
+    @Resource
     private UserDetailsService userDetailsService;
 
     @Resource

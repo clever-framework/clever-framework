@@ -13,7 +13,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-//@Service
+@Service
 public interface ISysRoleService extends AppBaseService<SysRole, Long> {
     List<SysRole> findByCode(String code);
 

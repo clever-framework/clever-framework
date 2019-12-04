@@ -9,6 +9,7 @@ import io.github.toquery.framework.system.repository.SysUserRepository;
 import io.github.toquery.framework.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -24,7 +25,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUserRepository> implements ISysUserService {
+public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUserRepository> implements UserDetailsService,ISysUserService {
 
     @Resource
     private PasswordEncoder passwordEncoder;

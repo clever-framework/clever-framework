@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * @author toquery
  * @version 1
  */
-//@Service
+@Service
 public interface ISysLogService extends AppBaseService<SysLog,Long> {
 
     public int insertSysLog(Long userId,String moduleName, String bizName, AppLogType logType, String rawData, String targetData);

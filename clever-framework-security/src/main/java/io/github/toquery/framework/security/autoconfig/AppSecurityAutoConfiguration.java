@@ -1,13 +1,18 @@
 package io.github.toquery.framework.security.autoconfig;
 
 import io.github.toquery.framework.security.auditor.AppAuditorAwareImpl;
+import io.github.toquery.framework.system.autoconfig.AppSystemAutoConfiguration;
 import io.github.toquery.framework.system.service.ISysLogService;
+import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.system.service.impl.SysLogServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
@@ -16,9 +21,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  * @version 1
  */
 @Slf4j
-@Configuration
+//@Configuration
+//@DependsOn("io.github.toquery.framework.system.service.ISysUserService")
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @ComponentScan(basePackages = "io.github.toquery.framework.security")
+//@ConditionalOnBean(value = {AppSystemAutoConfiguration.class, ISysUserService.class})
 public class AppSecurityAutoConfiguration {
 
     public AppSecurityAutoConfiguration() {

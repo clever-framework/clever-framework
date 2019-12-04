@@ -13,7 +13,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-//@Service
+@Service
 public interface ISysUserService extends UserDetailsService, AppBaseService<SysUser, Long> {
 
     List<SysUser> findByIds(Set<Long> ids);

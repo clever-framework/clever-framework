@@ -11,7 +11,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-//@Service
+@Service
 public interface ISysMenuService extends AppBaseService<SysMenu, Long> {
     /**
      * 自定义保存，变更上级的 hasChildren
