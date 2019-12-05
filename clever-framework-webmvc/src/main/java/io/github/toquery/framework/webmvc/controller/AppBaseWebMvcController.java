@@ -4,6 +4,8 @@ import com.google.common.base.Strings;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -13,10 +15,14 @@ import javax.annotation.Resource;
  * @author toquery
  * @version 1
  */
+@Slf4j
 public class AppBaseWebMvcController extends AppBaseWebController {
 
+    public AppBaseWebMvcController() {
+        log.info("AppBaseWebMvcController");
+    }
 
-    @Resource
+    @Autowired
     protected AppWebMvcProperties appWebMvcProperties;
 
 

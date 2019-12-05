@@ -3,7 +3,7 @@ package io.github.toquery.framework.system.service.impl;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.repository.SysUserRepository;
 import io.github.toquery.framework.system.service.ISysUserService;
@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -25,6 +26,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
+@Service
 public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUserRepository> implements UserDetailsService,ISysUserService {
 
     @Resource

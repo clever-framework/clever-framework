@@ -30,7 +30,7 @@
             </dependency>
             <dependency>
                 <groupId>io.github.toquery</groupId>
-                <artifactId>clever-framework-curd</artifactId>
+                <artifactId>clever-framework-crud</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
             <dependency>

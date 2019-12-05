@@ -2,7 +2,7 @@ package io.github.toquery.framework.security.rest;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.core.annotation.AppLogMethod;
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.system.entity.SysConfig;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,7 +28,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/config")
-public class SysConfigRest extends AppBaseCurdController<ISysConfigService, SysConfig, Long> {
+public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysConfig, Long> {
     private String[] sort = new String[]{"sortNum_desc"};
 
     @GetMapping

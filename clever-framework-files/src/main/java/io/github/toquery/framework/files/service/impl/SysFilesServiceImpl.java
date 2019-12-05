@@ -3,7 +3,7 @@ package io.github.toquery.framework.files.service.impl;
 import com.google.common.io.Files;
 import io.github.toquery.framework.common.util.AppDateUtil;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.files.domain.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
 import io.github.toquery.framework.files.repository.SysFilesRepository;
@@ -40,7 +40,6 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
 
     @Resource
     private AppFilesProperties appFilesProperties;
-
 
     @Override
     public Map<String, String> getQueryExpressions() {

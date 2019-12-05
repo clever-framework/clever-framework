@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.core.annotation.AppLogMethod;
 import io.github.toquery.framework.core.constant.AppLogType;
-import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -28,7 +28,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/menu")
-public class SysMenuRest extends AppBaseCurdController<ISysMenuService, SysMenu, Long> {
+public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu, Long> {
     private String[] sort = new String[]{"sortNum_desc"};
 
     @GetMapping

@@ -5,8 +5,12 @@ import io.github.toquery.framework.log.event.listener.AppBizLogDeleteEventListen
 import io.github.toquery.framework.log.event.listener.AppBizLogMergeEventListener;
 import io.github.toquery.framework.log.event.listener.AppBizLogPersistEventListener;
 import io.github.toquery.framework.log.properties.AppLogProperties;
+import io.github.toquery.framework.system.autoconfig.AppSystemAutoConfiguration;
+import io.github.toquery.framework.system.properties.AppSystemProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +22,11 @@ import org.springframework.context.annotation.Import;
  * @version 1
  */
 @Slf4j
-@Configuration
-@ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+//@Configuration
 @Import(AppHibernateListenerConfigurer.class)
+@EnableConfigurationProperties(AppLogProperties.class)
+//@AutoConfigureAfter({AppSystemAutoConfiguration.class})
+@ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 @ComponentScan(basePackages = "io.github.toquery.framework.log")
 public class AppBizLogAutoConfiguration {
 

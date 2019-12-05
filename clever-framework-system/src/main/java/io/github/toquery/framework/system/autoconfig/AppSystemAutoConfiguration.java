@@ -1,11 +1,14 @@
 package io.github.toquery.framework.system.autoconfig;
 
+import io.github.toquery.framework.dao.EnableAppJpaRepositories;
+import io.github.toquery.framework.dao.jpa.AppJpaRepositoryFactoryBean;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * 相关业务bean 不支持通过new的方式创建，只能扫描包方式创建
@@ -19,8 +22,9 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("io.github.toquery.framework.system")
 @EnableConfigurationProperties({AppSystemProperties.class})
 @EntityScan(basePackages = "io.github.toquery.framework.system.entity")
-//@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system")
+@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system")
 @ConditionalOnProperty(prefix = AppSystemProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+//@EnableJpaRepositories(basePackages = {"io.github.toquery.framework.system.repository"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppSystemAutoConfiguration {
 
     public AppSystemAutoConfiguration() {

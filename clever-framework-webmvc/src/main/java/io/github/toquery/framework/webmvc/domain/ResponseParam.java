@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @version 1
  */
 @Builder
-public class ResponseParam extends HashMap<String, Object> implements InitializingBean {
+public class ResponseParam extends HashMap<String, Object> { //implements InitializingBean {
 
     private static final long serialVersionUID = 1L;
 
@@ -137,9 +137,11 @@ public class ResponseParam extends HashMap<String, Object> implements Initializi
         return ResponseEntity.status(httpStatus).contentType(contentType).body(this);
     }
 
+    /*
     @Override
     public void afterPropertiesSet() throws Exception {
 
     }
+     */
 }
 

@@ -1,4 +1,4 @@
-package io.github.toquery.framework.data.rest.config;
+package io.github.toquery.framework.data.rest.autoconfig;
 
 import io.github.toquery.framework.data.rest.annotation.EnableAppRepositoryRest;
 import lombok.extern.slf4j.Slf4j;

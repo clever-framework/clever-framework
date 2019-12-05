@@ -1,7 +1,7 @@
 package io.github.toquery.framework.files.rest;
 
 import io.github.toquery.framework.common.util.AppDownloadFileUtil;
-import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.files.constant.AppFileStoreTypeEnum;
 import io.github.toquery.framework.files.domain.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
@@ -26,7 +26,10 @@ import java.io.IOException;
  */
 @Slf4j
 @RestController
-public class AppFilesRest extends AppBaseCurdController<ISysFilesService, SysFiles, Long> {
+public class AppFilesRest  extends AppBaseCrudController<ISysFilesService, SysFiles, Long> {
+    public AppFilesRest() {
+        log.info("1231");
+    }
 
     @Resource
     private AppFilesProperties appFilesProperties;

@@ -1,4 +1,4 @@
-package io.github.toquery.framework.curd.service;
+package io.github.toquery.framework.crud.service;
 
 import java.io.Serializable;
 import java.util.Collection;

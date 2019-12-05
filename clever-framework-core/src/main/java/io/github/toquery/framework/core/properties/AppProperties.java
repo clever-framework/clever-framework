@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Setter
 @Getter
-@Configuration
+//@Configuration
 @ConfigurationProperties(prefix = AppProperties.PREFIX)
 public class AppProperties {
 

@@ -13,7 +13,7 @@ import java.util.Set;
  * @version 1
  */
 @Data
-@Component
+//@Component
 @ConfigurationProperties(prefix = AppLogProperties.PREFIX)
 public class AppLogProperties {
 

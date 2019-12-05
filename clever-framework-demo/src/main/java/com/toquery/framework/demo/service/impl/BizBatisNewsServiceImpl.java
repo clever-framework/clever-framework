@@ -6,7 +6,7 @@ import com.google.common.collect.Sets;
 import com.toquery.framework.demo.dao.IBizBatisNewsMapper;
 import com.toquery.framework.demo.entity.BizBatisNews;
 import com.toquery.framework.demo.service.IBizBatisNewsService;
-import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

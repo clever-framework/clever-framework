@@ -7,8 +7,6 @@ import org.springframework.data.rest.webmvc.mapping.LinkCollector;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Links;
 
-import java.util.List;
-
 /**
  * 重载linkCollector方法，移除元素上自带的 _link 属性
  *

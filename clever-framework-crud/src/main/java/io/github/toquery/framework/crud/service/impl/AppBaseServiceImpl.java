@@ -1,13 +1,12 @@
-package io.github.toquery.framework.curd.service.impl;
+package io.github.toquery.framework.crud.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.curd.service.AppBaseService;
+import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
 import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;

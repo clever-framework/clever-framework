@@ -6,7 +6,7 @@ import com.toquery.framework.demo.entity.BizJpaNews;
 import com.toquery.framework.demo.entity.BizBatisNews;
 import com.toquery.framework.demo.service.IBizJpaNewsService;
 import com.toquery.framework.demo.service.IBizBatisNewsService;
-import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/demo")
-public class DemoController extends AppBaseCurdController<IBizJpaNewsService, BizJpaNews,Long> {
+public class DemoController extends AppBaseCrudController<IBizJpaNewsService, BizJpaNews,Long> {
 
     @Resource
     private IBizJpaNewsService demoService;

@@ -1,7 +1,6 @@
-package io.github.toquery.framework.curd.controller;
+package io.github.toquery.framework.crud.controller;
 
-import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.curd.service.AppBaseService;
+import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public class AppBaseCurdController<S extends AppBaseService<E, ID>, E, ID extends Serializable> extends AppBaseWebMvcController {
+public class AppBaseCrudController<S extends AppBaseService<E, ID>, E, ID extends Serializable> extends AppBaseWebMvcController {
 
 
     @Autowired

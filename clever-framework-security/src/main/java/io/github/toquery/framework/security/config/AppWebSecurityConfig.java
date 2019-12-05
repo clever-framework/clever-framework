@@ -44,6 +44,8 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("初始化 App Web Security 配置，disableDefaults = {} ", disableDefaults);
     }
 
+    // TODO 这里版本冲突，新版 Spring 后无法注入 UserDetailsService
+    /**/
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -54,6 +56,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoderBean());
     }
+
 
 
     @Bean
@@ -74,8 +77,6 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
 
                 // .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-
-
                 .authorizeRequests()
 
                 // jwt

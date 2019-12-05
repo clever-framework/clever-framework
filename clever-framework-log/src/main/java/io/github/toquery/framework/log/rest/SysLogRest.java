@@ -3,7 +3,7 @@ package io.github.toquery.framework.log.rest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
-import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.log.domain.SysLogVo;
 import io.github.toquery.framework.system.entity.SysLog;
 import io.github.toquery.framework.system.service.ISysLogService;
@@ -35,7 +35,7 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/sys/log")
-public class SysLogRest extends AppBaseCurdController<ISysLogService, SysLog, Long> {
+public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Long> {
 
     @Resource
     private ISysUserService sysUserService;

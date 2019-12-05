@@ -1,9 +1,8 @@
 package com.toquery.framework.demo.service;
 
 
-import com.toquery.framework.demo.entity.BizJpaNews;
 import com.toquery.framework.demo.entity.BizJpaNewsSub;
-import io.github.toquery.framework.curd.service.AppBaseService;
+import io.github.toquery.framework.crud.service.AppBaseService;
 import org.springframework.data.domain.Page;
 
 /**

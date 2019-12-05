@@ -1,13 +1,10 @@
 package com.toquery.framework.demo.service.impl;
 
 import com.google.common.collect.Sets;
-import com.toquery.framework.demo.dao.IBizJpaNewsRepository;
 import com.toquery.framework.demo.dao.IBizJpaNewsSubRepository;
-import com.toquery.framework.demo.entity.BizJpaNews;
 import com.toquery.framework.demo.entity.BizJpaNewsSub;
-import com.toquery.framework.demo.service.IBizJpaNewsService;
 import com.toquery.framework.demo.service.IBizJpaNewsSubService;
-import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

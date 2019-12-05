@@ -1,10 +1,11 @@
 package io.github.toquery.framework.system.service.impl;
 
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.repository.SysRoleRepository;
 import io.github.toquery.framework.system.service.ISysRoleService;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
+@Service
 public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRoleRepository> implements ISysRoleService {
 
     @Override

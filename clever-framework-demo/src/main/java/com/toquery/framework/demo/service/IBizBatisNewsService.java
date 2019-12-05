@@ -3,7 +3,7 @@ package com.toquery.framework.demo.service;
 
 import com.github.pagehelper.Page;
 import com.toquery.framework.demo.entity.BizBatisNews;
-import io.github.toquery.framework.curd.service.AppBaseService;
+import io.github.toquery.framework.crud.service.AppBaseService;
 
 /**
  * @author toquery

@@ -3,7 +3,7 @@ package com.toquery.framework.demo.web.rest;
 import com.google.common.collect.Sets;
 import com.toquery.framework.demo.entity.BizBatisNews;
 import com.toquery.framework.demo.service.IBizBatisNewsService;
-import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequestMapping("/biz-batis-news")
-public class BizBatisNewsController extends AppBaseCurdController<IBizBatisNewsService, BizBatisNews, Long> {
+public class BizBatisNewsController extends AppBaseCrudController<IBizBatisNewsService, BizBatisNews, Long> {
 
     @GetMapping
     public ResponseParam query() {

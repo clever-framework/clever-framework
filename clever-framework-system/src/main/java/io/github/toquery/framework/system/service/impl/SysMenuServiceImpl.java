@@ -3,10 +3,11 @@ package io.github.toquery.framework.system.service.impl;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.curd.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.repository.SysMenuRepository;
 import io.github.toquery.framework.system.service.ISysMenuService;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
+@Service
 public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMenuRepository> implements ISysMenuService {
     /**
      * 查询条件表达式

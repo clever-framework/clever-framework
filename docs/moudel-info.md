@@ -24,6 +24,5 @@
 - clever-framework-security
 - clever-framework-security-jwt
 - clever-framework-test
-- clever-framework-ueditor
 - clever-framework-web
 - clever-framework-webmvc

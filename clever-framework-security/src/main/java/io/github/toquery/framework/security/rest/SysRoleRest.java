@@ -2,7 +2,7 @@ package io.github.toquery.framework.security.rest;
 
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.curd.controller.AppBaseCurdController;
+import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.service.ISysRoleService;
@@ -27,7 +27,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/role")
-public class SysRoleRest extends AppBaseCurdController<ISysRoleService, SysRole, Long> {
+public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole, Long> {
 
     @Resource
     private AppSecurityProperties appSecurityProperties;
