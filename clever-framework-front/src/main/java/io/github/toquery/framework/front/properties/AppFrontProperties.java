@@ -2,7 +2,6 @@ package io.github.toquery.framework.front.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 
@@ -18,7 +17,9 @@ public class AppFrontProperties {
 
     private boolean enable = true;
 
+    private int timeToLiveInDays = 1461;
+
     private String prefix = "target" + File.separator;
 
-    private String outputDir = "target" + File.separator + "www" + File.separator;
+    private String outputDir = "target" + File.separator + "classes" + File.separator + "static" + File.separator;
 }

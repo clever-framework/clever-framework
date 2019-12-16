@@ -11,6 +11,7 @@
 
 [![Jwt Status](http://jwt.io/img/badge.svg)](https://github.com/ToQuery/clever-framework)
 
+https://github.com/javers/javers
 
 ## 扩展基础 
 
@@ -44,6 +45,16 @@
 
 - 通过自定义注解实现重复名称的注解共存，（首先定义注解类并@intface加入要扩展的注解`@xxxx`，然后根据相应的属性增加`@AliasFor(annotation = XXXX.class)`。例如JPA 的param和mybatis的param可通过这个方式解决冲突）
 
+## Other
+
+https://yangbingdong.com/2019/spring-boot-data-jpa-learning/
+
+- @SQLDelete
+- @Where
+
+
+- @Embedded
+- @Convert
 
 
 ## 

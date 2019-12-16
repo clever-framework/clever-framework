@@ -1,4 +1,4 @@
-package io.github.toquery.framework.files.domain;
+package io.github.toquery.framework.files.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

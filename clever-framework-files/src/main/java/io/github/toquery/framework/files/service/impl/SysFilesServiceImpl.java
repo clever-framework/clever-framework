@@ -4,7 +4,7 @@ import com.google.common.io.Files;
 import io.github.toquery.framework.common.util.AppDateUtil;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
-import io.github.toquery.framework.files.domain.SysFiles;
+import io.github.toquery.framework.files.entity.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
 import io.github.toquery.framework.files.repository.SysFilesRepository;
 import io.github.toquery.framework.files.service.ISysFilesService;
@@ -51,7 +51,8 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
         //文件原名
         String originalFilename = file.getOriginalFilename();
         // 文件扩展名
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        String fileExtension =  Files.getFileExtension(originalFilename);
+        // String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         //文件存储路径
         String storeWithDate = appFilesProperties.getPath().getStoreWithDate();
         //新文件名称
@@ -92,6 +93,8 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
     @Override
     public SysFiles getByIdAndExtension(Long id, String extension) throws AppException {
         Map<String, Object> map = new HashMap<>();
+        map.put("id",id);
+        map.put("extension",extension);
         List<SysFiles> sysFilesList = this.find(map);
         if (sysFilesList == null || sysFilesList.isEmpty()) {
             throw new AppException("未找到 " + id + "." + extension + " 文件");

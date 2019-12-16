@@ -1,6 +1,7 @@
 package io.github.toquery.framework.front.autoconfig;
 
 import io.github.toquery.framework.front.connfig.AppFrontConfigurer;
+import io.github.toquery.framework.front.connfig.AppFrontSecurityConfig;
 import io.github.toquery.framework.front.properties.AppFrontProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,7 +13,8 @@ import org.springframework.context.annotation.Import;
  * @version 1
  */
 @Slf4j
-@Import(AppFrontConfigurer.class)
+//@Import({AppFrontConfigurer.class})
+@Import({AppFrontConfigurer.class, AppFrontSecurityConfig.class})
 @EnableConfigurationProperties({AppFrontProperties.class})
 @ConditionalOnProperty(prefix = AppFrontProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 public class AppFrontAutoConfiguration {

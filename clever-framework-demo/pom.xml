@@ -102,12 +102,20 @@
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-log</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-front</artifactId>
+        </dependency>
         <!--
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-ueditor</artifactId>
         </dependency>
         -->
+        <dependency>
+            <groupId>org.javers</groupId>
+            <artifactId>javers-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>

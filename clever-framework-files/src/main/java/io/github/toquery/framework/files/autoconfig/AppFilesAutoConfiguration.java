@@ -21,7 +21,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //@Configuration
 @EnableConfigurationProperties(AppFilesProperties.class)
 @ComponentScan(basePackages = "io.github.toquery.framework.files")
-@EntityScan(basePackages = "io.github.toquery.framework.files.domain")
+@EntityScan(basePackages = "io.github.toquery.framework.files.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.files")
 @ConditionalOnProperty(prefix = AppFilesProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 //@EnableJpaRepositories(basePackages = {"io.github.toquery.framework.files"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)

@@ -1,0 +1,12 @@
+POST http://localhost:8888/app/files/upload?fileStoreType=DB
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test_images.jpg"
+
+< ./test_images.jpg
+--WebAppBoundary--
+
+{}
+
+###

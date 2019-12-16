@@ -2,7 +2,7 @@ package io.github.toquery.framework.files.service;
 
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.crud.service.AppBaseService;
-import io.github.toquery.framework.files.domain.SysFiles;
+import io.github.toquery.framework.files.entity.SysFiles;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

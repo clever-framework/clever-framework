@@ -15,9 +15,9 @@ import javax.sql.DataSource;
 @ConditionalOnBean(DataSource.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 // @EnableJpaRepositories(basePackages = {"io.github.toquery.framework"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
-public class AppJPAAutoConfiguration {
+public class AppDaoAutoConfiguration {
 
-    public AppJPAAutoConfiguration() {
+    public AppDaoAutoConfiguration() {
         log.info("初始化 App Dao 模块 {}", this.getClass().getSimpleName());
     }
 

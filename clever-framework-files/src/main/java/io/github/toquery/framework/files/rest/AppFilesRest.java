@@ -3,12 +3,13 @@ package io.github.toquery.framework.files.rest;
 import io.github.toquery.framework.common.util.AppDownloadFileUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.files.constant.AppFileStoreTypeEnum;
-import io.github.toquery.framework.files.domain.SysFiles;
+import io.github.toquery.framework.files.entity.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
 import io.github.toquery.framework.files.service.ISysFilesService;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author toquery
@@ -26,9 +29,10 @@ import java.io.IOException;
  */
 @Slf4j
 @RestController
-public class AppFilesRest  extends AppBaseCrudController<ISysFilesService, SysFiles, Long> {
+public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFiles, Long> {
+
     public AppFilesRest() {
-        log.info("1231");
+        log.info(this.getClass().getSimpleName());
     }
 
     @Resource
@@ -56,12 +60,12 @@ public class AppFilesRest  extends AppBaseCrudController<ISysFilesService, SysFi
         return responseParam;
     }
 
-    @RequestMapping("/app/files/download/{id}.{extension}}")
+    @RequestMapping("/app/files/download/{id}.{extension}")
     public ResponseEntity downloadFile(@PathVariable("id") Long id, @PathVariable String extension) {
         ResponseEntity responseEntity = null;
         try {
-            SysFiles sysFiles = service.getByIdAndExtension(id,extension);
-            responseEntity = AppDownloadFileUtil.download(appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
+            SysFiles sysFiles = service.getByIdAndExtension(id, extension);
+            responseEntity = AppDownloadFileUtil.download(appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName(), sysFiles.getMimeType());
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = super.notFound("文件未找到");
@@ -74,7 +78,7 @@ public class AppFilesRest  extends AppBaseCrudController<ISysFilesService, SysFi
         ResponseEntity responseEntity = null;
         try {
             SysFiles sysFiles = super.getById(id);
-            responseEntity = AppDownloadFileUtil.download(appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName());
+            responseEntity = AppDownloadFileUtil.download(appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName(),sysFiles.getMimeType());
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = super.notFound("文件未找到");
@@ -89,14 +93,15 @@ public class AppFilesRest  extends AppBaseCrudController<ISysFilesService, SysFi
      * @return 下载路径
      */
     private String formatDownloadPath(SysFiles sysFiles) {
-        String result = appFilesProperties.getPath().getDownload() + "?id=" + sysFiles.getId();
-       /* try {
+        String result = appFilesProperties.getPath().getDownload();
+        try {
+            // result.replace("{id}", sysFiles.getId().toString()).replace("{extension}", sysFiles.getExtension());
             Map<String, Object> uriVariables = PropertyUtils.describe(sysFiles);
             result = UriComponentsBuilder.fromUriString(appFilesProperties.getPath().getDownload()).uriVariables(uriVariables).build().toUriString();
         } catch (Exception e) {
             log.error("处理文件下载路径出错，文件ID {} ，文件存储路径 {} , 文件存储名称 {} ", sysFiles.getId(), sysFiles.getStoragePath(), sysFiles.getStorageName());
             e.printStackTrace();
-        }*/
+        }
         return result;
 
     }

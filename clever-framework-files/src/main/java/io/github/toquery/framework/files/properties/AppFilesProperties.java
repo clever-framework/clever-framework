@@ -50,7 +50,7 @@ public class AppFilesProperties {
          */
         private String upload = "/app/files/upload";
 
-        private String download = "/app/files/download";
+        private String download = "/app/files/download/{id}.{extension}";
 
         public String getStoreWithDate() {
 

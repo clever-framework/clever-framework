@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.toquery.framework.crud.autoconfig.AppDaoActionConfiguration
+io.github.toquery.framework.crud.autoconfig.AppCrudAutoConfiguration
