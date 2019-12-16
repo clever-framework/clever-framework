@@ -3,19 +3,13 @@ package io.github.toquery.framework.dao.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.audit.AppEntityD3Listener;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-//import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.RevisionNumber;
-import org.hibernate.envers.RevisionTimestamp;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -29,11 +23,15 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
+
+//import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * @author toquery
@@ -69,7 +67,7 @@ public class AppBaseEntity implements Serializable {
 
     @CreatedBy
     @Column(name = "create_user_id", length = 32, updatable = false)
-    private String createUserId;
+    private Long createUserId;
 
 
     @CreatedDate
@@ -89,9 +87,8 @@ public class AppBaseEntity implements Serializable {
     @LastModifiedDate
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    //  @Column(name = AppPropertiesDefault.JPA_COLUMN_LAST_MODIFIED_DATE, nullable = false)
     @Column(name = "last_update_time", nullable = false)
-    @JsonFormat(pattern =AppCommonConstant.DATE_TIME_PATTERN)
+    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
 

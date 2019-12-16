@@ -23,10 +23,9 @@ public class AppAuditorAwareImpl implements AuditorAware<Long> {
     @Override
     public Optional<Long> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        /*SysUser sysUser = (SysUser) authentication.getPrincipal();
+        SysUser sysUser = (SysUser) authentication.getPrincipal();
         log.debug("自定审计，当前操作用户ID为：{} 用户名：{} ", sysUser.getId(), sysUser.getUsername());
-        return Optional.of(sysUser.getId());*/
-
-        return Optional.of(1L);
+        return Optional.of(sysUser.getId());
+        // return Optional.of(1L);
     }
 }
