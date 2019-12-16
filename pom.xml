@@ -37,6 +37,7 @@
         <!-- tool jar -->
         <javers.version>5.8.7</javers.version>
         <json.version>20180813</json.version>
+        <json.version>20190722</json.version>
         <jackson.version>2.10.1</jackson.version>
         <lombok.version>1.18.10</lombok.version>
         <guava.version>28.1-jre</guava.version>
