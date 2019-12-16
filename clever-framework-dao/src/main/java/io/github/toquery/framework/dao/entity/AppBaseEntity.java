@@ -3,6 +3,8 @@ package io.github.toquery.framework.dao.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.audit.AppEntityD3Listener;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.github.toquery.framework.core.constant.AppPropertiesDefault;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -20,7 +25,13 @@ import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -58,13 +69,14 @@ public class AppBaseEntity implements Serializable {
 
     @CreatedBy
     @Column(name = "create_user_id", length = 32, updatable = false)
-    private Long createUserId;
+    private String createUserId;
 
 
     @CreatedDate
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @Column(name = "create_time", updatable = false, nullable = false)
     private Date createDatetime;
 
@@ -75,10 +87,12 @@ public class AppBaseEntity implements Serializable {
 
 
     @LastModifiedDate
+    @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern =AppCommonConstant.DATE_TIME_PATTERN)
+    //  @Column(name = AppPropertiesDefault.JPA_COLUMN_LAST_MODIFIED_DATE, nullable = false)
     @Column(name = "last_update_time", nullable = false)
+    @JsonFormat(pattern =AppCommonConstant.DATE_TIME_PATTERN)
+    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
 
 
