@@ -4,7 +4,7 @@
 
     <select id="findByCodeOrName" resultType="io.github.toquery.framework.system.entity.SysRole">
         select *
-        from bjcm.sys_role
+        from sys_role
         where code = #{code} or name = #{name}
     </select>
 </mapper>

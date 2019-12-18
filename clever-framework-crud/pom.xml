@@ -9,6 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- https://maven.apache.org/guides/mini/guide-relocation.html
+    <distributionManagement>
+        <relocation>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-curd</artifactId>
+        </relocation>
+    </distributionManagement>
+    -->
+
     <name>Clever Framework :: Crud</name>
     <artifactId>clever-framework-crud</artifactId>
     <url>https://github.com/ToQuery/clever-framework</url>

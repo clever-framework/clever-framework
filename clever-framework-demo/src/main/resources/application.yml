@@ -40,9 +40,6 @@ spring:
 logging:
   level:
     root: DEBUG
-    org:
-      apache:
-        coyote:
-          http11: debug
-      springframework:
-        security: debug
+    org.apache.coyote.http11: debug
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
+    org.springframework.security: debug
