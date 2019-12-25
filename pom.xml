@@ -35,7 +35,7 @@
         <spring.version>5.2.2.RELEASE</spring.version>
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
-        <spring-boot-admin.version>2.2.0</spring-boot-admin.version>
+        <spring-boot-admin.version>2.2.1</spring-boot-admin.version>
 
         <!-- tool jar -->
         <javers.version>5.8.7</javers.version>
@@ -325,7 +325,6 @@
                 <artifactId>swagger-core</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.webjars/swagger-ui -->
             <dependency>
                 <groupId>org.webjars</groupId>
                 <artifactId>swagger-ui</artifactId>
