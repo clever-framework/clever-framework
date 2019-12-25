@@ -9,7 +9,6 @@
 
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.toquery/clever-framework.svg)
 
-[![Jwt Status](http://jwt.io/img/badge.svg)](https://github.com/ToQuery/clever-framework)
 
 `clever-framework`  : 基于 Spring Boot 的拓展框架，遵循约定大于配置的原则 。
 
@@ -23,8 +22,9 @@
 
 ## 使用方式
 
-创建项目后，在pom.xml文件引入`parent`节点，如使用了Spring Boot的依赖，直接替换即可。目前最新版本为 ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.toquery/clever-framework.svg)
+修改项目的pom.xml文件，引入`parent`节点，如使用了 Spring Boot 的依赖，直接替换即可。
 
+目前最新版本为: ![Maven Central Version](https://img.shields.io/maven-central/v/io.github.toquery/clever-framework.svg)
 
 ```xml
 <parent>
@@ -96,12 +96,11 @@ mvn deploy -Dregistry=https://maven.pkg.github.com/ToQuery -Dtoken=xxx -X -Dskip
 
 ## Other
 
+https://github.com/javers/javers
 https://yangbingdong.com/2019/spring-boot-data-jpa-learning/
 
 - @SQLDelete
 - @Where
-
-
 - @Embedded
 - @Convert
 

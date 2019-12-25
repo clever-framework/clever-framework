@@ -19,15 +19,7 @@ import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -91,6 +83,9 @@ public class AppBaseEntity implements Serializable {
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
+
+//    @Version
+//    private int version;
 
 
     @DomainEvents

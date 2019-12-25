@@ -35,6 +35,11 @@
         -->
 
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-test</artifactId>
             <scope>test</scope>
