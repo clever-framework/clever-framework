@@ -1,4 +1,4 @@
-package io.github.toquery.framework.webmvc.controller;
+package io.github.toquery.framework.webmvc.controller.advice;
 
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -17,9 +17,9 @@ import javax.validation.ConstraintViolationException;
  */
 @Slf4j
 @ControllerAdvice
-public class AppExceptionHandle {
+public class AppExceptionAdvice {
 
-    public AppExceptionHandle() {
+    public AppExceptionAdvice() {
         log.info("初始化 App 异常捕获");
     }
 
