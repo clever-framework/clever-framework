@@ -84,8 +84,8 @@ public class AppBaseEntity implements Serializable {
     @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
 
-    @Version
-    private int version;
+//    @Version
+//    private int version;
 
 
     @DomainEvents

@@ -7,6 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 将路径中的字符串转化为大写，主要用于枚举类型转换
+ *
  * @author toquery
  * @version 1
  */
@@ -14,5 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface UpperCase {
+
     String value() default "";
 }
