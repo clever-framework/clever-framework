@@ -1,6 +1,6 @@
 # Changelog
 
-## [v1.0.7](https://github.com/ToQuery/clever-framework/tree/v1.0.8) (2019-12-24)
+## [v1.0.8](https://github.com/ToQuery/clever-framework/tree/v1.0.8) (2019-12-24)
 
 ### fix bug:
 
