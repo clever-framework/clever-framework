@@ -42,7 +42,7 @@
         <json.version>20190722</json.version>
         <jackson.version>2.10.1</jackson.version>
         <lombok.version>1.18.10</lombok.version>
-        <guava.version>28.1-jre</guava.version>
+        <guava.version>28.2-jre</guava.version>
         <fastjson.version>1.2.62</fastjson.version>
         <jsqlparse.version>3.1</jsqlparse.version>
         <!--
@@ -82,7 +82,7 @@
         <node.version>v13.5.0</node.version>
         <npm.version>6.13.4</npm.version>
         <!-- plugin properties -->
-        <frontend-maven.version>1.8.0</frontend-maven.version>
+        <frontend-maven.version>1.9.0</frontend-maven.version>
     </properties>
 
     <modules>

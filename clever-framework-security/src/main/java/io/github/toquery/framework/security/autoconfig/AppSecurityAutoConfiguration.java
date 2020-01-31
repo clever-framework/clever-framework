@@ -1,15 +1,16 @@
 package io.github.toquery.framework.security.autoconfig;
 
-import io.github.toquery.framework.log.autoconfig.AppBizLogAutoConfiguration;
 import io.github.toquery.framework.security.auditor.AppAuditorAwareImpl;
-import io.github.toquery.framework.system.autoconfig.AppSystemAutoConfiguration;
-import io.github.toquery.framework.system.properties.AppSystemProperties;
+import io.github.toquery.framework.security.handler.AppAuthenticationFailureHandler;
+import io.github.toquery.framework.security.handler.AppAuthenticationSuccessHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * @author toquery
@@ -40,4 +41,16 @@ public class AppSecurityAutoConfiguration {
         return new SysLogServiceImpl();
     }*/
 
+
+    @Bean
+    @ConditionalOnMissingBean(AuthenticationSuccessHandler.class)
+    AppAuthenticationSuccessHandler appAuthenticationSuccessHandler() {
+        return new AppAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(AuthenticationFailureHandler.class)
+    AppAuthenticationFailureHandler appAuthenticationFailureHandler() {
+        return new AppAuthenticationFailureHandler();
+    }
 }

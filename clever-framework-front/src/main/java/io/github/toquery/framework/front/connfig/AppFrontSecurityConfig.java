@@ -1,20 +1,28 @@
 package io.github.toquery.framework.front.connfig;
 
-import io.github.toquery.framework.security.config.AppWebSecurityConfig;
+import io.github.toquery.framework.security.AppWebSecurityConfigurer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
 @Slf4j
-@Order(52)
-public class AppFrontSecurityConfig extends AppWebSecurityConfig {
+public class AppFrontSecurityConfig implements AppWebSecurityConfigurer {
 
     public AppFrontSecurityConfig() {
         log.info("AppFrontSecurityConfig");
     }
 
-    @Override
     protected String[] getCustomizeWhitelist() {
         return new String[]{"/manifest.webapp", "/index.html", "/static/**"};
+    }
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers(getCustomizeWhitelist());
     }
 }
