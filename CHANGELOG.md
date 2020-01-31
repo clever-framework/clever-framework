@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.0.7](https://github.com/ToQuery/clever-framework/tree/v1.0.8) (2019-12-24)
+
+### fix bug:
+
+- 修复jwt验证错误
+- 增加针对Spring默认错误返回信息的处理
+
 
 ## [v1.0.7](https://github.com/ToQuery/clever-framework/tree/v1.0.7) (2019-10-17)
 

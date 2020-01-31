@@ -2,7 +2,7 @@ package io.github.toquery.framework.system.service.impl;
 
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
-import io.github.toquery.framework.dao.primary.snowflake.Snowflake2PrimaryKeyGenerator;
+import io.github.toquery.framework.dao.primary.snowflake.SnowFlake;
 import io.github.toquery.framework.system.entity.SysLog;
 import io.github.toquery.framework.system.repository.SysLogRepository;
 import io.github.toquery.framework.system.service.ISysLogService;
@@ -53,7 +53,7 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<Long, SysLog, SysLogRe
         Date date = new Date();
         sysLog.setCreateDatetime(date);
         sysLog.setLastUpdateDatetime(date);
-        if (userId == null){
+        if (userId == null) {
             sysLog.setCreateUserId(0L);
             sysLog.setLastUpdateUserId(0L);
         } else {
@@ -61,8 +61,7 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<Long, SysLog, SysLogRe
             sysLog.setLastUpdateUserId(userId);
         }
 
-        Snowflake2PrimaryKeyGenerator idGenerator = new Snowflake2PrimaryKeyGenerator();
-        sysLog.setId(idGenerator.getNextId(sysLog));
+        sysLog.setId(new SnowFlake().nextId());
         return entityDao.insertSysLog(sysLog);
     }
 }

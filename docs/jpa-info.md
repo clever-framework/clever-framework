@@ -1,5 +1,6 @@
 # JPA-info
 
+- [JPA注解参考 v5.1](http://www.datanucleus.org/products/accessplatform_5_1/jpa/annotations.html)
 > https://yangbingdong.com/2019/spring-boot-data-jpa-learning/
 
 

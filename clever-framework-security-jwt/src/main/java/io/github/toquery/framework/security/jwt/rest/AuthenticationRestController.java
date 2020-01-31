@@ -21,6 +21,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -85,7 +86,11 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         Objects.requireNonNull(password);
 
         try {
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            return authentication;
         } catch (DisabledException e) {
             sysLogService.insertSysLog(null, "系统", "登录失败", null, username, null);
             throw new AppSecurityJwtException("User is disabled!", e);
@@ -168,6 +173,7 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
         }
         return jwtTokenUtil.getUsernameFromToken(token);
     }
+
     @Resource
     private PasswordEncoder passwordEncoder;
 

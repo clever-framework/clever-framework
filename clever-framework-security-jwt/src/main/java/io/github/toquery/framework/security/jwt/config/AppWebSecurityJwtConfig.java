@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.jwt.config;
 
+import io.github.toquery.framework.security.AppWebSecurityConfigurer;
 import io.github.toquery.framework.security.config.AppWebSecurityConfig;
 import io.github.toquery.framework.security.jwt.JwtAuthenticationEntryPoint;
 import io.github.toquery.framework.security.jwt.JwtTokenUtil;
@@ -11,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -25,15 +29,10 @@ import javax.servlet.Filter;
 @Configuration
 //@EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
+public class AppWebSecurityJwtConfig implements AppWebSecurityConfigurer {
 
     public AppWebSecurityJwtConfig() {
         log.info("初始化 App Web Security Jwt 配置");
-    }
-
-    public AppWebSecurityJwtConfig(boolean disableDefaults) {
-        super(disableDefaults);
-        log.info("初始化 App Web Security Jwt 配置，disableDefaults = {} ", disableDefaults);
     }
 
     @Resource
@@ -57,11 +56,9 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
     }
 
 
-    /*
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        super.configure(httpSecurity);
 
+    @Override
+    public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 // we don't need CSRF because our token is invulnerable
                 .csrf().disable()
@@ -73,9 +70,10 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
 
                 .authorizeRequests()
 
+                // 2019-12-26 Security 调用链，顺序错误
                 // jwt
-                // .antMatchers(pathProperties.getRegister(), pathProperties.getToken()).permitAll()
-                .anyRequest().authenticated()
+                // .antMatchers(getCustomizeWhitelist()).permitAll() // Can't configure antMatchers after anyRequest
+                // .anyRequest().authenticated() // Can't configure anyRequest after itself
         ;
 
         httpSecurity.addFilterBefore(getFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -84,16 +82,15 @@ public class AppWebSecurityJwtConfig extends AppWebSecurityConfig {
         httpSecurity.headers().frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
                 .cacheControl();
     }
-    */
 
     @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers(getCustomizeWhitelist());
+    }
+
     protected String[] getCustomizeWhitelist() {
         AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
         return new String[]{pathProperties.getRegister(), pathProperties.getToken()};
     }
 
-    @Override
-    protected Filter getCustomizeFilter() {
-        return getFilter();
-    }
 }
