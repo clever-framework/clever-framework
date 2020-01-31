@@ -54,7 +54,7 @@
 
 ```zsh
 # 设置新的版本号
-mvn versions:set -DnewVersion=1.0.6
+mvn versions:set -DnewVersion=1.0.7
 mvn versions:set -DnewVersion=1.0.7-SNAPSHOT
 
 # 更新所有模块版本号
