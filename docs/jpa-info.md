@@ -6,7 +6,7 @@
 
 - @PersistenceContext 获取 EntityManager
 
-
+- @DataJpaTest
 - @SQLDelete
 - @Where
 
