@@ -34,6 +34,7 @@
         <!-- spring jar -->
         <spring.version>5.2.3.RELEASE</spring.version>
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
+        <spring-data.version>Moore-SR4</spring-data.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <spring-boot-admin.version>2.2.1</spring-boot-admin.version>
 
@@ -129,6 +130,23 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${spring-platform-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-releasetrain</artifactId>
+                <version>${spring-data.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -390,6 +408,12 @@
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
                 <version>${validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>1.20</version>
             </dependency>
 
 
