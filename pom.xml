@@ -32,7 +32,7 @@
         <revision>${clever-framework.version}</revision>
 
         <!-- spring jar -->
-        <spring.version>5.2.3.RELEASE</spring.version>
+        <spring.version>5.2.6.RELEASE</spring.version>
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <spring-data.version>Moore-SR4</spring-data.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
