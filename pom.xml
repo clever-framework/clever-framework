@@ -73,9 +73,9 @@
         <!-- mybatis version
         <mybatis.version>3.5.2</mybatis.version>
         <mybatis-spring.version>2.0.2</mybatis-spring.version>
-        -->
 
         <resilience4j.version>1.4.0</resilience4j.version>
+        -->
         <mybatis-spring-boot-starter.version>2.1.1</mybatis-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.2.12</pagehelper-spring-boot-starter.version>
 
@@ -396,12 +396,13 @@
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper-spring-boot-starter.version}</version>
             </dependency>
-
+            <!--
             <dependency>
                 <groupId>io.github.resilience4j</groupId>
                 <artifactId>resilience4j-spring-boot2</artifactId>
                 <version>${resilience4j.version}</version>
             </dependency>
+            -->
 
 
             <dependency>

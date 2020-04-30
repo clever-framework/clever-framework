@@ -3,6 +3,7 @@ package io.github.toquery.framework.minio.service;
 import com.google.common.io.Files;
 import io.github.toquery.framework.minio.exception.AppMinioException;
 import io.minio.MinioClient;
+import io.minio.PutObjectOptions;
 import io.minio.ServerSideEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -113,7 +114,12 @@ public class AppMinioService {
     public void putObject(String bucketName, String objectName, InputStream stream, Long size,
                           Map<String, String> headerMap, ServerSideEncryption sse, String contentType) throws AppMinioException {
         try {
-            minioClient.putObject(bucketName, objectName, stream, size, headerMap, sse, contentType);
+            // todo 临时配置
+            PutObjectOptions putObjectOptions = new PutObjectOptions(size, -1);
+            putObjectOptions.setContentType(contentType);
+            putObjectOptions.setSse(sse);
+            putObjectOptions.setHeaders(headerMap);
+            minioClient.putObject(bucketName, objectName, stream, putObjectOptions);
         } catch (Exception e) {
             throw new AppMinioException(e);
         }

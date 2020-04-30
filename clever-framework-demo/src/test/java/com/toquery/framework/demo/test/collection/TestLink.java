@@ -1,7 +1,7 @@
 package com.toquery.framework.demo.test.collection;
 
 import com.alibaba.fastjson.JSON;
-import com.google.api.client.util.Lists;
+import com.google.common.collect.Lists;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
