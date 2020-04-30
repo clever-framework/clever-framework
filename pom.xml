@@ -36,7 +36,7 @@
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <spring-data.version>Moore-SR4</spring-data.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
-        <spring-boot-admin.version>2.2.1</spring-boot-admin.version>
+        <spring-boot-admin.version>2.2.2</spring-boot-admin.version>
 
         <!-- tool jar -->
         <javers.version>5.8.13</javers.version>
