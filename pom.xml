@@ -67,7 +67,7 @@
         <!--<druid.version>1.1.21</druid.version>-->
 
         <swagger.version>2.1.1</swagger.version>
-        <swagger-ui.version>3.24.3</swagger-ui.version>
+        <swagger-ui.version>3.25.2</swagger-ui.version>
         <minio.version>7.0.2</minio.version>
 
         <!-- mybatis version
