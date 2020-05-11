@@ -290,11 +290,7 @@
                 <version>0.10.7</version>
             </dependency>
             -->
-            <dependency>
-                <groupId>org.datanucleus</groupId>
-                <artifactId>datanucleus-api-jpa</artifactId>
-                <version>${datanucleus.version}</version>
-            </dependency>
+
 
             <dependency>
                 <groupId>org.javers</groupId>
@@ -410,13 +406,6 @@
                 <artifactId>validation-api</artifactId>
                 <version>${validation-api.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-compress</artifactId>
-                <version>1.20</version>
-            </dependency>
-
 
 
             <dependency>

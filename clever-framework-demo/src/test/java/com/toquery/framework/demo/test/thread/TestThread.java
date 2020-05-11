@@ -4,23 +4,27 @@ import org.junit.Test;
 
 public class TestThread {
 
-
-    private static boolean fuck = true;
-
     @Test
-    public void test() throws InterruptedException {
+    public void testRunnableImpl() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int i = 0;
-                while (TestThread.fuck) {
-                    i++;
-                }
-                System.out.println("i am inner run" + i);
+                System.out.println("i am run in the thead with runnable !");
             }
         }).start();
-        Thread.sleep(3000);
-        TestThread.fuck = false;
-        System.out.println("over");
+        System.out.println("i am run over");
+    }
+
+    static class TestThreadImpl extends Thread {
+        @Override
+        public void run() {
+            System.out.println("i am run in the thead with thread !");
+        }
+    }
+
+    @Test
+    public void testTestThreadImpl() {
+        new TestThreadImpl().start();
+        System.out.println("i am run over");
     }
 }

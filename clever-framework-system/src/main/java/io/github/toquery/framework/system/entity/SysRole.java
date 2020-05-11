@@ -38,6 +38,10 @@ public class SysRole extends AppBaseEntity implements GrantedAuthority {
     private String name;
 
 
+    /**
+     * @deprecated 2020.05.11 不使用角色的code
+     */
+    @Deprecated
     @NotBlank
     @Length(min = 4, max = 50)
     @Column(length = 50)
