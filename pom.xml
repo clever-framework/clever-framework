@@ -41,7 +41,7 @@
         <javers.version>5.8.13</javers.version>
         <json.version>20190722</json.version>
         <jackson.version>2.11.0</jackson.version>
-        <lombok.version>1.18.10</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
         <guava.version>29.0-jre</guava.version>
         <fastjson.version>1.2.71</fastjson.version>
         <jsqlparse.version>3.1</jsqlparse.version>
