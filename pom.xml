@@ -33,7 +33,7 @@
 
         <!-- spring jar -->
         <spring.version>5.2.7.RELEASE</spring.version>
-        <spring-data.version>Moore-SR4</spring-data.version>
+        <spring-data.version>1.4.6.RELEASE</spring-data.version>
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
         <spring-boot-admin.version>2.2.3</spring-boot-admin.version>
 
