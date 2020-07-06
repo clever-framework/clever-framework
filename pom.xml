@@ -38,7 +38,7 @@
         <spring-boot-admin.version>2.2.3</spring-boot-admin.version>
 
         <!-- tool jar -->
-        <javers.version>5.8.13</javers.version>
+        <javers.version>5.10.3</javers.version>
         <json.version>20190722</json.version>
         <jackson.version>2.11.0</jackson.version>
         <lombok.version>1.18.10</lombok.version>
