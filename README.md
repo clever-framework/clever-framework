@@ -15,10 +15,10 @@
 注意：snapshots 版本会及时响应，修复最新的 bug 或者必要的需求。
 
 | 依赖         | 版本       |
-| ------------ | ---------- |
-| Spring       | 5.x        |
-| Spring Boot  | 2.2.x      |
-| Spring Cloud | Hoxton.SR1 |
+| ------------ | ------------- |
+| Spring       | 5.2.8.RELEASE |
+| Spring Boot  | 2.3.3.RELEASE |
+| Spring Cloud | Hoxton.SR7    |
 
 ## 使用方式
 
@@ -30,7 +30,7 @@
 <parent>
     <groupId>io.github.toquery</groupId>
     <artifactId>clever-framework</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.8-SNAPSHOT</version>
 </parent>
 ```
 

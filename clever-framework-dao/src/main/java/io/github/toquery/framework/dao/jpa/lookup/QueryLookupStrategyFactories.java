@@ -4,14 +4,17 @@ import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.data.jpa.provider.QueryExtractor;
+import org.springframework.data.jpa.repository.query.DefaultJpaQueryMethodFactory;
 import org.springframework.data.jpa.repository.query.EscapeCharacter;
 import org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy;
+import org.springframework.data.jpa.repository.query.JpaQueryMethodFactory;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.NamedQueries;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 import org.springframework.data.repository.query.RepositoryQuery;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.Method;
@@ -33,14 +36,20 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
 
     private List<QueryLookupStrategyAdvice> queryLookupStrategyAdvices = Lists.newArrayList();
 
+
+    private JpaQueryMethodFactory queryMethodFactory;
+
     private QueryExtractor extractor;
 
     public QueryLookupStrategyFactories(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider queryMethodEvaluationContextProvider) {
-        //默认方法查询策略使用jpa
-        this.defaultQueryLookupStrategy = JpaQueryLookupStrategy.create(entityManager, key, extractor, queryMethodEvaluationContextProvider, EscapeCharacter.DEFAULT);
         this.extractor = extractor;
         this.entityManager = entityManager;
         this.beanFactory = beanFactory;
+        this.queryMethodFactory = new DefaultJpaQueryMethodFactory(extractor);
+
+        //默认方法查询策略使用jpa
+        this.defaultQueryLookupStrategy = JpaQueryLookupStrategy.create(entityManager, queryMethodFactory, key, queryMethodEvaluationContextProvider, EscapeCharacter.DEFAULT);
+
 
         //添加不同类型资源库的查询策略
         queryLookupStrategyAdvices.add(new MybatisQueryLookupStrategy(beanFactory));

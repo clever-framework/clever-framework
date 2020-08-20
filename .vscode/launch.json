@@ -6,16 +6,16 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch) - Current File",
+            "name": "Debug (Launch) - CleverFrameworkDemoApplication",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "com.toquery.framework.demo.CleverFrameworkDemoApplication",
+            "projectName": "clever-framework-demo"
         },
         {
             "type": "java",
-            "name": "Debug (Launch)-DemoApplication<clever-framework-demo>",
+            "name": "Debug (Launch) - Current File",
             "request": "launch",
-            "mainClass": "com.toquery.framework.demo.DemoApplication",
-            "projectName": "clever-framework-demo"
+            "mainClass": "${file}"
         },
         {
             "type": "java",
