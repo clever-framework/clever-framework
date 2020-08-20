@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.1.RELEASE</version>
+        <version>2.3.3.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -32,15 +32,17 @@
         <revision>${clever-framework.version}</revision>
 
         <!-- spring jar -->
-        <spring.version>5.2.7.RELEASE</spring.version>
-        <spring-data.version>Moore-SR4</spring-data.version>
-        <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
-        <spring-boot-admin.version>2.2.3</spring-boot-admin.version>
+        <spring.version>5.2.8.RELEASE</spring.version>
+        <spring-data.version>Neumann-SR3</spring-data.version>
+        <spring-cloud.version>Hoxton.SR7</spring-cloud.version>
+        <spring-boot-admin.version>2.3.0</spring-boot-admin.version>
 
         <!-- tool jar -->
+        <!--
         <javers.version>5.8.13</javers.version>
+        -->
         <json.version>20190722</json.version>
-        <jackson.version>2.11.0</jackson.version>
+        <jackson.version>2.11.2</jackson.version>
         <lombok.version>1.18.10</lombok.version>
         <guava.version>29.0-jre</guava.version>
         <fastjson.version>1.2.71</fastjson.version>
