@@ -40,13 +40,12 @@
         <!-- tool jar -->
         <!--
         <javers.version>5.8.13</javers.version>
-        -->
         <json.version>20190722</json.version>
-        <jackson.version>2.11.2</jackson.version>
-        <lombok.version>1.18.10</lombok.version>
+        -->
+
         <guava.version>29.0-jre</guava.version>
-        <fastjson.version>1.2.71</fastjson.version>
         <jsqlparse.version>3.1</jsqlparse.version>
+
         <!--
         <jsqlparse.version>0.9.1</jsqlparse.version>
         <reflections.version>0.9.11</reflections.version>
@@ -66,7 +65,6 @@
         <nimbus.version>8.20</nimbus.version>
 
         <!--<druid.version>1.1.21</druid.version>-->
-
 
         <swagger.version>2.1.4</swagger.version>
         <swagger-ui.version>3.25.2</swagger-ui.version>
@@ -108,7 +106,6 @@
         <module>clever-framework-minio</module>
         <module>clever-framework-data-rest</module>
         <!--
-        <module>clever-framework-ueditor</module>
         <module>clever-framework-dependencies</module>
         -->
     </modules>
@@ -133,15 +130,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--
-            <dependency>
-                <groupId>io.spring.platform</groupId>
-                <artifactId>platform-bom</artifactId>
-                <version>${spring-platform-bom.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            -->
+
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-releasetrain</artifactId>
@@ -232,13 +221,7 @@
                 <artifactId>clever-framework-minio</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
-            <!--
-            <dependency>
-                <groupId>io.github.toquery</groupId>
-                <artifactId>clever-framework-ueditor</artifactId>
-                <version>${clever-framework.version}</version>
-            </dependency>
-            -->
+
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-security-jwt</artifactId>
@@ -253,14 +236,6 @@
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-webmvc</artifactId>
                 <version>${clever-framework.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>
@@ -306,36 +281,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.json</groupId>
-                <artifactId>json</artifactId>
-                <version>${json.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
             </dependency>
 
             <dependency>
@@ -349,13 +297,6 @@
                 <version>${commons-io.version}</version>
             </dependency>
 
-            <!--
-            <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>${reflections.version}</version>
-            </dependency>
-            -->
 
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
@@ -367,9 +308,6 @@
                 <artifactId>swagger-ui</artifactId>
                 <version>${swagger-ui.version}</version>
             </dependency>
-
-
-
 
             <!-- mybatis
             <dependency>
@@ -410,13 +348,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.hibernate.validator</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
-            </dependency>
-
-
-            <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
@@ -427,13 +358,6 @@
                 <version>${jsqlparse.version}</version>
             </dependency>
 
-            <!--
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-            -->
 
             <dependency>
                 <groupId>io.minio</groupId>

@@ -1,7 +1,6 @@
 package io.github.toquery.framework.security.jwt.rest;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.security.domain.ChangePassword;
@@ -33,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -65,9 +65,9 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
 
 
     @PostMapping(value = "${app.jwt.path.token:/user/token}")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JSONObject jsonObject) throws AppException {
-        String userName = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getUsername(), "未获取到登录用户名");
-        String password = this.getRequestValue(jsonObject, appSecurityJwtProperties.getParam().getPassword(), "未获取到登录密码");
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody Map<String,String> loginMap) throws AppException {
+        String userName = this.getRequestValue(loginMap, appSecurityJwtProperties.getParam().getUsername(), "未获取到登录用户名");
+        String password = this.getRequestValue(loginMap, appSecurityJwtProperties.getParam().getPassword(), "未获取到登录密码");
 
         Authentication authentication = authenticate(userName, password);
 
@@ -103,15 +103,15 @@ public class AuthenticationRestController extends AppBaseWebMvcController {
     /**
      * 获取请求提交的数据
      *
-     * @param jsonObject      post提交的json数据
+     * @param loginMap      post提交的json数据
      * @param requestParamKey 请求参数的key
      * @param errorMessage    错误信息,当不为空时获取不到指定参数将会抛出这个错误
      */
 
-    private String getRequestValue(JSONObject jsonObject, String requestParamKey, String errorMessage) throws AppException {
+    private String getRequestValue(Map<String,String> loginMap, String requestParamKey, String errorMessage) throws AppException {
         String requestValue = null;
-        if (jsonObject != null && !Strings.isNullOrEmpty(jsonObject.getString(requestParamKey))) {
-            requestValue = jsonObject.getString(requestParamKey);
+        if (loginMap != null && !Strings.isNullOrEmpty(loginMap.get(requestParamKey))) {
+            requestValue = loginMap.get(requestParamKey);
         } else {
             String[] requestParameterValues = request.getParameterValues(requestParamKey);
             if (requestParameterValues != null && requestParameterValues.length >= 1) {

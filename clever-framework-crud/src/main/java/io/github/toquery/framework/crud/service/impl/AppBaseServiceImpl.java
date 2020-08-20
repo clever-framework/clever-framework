@@ -1,11 +1,11 @@
 package io.github.toquery.framework.crud.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
@@ -245,7 +245,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
     @Override
     public Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize, String[] sorts) {
-        log.info("获取的原始查询参数->" + JSON.toJSONString(searchParams));
+        log.info("获取的原始查询参数->" + JacksonUtils.object2String(searchParams));
 
         Specification<E> specification = getQuerySpecification(searchParams);
 
@@ -450,7 +450,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
                 queryMap.put(expressionMap.getValue(), searchParams.get(expressionMap.getKey()));
             }
         }
-        log.debug("查询条件：" + JSON.toJSONString(queryMap, true));
+        log.debug("查询条件：" + JacksonUtils.object2String(queryMap));
         if (!isEnableQueryAllRecord()) {
             //为了查询数据安全，必须由已有的查询配置中获取查询条件
             Assert.isTrue(MapUtils.isNotEmpty(queryMap), "没有匹配的查询条件，查询参数必须由已有的查询表达式中获取。");

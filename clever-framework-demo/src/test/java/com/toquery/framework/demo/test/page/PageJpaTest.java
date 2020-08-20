@@ -1,10 +1,10 @@
 package com.toquery.framework.demo.test.page;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.toquery.framework.demo.entity.BizJpaNews;
 import com.toquery.framework.demo.service.IBizJpaNewsService;
 import com.toquery.framework.demo.test.BaseSpringTest;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -33,6 +33,6 @@ public class PageJpaTest extends BaseSpringTest {
             saveAll.add(tbJpaDemo);
         }
         saveAll = jpaDemoService.save(saveAll);
-        log.info("插入的数据 saveBatch ：\n{}", JSON.toJSONString(saveAll));
+        log.info("插入的数据 saveBatch ：\n{}", JacksonUtils.object2String(saveAll));
     }
 }

@@ -1,12 +1,13 @@
 package com.toquery.framework.demo.test.streamex;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import one.util.streamex.EntryStream;
 import one.util.streamex.StreamEx;
 import org.junit.Before;
@@ -34,6 +35,7 @@ public class StreamExTest {
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
+
     }
 
 
@@ -60,17 +62,17 @@ public class StreamExTest {
         List<String> userNames = StreamEx.of(users)
                 .map(User::getName)
                 .toList();
-        System.out.println(JSON.toJSONString(userNames));
+        System.out.println(JacksonUtils.object2String(userNames));
 
         Map<Role, List<User>> role2users = StreamEx.of(users).groupingBy(User::getRole);
-        System.out.println(JSON.toJSONString(role2users));
+        System.out.println(JacksonUtils.object2String(role2users));
 
 
         List usersAndRoles = Arrays.asList(new User(), new Role());
         List<Role> roles = StreamEx.of(usersAndRoles)
                 .select(Role.class)
                 .toList();
-        System.out.println(JSON.toJSONString(roles));
+        System.out.println(JacksonUtils.object2String(roles));
 
 
         List<String> appendedUsers = StreamEx.of(users)
@@ -79,7 +81,7 @@ public class StreamExTest {
                 .append("LAST")
                 .toList();
 
-        System.out.println(JSON.toJSONString(appendedUsers));
+        System.out.println(JacksonUtils.object2String(appendedUsers));
 
         for (String line : StreamEx.of(users).map(User::getName).nonNull()) {
             System.out.println(line);
@@ -96,7 +98,7 @@ public class StreamExTest {
         nameToRole.put("second", null);
         Set<String> nonNullRoles = StreamEx.ofKeys(nameToRole, Objects::nonNull)
                 .toSet();
-        System.out.println(JSON.toJSONString(nonNullRoles));
+        System.out.println(JacksonUtils.object2String(nonNullRoles));
 
 
         Map<Role, List<User2>> role2users = new HashMap<>();
@@ -109,13 +111,13 @@ public class StreamExTest {
 
         //Json对象转为String字符串
         System.out.println(objectMapper.writeValueAsString(users2roles));
-        System.out.println(JSON.toJSONString(users2roles));
+        System.out.println(JacksonUtils.object2String(users2roles));
 
         Map<String, String> mapToString = EntryStream.of(users2roles)
                 .mapKeys(String::valueOf)
                 .mapValues(String::valueOf)
                 .toMap();
-        System.out.println(JSON.toJSONString(mapToString));
+        System.out.println(JacksonUtils.object2String(mapToString));
 
 
 

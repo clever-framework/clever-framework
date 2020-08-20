@@ -1,11 +1,10 @@
 package com.toquery.framework.demo.test.collection;
 
-import com.alibaba.fastjson.JSON;
+
 import com.google.common.collect.Lists;
-import lombok.EqualsAndHashCode;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -45,7 +44,7 @@ public class TestLink {
             log.info(" bigClass = item 为 {} , bigClass2 = item 为 {} ", bigClass == item, bigClass2 == item);
         });
 
-        System.out.println(JSON.toJSONString(list));
+        System.out.println(JacksonUtils.object2String(list));
     }
 
     @Getter

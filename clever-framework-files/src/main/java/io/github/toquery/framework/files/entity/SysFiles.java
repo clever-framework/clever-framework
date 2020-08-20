@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.Transient;
  */
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Entity
 @Table(name = "sys_files")
 public class SysFiles extends AppBaseEntity {

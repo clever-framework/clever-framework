@@ -1,7 +1,7 @@
 package io.github.toquery.framework.log.auditor;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.annotation.AppLogEntity;
 import io.github.toquery.framework.core.annotation.AppLogEntityIgnore;
 import io.github.toquery.framework.core.annotation.AppLogField;
@@ -39,8 +39,8 @@ public class AppBizLogAnnotationHandler {
         SysLog sysLog = new SysLog();
         sysLog.setModuleName(modelName);
         sysLog.setBizName(bizName);
-        sysLog.setRawData(JSON.toJSONString(rawData));
-        sysLog.setTargetData(JSON.toJSONString(targetData));
+        sysLog.setRawData(JacksonUtils.object2String(rawData));
+        sysLog.setTargetData(JacksonUtils.object2String(targetData));
         sysLog.setLogType(logType);
         return sysLog;
     }

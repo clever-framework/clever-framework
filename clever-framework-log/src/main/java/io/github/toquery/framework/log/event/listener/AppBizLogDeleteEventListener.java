@@ -1,6 +1,6 @@
 package io.github.toquery.framework.log.event.listener;
 
-import com.alibaba.fastjson.JSON;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.annotation.AppLogEntity;
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
@@ -48,7 +48,7 @@ public class AppBizLogDeleteEventListener implements DeleteEventListener {
 
     @Override
     public void onDelete(DeleteEvent event, Set transientEntities) throws HibernateException {
-        log.debug("接收到 transientEntities 数据。\n {}", JSON.toJSONString(transientEntities));
+        log.debug("接收到 transientEntities 数据。\n {}", JacksonUtils.object2String(transientEntities));
         this.onDelete(event);
     }
 }

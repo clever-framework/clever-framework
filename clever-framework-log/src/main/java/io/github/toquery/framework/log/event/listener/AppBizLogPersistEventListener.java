@@ -1,6 +1,6 @@
 package io.github.toquery.framework.log.event.listener;
 
-import com.alibaba.fastjson.JSON;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.annotation.AppLogEntity;
 import io.github.toquery.framework.core.constant.AppLogType;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
@@ -54,7 +54,7 @@ public class AppBizLogPersistEventListener implements PersistEventListener {
 
     @Override
     public void onPersist(PersistEvent event, Map createdAlready) throws HibernateException {
-        log.debug("接收到 createdAlready 数据。\n {}", JSON.toJSONString(createdAlready));
+        log.debug("接收到 createdAlready 数据。\n {}", JacksonUtils.object2String(createdAlready));
         this.onPersist(event);
     }
 }

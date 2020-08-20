@@ -1,8 +1,8 @@
 package io.github.toquery.framework.security.jwt;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.jsonwebtoken.Claims;
@@ -50,7 +50,7 @@ public class JwtTokenTest extends AppTestBase {
     @Test
     public void jwtTokenUtil() {
         Claims claims = jwtTokenUtil.getAllClaimsFromToken(token);
-        log.info(JSON.toJSONString(claims));
+        log.info(JacksonUtils.object2String(claims));
 //        claims.
     }
 }

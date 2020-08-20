@@ -1,8 +1,9 @@
 package com.toquery.framework.demo.test.lambda;
 
-import com.alibaba.fastjson.JSON;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -48,7 +49,7 @@ public class TestIntellJIDEAStreamDebugger {
         map.put("C",Lists.newArrayList("C1", "C2", "C3", "C4"));
         map.put("D",Lists.newArrayList("D1", "D2", "D3", "D4"));
         List<String> strings = list1.stream().flatMap(item -> map.get(item).stream()).sorted().collect(toList());
-        log.info(JSON.toJSONString(strings));
+        log.info(JacksonUtils.object2String(strings));
     }
 
 
