@@ -41,7 +41,7 @@
         -->
 
         <guava.version>29.0-jre</guava.version>
-        <jsqlparse.version>3.1</jsqlparse.version>
+        <jsqlparse.version>3.2</jsqlparse.version>
 
         <!--
         <jsqlparse.version>0.9.1</jsqlparse.version>
