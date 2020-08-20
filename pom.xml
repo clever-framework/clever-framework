@@ -64,8 +64,6 @@
         <datanucleus.version>5.2.1</datanucleus.version>
         <nimbus.version>8.20</nimbus.version>
 
-        <!--<druid.version>1.1.21</druid.version>-->
-
         <swagger.version>2.1.4</swagger.version>
         <swagger-ui.version>3.25.2</swagger-ui.version>
 
