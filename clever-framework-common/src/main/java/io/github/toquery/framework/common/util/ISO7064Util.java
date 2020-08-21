@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
  * <p>
  * 使用ISO7064规范中定义的校验字符系统进行字符串的校验以及生成校验字符
  * </p>
- *
  */
 public class ISO7064Util {
 
@@ -38,21 +37,37 @@ public class ISO7064Util {
      * {@link #ISO_7064_MOD_37_HYBRID_36}表示</li>
      */
     public enum Designation {
-        /** ISO 7064, MOD 11-2 */
+        /**
+         * ISO 7064, MOD 11-2
+         */
         ISO_7064_MOD_11_2,
-        /** ISO 7064, MOD 37-2 */
+        /**
+         * ISO 7064, MOD 37-2
+         */
         ISO_7064_MOD_37_2,
-        /** ISO 7064, MOD 97-10 */
+        /**
+         * ISO 7064, MOD 97-10
+         */
         ISO_7064_MOD_97_10,
-        /** ISO 7064, MOD 661-26 */
+        /**
+         * ISO 7064, MOD 661-26
+         */
         ISO_7064_MOD_661_26,
-        /** ISO 7064, MOD 1271-36 */
+        /**
+         * ISO 7064, MOD 1271-36
+         */
         ISO_7064_MOD_1271_36,
-        /** ISO 7064, MOD 11,10 */
+        /**
+         * ISO 7064, MOD 11,10
+         */
         ISO_7064_MOD_11_HYBRID_10,
-        /** ISO 7064, MOD 27,26 */
+        /**
+         * ISO 7064, MOD 27,26
+         */
         ISO_7064_MOD_27_HYBRID_26,
-        /** ISO 7064, MOD 37,36 */
+        /**
+         * ISO 7064, MOD 37,36
+         */
         ISO_7064_MOD_37_HYBRID_36
     }
 
@@ -60,43 +75,35 @@ public class ISO7064Util {
      * 计算校验字符
      *
      * @param withoutCheckCharacterString 不含校验字符的字符串
-     * @param designation 校验字符系统
+     * @param designation                 校验字符系统
      * @return 校验字符
-     * @throws IllegalArgumentException
-     *             如果字符串不匹配对应校验字符系统的正则表达式
+     * @throws IllegalArgumentException 如果字符串不匹配对应校验字符系统的正则表达式
      */
-    public static String computeCheckCharacter(
-            String withoutCheckCharacterString, Designation designation) {
+    public static String computeCheckCharacter(String withoutCheckCharacterString, Designation designation) {
         // 检查字符串是否匹配对应校验字符系统的正则表达式
-        if (!RegexMatcher.withoutCheckCharacterStringIsMatch(
-                withoutCheckCharacterString, designation)) {
+        if (!RegexMatcher.withoutCheckCharacterStringIsMatch(withoutCheckCharacterString, designation)) {
             throw new IllegalArgumentException();
         }
         // 计算校验字符
-        return CheckCharacterComputor.compute(withoutCheckCharacterString,
-                designation);
+        return CheckCharacterComputor.compute(withoutCheckCharacterString, designation);
     }
 
     /**
      * 校验字符串
      *
      * @param withCheckCharacterString 含校验字符的字符串
-     * @param designation 校验字符系统
+     * @param designation              校验字符系统
      * @return true - 校验通过<br>
-     *         false-校验不通过
-     * @throws IllegalArgumentException
-     *             如果字符串不匹配对应校验字符系统的正则表达式
+     * false-校验不通过
+     * @throws IllegalArgumentException 如果字符串不匹配对应校验字符系统的正则表达式
      */
-    public static boolean checkString(String withCheckCharacterString,
-                                      Designation designation) {
+    public static boolean checkString(String withCheckCharacterString, Designation designation) {
         // 检查字符串是否匹配对应校验字符系统的正则表达式
-        if (!RegexMatcher.withCheckCharacterStringIsMatch(
-                withCheckCharacterString, designation)) {
+        if (!RegexMatcher.withCheckCharacterStringIsMatch(withCheckCharacterString, designation)) {
             throw new IllegalArgumentException();
         }
         // 校验字符串
-        return CheckCharacterSystemValidator.validate(withCheckCharacterString,
-                designation);
+        return CheckCharacterSystemValidator.validate(withCheckCharacterString, designation);
     }
 
     /**
@@ -158,43 +165,49 @@ public class ISO7064Util {
          * 检查不含校验字符的字符串是否匹配对应校验字符系统的正则表达式
          *
          * @param withoutCheckCharacterString 不含校验字符的字符串
-         * @param designation 校验字符系统
-         * @return true - 匹配<br>
-         *         false - 不匹配
+         * @param designation                 校验字符系统
+         * @return true - 匹配<br> false - 不匹配
          */
-        static boolean withoutCheckCharacterStringIsMatch(
-                String withoutCheckCharacterString, Designation designation) {
-            return regexMatch(withoutCheckCharacterString,
-                    REGEX_MAPPING_WITHOUT_CHECK_CHARACTER_STRING
-                            .get(designation));
+        static boolean withoutCheckCharacterStringIsMatch(String withoutCheckCharacterString, Designation designation) {
+            return regexMatch(withoutCheckCharacterString, REGEX_MAPPING_WITHOUT_CHECK_CHARACTER_STRING.get(designation));
         }
 
         /**
          * 检查有校验字符的字符串是否匹配对应校验字符系统的正则表达式
          *
          * @param withCheckCharacterString 含校验字符的字符串
-         * @param designation 校验字符系统
+         * @param designation              校验字符系统
          * @return true - 匹配<br>
-         *         false - 不匹配
+         * false - 不匹配
          */
-        static boolean withCheckCharacterStringIsMatch(
-                String withCheckCharacterString, Designation designation) {
-            return regexMatch(withCheckCharacterString,
-                    REGEX_MAPPING_WITH_CHECK_CHARACTER_STRING.get(designation));
+        static boolean withCheckCharacterStringIsMatch(String withCheckCharacterString, Designation designation) {
+            return regexMatch(withCheckCharacterString, REGEX_MAPPING_WITH_CHECK_CHARACTER_STRING.get(designation));
         }
 
-        /** 数字正则表达式 */
+        /**
+         * 数字正则表达式
+         */
         static final String REGEX_NUMBERIC_STRINGS = "^[0-9]+$";
-        /** 含补充校验字符X的数字正则表达式 */
+        /**
+         * 含补充校验字符X的数字正则表达式
+         */
         static final String REGEX_NUMBERIC_STRINGS_WITH_SUPPLEMENTARY_CHECK_CHARACTER = "^[0-9]+[0-9X]$";
-        /** 字母正则表达式 */
+        /**
+         * 字母正则表达式
+         */
         static final String REGEX_ALPHABETIC_STRINGS = "^[A-Z]+$";
-        /** 字母数字正则表达式 */
+        /**
+         * 字母数字正则表达式
+         */
         static final String REGEX_ALPHANUMBERIC_STRINGS = "^[0-9A-Z]+$";
-        /** 含补充校验字符*的字母数字表达式 */
+        /**
+         * 含补充校验字符*的字母数字表达式
+         */
         static final String REGEX_ALPHANUMBERIC_STRINGS_WITH_SUPPLEMENTARY_CHECK_CHARACTER = "^[0-9A-Z]+[0-9A-Z*]$";
 
-        /** 校验字符系统对应的正则表达式（不含校验字符） */
+        /**
+         * 校验字符系统对应的正则表达式（不含校验字符）
+         */
         @SuppressWarnings("serial")
         static final Map<Designation, String> REGEX_MAPPING_WITHOUT_CHECK_CHARACTER_STRING = new HashMap<Designation, String>() {
             {
@@ -202,35 +215,27 @@ public class ISO7064Util {
                 put(Designation.ISO_7064_MOD_37_2, REGEX_ALPHANUMBERIC_STRINGS);
                 put(Designation.ISO_7064_MOD_97_10, REGEX_NUMBERIC_STRINGS);
                 put(Designation.ISO_7064_MOD_661_26, REGEX_ALPHABETIC_STRINGS);
-                put(Designation.ISO_7064_MOD_1271_36,
-                        REGEX_ALPHANUMBERIC_STRINGS);
-                put(Designation.ISO_7064_MOD_11_HYBRID_10,
-                        REGEX_NUMBERIC_STRINGS);
-                put(Designation.ISO_7064_MOD_27_HYBRID_26,
-                        REGEX_ALPHABETIC_STRINGS);
-                put(Designation.ISO_7064_MOD_37_HYBRID_36,
-                        REGEX_ALPHANUMBERIC_STRINGS);
+                put(Designation.ISO_7064_MOD_1271_36, REGEX_ALPHANUMBERIC_STRINGS);
+                put(Designation.ISO_7064_MOD_11_HYBRID_10, REGEX_NUMBERIC_STRINGS);
+                put(Designation.ISO_7064_MOD_27_HYBRID_26, REGEX_ALPHABETIC_STRINGS);
+                put(Designation.ISO_7064_MOD_37_HYBRID_36, REGEX_ALPHANUMBERIC_STRINGS);
             }
         };
 
-        /** 校验字符系统对应的正则表达式（含校验字符） */
+        /**
+         * 校验字符系统对应的正则表达式（含校验字符）
+         */
         @SuppressWarnings("serial")
         static final Map<Designation, String> REGEX_MAPPING_WITH_CHECK_CHARACTER_STRING = new HashMap<Designation, String>() {
             {
-                put(Designation.ISO_7064_MOD_11_2,
-                        REGEX_NUMBERIC_STRINGS_WITH_SUPPLEMENTARY_CHECK_CHARACTER);
-                put(Designation.ISO_7064_MOD_37_2,
-                        REGEX_ALPHANUMBERIC_STRINGS_WITH_SUPPLEMENTARY_CHECK_CHARACTER);
+                put(Designation.ISO_7064_MOD_11_2, REGEX_NUMBERIC_STRINGS_WITH_SUPPLEMENTARY_CHECK_CHARACTER);
+                put(Designation.ISO_7064_MOD_37_2, REGEX_ALPHANUMBERIC_STRINGS_WITH_SUPPLEMENTARY_CHECK_CHARACTER);
                 put(Designation.ISO_7064_MOD_97_10, REGEX_NUMBERIC_STRINGS);
                 put(Designation.ISO_7064_MOD_661_26, REGEX_ALPHABETIC_STRINGS);
-                put(Designation.ISO_7064_MOD_1271_36,
-                        REGEX_ALPHANUMBERIC_STRINGS);
-                put(Designation.ISO_7064_MOD_11_HYBRID_10,
-                        REGEX_NUMBERIC_STRINGS);
-                put(Designation.ISO_7064_MOD_27_HYBRID_26,
-                        REGEX_ALPHABETIC_STRINGS);
-                put(Designation.ISO_7064_MOD_37_HYBRID_36,
-                        REGEX_ALPHANUMBERIC_STRINGS);
+                put(Designation.ISO_7064_MOD_1271_36, REGEX_ALPHANUMBERIC_STRINGS);
+                put(Designation.ISO_7064_MOD_11_HYBRID_10, REGEX_NUMBERIC_STRINGS);
+                put(Designation.ISO_7064_MOD_27_HYBRID_26, REGEX_ALPHABETIC_STRINGS);
+                put(Designation.ISO_7064_MOD_37_HYBRID_36, REGEX_ALPHANUMBERIC_STRINGS);
             }
         };
 
@@ -241,18 +246,24 @@ public class ISO7064Util {
         }
     }
 
-    /** 适用于数字的校验字符系统的数值对应表 */
-    private static final String[] NUMBERIC_STRINGS = { "0", "1", "2", "3", "4",
-            "5", "6", "7", "8", "9", "X" };
-    /** 适用于字母的校验字符系统的数值对应表 */
-    private static final String[] ALPHABETIC_STRINGS = { "A", "B", "C", "D",
+    /**
+     * 适用于数字的校验字符系统的数值对应表
+     */
+    private static final String[] NUMBERIC_STRINGS = {"0", "1", "2", "3", "4",
+            "5", "6", "7", "8", "9", "X"};
+    /**
+     * 适用于字母的校验字符系统的数值对应表
+     */
+    private static final String[] ALPHABETIC_STRINGS = {"A", "B", "C", "D",
             "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q",
-            "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-    /** 适用于字母数字的校验字符系统的数值对应表 */
-    private static final String[] ALPHANUMBERIC_STRINGS = { "0", "1", "2", "3",
+            "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    /**
+     * 适用于字母数字的校验字符系统的数值对应表
+     */
+    private static final String[] ALPHANUMBERIC_STRINGS = {"0", "1", "2", "3",
             "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G",
             "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-            "U", "V", "W", "X", "Y", "Z", "*" };
+            "U", "V", "W", "X", "Y", "Z", "*"};
 
     /**
      * 校验字符系统验证器
@@ -368,18 +379,15 @@ public class ISO7064Util {
             switch (designation) {
                 case ISO_7064_MOD_11_2:
                 case ISO_7064_MOD_37_2:
-                    return polynomialMethod4PureSystemWith1CheckChar(
-                            inputString, designation);
+                    return polynomialMethod4PureSystemWith1CheckChar(inputString, designation);
                 case ISO_7064_MOD_97_10:
                 case ISO_7064_MOD_661_26:
                 case ISO_7064_MOD_1271_36:
-                    return polynomialMethod4PureSystemWith2CheckChar(
-                            inputString, designation);
+                    return polynomialMethod4PureSystemWith2CheckChar(inputString, designation);
                 case ISO_7064_MOD_11_HYBRID_10:
                 case ISO_7064_MOD_27_HYBRID_26:
                 case ISO_7064_MOD_37_HYBRID_36:
-                    return recursiveMethod4HybridSystemWith1CheckChar(
-                            inputString, designation);
+                    return recursiveMethod4HybridSystemWith1CheckChar(inputString, designation);
                 default:
                     return null;
             }
@@ -388,8 +396,7 @@ public class ISO7064Util {
         /**
          * 通过多项式法计算纯系统一位校验字符
          */
-        static String polynomialMethod4PureSystemWith1CheckChar(String str,
-                                                                Designation designation) {
+        static String polynomialMethod4PureSystemWith1CheckChar(String str, Designation designation) {
             int M = 0; // 模数
             int r = 0; // 基数
             List<String> mapping = null;

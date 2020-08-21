@@ -2,20 +2,19 @@ package io.github.toquery.framework.common.util;
 
 /**
  * <a href="https://www.jianshu.com/p/ead5b08e9839">简书</a>
- *
+ * <p>
  * 身份证号码的编码规则
  * 身份证号码共18位，由17位本体码和1位校验码组成。
- *
+ * <p>
  * 前6位是地址码，表示登记户口时所在地的行政区划代码，依照《中华人民共和国行政区划代码》国家标准（GB/T2260）的规定执行；
  * 7到14位是出生年月日，采用YYYYMMDD格式；
  * 15到17位是顺序码，表示在同一地址码所标识的区域范围内，对同年、同月、同日出生的人编订的顺序号，顺序码的奇数分配给男性，偶数分配给女性，即第17位奇数表示男性，偶数表示女性；
  * 第18位是校验码，采用ISO 7064:1983, MOD 11-2校验字符系统，计算规则下一章节说明。
  * 一代身份证与二代身份证的区别在于：
- *
+ * <p>
  * 一代身份证是15位，二代身份证是18位；
  * 一代身份证出生年月日采用YYMMDD格式，二代身份证出生年月日采用YYYYMMDD格式；
  * 一代身份证无校验码，二代身份证有校验码。
- *
  */
 public class ChinaIdCardUtils {
 
@@ -44,7 +43,7 @@ public class ChinaIdCardUtils {
 
 
     // 加权因子
-    public static final int[] W = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
+    public static final int[] W = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
 
 
     /**
@@ -55,13 +54,8 @@ public class ChinaIdCardUtils {
      * </p>
      *
      * @param IDNo18 身份证号码
-     * @return true - 校验通过<br>
-     *         false - 校验不通过
-     * @throws IllegalArgumentException
-     *             如果身份证号码为空或长度不为18位或不满足身份证号码组成规则
-     *             <i>6位地址码+
-     *             出生年月日YYYYMMDD+3位顺序码
-     *             +0~9或X(x)校验码</i>
+     * @return  true - 校验通过 <br> false - 校验不通过
+     * @throws IllegalArgumentException 如果身份证号码为空或长度不为18位或不满足身份证号码组成规则 <i>6位地址码+ 出生年月日YYYYMMDD+3位顺序码 +0~9或X(x)校验码</i>
      */
     public static boolean checkIDNo(String IDNo18) {
         // 校验身份证号码的长度
@@ -80,9 +74,8 @@ public class ChinaIdCardUtils {
      * 校验字符串长度
      *
      * @param inputString 字符串
-     * @param len 预期长度
-     * @return true - 校验通过<br>
-     *         false - 校验不通过
+     * @param len         预期长度
+     * @return true - 校验通过 <br> false - 校验不通过
      */
     private static boolean checkStrLength(String inputString, int len) {
         if (inputString == null || inputString.length() != len) {
@@ -95,9 +88,8 @@ public class ChinaIdCardUtils {
      * 匹配正则表达式
      *
      * @param inputString 字符串
-     * @param regex 正则表达式
-     * @return true - 校验通过<br>
-     *         false - 校验不通过
+     * @param regex       正则表达式
+     * @return true - 校验通过 <br> false - 校验不通过
      */
     private static boolean regexMatch(String inputString, String regex) {
         return inputString.matches(regex);
@@ -110,8 +102,7 @@ public class ChinaIdCardUtils {
      * </p>
      *
      * @param IDNo18 身份证号码
-     * @return true - 校验通过<br>
-     *         false - 校验不通过
+     * @return true - 校验通过 <br> false - 校验不通过
      */
     private static boolean validateCheckNumber(String IDNo18) {
         char[] IDNoArray = IDNo18.toCharArray();
@@ -137,25 +128,22 @@ public class ChinaIdCardUtils {
      *
      * @param masterNumber 本体码
      * @return 身份证号码
-     * @throws IllegalArgumentException
-     *             如果本体码为空或长度不为17位或不满足本体码组成规则
-     *             <i>6位地址码+
-     *             出生年月日YYYYMMDD+3位顺序码</i>
+     * @throws IllegalArgumentException 如果本体码为空或长度不为17位或不满足本体码组成规则 <i>6位地址码+ 出生年月日YYYYMMDD+3位顺序码</i>
 
     public static String computeIDNoCheckNumber(String masterNumber) {
-        // 校验本体码的长度
-        if (!checkStrLength(masterNumber, 17)) {
-            throw new IllegalArgumentException();
-        }
-        // todo https://www.jianshu.com/p/ead5b08e9839
-        // 匹配本体码的正则表达式
-        if (!regexMatch(masterNumber, REGEX_MASTER_NUMBER)) {
-            throw new IllegalArgumentException();
-        }
-        // 计算校验码
-        String checkNumber = computeCheckNumber(masterNumber);
-        // 返回本体码+校验码=完整的身份证号码
-        return masterNumber + checkNumber;
+    // 校验本体码的长度
+    if (!checkStrLength(masterNumber, 17)) {
+    throw new IllegalArgumentException();
+    }
+    // todo https://www.jianshu.com/p/ead5b08e9839
+    // 匹配本体码的正则表达式
+    if (!regexMatch(masterNumber, REGEX_MASTER_NUMBER)) {
+    throw new IllegalArgumentException();
+    }
+    // 计算校验码
+    String checkNumber = computeCheckNumber(masterNumber);
+    // 返回本体码+校验码=完整的身份证号码
+    return masterNumber + checkNumber;
     }
      */
 
@@ -175,7 +163,7 @@ public class ChinaIdCardUtils {
             sum += Integer.parseInt(String.valueOf(masterNumberArray[i])) * W[i];
         }
         // 根据同余定理得到的校验码数组
-        String[] checkNumberArray = { "1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2" };
+        String[] checkNumberArray = {"1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"};
         // 得到校验码 返回校验码
         return checkNumberArray[sum % 11];
     }
