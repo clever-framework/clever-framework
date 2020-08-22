@@ -1,6 +1,6 @@
 package io.github.toquery.framework.webmvc.error;
 
-import io.github.toquery.framework.common.util.Maps;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -24,7 +24,7 @@ public class AppErrorController extends BasicErrorController {
     public Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
         Map<String, Object> superErrorAttributes = super.getErrorAttributes(request, includeStackTrace);
         ResponseParam responseParam = ResponseParam.builder().build().message(superErrorAttributes.getOrDefault("message", "系统错误！").toString());
-        return Maps.entity2Map(responseParam);
+        return JacksonUtils.object2HashMap(responseParam);
     }
 
 }

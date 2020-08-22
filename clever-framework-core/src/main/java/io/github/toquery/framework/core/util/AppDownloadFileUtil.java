@@ -1,4 +1,4 @@
-package io.github.toquery.framework.common.util;
+package io.github.toquery.framework.core.util;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;

@@ -1,7 +1,7 @@
 package io.github.toquery.framework.files.service.impl;
 
 import com.google.common.io.Files;
-import io.github.toquery.framework.common.util.AppDateUtil;
+import io.github.toquery.framework.common.util.DateTimeUtils;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.files.entity.SysFiles;
@@ -67,7 +67,7 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
         sysFiles.setSize(file.getSize());
         sysFiles.setStorageName(newFileName);
         sysFiles.setExtension(fileExtension);
-        sysFiles.setStoragePath(AppDateUtil.getCurrentDate());
+        sysFiles.setStoragePath(DateTimeUtils.getCurrentDate());
         sysFiles.setMimeType(file.getContentType());
         return super.save(sysFiles);
     }
@@ -87,7 +87,7 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysF
         File newFile = new File(storeWithDate + newFileName);
         //保存文件
         FileUtils.copyToFile(file.getInputStream(), newFile);
-        return appFilesProperties.getShowDomain() + File.separator + AppDateUtil.getCurrentDate() + File.separator + newFileName;
+        return appFilesProperties.getShowDomain() + File.separator + DateTimeUtils.getCurrentDate() + File.separator + newFileName;
     }
 
     @Override

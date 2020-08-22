@@ -1,6 +1,6 @@
 package io.github.toquery.framework.files.rest;
 
-import io.github.toquery.framework.common.util.AppDownloadFileUtil;
+import io.github.toquery.framework.core.util.AppDownloadFileUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.files.constant.AppFileStoreTypeEnum;
 import io.github.toquery.framework.files.entity.SysFiles;

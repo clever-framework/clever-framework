@@ -22,10 +22,11 @@ public class JacksonUtils {
         return objectMapper.convertValue(object, TYPE_REFERENCE_HASHMAP);
     }
 
+
     /**
      * string 转为 map
      */
-    public static Map<String, Object> string2Map(String jsonString) throws IOException {
+    public static Map<String, Object> string2HashMap(String jsonString) throws IOException {
         return objectMapper.readValue(jsonString, TYPE_REFERENCE_HASHMAP);
     }
 

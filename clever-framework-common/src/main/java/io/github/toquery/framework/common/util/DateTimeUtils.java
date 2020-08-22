@@ -7,31 +7,45 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
  * @author toquery
  * @version 1
  */
-public class AppDateUtil {
+public class DateTimeUtils {
 
-    public static Date theDayMin(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
-    }
 
+    /**
+     * 获取当前开始时间
+     */
     public static LocalDateTime theTodayMin() {
         return LocalDate.now().atStartOfDay();
     }
 
+    /**
+     * 获取当前结束时间
+     */
     public static LocalDateTime theTodayMax() {
         return LocalDate.now().atTime(LocalTime.MAX);
+    }
+
+    /**
+     * 获取指定日期开始时间
+     */
+    public static Date theDayMin(Date date) {
+        return localDateTime2Date(date2LocalDate(date).atStartOfDay());
+    }
+
+    /**
+     * 获取指定日期结束时间
+     */
+    public static Date theDayMax(Date date) {
+        return localDateTime2Date(date2LocalDate(date).atTime(LocalTime.MAX));
+    }
+
+    public static LocalDate date2LocalDate(Date date) {
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public static LocalDateTime date2LocalDateTime(Date date) {
