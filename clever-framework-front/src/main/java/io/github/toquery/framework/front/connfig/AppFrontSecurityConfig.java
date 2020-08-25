@@ -1,12 +1,12 @@
 package io.github.toquery.framework.front.connfig;
 
-import io.github.toquery.framework.security.AppWebSecurityConfigurer;
+import io.github.toquery.framework.core.security.AppSecurityConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
 @Slf4j
-public class AppFrontSecurityConfig implements AppWebSecurityConfigurer {
+public class AppFrontSecurityConfig implements AppSecurityConfigurer {
 
     public AppFrontSecurityConfig() {
         log.info("AppFrontSecurityConfig");

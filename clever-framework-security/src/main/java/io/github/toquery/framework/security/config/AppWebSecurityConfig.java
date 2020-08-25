@@ -1,6 +1,6 @@
 package io.github.toquery.framework.security.config;
 
-import io.github.toquery.framework.security.AppWebSecurityConfigurer;
+import io.github.toquery.framework.core.security.AppSecurityConfigurer;
 import io.github.toquery.framework.security.handler.AppAccessDeniedHandler;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Resource
-    private List<AppWebSecurityConfigurer> serviceSecConfigs;
+    private List<AppSecurityConfigurer> serviceSecConfigs;
 
     @Resource
     private AppSecurityProperties appSecurityProperties;
@@ -90,7 +90,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         if (serviceSecConfigs != null && !serviceSecConfigs.isEmpty()) {
-            for (AppWebSecurityConfigurer serviceSecConfig : serviceSecConfigs) {
+            for (AppSecurityConfigurer serviceSecConfig : serviceSecConfigs) {
                 serviceSecConfig.configure(http);
             }
         }
@@ -121,7 +121,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         if (serviceSecConfigs != null && !serviceSecConfigs.isEmpty()) {
-            for (AppWebSecurityConfigurer serviceSecConfig : serviceSecConfigs) {
+            for (AppSecurityConfigurer serviceSecConfig : serviceSecConfigs) {
                 serviceSecConfig.configure(web);
             }
         }
