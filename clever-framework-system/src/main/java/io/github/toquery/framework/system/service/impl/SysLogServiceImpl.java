@@ -1,6 +1,6 @@
 package io.github.toquery.framework.system.service.impl;
 
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.dao.primary.snowflake.SnowFlake;
 import io.github.toquery.framework.system.entity.SysLog;
@@ -47,7 +47,7 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<Long, SysLog, SysLogRe
         sysLog.setTargetData(targetData);
 
         if (logType == null) {
-            sysLog.setLogType(AppLogType.CREA);
+            sysLog.setLogType(AppLogType.CREATE);
         }
 
         Date date = new Date();

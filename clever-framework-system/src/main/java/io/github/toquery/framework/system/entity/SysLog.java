@@ -1,14 +1,12 @@
 package io.github.toquery.framework.system.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.toquery.framework.core.annotation.AppLogEntityIgnore;
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogEntityIgnore;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +14,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
 
 /**
  * app 设计日志，通过 createUserId 获取日志操作人信息ø

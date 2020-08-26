@@ -1,7 +1,7 @@
-package io.github.toquery.framework.core.annotation;
+package io.github.toquery.framework.core.log.annotation;
 
 
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.AppLogType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

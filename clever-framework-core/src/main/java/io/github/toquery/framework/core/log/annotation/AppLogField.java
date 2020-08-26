@@ -1,4 +1,4 @@
-package io.github.toquery.framework.core.annotation;
+package io.github.toquery.framework.core.log.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 

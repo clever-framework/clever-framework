@@ -2,7 +2,7 @@ package io.github.toquery.framework.log.aspect;
 
 import com.google.common.base.Strings;
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.core.annotation.AppLogMethod;
+import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
 import io.github.toquery.framework.system.entity.SysLog;

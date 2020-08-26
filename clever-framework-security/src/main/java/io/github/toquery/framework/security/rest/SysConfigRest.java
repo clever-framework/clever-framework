@@ -3,8 +3,8 @@ package io.github.toquery.framework.security.rest;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
-import io.github.toquery.framework.core.annotation.AppLogMethod;
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogMethod;
+import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.system.entity.SysConfig;
 import io.github.toquery.framework.system.service.ISysConfigService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -56,13 +56,13 @@ public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysC
     }
 
 
-    @AppLogMethod(value = SysConfig.class, logType = AppLogType.CREA, modelName = "$moduleName", bizName = "$bizName")
+    @AppLogMethod(value = SysConfig.class, logType = AppLogType.CREATE, modelName = "$moduleName", bizName = "$bizName")
     @PostMapping
     public ResponseParam save(@Validated @RequestBody SysConfig sysConfig) {
         return super.handleResponseParam(service.save(sysConfig));
     }
 
-    @AppLogMethod(value = SysConfig.class, logType = AppLogType.MODF, modelName = "$moduleName", bizName = "$bizName")
+    @AppLogMethod(value = SysConfig.class, logType = AppLogType.MODIFY, modelName = "$moduleName", bizName = "$bizName")
     @PutMapping
     public ResponseParam update(@RequestBody SysConfig sysConfig) {
         return super.update(sysConfig, Sets.newHashSet("bizId", "configGroup", "configName", "configValue"));

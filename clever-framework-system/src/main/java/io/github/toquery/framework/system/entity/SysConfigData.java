@@ -1,6 +1,6 @@
 package io.github.toquery.framework.system.entity;
 
-import io.github.toquery.framework.core.annotation.AppLogEntity;
+import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;

@@ -51,13 +51,16 @@ public class MybatisQueryLookupStrategy extends QueryLookupStrategyAdvice {
 
         Assert.notNull(sqlSessionTemplate, "创建" + SqlSessionTemplate.class.getSimpleName() + "失败, 请初始化mybatis配置");
 
+        // 获取Mapper接口类
+        String repositoryInterfaceName = getRepositoryInterfaceName(metadata);
+
         Object mapper = null;
         //获取mybatis的mapper映射处理类
-        if (!mybatisMapperMap.containsKey(getMapperKey(metadata))) {
+        if (!mybatisMapperMap.containsKey(repositoryInterfaceName)) {
             mapper = sqlSessionTemplate.getMapper(metadata.getRepositoryInterface());
-            mybatisMapperMap.put(getMapperKey(metadata), mapper);
+            mybatisMapperMap.put(repositoryInterfaceName, mapper);
         } else {
-            mapper = mybatisMapperMap.get(getMapperKey(metadata));
+            mapper = mybatisMapperMap.get(repositoryInterfaceName);
         }
 
         return new MybatisRepositoryQuery(mapper, method, metadata, factory);
@@ -69,7 +72,7 @@ public class MybatisQueryLookupStrategy extends QueryLookupStrategyAdvice {
      * @param metadata metadata for repository interfaces.
      * @return 接口名称
      */
-    public String getMapperKey(RepositoryMetadata metadata) {
+    public String getRepositoryInterfaceName(RepositoryMetadata metadata) {
         return metadata.getRepositoryInterface().getName();
     }
 }

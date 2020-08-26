@@ -1,9 +1,8 @@
 package io.github.toquery.framework.system.service;
 
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysLog;
-import org.springframework.stereotype.Service;
 
 /**
  * @author toquery

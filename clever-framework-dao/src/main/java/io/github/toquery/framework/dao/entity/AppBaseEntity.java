@@ -45,6 +45,7 @@ public class AppBaseEntity implements Serializable {
     @Id
     @Column
     // @RevisionNumber
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @GeneratedValue(generator = "generatedkey")
     @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppSnowFlakeIdGenerator")
     protected Long id;
@@ -58,6 +59,7 @@ public class AppBaseEntity implements Serializable {
 
 
     @CreatedBy
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "create_user_id", length = 32, updatable = false)
     private Long createUserId;
 
@@ -72,6 +74,7 @@ public class AppBaseEntity implements Serializable {
 
 
     @LastModifiedBy
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "last_update_user_id", length = 32)
     private Long lastUpdateUserId;
 

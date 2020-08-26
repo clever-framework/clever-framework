@@ -1,6 +1,4 @@
-package io.github.toquery.framework.core.annotation;
-
-import org.springframework.core.annotation.AliasFor;
+package io.github.toquery.framework.core.log.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

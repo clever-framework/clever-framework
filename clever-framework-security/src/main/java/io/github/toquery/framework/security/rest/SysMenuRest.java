@@ -2,8 +2,8 @@ package io.github.toquery.framework.security.rest;
 
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.util.AppTreeUtil;
-import io.github.toquery.framework.core.annotation.AppLogMethod;
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogMethod;
+import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
@@ -49,13 +49,13 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu,
         return ResponseParam.builder().build().content(sysMenuList);
     }
 
-    @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREA, modelName = "$modelName", bizName = "$bizName")
+    @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = "$modelName", bizName = "$bizName")
     @PostMapping
     public ResponseParam save(@Validated @RequestBody SysMenu sysMenu) {
         return super.handleResponseParam(service.saveMenu(sysMenu));
     }
 
-    @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODF, modelName = "$modelName", bizName = "$bizName")
+    @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODIFY, modelName = "$modelName", bizName = "$bizName")
     @PutMapping
     public ResponseParam update(@RequestBody SysMenu menu) {
         return super.update(menu, Sets.newHashSet("name", "code", "sortNum"));
