@@ -7,7 +7,6 @@ import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.repository.SysUserRepository;
 import io.github.toquery.framework.system.service.ISysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +25,6 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-@Service
 public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUserRepository> implements UserDetailsService,ISysUserService {
 
     @Resource
@@ -41,14 +39,13 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
         map.put("email", "email:EQ");
         map.put("status", "status:EQ");
         map.put("usernameLike", "username:LIKE");
-        // map.put("loginnameLike", "loginname:LIKE");
         map.put("emailLike", "email:LIKE");
         return map;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user = entityDao.getByUsername(username);
+        SysUser user = dao.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
@@ -59,7 +56,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
 
     @Override
     public List<SysUser> findByIds(Set<Long> ids) {
-        return entityDao.findAllById(ids);
+        return dao.findAllById(ids);
     }
 
     @Override
@@ -71,7 +68,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
             throw new AppException("用户名不能为 admin root ！");
         }
 
-        SysUser dbSysUser = entityDao.getByUsername(userName);
+        SysUser dbSysUser = dao.getByUsername(userName);
         if (dbSysUser != null) {
             throw new AppException("用户已存在");
         }
@@ -90,7 +87,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
      */
     @Override
     public SysUser changePassword(String userName, String sourcePassword, String rawPassword) throws AppException {
-        SysUser sysUser = entityDao.getByUsername(userName);
+        SysUser sysUser = dao.getByUsername(userName);
         if (sysUser == null) {
             throw new AppException("未找到用户");
         }

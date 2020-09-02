@@ -1,8 +1,8 @@
-package io.github.toquery.framework.system.service;
+package io.github.toquery.framework.log.service;
 
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.crud.service.AppBaseService;
-import io.github.toquery.framework.system.entity.SysLog;
+import io.github.toquery.framework.log.entity.SysLog;
 
 /**
  * @author toquery

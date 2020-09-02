@@ -4,8 +4,8 @@ package com.toquery.framework.demo.test.framework.curd;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.toquery.framework.demo.entity.BizJpaNews;
-import com.toquery.framework.demo.service.IBizJpaNewsService;
+import com.toquery.framework.demo.entity.BizNews;
+import com.toquery.framework.demo.service.IBizNewsService;
 import com.toquery.framework.demo.test.BaseSpringTest;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -24,53 +24,53 @@ import java.util.stream.Collectors;
 @Slf4j
 //@DataJpaTest
 //@BootstrapWith
-public class ServiceJpaCurdTest extends BaseSpringTest {
+public class BizNewsServiceCurdTest extends BaseSpringTest {
 
     @Resource
-    private IBizJpaNewsService jpaDemoService;
+    private IBizNewsService jpaDemoService;
 
     @Test
     public void curd() {
-        BizJpaNews save = jpaDemoService.save(new BizJpaNews("save-test", new Date()));
+        BizNews save = jpaDemoService.save(new BizNews("save-test", new Date()));
         log.info("插入的数据 save ：\n{}", JacksonUtils.object2String(save));
 
-        List<BizJpaNews> saveAll = jpaDemoService.save(Lists.newArrayList(
-                new BizJpaNews("saveAll-test", new Date()),
-                new BizJpaNews("saveAll-test", new Date())
+        List<BizNews> saveAll = jpaDemoService.save(Lists.newArrayList(
+                new BizNews("saveAll-test", new Date()),
+                new BizNews("saveAll-test", new Date())
         ));
         log.info("插入的数据 saveBatch ：\n{}", JacksonUtils.object2String(saveAll));
 
-        BizJpaNews updateEntity = jpaDemoService.update(save.getId(), "update-entity");
+        BizNews updateEntity = jpaDemoService.update(save.getId(), "update-entity");
         log.info("插入的数据 updateEntity ：\n{}", JacksonUtils.object2String(updateEntity));
 
-        save.setName("save-test-update");
-        BizJpaNews update = jpaDemoService.update(save, Sets.newHashSet("name"));
+        save.setTitle("save-test-update");
+        BizNews update = jpaDemoService.update(save, Sets.newHashSet("name"));
         log.info("修改的数据 update ：\n{}", JacksonUtils.object2String(update));
 
-        BizJpaNews getOne = jpaDemoService.getById(save.getId());
+        BizNews getOne = jpaDemoService.getById(save.getId());
         log.info("查询的数据 getOne ：\n{}", JacksonUtils.object2String(getOne));
 
         jpaDemoService.deleteById(save.getId());
         log.info("查询的数据 deleteById ：\n{}", JacksonUtils.object2String(save));
 
-        BizJpaNews getByName = jpaDemoService.getByName("123");
-        log.info("查询的数据 getByName ：\n{}", JacksonUtils.object2String(getByName));
+//        BizNews getByName = jpaDemoService.getByName("123");
+//        log.info("查询的数据 getByName ：\n{}", JacksonUtils.object2String(getByName));
 
-        saveAll.forEach(item -> item.setName("saveAll-test-update"));
-        List<BizJpaNews> updateList = jpaDemoService.update(saveAll, Sets.newHashSet("name"));
+        saveAll.forEach(item -> item.setTitle("saveAll-test-update"));
+        List<BizNews> updateList = jpaDemoService.update(saveAll, Sets.newHashSet("name"));
         log.info("修改的数据 updateList ：\n{}", JacksonUtils.object2String(updateList));
 
-        List<BizJpaNews> findAll = jpaDemoService.find(null);
+        List<BizNews> findAll = jpaDemoService.find(null);
         log.info("查询的数据 findAll ：\n{}", JacksonUtils.object2String(findAll));
 
         Map<String, Object> filterParams = Maps.newHashMap();
         filterParams.put("name", "saveAll-test-update");
-        List<BizJpaNews> findByFilter = jpaDemoService.find(filterParams);
+        List<BizNews> findByFilter = jpaDemoService.find(filterParams);
         log.info("查询的数据 findByFilter: {}", JacksonUtils.object2String(filterParams));
         log.info("查询的数据 findByFilter: {}", JacksonUtils.object2String(findByFilter));
 
 
-        jpaDemoService.deleteByIds(findAll.stream().map(BizJpaNews::getId).collect(Collectors.toList()));
+        jpaDemoService.deleteByIds(findAll.stream().map(BizNews::getId).collect(Collectors.toList()));
         log.info("查询的数据 deleteById ：\n{}", JacksonUtils.object2String(save));
 
     }
@@ -78,9 +78,9 @@ public class ServiceJpaCurdTest extends BaseSpringTest {
 
     @Test
     public void deleteByParam() {
-        List<BizJpaNews> saveAll = jpaDemoService.save(Lists.newArrayList(
-                new BizJpaNews("delete-param-test", new Date()),
-                new BizJpaNews("delete-param-test", new Date())
+        List<BizNews> saveAll = jpaDemoService.save(Lists.newArrayList(
+                new BizNews("delete-param-test", new Date()),
+                new BizNews("delete-param-test", new Date())
         ));
 
         Map<String, Object> map = Maps.newHashMap();

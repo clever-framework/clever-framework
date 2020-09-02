@@ -1,15 +1,20 @@
 package io.github.toquery.framework.log.autoconfig;
 
+import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.log.event.AppHibernateListenerConfigurer;
 import io.github.toquery.framework.log.event.listener.AppBizLogDeleteEventListener;
 import io.github.toquery.framework.log.event.listener.AppBizLogMergeEventListener;
 import io.github.toquery.framework.log.event.listener.AppBizLogPersistEventListener;
 import io.github.toquery.framework.log.properties.AppLogProperties;
+import io.github.toquery.framework.log.service.ISysLogService;
+import io.github.toquery.framework.log.service.impl.SysLogServiceImpl;
 import io.github.toquery.framework.system.autoconfig.AppSystemAutoConfiguration;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,6 +31,8 @@ import org.springframework.context.annotation.Import;
 @Import(AppHibernateListenerConfigurer.class)
 @EnableConfigurationProperties(AppLogProperties.class)
 //@AutoConfigureAfter({AppSystemAutoConfiguration.class})
+@EntityScan(basePackages = "io.github.toquery.framework.log.entity")
+@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.log")
 @ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 @ComponentScan(basePackages = "io.github.toquery.framework.log")
 public class AppBizLogAutoConfiguration {
@@ -36,22 +43,32 @@ public class AppBizLogAutoConfiguration {
     }
 
 
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysLogService getSysLogService() {
+        return new SysLogServiceImpl();
+    }
+
+
 //    @Bean
 //    public HibernateListenerConfigurer getAppAuditorHandler(){
 //        return new HibernateListenerConfigurer();
 //    }
 
     @Bean
+    @ConditionalOnMissingBean
     public AppBizLogPersistEventListener getAppBizLogPersistEventListener() {
         return new AppBizLogPersistEventListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public AppBizLogMergeEventListener getAppBizLogMergeEventListener() {
         return new AppBizLogMergeEventListener();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public AppBizLogDeleteEventListener getAppBizLogDeleteEventListener() {
         return new AppBizLogDeleteEventListener();
     }

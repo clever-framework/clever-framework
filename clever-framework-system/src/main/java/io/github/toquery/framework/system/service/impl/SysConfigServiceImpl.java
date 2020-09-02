@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-@Service
 public class SysConfigServiceImpl extends AppBaseServiceImpl<Long, SysConfig, SysConfigRepository> implements ISysConfigService {
 
     /**

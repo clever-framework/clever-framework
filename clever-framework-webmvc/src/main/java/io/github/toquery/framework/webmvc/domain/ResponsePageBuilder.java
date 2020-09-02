@@ -35,7 +35,7 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
         ResponsePage responsePage = new ResponsePage();
         responsePage.setPageNumber((int) pageMetadata.getNumber() + 1);
         responsePage.setPageSize((int) pageMetadata.getSize());
-        responsePage.setTotalElements((int) pageMetadata.getTotalElements());
+        responsePage.setTotalElements(pageMetadata.getTotalElements());
         responsePage.setTotalPages((int) pageMetadata.getTotalPages());
         return responsePage;
     }
@@ -48,19 +48,23 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
      */
     public static ResponsePage build(com.github.pagehelper.Page<?> page) {
         ResponsePage responsePage = new ResponsePage();
-        responsePage.setPageNumber(page.getPageNum() + 1);
-        responsePage.setPageSize(page.getPageSize());
-        responsePage.setTotalElements((int) page.getTotal());
-        responsePage.setTotalPages(page.getPages());
+        if (page != null) {
+            responsePage.setPageNumber(page.getPageNum() + 1);
+            responsePage.setPageSize(page.getPageSize());
+            responsePage.setTotalElements(page.getTotal());
+            responsePage.setTotalPages(page.getPages());
+        }
         return responsePage;
     }
 
     public static ResponsePage build(org.springframework.data.domain.Page<?> page) {
         ResponsePage responsePage = new ResponsePage();
-        responsePage.setPageNumber(page.getNumber() + 1);
-        responsePage.setPageSize(page.getSize());
-        responsePage.setTotalElements((int) page.getTotalElements());
-        responsePage.setTotalPages(page.getTotalPages());
+        if (page != null) {
+            responsePage.setPageNumber(page.getNumber() + 1);
+            responsePage.setPageSize(page.getSize());
+            responsePage.setTotalElements(page.getTotalElements());
+            responsePage.setTotalPages(page.getTotalPages());
+        }
         return responsePage;
     }
 

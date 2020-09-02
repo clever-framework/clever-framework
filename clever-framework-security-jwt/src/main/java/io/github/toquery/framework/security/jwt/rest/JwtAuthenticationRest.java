@@ -10,7 +10,7 @@ import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtExceptio
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.system.entity.SysUser;
-import io.github.toquery.framework.system.service.ISysLogService;
+import io.github.toquery.framework.log.service.ISysLogService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;

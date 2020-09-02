@@ -1,8 +1,8 @@
-package io.github.toquery.framework.system.repository;
+package io.github.toquery.framework.log.repository;
 
 import io.github.toquery.framework.dao.jpa.annotation.MybatisQuery;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
-import io.github.toquery.framework.system.entity.SysLog;
+import io.github.toquery.framework.log.entity.SysLog;
 import org.apache.ibatis.annotations.Param;
 
 /**

@@ -1,12 +1,14 @@
-package io.github.toquery.framework.system.entity;
+package io.github.toquery.framework.log.entity;
 
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogEntityIgnore;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.system.entity.SysUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * app 设计日志，通过 createUserId 获取日志操作人信息ø
@@ -29,6 +32,23 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Table(name = "sys_log")
 public class SysLog extends AppBaseEntity {
+
+    public SysLog(SysLog sysLog, UserDetails sysUser) {
+        super.setId(sysLog.getId());
+        super.setCreateUserId(sysLog.getCreateUserId());
+        super.setLastUpdateUserId(sysLog.getLastUpdateUserId());
+        super.setCreateDatetime(sysLog.getCreateDatetime());
+        super.setLastUpdateDatetime(sysLog.getLastUpdateDatetime());
+
+        this.moduleName = sysLog.getModuleName();
+        this.bizName = sysLog.getBizName();
+        this.moduleName = sysLog.getModuleName();
+        this.logType = sysLog.getLogType();
+        this.rawData = sysLog.getRawData();
+        this.targetData = sysLog.getTargetData();
+
+        this.sysUser = sysUser;
+    }
 
     /**
      * 模块名称
@@ -60,5 +80,9 @@ public class SysLog extends AppBaseEntity {
     @Lob
     @Column(columnDefinition = "text", name = "target_data")
     private String targetData;
+
+
+    @Transient
+    private UserDetails sysUser;
 
 }

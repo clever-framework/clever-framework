@@ -1,12 +1,11 @@
-package io.github.toquery.framework.system.service.impl;
+package io.github.toquery.framework.log.service.impl;
 
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.dao.primary.snowflake.SnowFlake;
-import io.github.toquery.framework.system.entity.SysLog;
-import io.github.toquery.framework.system.repository.SysLogRepository;
-import io.github.toquery.framework.system.service.ISysLogService;
-import org.springframework.stereotype.Service;
+import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.repository.SysLogRepository;
+import io.github.toquery.framework.log.service.ISysLogService;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -16,7 +15,6 @@ import java.util.Map;
  * @author toquery
  * @version 1
  */
-@Service
 public class SysLogServiceImpl extends AppBaseServiceImpl<Long, SysLog, SysLogRepository> implements ISysLogService {
 
 
@@ -62,6 +60,6 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<Long, SysLog, SysLogRe
         }
 
         sysLog.setId(new SnowFlake().nextId());
-        return entityDao.insertSysLog(sysLog);
+        return dao.insertSysLog(sysLog);
     }
 }

@@ -35,7 +35,7 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
 
     @Override
     public Object execute(Object[] parameters) {
-        log.info("执行 {} . {} ，参数为 {} ", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), parameters != null ? Arrays.toString(parameters) : "");
+        log.info("执行 {} . {} ，参数为 {} ", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), Arrays.toString(parameters));
         Object result = null;
         try {
             Assert.isTrue(mapper != null, repositoryMetadata.getRepositoryInterface().getName() + "对应的Mapper为null");
