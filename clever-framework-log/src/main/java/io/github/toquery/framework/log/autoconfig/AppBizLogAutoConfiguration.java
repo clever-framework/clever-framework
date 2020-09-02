@@ -1,15 +1,15 @@
 package io.github.toquery.framework.log.autoconfig;
 
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
+import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
 import io.github.toquery.framework.log.event.AppHibernateListenerConfigurer;
 import io.github.toquery.framework.log.event.listener.AppBizLogDeleteEventListener;
 import io.github.toquery.framework.log.event.listener.AppBizLogMergeEventListener;
 import io.github.toquery.framework.log.event.listener.AppBizLogPersistEventListener;
 import io.github.toquery.framework.log.properties.AppLogProperties;
+import io.github.toquery.framework.log.rest.SysLogRest;
 import io.github.toquery.framework.log.service.ISysLogService;
 import io.github.toquery.framework.log.service.impl.SysLogServiceImpl;
-import io.github.toquery.framework.system.autoconfig.AppSystemAutoConfiguration;
-import io.github.toquery.framework.system.properties.AppSystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Import;
 @EntityScan(basePackages = "io.github.toquery.framework.log.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.log")
 @ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
-@ComponentScan(basePackages = "io.github.toquery.framework.log")
+//@ComponentScan(basePackages = "io.github.toquery.framework.log")
 public class AppBizLogAutoConfiguration {
 
 
@@ -42,6 +42,11 @@ public class AppBizLogAutoConfiguration {
         log.info("开始自动装配 App Log 自动化配置");
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public SysLogRest getSysLogRest(){
+        return new SysLogRest();
+    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -49,6 +54,11 @@ public class AppBizLogAutoConfiguration {
         return new SysLogServiceImpl();
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public AppBizLogAnnotationHandler getAppBizLogAnnotationHandler(){
+        return new AppBizLogAnnotationHandler();
+    }
 
 //    @Bean
 //    public HibernateListenerConfigurer getAppAuditorHandler(){

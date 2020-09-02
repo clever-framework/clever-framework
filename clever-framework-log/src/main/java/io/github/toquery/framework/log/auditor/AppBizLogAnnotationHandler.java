@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
  * @version 1
  */
 @Slf4j
-@Component
-@Scope("singleton")
 public class AppBizLogAnnotationHandler {
 
     @Resource

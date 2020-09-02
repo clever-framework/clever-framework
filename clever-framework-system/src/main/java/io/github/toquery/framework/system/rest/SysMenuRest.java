@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.rest;
+package io.github.toquery.framework.system.rest;
 
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.util.AppTreeUtil;

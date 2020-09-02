@@ -48,7 +48,6 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @Aspect
-@Component
 public class AppBizLogMethodAspect {
 
     private static final String INVOKE_FIELD_PREFIX = "$";

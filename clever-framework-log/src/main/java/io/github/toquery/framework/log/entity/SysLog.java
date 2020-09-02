@@ -3,7 +3,6 @@ package io.github.toquery.framework.log.entity;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogEntityIgnore;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.system.entity.SysUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

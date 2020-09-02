@@ -1,10 +1,10 @@
-package io.github.toquery.framework.security.rest;
+package io.github.toquery.framework.system.rest;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
+import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
-import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -33,7 +33,7 @@ import java.util.Set;
 public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser, Long> {
 
     @Resource
-    private AppSecurityProperties appSecurityProperties;
+    private AppProperties appProperties;
 
     @Resource
     private PasswordEncoder passwordEncoder;
@@ -57,7 +57,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser,
 
     @PutMapping
     public ResponseParam update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
-        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appSecurityProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
+        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
         return super.update(sysUser, Sets.newHashSet("nickname", "phone", "status", "email", "authorities"));
@@ -65,15 +65,15 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser,
 
     @PutMapping("/reset-password")
     public ResponseParam restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
-        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appSecurityProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
+        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
-        if (Strings.isNullOrEmpty(rawPassword)){
+        if (Strings.isNullOrEmpty(rawPassword)) {
             throw new AppException("新密码不能为空！");
         }
         sysUser.setPassword(passwordEncoder.encode(rawPassword));
         sysUser.setLastPasswordResetDate(new Date());
-        return super.update(sysUser, Sets.newHashSet("password","lastPasswordResetDate"));
+        return super.update(sysUser, Sets.newHashSet("password", "lastPasswordResetDate"));
     }
 
     @DeleteMapping

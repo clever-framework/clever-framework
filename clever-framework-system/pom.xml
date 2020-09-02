@@ -20,10 +20,6 @@
         </dependency>
         <dependency>
             <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-dao</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-crud</artifactId>
         </dependency>
         <dependency>

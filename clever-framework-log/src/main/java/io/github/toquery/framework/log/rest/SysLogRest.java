@@ -3,14 +3,15 @@ package io.github.toquery.framework.log.rest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
+import io.github.toquery.framework.core.security.AppUserDetailService;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.service.ISysLogService;
-import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,7 @@ import java.util.stream.Stream;
 public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Long> {
 
     @Resource
-    private ISysUserService sysUserService;
+    private AppUserDetailService userDetailsService;
 
     private static final String[] PAGE_SORT = new String[]{"createDatetime_desc"};
 
@@ -52,7 +53,7 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Lo
         List<SysLog> sysLogList = page.getContent();
         Stream<SysLog> sysLogStream = sysLogList.size() > 6 ? sysLogList.parallelStream() : sysLogList.stream();
         List<SysLog> sysLogVoList = sysLogStream.map(item ->
-                new SysLog(item, sysUserService.getById(item.getCreateUserId()))
+                new SysLog(item, userDetailsService.getById(item.getCreateUserId()))
         ).collect(Collectors.toList());
         return ResponseParam.builder().build().page(new PageImpl<>(sysLogVoList, page.getPageable(), page.getTotalElements()));
     }
@@ -60,7 +61,7 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Lo
     @GetMapping("{id}")
     public ResponseParam detail(@PathVariable Long id) {
         SysLog sysLog = super.getById(id);
-        return super.handleResponseParam(new SysLog(sysLog, sysUserService.getById(sysLog.getCreateUserId())));
+        return super.handleResponseParam(new SysLog(sysLog, userDetailsService.getById(sysLog.getCreateUserId())));
     }
 
     @PostMapping
