@@ -57,7 +57,7 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
     }
 
     /**
-     * 将Spring Page转化为响应书记苏，包含分页相关的参数
+     * 将Spring Page转化为响应数据，包含分页相关的参数
      *
      * @param page 分页信息
      * @return 包含分页相关的参数
@@ -65,7 +65,7 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
     public ResponseParam page(org.springframework.data.domain.Page<?> page) {
         ResponsePage responsePage = ResponsePageBuilder.build(page);
         this.put(PAGE_PARAM_VALUE, responsePage);
-        this.put(CONTENT_PARAM_VALUE, page.getContent());
+        this.put(CONTENT_PARAM_VALUE, page == null ? null : page.getContent());
         return this;
     }
 

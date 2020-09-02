@@ -1,12 +1,12 @@
 package io.github.toquery.framework.log.event.listener;
 
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.core.annotation.AppLogEntity;
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogEntity;
+import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
-import io.github.toquery.framework.system.entity.SysLog;
-import io.github.toquery.framework.system.service.ISysLogService;
+import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.event.spi.DeleteEvent;

@@ -18,7 +18,6 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-@Service
 public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRoleRepository> implements ISysRoleService {
 
     @Override
@@ -79,7 +78,7 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRol
 
     @Override
     public SysRole updateSysRoleCheck(SysRole sysRole, HashSet<String> newHashSet) throws AppException {
-        List<SysRole> sysRoleList = entityDao.findByCodeOrName(sysRole.getCode(), sysRole.getName());
+        List<SysRole> sysRoleList = dao.findByCodeOrName(sysRole.getCode(), sysRole.getName());
 
         Optional<SysRole> sysRoleOptional = sysRoleList.stream().filter(item -> !sysRole.getId().equals(item.getId())).findAny();
         if (sysRoleOptional.isPresent()) {

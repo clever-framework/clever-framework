@@ -2,11 +2,11 @@ package io.github.toquery.framework.log.aspect;
 
 import com.google.common.base.Strings;
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.core.annotation.AppLogMethod;
+import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
-import io.github.toquery.framework.system.entity.SysLog;
-import io.github.toquery.framework.system.service.ISysLogService;
+import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.aspectj.lang.JoinPoint;
@@ -48,7 +48,6 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @Aspect
-@Component
 public class AppBizLogMethodAspect {
 
     private static final String INVOKE_FIELD_PREFIX = "$";

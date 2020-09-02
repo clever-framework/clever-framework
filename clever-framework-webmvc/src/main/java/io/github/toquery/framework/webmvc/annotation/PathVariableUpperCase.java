@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * 将路径中的字符串转化为大写，主要用于枚举类型转换
- *
+ * todo 无法将大写路径映射到request url map中
  * @author toquery
  * @version 1
  */

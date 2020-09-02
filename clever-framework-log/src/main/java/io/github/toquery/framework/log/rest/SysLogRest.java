@@ -3,15 +3,15 @@ package io.github.toquery.framework.log.rest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
+import io.github.toquery.framework.core.security.AppUserDetailService;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
-import io.github.toquery.framework.log.domain.SysLogVo;
-import io.github.toquery.framework.system.entity.SysLog;
-import io.github.toquery.framework.system.service.ISysLogService;
-import io.github.toquery.framework.system.service.ISysUserService;
+import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.service.ISysLogService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,13 +32,12 @@ import java.util.stream.Stream;
  * @author toquery
  * @version 1
  */
-
 @RestController
 @RequestMapping("/sys/log")
 public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Long> {
 
     @Resource
-    private ISysUserService sysUserService;
+    private AppUserDetailService userDetailsService;
 
     private static final String[] PAGE_SORT = new String[]{"createDatetime_desc"};
 
@@ -53,8 +52,8 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Lo
         Page<SysLog> page = super.handleQuery(filterParam, PAGE_SORT);
         List<SysLog> sysLogList = page.getContent();
         Stream<SysLog> sysLogStream = sysLogList.size() > 6 ? sysLogList.parallelStream() : sysLogList.stream();
-        List<SysLogVo> sysLogVoList = sysLogStream.map(item ->
-                new SysLogVo(item, sysUserService.getById(item.getCreateUserId()))
+        List<SysLog> sysLogVoList = sysLogStream.map(item ->
+                new SysLog(item, userDetailsService.getById(item.getCreateUserId()))
         ).collect(Collectors.toList());
         return ResponseParam.builder().build().page(new PageImpl<>(sysLogVoList, page.getPageable(), page.getTotalElements()));
     }
@@ -62,7 +61,7 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Lo
     @GetMapping("{id}")
     public ResponseParam detail(@PathVariable Long id) {
         SysLog sysLog = super.getById(id);
-        return super.handleResponseParam(new SysLogVo(sysLog, sysUserService.getById(sysLog.getCreateUserId())));
+        return super.handleResponseParam(new SysLog(sysLog, userDetailsService.getById(sysLog.getCreateUserId())));
     }
 
     @PostMapping
@@ -70,31 +69,5 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Lo
         return super.save(sysLog);
     }
 
-
-   /*
-   @GetMapping("/list")
-    public ResponseParam list(@RequestParam(value = "filter_createDateGT", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8") Date createDataGT,
-                              @RequestParam(value = "filter_createDateLT", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8") Date createDataLT) {
-        Map<String, Object> filterParam = super.getFilterParam();
-        if (createDataGT != null && createDataLT != null) {
-            filterParam.put("createDateGT", createDataGT);
-            filterParam.put("createDateLT", createDataLT);
-        }
-        return super.list(filterParam);
-    }
-
-
-
-
-    @PutMapping
-    public ResponseParam update(@RequestBody SysLog sysLog) {
-        return super.update(sysLog, Sets.newHashSet("name", "code", "sortNum"));
-    }
-
-    @DeleteMapping
-    public void delete(@RequestParam Set<Long> ids) {
-        super.delete(ids);
-    }
-    */
 
 }

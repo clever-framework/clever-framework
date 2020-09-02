@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.jwt.filter;
 
 import com.google.common.base.Strings;
-import io.github.toquery.framework.security.jwt.JwtTokenUtil;
+import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -29,16 +29,16 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
 
     private final UserDetailsService userDetailsService;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenHandler jwtTokenHandler;
     private final String tokenHeader;
 
     private final AppSecurityProperties appSecurityProperties;
 
     private final PathMatcher matcher = new AntPathMatcher();
 
-    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil, AppSecurityProperties appSecurityProperties, AppSecurityJwtProperties appSecurityJwtProperties) {
+    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenHandler jwtTokenHandler, AppSecurityProperties appSecurityProperties, AppSecurityJwtProperties appSecurityJwtProperties) {
         this.userDetailsService = userDetailsService;
-        this.jwtTokenUtil = jwtTokenUtil;
+        this.jwtTokenHandler = jwtTokenHandler;
         this.tokenHeader = appSecurityJwtProperties.getHeader();
         this.appSecurityProperties = appSecurityProperties;
     }
@@ -70,7 +70,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
                     token = token.substring(7);
                 }
                 try {
-                    username = jwtTokenUtil.getUsernameFromToken(token);
+                    username = jwtTokenHandler.getUsernameFromToken(token);
                 } catch (IllegalArgumentException e) {
                     log.error("an error occured during getting username from token");
                     e.printStackTrace();
@@ -86,7 +86,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-                if (jwtTokenUtil.validateToken(token, userDetails)) {
+                if (jwtTokenHandler.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     log.info("authorizated user '{}', setting security context", username);

@@ -11,3 +11,4 @@ workspace.xml
 # Editor-based HTTP Client requests
 /httpRequests/
 /jarRepositories.xml
+/codeStyles/codeStyleConfig.xml

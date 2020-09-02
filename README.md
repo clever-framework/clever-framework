@@ -20,6 +20,10 @@
 | Spring Boot  | 2.3.3.RELEASE |
 | Spring Cloud | Hoxton.SR7    |
 
+
+[![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=toquery&repo=clever-framework)](https://github.com/toquery/clever-framework)
+
+
 ## 使用方式
 
 修改项目的pom.xml文件，引入`parent`节点，如使用了 Spring Boot 的依赖，直接替换即可。
@@ -46,4 +50,5 @@
 - IntellJ IDEA 提示找不到 mybatis mapper 实现
 
 使用注解 `@SuppressWarnings("MybatisMapperMethodInspection")` 忽略IDEA的 mybatis mapper 检查
+
 

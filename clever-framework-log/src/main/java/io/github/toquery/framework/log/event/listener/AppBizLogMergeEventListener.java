@@ -1,12 +1,12 @@
 package io.github.toquery.framework.log.event.listener;
 
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.core.annotation.AppLogEntity;
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogEntity;
+import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
-import io.github.toquery.framework.system.entity.SysLog;
-import io.github.toquery.framework.system.service.ISysLogService;
+import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.event.spi.MergeEvent;
@@ -45,7 +45,7 @@ public class AppBizLogMergeEventListener implements MergeEventListener {
             return;
         }
         Map<String, Object> targetData = appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity, appLogEntity));
-        SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(AppLogType.MODF, null, targetData, appLogEntity.modelName(), appLogEntity.bizName());
+        SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(AppLogType.MODIFY, null, targetData, appLogEntity.modelName(), appLogEntity.bizName());
         sysLogService.save(sysLog);
         log.debug("接收到新增 {} 的数据操作，记录日志完成。", entity.getClass().getSimpleName());
     }

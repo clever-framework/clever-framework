@@ -3,14 +3,21 @@ package io.github.toquery.framework.security.jwt;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.util.JacksonUtils;
+import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.jwt.utils.JwtTokenUtil;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.jsonwebtoken.Claims;
 import io.toquery.framework.test.AppTestBase;
+import io.toquery.framework.test.AppTestSpringBase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.test.context.ContextConfiguration;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -18,9 +25,12 @@ import java.util.Map;
  * @version 1
  */
 @Slf4j
-public class JwtTokenTest extends AppTestBase {
+@TestConfiguration
+//@ContextConfiguration(classes = {JwtTokenTest.class})
+public class JwtTokenTest extends AppTestSpringBase {
 
-    private JwtTokenUtil jwtTokenUtil = new JwtTokenUtil(new AppSecurityJwtProperties());
+    @Resource
+    private JwtTokenHandler jwtTokenHandler;
 
     @Before
     public void before() {
@@ -30,7 +40,7 @@ public class JwtTokenTest extends AppTestBase {
     public void generateToken() {
         SysUser userDetails = new SysUser();
         userDetails.setUsername("admin");
-        String token = jwtTokenUtil.generateToken(userDetails);
+        String token = jwtTokenHandler.generateToken(userDetails,"");
         log.info("token: {}", token);
     }
 
@@ -40,7 +50,7 @@ public class JwtTokenTest extends AppTestBase {
         Map<String, Object> claims = Maps.newHashMap();
         claims.put("nickname", "张三");
         claims.put("roles", Sets.newHashSet("admin", "root", "menu"));
-        String token = jwtTokenUtil.doGenerateToken(claims, "admin");
+        String token = jwtTokenHandler.doGenerateToken(claims, "admin","");
         log.info("token: {}", token);
     }
 
@@ -49,7 +59,7 @@ public class JwtTokenTest extends AppTestBase {
 
     @Test
     public void jwtTokenUtil() {
-        Claims claims = jwtTokenUtil.getAllClaimsFromToken(token);
+        Claims claims = JwtTokenUtil.getAllClaimsFromToken("", token);
         log.info(JacksonUtils.object2String(claims));
 //        claims.
     }

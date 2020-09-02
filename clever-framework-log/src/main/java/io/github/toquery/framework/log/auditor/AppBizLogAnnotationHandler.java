@@ -2,14 +2,14 @@ package io.github.toquery.framework.log.auditor;
 
 import com.google.common.collect.Maps;
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.core.annotation.AppLogEntity;
-import io.github.toquery.framework.core.annotation.AppLogEntityIgnore;
-import io.github.toquery.framework.core.annotation.AppLogField;
-import io.github.toquery.framework.core.annotation.AppLogFieldIgnore;
-import io.github.toquery.framework.core.constant.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogEntity;
+import io.github.toquery.framework.core.log.annotation.AppLogEntityIgnore;
+import io.github.toquery.framework.core.log.annotation.AppLogField;
+import io.github.toquery.framework.core.log.annotation.AppLogFieldIgnore;
+import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.properties.AppLogProperties;
-import io.github.toquery.framework.system.entity.SysLog;
+import io.github.toquery.framework.log.entity.SysLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
  * @version 1
  */
 @Slf4j
-@Component
-@Scope("singleton")
 public class AppBizLogAnnotationHandler {
 
     @Resource

@@ -14,7 +14,6 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 import org.springframework.data.repository.query.RepositoryQuery;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.Method;
@@ -27,9 +26,9 @@ import java.util.Optional;
 @Slf4j
 public class QueryLookupStrategyFactories implements QueryLookupStrategy {
 
-    private BeanFactory beanFactory;
+    // private BeanFactory beanFactory;
 
-    private final EntityManager entityManager;
+    // private final EntityManager entityManager;
 
     // 默认数据库查询策略
     private QueryLookupStrategy defaultQueryLookupStrategy;
@@ -39,12 +38,13 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
 
     private JpaQueryMethodFactory queryMethodFactory;
 
-    private QueryExtractor extractor;
+    // private QueryExtractor extractor;
 
-    public QueryLookupStrategyFactories(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider queryMethodEvaluationContextProvider) {
-        this.extractor = extractor;
-        this.entityManager = entityManager;
-        this.beanFactory = beanFactory;
+    public QueryLookupStrategyFactories(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor,
+                                        QueryMethodEvaluationContextProvider queryMethodEvaluationContextProvider) {
+        // this.extractor = extractor;
+        // this.entityManager = entityManager;
+        // this.beanFactory = beanFactory;
         this.queryMethodFactory = new DefaultJpaQueryMethodFactory(extractor);
 
         //默认方法查询策略使用jpa
@@ -56,19 +56,20 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
         log.info("查询查询策略初始化完成 {}，当前存在 {} 种查询方式", this.getClass().getSimpleName(), queryLookupStrategyAdvices.size());
     }
 
-    public static QueryLookupStrategy create(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor, QueryMethodEvaluationContextProvider queryMethodEvaluationContextProvider) {
+    public static QueryLookupStrategy create(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor,
+                                             QueryMethodEvaluationContextProvider queryMethodEvaluationContextProvider) {
         return new QueryLookupStrategyFactories(entityManager, beanFactory, key, extractor, queryMethodEvaluationContextProvider);
     }
 
     @Override
     public RepositoryQuery resolveQuery(Method method, RepositoryMetadata metadata, ProjectionFactory factory, NamedQueries namedQueries) {
         //查找资源库策略
-        Optional<QueryLookupStrategyAdvice> optionalQueryLookupStrategyAdvice = queryLookupStrategyAdvices
-                .stream()
+        Optional<QueryLookupStrategyAdvice> optionalQueryLookupStrategyAdvice = queryLookupStrategyAdvices.stream()
                 .filter(queryLookupStrategyAdvice -> queryLookupStrategyAdvice.isEnabled(method, metadata))
-                .findFirst();
+                .findAny();
 
-        QueryLookupStrategy queryLookupStrategy = optionalQueryLookupStrategyAdvice.isPresent()?optionalQueryLookupStrategyAdvice.get():defaultQueryLookupStrategy;
+        // 判断是否能使用其他的数据查询策略，如果没有则使用 默认（Jpa）查询策略
+        QueryLookupStrategy queryLookupStrategy = optionalQueryLookupStrategyAdvice.isPresent() ? optionalQueryLookupStrategyAdvice.get() : defaultQueryLookupStrategy;
         log.info("使用 {} 方式数据库持久化策略", "JPA 的 " + defaultQueryLookupStrategy.getClass().getSimpleName());
         return queryLookupStrategy.resolveQuery(method, metadata, factory, namedQueries);
     }

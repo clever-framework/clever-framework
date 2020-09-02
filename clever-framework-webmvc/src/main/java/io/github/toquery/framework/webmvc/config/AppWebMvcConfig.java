@@ -39,27 +39,6 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
         configurer.enable();
     }
 
-
-    /**
-     * 前台使用long类型数据时，因位数不足，会将末两位转换为00，所以需要将long转换为String
-     *
-     * @param converters 已经注册的MessageConverter集合
-     */
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        for (HttpMessageConverter<?> httpMessageConverter : converters) {
-            log.info("添加 HttpMessageConverter : {}", httpMessageConverter.getClass().getName());
-            if (httpMessageConverter instanceof MappingJackson2HttpMessageConverter) {
-                ObjectMapper objectMapper = ((MappingJackson2HttpMessageConverter) httpMessageConverter).getObjectMapper();
-                SimpleModule simpleModule = new SimpleModule();
-                simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-                simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-                objectMapper.registerModule(simpleModule);
-                log.info("向 MappingJackson2HttpMessageConverter 添加Long类型转换规则");
-            }
-        }
-    }
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         log.info("app - cors 开启");

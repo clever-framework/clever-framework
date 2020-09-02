@@ -23,11 +23,6 @@ public class AppSecurityProperties {
     private boolean enable = true;
 
     /**
-     * 后台修改 admin root （用户，角色） 等关键数据的效验
-     */
-    private String rootPwd = "1qaz2wsx";
-
-    /**
      * 配置白名单
      */
     private Set<String> whitelist = Sets.newHashSet();

@@ -3,6 +3,7 @@ package io.github.toquery.framework.system.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
+import io.github.toquery.framework.core.security.AppUserDetails;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +38,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Table(name = "sys_user")
-public class SysUser extends AppBaseEntity implements UserDetails {
+public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetails {
 
 
     // 用户名，唯一

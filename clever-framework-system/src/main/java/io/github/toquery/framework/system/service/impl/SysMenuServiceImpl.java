@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-@Service
 public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMenuRepository> implements ISysMenuService {
     /**
      * 查询条件表达式
