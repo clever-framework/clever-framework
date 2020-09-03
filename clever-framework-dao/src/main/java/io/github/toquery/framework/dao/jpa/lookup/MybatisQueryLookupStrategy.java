@@ -47,7 +47,7 @@ public class MybatisQueryLookupStrategy extends QueryLookupStrategyAdvice {
             sqlSessionTemplate = new SqlSessionTemplate(beanFactory.getBean(SqlSessionFactory.class));
         }
 
-        log.info("通过模板sqlSessionTemplate解析方法{}", method.getName());
+        log.info("通过模板 sqlSessionTemplate 解析方法 {}", method.getName());
 
         Assert.notNull(sqlSessionTemplate, "创建" + SqlSessionTemplate.class.getSimpleName() + "失败, 请初始化mybatis配置");
 

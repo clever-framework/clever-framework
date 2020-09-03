@@ -1,3 +1,4 @@
+# spring 配置项目
 # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties
 
 server:
@@ -30,7 +31,14 @@ spring:
       enabled: ALWAYS
 
   mvc:
+    locale: zh_CN
     throw-exception-if-no-handler-found: true
+    # 暂时未发现该配置作用 ？todo @DateTimeFormat ？
+    format:
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+      date-time: yyyy-MM-dd HH:mm:ss
+
   # 不要为我们工程中的资源文件建立映射
   resources:
     add-mappings: false
@@ -53,6 +61,11 @@ spring:
 #    mapper:
 #      ACCEPT_CASE_INSENSITIVE_ENUMS: true
 
+  datasource:
+    data: database/data.sql
+#    schema:
+
+
   jpa:
     show-sql: true
     generate-ddl: true
@@ -70,7 +83,9 @@ spring:
 
   data:
     rest:
-      defaultMediaType: application/json
+      default-media-type: application/json
+      return-body-on-create: true
+      return-body-on-update: true
 
   hateoas:
     use-hal-as-default-json-media-type: true

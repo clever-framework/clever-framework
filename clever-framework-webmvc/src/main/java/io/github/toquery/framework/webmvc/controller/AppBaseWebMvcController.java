@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class AppBaseWebMvcController extends AppBaseWebController {
 
     public AppBaseWebMvcController() {
-        log.info("AppBaseWebMvcController");
+        log.debug("AppBaseWebMvcController");
     }
 
     @Autowired

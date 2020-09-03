@@ -30,7 +30,7 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
         this.repositoryMetadata = repositoryMetadata;
         this.projectionFactory = projectionFactory;
 
-        log.info("初始化MyBatis数据查询，{} 的领域类 {}", repositoryMetadata.getRepositoryInterface().getName(), repositoryMetadata.getDomainType());
+        log.info("初始化 MyBatis 数据查询 {} 的领域类 {}", repositoryMetadata.getRepositoryInterface().getName(), repositoryMetadata.getDomainType());
     }
 
     @Override
