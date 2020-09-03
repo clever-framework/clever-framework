@@ -33,7 +33,7 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
 
     public static ResponsePage build(PagedModel.PageMetadata pageMetadata) {
         ResponsePage responsePage = new ResponsePage();
-        responsePage.setPageNumber((int) pageMetadata.getNumber() + 1);
+        responsePage.setPageNum((int) pageMetadata.getNumber() + 1);
         responsePage.setPageSize((int) pageMetadata.getSize());
         responsePage.setTotalElements(pageMetadata.getTotalElements());
         responsePage.setTotalPages((int) pageMetadata.getTotalPages());
@@ -49,7 +49,7 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
     public static ResponsePage build(com.github.pagehelper.Page<?> page) {
         ResponsePage responsePage = new ResponsePage();
         if (page != null) {
-            responsePage.setPageNumber(page.getPageNum() + 1);
+            responsePage.setPageNum(page.getPageNum() + 1);
             responsePage.setPageSize(page.getPageSize());
             responsePage.setTotalElements(page.getTotal());
             responsePage.setTotalPages(page.getPages());
@@ -60,7 +60,7 @@ public class ResponsePageBuilder extends HashMap<String, Object> implements Init
     public static ResponsePage build(org.springframework.data.domain.Page<?> page) {
         ResponsePage responsePage = new ResponsePage();
         if (page != null) {
-            responsePage.setPageNumber(page.getNumber() + 1);
+            responsePage.setPageNum(page.getNumber() + 1);
             responsePage.setPageSize(page.getSize());
             responsePage.setTotalElements(page.getTotalElements());
             responsePage.setTotalPages(page.getTotalPages());

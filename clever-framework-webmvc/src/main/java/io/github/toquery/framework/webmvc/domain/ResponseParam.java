@@ -56,6 +56,11 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
         return this;
     }
 
+    public ResponseParam page(ResponsePage responsePage) {
+        this.put(PAGE_PARAM_VALUE, responsePage);
+        return this;
+    }
+
     /**
      * 将Spring Page转化为响应数据，包含分页相关的参数
      *
@@ -69,7 +74,7 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
         return this;
     }
 
-    public ResponseParam page(PagedModel pagedResources) {
+    public ResponseParam page(PagedModel<?> pagedResources) {
         ResponsePage responsePage = ResponsePageBuilder.build(pagedResources.getMetadata());
         this.put(PAGE_PARAM_VALUE, responsePage);
         this.put(CONTENT_PARAM_VALUE, pagedResources.getContent());
@@ -137,11 +142,5 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
         return ResponseEntity.status(httpStatus).contentType(contentType).body(this);
     }
 
-    /*
-    @Override
-    public void afterPropertiesSet() throws Exception {
-
-    }
-     */
 }
 

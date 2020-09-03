@@ -1,6 +1,8 @@
 package com.toquery.framework.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.toquery.framework.demo.constant.BizNewsShowStatus;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
@@ -19,6 +21,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -73,44 +77,47 @@ public class BizNews extends AppBaseEntity  {
     private BizNewsShowStatus showStatus;
 
     @AppLogField("显示时间")
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat
+    // @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
     @Column(name = "show_time")
     private Date showTime;
 
 
-    @AppLogField("instant")
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @Column(name = "instant")
-    private Instant instant;
+//    @AppLogField("instant")
+//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @Column(name = "instant")
+//    private Instant instant;
 
 
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @Column(name = "local_time")
-    private LocalTime localTime;
+//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @Column(name = "local_time")
+//    private LocalTime localTime;
 
 
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @Column(name = "local_date")
-    private LocalDate localDate;
+//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @Column(name = "local_date")
+//    private LocalDate localDate;
 
 
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
 
 
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @Column(name = "offset_time")
-    private OffsetTime offsetTime;
+//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @Column(name = "offset_time")
+//    private OffsetTime offsetTime;
 
-
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @Column(name = "offset_date_time")
     private OffsetDateTime offsetDateTime;

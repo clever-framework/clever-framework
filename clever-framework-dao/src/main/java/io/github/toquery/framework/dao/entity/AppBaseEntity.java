@@ -17,7 +17,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
+//import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -68,7 +68,7 @@ public class AppBaseEntity implements Serializable {
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+    // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @Column(name = "create_time", updatable = false, nullable = false)
     private Date createDatetime;
 
@@ -84,7 +84,7 @@ public class AppBaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_update_time", nullable = false)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+    // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private Date lastUpdateDatetime;
 
 //    @Version
