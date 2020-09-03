@@ -8,6 +8,7 @@ import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.service.ISysLogService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -55,7 +56,7 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Lo
         List<SysLog> sysLogVoList = sysLogStream.map(item ->
                 new SysLog(item, userDetailsService.getById(item.getCreateUserId()))
         ).collect(Collectors.toList());
-        return ResponseParam.builder().build().page(new PageImpl<>(sysLogVoList, page.getPageable(), page.getTotalElements()));
+        return new ResponseParamBuilder().page(new PageImpl<>(sysLogVoList, page.getPageable(), page.getTotalElements())).build();
     }
 
     @GetMapping("{id}")

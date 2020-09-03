@@ -1,13 +1,14 @@
 package io.github.toquery.framework.webmvc.domain;
 
-import lombok.Builder;
-import org.springframework.beans.factory.InitializingBean;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 响应参数购将，根据相应的类型，将数据填充到content
@@ -15,21 +16,38 @@ import java.util.HashMap;
  * @author toquery
  * @version 1
  */
-@Builder
 public class ResponseParam extends HashMap<String, Object> { //implements InitializingBean {
 
     private static final long serialVersionUID = 1L;
 
+    private static final String SUCCESS_PARAM = "success";
     private static final String CODE_PARAM = "code";
     private static final String MESSAGE_PARAM = "message";
     private static final String CONTENT_PARAM_VALUE = "content";
     private static final String PAGE_PARAM_VALUE = "page";
 
-    private ResponseParam() {
+    public ResponseParam() {
     }
 
+    public ResponseParam(ResponseParamBuilder builder) {
+        this.code(builder.getCode());
+        this.message(builder.getMessage());
+        this.content(builder.getContent());
+        this.page(builder.getPage());
+        if (builder.getParam() != null) {
+            builder.getParam().forEach(this::param);
+        }
+    }
 
-    public ResponseParam content(Object content) {
+    public static ResponseParamBuilder builder() {
+        return new ResponseParamBuilder();
+    }
+
+    public ResponseParamBuilder newBuilder() {
+        return new ResponseParamBuilder(this);
+    }
+
+    private ResponseParam content(Object content) {
         this.put(CONTENT_PARAM_VALUE, content);
         return this;
     }
@@ -40,7 +58,7 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
      * @param code
      * @return
      */
-    public ResponseParam code(Object code) {
+    private ResponseParam code(Object code) {
         this.put(CODE_PARAM, code);
         return this;
     }
@@ -51,12 +69,12 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
      * @param value
      * @return
      */
-    public ResponseParam message(String value) {
+    private ResponseParam message(String value) {
         this.put(MESSAGE_PARAM, value);
         return this;
     }
 
-    public ResponseParam page(ResponsePage responsePage) {
+    private ResponseParam page(ResponsePage responsePage) {
         this.put(PAGE_PARAM_VALUE, responsePage);
         return this;
     }
@@ -67,16 +85,14 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    public ResponseParam page(org.springframework.data.domain.Page<?> page) {
-        ResponsePage responsePage = ResponsePageBuilder.build(page);
-        this.put(PAGE_PARAM_VALUE, responsePage);
+    private ResponseParam page(org.springframework.data.domain.Page<?> page) {
+        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page == null ? null : page.getContent());
         return this;
     }
 
-    public ResponseParam page(PagedModel<?> pagedResources) {
-        ResponsePage responsePage = ResponsePageBuilder.build(pagedResources.getMetadata());
-        this.put(PAGE_PARAM_VALUE, responsePage);
+    private ResponseParam page(PagedModel<?> pagedResources) {
+        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(pagedResources).build());
         this.put(CONTENT_PARAM_VALUE, pagedResources.getContent());
         return this;
     }
@@ -87,9 +103,8 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    public ResponseParam page(com.github.pagehelper.Page<?> page) {
-        ResponsePage responsePage = ResponsePageBuilder.build(page);
-        this.put(PAGE_PARAM_VALUE, responsePage);
+    private ResponseParam page(com.github.pagehelper.Page<?> page) {
+        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page);
         return this;
     }
@@ -101,7 +116,7 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
      * @param value 参数信息的value
      * @return 响应数据
      */
-    public ResponseParam param(String key, Object value) {
+    private ResponseParam param(String key, Object value) {
         this.put(key, value);
         return this;
     }

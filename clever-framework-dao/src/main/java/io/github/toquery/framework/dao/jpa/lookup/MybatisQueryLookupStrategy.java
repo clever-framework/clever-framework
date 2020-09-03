@@ -1,8 +1,8 @@
 package io.github.toquery.framework.dao.jpa.lookup;
 
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.dao.jpa.annotation.MybatisQuery;
-import io.github.toquery.framework.dao.jpa.lookup.repository.MybatisRepositoryQuery;
+import io.github.toquery.framework.dao.annotation.MybatisQuery;
+import io.github.toquery.framework.dao.query.MybatisRepositoryQuery;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
@@ -49,7 +49,7 @@ public class MybatisQueryLookupStrategy extends QueryLookupStrategyAdvice {
 
         log.info("通过模板 sqlSessionTemplate 解析方法 {}", method.getName());
 
-        Assert.notNull(sqlSessionTemplate, "创建" + SqlSessionTemplate.class.getSimpleName() + "失败, 请初始化mybatis配置");
+        Assert.notNull(sqlSessionTemplate, "创建 " + SqlSessionTemplate.class.getSimpleName() + " 失败, 请初始化mybatis配置");
 
         // 获取Mapper接口类
         String repositoryInterfaceName = getRepositoryInterfaceName(metadata);

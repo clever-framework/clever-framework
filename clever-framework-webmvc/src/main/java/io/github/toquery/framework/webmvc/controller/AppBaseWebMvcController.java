@@ -3,13 +3,12 @@ package io.github.toquery.framework.webmvc.controller;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import javax.annotation.Resource;
 
 /**
  * @author toquery
@@ -54,7 +53,7 @@ public class AppBaseWebMvcController extends AppBaseWebController {
 
 
     protected ResponseParam handleResponseParam(Object object) {
-        return ResponseParam.builder().build().content(object);
+        return new ResponseParamBuilder().content(object).build();
     }
 
     protected ResponseEntity responseEntity(ResponseParam responseParam, HttpStatus httpStatus) {
@@ -62,7 +61,7 @@ public class AppBaseWebMvcController extends AppBaseWebController {
     }
 
     protected ResponseEntity responseEntity(String message, HttpStatus httpStatus) {
-        ResponseParam responseParam = ResponseParam.builder().build().message(message);
+        ResponseParam responseParam = new ResponseParamBuilder().message(message).build();
         return this.responseEntity(responseParam, httpStatus);
     }
 

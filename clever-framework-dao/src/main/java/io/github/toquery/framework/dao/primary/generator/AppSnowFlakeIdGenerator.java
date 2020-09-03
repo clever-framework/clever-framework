@@ -16,7 +16,7 @@ import java.util.Properties;
 @Slf4j
 public class AppSnowFlakeIdGenerator implements IdentifierGenerator, Configurable {
 
-    private SnowFlake snowFlake = new SnowFlake();
+    private final SnowFlake snowFlake = new SnowFlake();
 
     @Override
     public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) throws MappingException {

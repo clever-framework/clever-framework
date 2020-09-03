@@ -8,7 +8,7 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
+import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
 import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -113,7 +113,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
             E entity = getById(id);
             if (entity != null) {
                 //设置软删除
-                ((AppBaseEntityJpaSoftDelEntity) entity).setDel(true);
+                ((AppEntitySoftDel) entity).setDel(true);
                 this.update(entity, Arrays.asList("del"));
             }
         } else {
@@ -221,7 +221,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
      * @return
      */
     public boolean isSoftDel() {
-        boolean isSoftDel = ClassUtils.isAssignable(this.dao.getDomainClass(), AppBaseEntityJpaSoftDelEntity.class);
+        boolean isSoftDel = ClassUtils.isAssignable(this.dao.getDomainClass(), AppEntitySoftDel.class);
         if (isSoftDel) {
             log.info("{} 删除为软删除", this.dao.getDomainClass().getName());
         }

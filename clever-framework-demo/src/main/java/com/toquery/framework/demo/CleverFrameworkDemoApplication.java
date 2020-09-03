@@ -3,6 +3,7 @@ package com.toquery.framework.demo;
 
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.data.rest.annotation.EnableAppRepositoryRest;
+import okhttp3.OkHttpClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -23,6 +24,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @SpringBootApplication //(scanBasePackages = "com.toquery.framework.demo")
 public class CleverFrameworkDemoApplication {
     public static void main(String[] args) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
         SpringApplication.run(CleverFrameworkDemoApplication.class, args);
     }
 }

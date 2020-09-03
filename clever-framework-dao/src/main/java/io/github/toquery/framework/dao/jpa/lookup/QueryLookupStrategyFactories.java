@@ -50,10 +50,9 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
         //默认方法查询策略使用jpa
         this.defaultQueryLookupStrategy = JpaQueryLookupStrategy.create(entityManager, queryMethodFactory, key, queryMethodEvaluationContextProvider, EscapeCharacter.DEFAULT);
 
-
         //添加不同类型资源库的查询策略
         queryLookupStrategyAdvices.add(new MybatisQueryLookupStrategy(beanFactory));
-        log.info("查询查询策略初始化完成 {}，当前存在 {} 种查询方式", this.getClass().getSimpleName(), queryLookupStrategyAdvices.size());
+        log.info("数据库查询策略初始化完成 {} 当前存在 {} 种查询方式", this.getClass().getSimpleName(), queryLookupStrategyAdvices.size());
     }
 
     public static QueryLookupStrategy create(EntityManager entityManager, BeanFactory beanFactory, Key key, QueryExtractor extractor,
@@ -70,7 +69,7 @@ public class QueryLookupStrategyFactories implements QueryLookupStrategy {
 
         // 判断是否能使用其他的数据查询策略，如果没有则使用 默认（Jpa）查询策略
         QueryLookupStrategy queryLookupStrategy = optionalQueryLookupStrategyAdvice.isPresent() ? optionalQueryLookupStrategyAdvice.get() : defaultQueryLookupStrategy;
-        log.info("使用 {} 方式数据库持久化策略", "JPA 的 " + defaultQueryLookupStrategy.getClass().getSimpleName());
+        log.info("使用 {} 方式数据库持久化策略", " JPA 的 " + defaultQueryLookupStrategy.getClass().getSimpleName());
         return queryLookupStrategy.resolveQuery(method, metadata, factory, namedQueries);
     }
 }

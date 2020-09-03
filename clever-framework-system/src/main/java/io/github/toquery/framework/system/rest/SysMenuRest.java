@@ -1,13 +1,14 @@
 package io.github.toquery.framework.system.rest;
 
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.core.util.AppTreeUtil;
-import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.log.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogMethod;
+import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,7 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu,
         List<SysMenu> sysMenuList = service.find(null, sort);
         // 将lits数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
-        return ResponseParam.builder().build().content(sysMenuList);
+        return new ResponseParamBuilder().content(sysMenuList).build();
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = "$modelName", bizName = "$bizName")

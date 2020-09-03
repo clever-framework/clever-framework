@@ -3,7 +3,7 @@ package com.toquery.framework.demo.dao;
 import com.toquery.framework.demo.entity.BizNews;
 import io.github.toquery.framework.dao.annotation.JpaParam;
 import io.github.toquery.framework.dao.annotation.MybatisParam;
-import io.github.toquery.framework.dao.jpa.annotation.MybatisQuery;
+import io.github.toquery.framework.dao.annotation.MybatisQuery;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.jpa.repository.Modifying;

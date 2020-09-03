@@ -42,7 +42,7 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
      */
     @Override
     protected JpaRepositoryImplementation<?, ?> getTargetRepository(RepositoryInformation information, EntityManager entityManager) {
-        log.info("创建实体 {} 的DAO实现类: {} ", information.getDomainType().getName(), information.getRepositoryBaseClass().getName());
+        log.info("创建实体 {} 的 DAO 实现类 {} ", information.getDomainType().getName(), information.getRepositoryBaseClass().getName());
         return super.getTargetRepository(information, entityManager);
     }
 

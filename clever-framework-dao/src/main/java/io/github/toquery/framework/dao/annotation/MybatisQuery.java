@@ -1,4 +1,4 @@
-package io.github.toquery.framework.dao.jpa.annotation;
+package io.github.toquery.framework.dao.annotation;
 
 import org.springframework.data.annotation.QueryAnnotation;
 

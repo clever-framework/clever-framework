@@ -1,4 +1,4 @@
-package io.github.toquery.framework.dao.jpa.lookup.repository;
+package io.github.toquery.framework.dao.query;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.projection.ProjectionFactory;
@@ -16,13 +16,13 @@ import java.util.Arrays;
 @Slf4j
 public class MybatisRepositoryQuery implements RepositoryQuery {
 
-    private Object mapper;
+    private final Object mapper;
 
-    private Method method;
+    private final Method method;
 
-    private RepositoryMetadata repositoryMetadata;
+    private final RepositoryMetadata repositoryMetadata;
 
-    private ProjectionFactory projectionFactory;
+    private final ProjectionFactory projectionFactory;
 
     public MybatisRepositoryQuery(Object mapper, Method method, RepositoryMetadata repositoryMetadata, ProjectionFactory projectionFactory) {
         this.mapper = mapper;
@@ -35,15 +35,16 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
 
     @Override
     public Object execute(Object[] parameters) {
+        if (mapper == null) {
+            log.error("{} 对应的 Mapper 为 null ", repositoryMetadata.getRepositoryInterface().getName());
+            throw new RuntimeException("处理 MyBatis Mapper 为空");
+        }
         log.info("执行 {} . {} ，参数为 {} ", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), Arrays.toString(parameters));
         Object result = null;
         try {
-            Assert.isTrue(mapper != null, repositoryMetadata.getRepositoryInterface().getName() + "对应的Mapper为null");
-            if (mapper != null) {
-                result = method.invoke(mapper, parameters);
-            }
+            result = method.invoke(mapper, parameters);
         } catch (Exception e) {
-            log.error("使用 mybatis 执行 mapper : {} 中方法 {} 失败", repositoryMetadata.getRepositoryInterface().getName(), method.getName());
+            log.error("使用 mybatis 执行 mapper {} 中方法 {} 失败", repositoryMetadata.getRepositoryInterface().getName(), method.getName());
             e.printStackTrace();
             if (e instanceof RuntimeException) {
                 throw (RuntimeException) e;
@@ -51,7 +52,6 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
                 throw new RuntimeException(e.getMessage());
             }
         }
-
         return result;
     }
 

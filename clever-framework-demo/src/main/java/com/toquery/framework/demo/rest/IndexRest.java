@@ -31,7 +31,7 @@ public class IndexRest extends AppBaseCrudController<IBizNewsService, BizNews, L
 
     @RequestMapping("/response")
     public ResponseParam response() {
-        return ResponseParam.builder().build().page(this.page()).content(Lists.newArrayList());
+        return ResponseParam.builder().page(this.page()).content(Lists.newArrayList()).build();
     }
 
 }

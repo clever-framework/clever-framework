@@ -3,6 +3,7 @@ package io.github.toquery.framework.crud.controller;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -77,19 +78,19 @@ public class AppBaseCrudController<S extends AppBaseService<E, ID>, E, ID extend
 
 
     public ResponseParam query() {
-        return ResponseParam.builder().build().page(this.handleQuery());
+        return new ResponseParamBuilder().page(this.handleQuery()).build();
     }
 
     public ResponseParam query(Map<String, Object> filterParam) {
-        return ResponseParam.builder().build().page(this.handleQuery(filterParam));
+        return new ResponseParamBuilder().page(this.handleQuery(filterParam)).build();
     }
 
     public ResponseParam query(String[] sorts) {
-        return ResponseParam.builder().build().page(this.handleQuery(sorts));
+        return new ResponseParamBuilder().page(this.handleQuery(sorts)).build();
     }
 
     protected ResponseParam query(Map<String, Object> filterParam, String[] sorts) {
-        return ResponseParam.builder().build().page(this.handleQuery(filterParam, sorts));
+        return new ResponseParamBuilder().page(this.handleQuery(filterParam, sorts)).build();
     }
 
 

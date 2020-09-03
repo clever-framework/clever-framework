@@ -101,7 +101,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
      */
     protected Long executeCountQuery(TypedQuery<Long> query) {
         List<Long> totals = query.getResultList();
-        Long total = 0L;
+        long total = 0L;
 
         for (Long element : totals) {
             total += element == null ? 0 : element;
@@ -174,7 +174,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
             //更新实体
             entity = updateComplexField(existEntity, entity, updateFieldsName);
         }
-     */
+        */
         log.debug("废弃 CriteriaUpdate 方式修改数据库，将使用 Jpa merge 动态更新");
         return updateComplexField(existEntity, entity, updateFieldsName);
     }

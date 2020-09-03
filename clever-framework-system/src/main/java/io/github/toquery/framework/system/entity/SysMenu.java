@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.core.domain.AppBaseEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppBaseEntityJpaSoftDelEntity;
+import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_menu")
-public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, AppBaseEntitySort, AppBaseEntityJpaSoftDelEntity {
+public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, AppBaseEntitySort, AppEntitySoftDel {
 
     public SysMenu(@NotNull @Size(max = 50) String name, @NotNull @Size(max = 50) String code) {
         this.name = name;

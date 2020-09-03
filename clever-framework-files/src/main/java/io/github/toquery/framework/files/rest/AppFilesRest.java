@@ -8,6 +8,7 @@ import io.github.toquery.framework.files.properties.AppFilesProperties;
 import io.github.toquery.framework.files.service.ISysFilesService;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFil
 
     @PostMapping("${app.files.path.upload:/app/files/upload}")
     public ResponseParam uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "DATABASE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
-        ResponseParam responseParam = ResponseParam.builder().build();
+        ResponseParamBuilder responseParam = ResponseParam.builder();
         if (fileStoreType == AppFileStoreTypeEnum.DATABASE) {
             SysFiles sysFiles = service.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
@@ -57,7 +58,7 @@ public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFil
         } else {
             responseParam.message("上传文件错误");
         }
-        return responseParam;
+        return responseParam.build();
     }
 
     @RequestMapping("/app/files/download/{id}.{extension}")

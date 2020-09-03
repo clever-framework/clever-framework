@@ -76,7 +76,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
         String token = jwtTokenHandler.generateToken((UserDetails) authentication.getPrincipal());
         sysLogService.insertSysLog(((SysUser) authentication.getPrincipal()).getId(), "系统", "登录成功", null, userName, null);
         // Return the token
-        return ResponseEntity.ok(ResponseParam.builder().build().content(new JwtResponse(token)));
+        return ResponseEntity.ok(ResponseParam.builder().content(new JwtResponse(token)).build());
     }
 
     /**
@@ -149,17 +149,17 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
         String username = this.getUserName();
         SysUser user = (SysUser) userDetailsService.loadUserByUsername(username);
         user.authorities2Roles();
-        return ResponseEntity.ok(ResponseParam.builder().build().content(user));
+        return ResponseEntity.ok(ResponseParam.builder().content(user).build());
     }
 
     @RequestMapping(value = "${app.jwt.path.password:/user/password}")
     public ResponseEntity changePassword(@Validated @RequestBody AppUserChangePassword changePassword) throws AppException {
         if (!changePassword.getRawPassword().equals(changePassword.getRawPasswordConfirm())) {
-            return ResponseEntity.badRequest().body(ResponseParam.builder().build().message("两次密码输入不一致"));
+            return ResponseEntity.badRequest().body(ResponseParam.builder().message("两次密码输入不一致").build());
         }
         String userName = this.getUserName();
         UserDetails user = sysUserService.changePassword(userName, changePassword.getSourcePassword(), changePassword.getRawPassword());
-        return ResponseEntity.ok(ResponseParam.builder().build().content(user));
+        return ResponseEntity.ok(ResponseParam.builder().content(user).build());
     }
 
 
@@ -184,11 +184,11 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
         String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
         user = sysUserService.saveSysUserCheck(user);
-        return ResponseEntity.ok(ResponseParam.builder().build().content(user));
+        return ResponseEntity.ok(ResponseParam.builder().content(user).build());
     }
 
     @RequestMapping(value = "${app.jwt.path.logout:/user/logout}")
     public ResponseEntity userLogout() {
-        return ResponseEntity.ok(ResponseParam.builder().build().content("user logout"));
+        return ResponseEntity.ok(ResponseParam.builder().content("user logout").build());
     }
 }

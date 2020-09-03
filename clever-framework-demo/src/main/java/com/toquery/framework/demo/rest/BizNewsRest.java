@@ -42,12 +42,12 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
             }
             case JPA: {
                 org.springframework.data.domain.Page<BizNews> bizNewsPage = super.service.queryJpaByPage(super.getRequestPageNumber(), super.getRequestPageSize());
-                responseParam = ResponseParam.builder().build().page(bizNewsPage);
+                responseParam = ResponseParam.builder().page(bizNewsPage).build();
                 break;
             }
             case MYBATIS: {
                 com.github.pagehelper.Page<BizNews> bizNewsPage = super.service.queryMyBatisByPage(super.getRequestPageNumber(), super.getRequestPageSize());
-                responseParam = ResponseParam.builder().build().page(bizNewsPage);
+                responseParam = ResponseParam.builder().page(bizNewsPage).build();
                 break;
             }
         }
@@ -64,12 +64,12 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
             }
             case JPA: {
                 List<BizNews> bizNews = super.service.listJpa();
-                responseParam = ResponseParam.builder().build().content(bizNews);
+                responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
             case MYBATIS: {
                 List<BizNews> bizNews = super.service.listMyBatis();
-                responseParam = ResponseParam.builder().build().content(bizNews);
+                responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
         }
@@ -86,12 +86,12 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
             }
             case JPA: {
                 bizNews = super.service.saveJpa(bizNews);
-                responseParam = ResponseParam.builder().build().content(bizNews);
+                responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
             case MYBATIS: {
                 bizNews = super.service.saveMyBatis(bizNews);
-                responseParam = ResponseParam.builder().build().content(bizNews);
+                responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
         }
@@ -108,12 +108,12 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
             }
             case JPA: {
                 bizNews = super.service.updateJpa(bizNews);
-                responseParam = ResponseParam.builder().build().content(bizNews);
+                responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
             case MYBATIS: {
                 bizNews = super.service.updateMyBatis(bizNews);
-                responseParam = ResponseParam.builder().build().content(bizNews);
+                responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
         }
@@ -149,12 +149,12 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
             }
             case JPA: {
                 BizNews bizNews = super.service.detailJpa(id);
-                responseParam = ResponseParam.builder().build().content(bizNews);
+                responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
             case MYBATIS: {
                 BizNews bizNews = super.service.detailMyBatis(id);
-                responseParam = ResponseParam.builder().build().content(bizNews);
+                responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
         }
