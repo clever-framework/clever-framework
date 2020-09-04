@@ -46,7 +46,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        if (appSecurityProperties.getWhitelist().stream().anyMatch(item -> matcher.match(item, request.getRequestURI()))) {
+        if (appSecurityProperties.getIgnoring().stream().anyMatch(item -> matcher.match(item, request.getRequestURI()))) {
             // 继续而不调用此过滤器...
             log.info("当前请求 {} 已被设为白名单", request.getRequestURI());
             chain.doFilter(request, response);

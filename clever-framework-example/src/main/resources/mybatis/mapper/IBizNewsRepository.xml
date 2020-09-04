@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.toquery.framework.example.dao.IBizNewsRepository">
+    <insert id="saveMyBatis" parameterType="com.toquery.framework.example.entity.BizNews">
+        insert into biz_news(id, title, create_time, last_update_time)
+        value (#{id}, #{title}, #{createDatetime}, #{lastUpdateDatetime})
+    </insert>
+
+    <select id="findMyBatisByTitle" resultType="com.toquery.framework.example.entity.BizNews">
+        select *
+        from biz_news
+        where 1=1
+        <if test="title != null and title != '' ">
+            title like #{title}
+        </if>
+    </select>
+
+    <select id="findMyBatisById">
+        select *
+        from biz_news
+        where id = #{id}
+    </select>
+
+    <update id="updateMyBatis">
+        update biz_news
+        set title = #{title}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMyBatis">
+        delete from biz_news
+        where
+        <foreach collection="ids" item="id" open="id in(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+</mapper>

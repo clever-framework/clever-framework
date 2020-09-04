@@ -25,18 +25,18 @@ public class AppSecurityProperties {
     /**
      * 配置白名单
      */
-    private Set<String> whitelist = Sets.newHashSet();
+    private Set<String> ignoring = Sets.newHashSet();
 
     //url权限配置
     private List<UrlAuthConfig> urlAuths = Lists.newArrayList();
 
-    public String[] getWhitelistArray() {
-        String[] whitelistArray = new String[whitelist.size()];
-        return whitelist.toArray(whitelistArray);
+    public String[] getIgnoringArray() {
+        String[] whitelistArray = new String[ignoring.size()];
+        return ignoring.toArray(whitelistArray);
     }
 
-    public Set<String> getWhitelist() {
-        return whitelist;
+    public Set<String> getIgnoring() {
+        return ignoring;
     }
 
     @Data

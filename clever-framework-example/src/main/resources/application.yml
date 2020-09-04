@@ -1,0 +1,105 @@
+# spring 配置项目
+# https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties
+
+server:
+  port: 8888
+
+app:
+  oss:
+    minio:
+      enable: false
+  security:
+    ignoring:
+      - /favicon.ico
+      - /**
+      - /index.html
+      - /static/**
+      - /error
+      - /h2-console/**
+      - /app/ueditor
+      - /app/files
+      - /app/files/**
+      - /app/minio/upload
+  jwt:
+    secret: 123456
+
+spring:
+  profiles:
+    active: local
+  # 输出带有颜色的控制台日志
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  mvc:
+    locale: zh_CN
+    throw-exception-if-no-handler-found: true
+    # 暂时未发现该配置作用 ？todo @DateTimeFormat ？
+    format:
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+      date-time: yyyy-MM-dd HH:mm:ss
+
+  # 不要为我们工程中的资源文件建立映射
+  resources:
+    add-mappings: false
+
+  # todo 这个配置是干什么的
+  main:
+    allow-bean-definition-overriding: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+  jackson:
+    time-zone: GMT+8 # 该设置与数据库 spring.jpa.properties.hibernate.jdbc.time_zone 保持一致
+    date-format: yyyy-MM-dd HH:mm # 优先使用@JsonFormat设置的格式，否则使用该格式
+    locale: zh_CN
+    serialization:
+      write-dates-as-timestamps: false # 将 date 数据转换为 timestamps(Long)，否则转换为 date-format 格式
+#    mapper:
+#      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+
+  datasource:
+    data: database/data.sql
+#    schema:
+
+
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    open-in-view: true
+#    hibernate:
+#      ddl-auto: create
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: ${spring.jackson.time-zone} # 数据库时区与程序时区保持一致
+        show_sql: true
+        use_sql_comments: false
+        format_sql: true
+        enable_lazy_load_no_trans: true
+
+  data:
+    rest:
+      default-media-type: application/json
+      return-body-on-create: true
+      return-body-on-update: true
+
+  hateoas:
+    use-hal-as-default-json-media-type: true
+
+
+mybatis:
+  mapper-locations: classpath*:mybatis/mapper/*.xml
+  config-location: classpath:mybatis/config/mybatis-config.xml
+
+
+logging:
+  level:
+    root: DEBUG
+    org.apache.coyote.http11: debug
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
+    org.springframework.security: debug

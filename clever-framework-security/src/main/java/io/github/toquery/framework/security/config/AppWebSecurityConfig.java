@@ -131,7 +131,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
      * 加载白名单
      */
     private String[] getWhitelist() {
-        return ArrayUtils.addAll(appSecurityProperties.getWhitelistArray(), this.getCustomizeWhitelist());
+        return ArrayUtils.addAll(appSecurityProperties.getIgnoringArray(), this.getCustomizeWhitelist());
     }
 
     /**
