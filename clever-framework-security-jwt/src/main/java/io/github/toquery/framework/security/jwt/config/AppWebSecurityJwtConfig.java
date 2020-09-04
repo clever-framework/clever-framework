@@ -1,6 +1,7 @@
 package io.github.toquery.framework.security.jwt.config;
 
 import io.github.toquery.framework.core.security.AppSecurityConfigurer;
+import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.jwt.JwtUnauthorizedEntryPoint;
 import io.github.toquery.framework.security.jwt.filter.JwtAuthorizationTokenFilter;
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
@@ -24,7 +25,7 @@ import javax.annotation.Resource;
 @Configuration
 //@EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class AppWebSecurityJwtConfig implements AppSecurityConfigurer {
+public class AppWebSecurityJwtConfig implements AppSecurityConfigurer, AppSecurityIgnoring {
 
     public AppWebSecurityJwtConfig() {
         log.info("初始化 App Web Security Jwt 配置");
@@ -79,10 +80,11 @@ public class AppWebSecurityJwtConfig implements AppSecurityConfigurer {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(getCustomizeWhitelist());
+        web.ignoring().antMatchers(ignoring());
     }
 
-    protected String[] getCustomizeWhitelist() {
+    @Override
+    public String[] ignoring() {
         AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
         return new String[]{pathProperties.getRegister(), pathProperties.getToken()};
     }

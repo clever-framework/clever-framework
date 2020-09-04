@@ -5,8 +5,9 @@ server:
   port: 8888
 
 app:
-  minio:
-    enable: false
+  oss:
+    minio:
+      enable: false
   security:
     whitelist:
       - /favicon.ico

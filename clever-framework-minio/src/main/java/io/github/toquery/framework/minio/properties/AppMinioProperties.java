@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = AppMinioProperties.PREFIX)
 public class AppMinioProperties {
 
-    public static final String PREFIX = "app.minio";
+    public static final String PREFIX = "app.oss.minio";
 
     private boolean enable = true;
 

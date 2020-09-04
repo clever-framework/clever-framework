@@ -1,4 +1,4 @@
-package io.github.toquery.framework.web.dict;
+package io.github.toquery.framework.web.dict.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -17,6 +17,6 @@ public @interface AppDict {
     /**
      * 字典项父节点编码
      */
-    String value() default "";
+    String value();
 
 }

@@ -20,7 +20,7 @@ public class AppFilesProperties {
     /**
      * 配置信息的前缀
      */
-    public static final String PREFIX = "app.files";
+    public static final String PREFIX = "app.oss.files";
 
     /**
      * 文件上传参数名称
