@@ -58,7 +58,7 @@
 
         <jjwt.version>0.9.1</jjwt.version>
         <datanucleus.version>5.2.1</datanucleus.version>
-        <nimbus.version>8.20</nimbus.version>
+        <nimbus.version>9.0</nimbus.version>
 
         <swagger.version>2.1.4</swagger.version>
         <swagger-ui.version>3.32.5</swagger-ui.version>
