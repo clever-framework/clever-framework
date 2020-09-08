@@ -1,6 +1,7 @@
 package com.toquery.framework.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.toquery.framework.example.constant.BizNewsShowStatus;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
@@ -30,7 +31,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -50,18 +50,18 @@ import java.util.HashSet;
 @Where(clause = "deleted = false")
 
 @FilterDef(
-        name = "gt100",
+        name = "gtNum",
         parameters = {
                 @ParamDef(name = "showNum", type = "int"),
                 @ParamDef(name = "likeNum", type = "int")
         }
 )
 @Filters(value = {
-        @Filter(name = "gt100",
-                condition = "showNum > :showNum"
+        @Filter(name = "gtNum",
+                condition = "show_num > :showNum"
         ),
-        @Filter(name = "gt100",
-                condition = "likeNum > :likeNum"
+        @Filter(name = "gtNum",
+                condition = "like_num > :likeNum"
         )
 })
 
@@ -102,12 +102,13 @@ public class BizNews extends AppBaseEntity implements AppEntitySoftDel {
     private BizNewsShowStatus showStatus;
 
 
+    @JsonIgnoreProperties(value = {"news", "lastUpdateDatetime", "createDatetime"})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "biz_news_type",
             joinColumns = {@JoinColumn(name = "news_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "type_id", referencedColumnName = "id")})
     @BatchSize(size = 20)
-    private Collection<BizType> roles = new HashSet<>();
+    private Collection<BizType> types = new HashSet<>();
 
     @AppLogField("显示时间")
     @JsonFormat
@@ -150,10 +151,11 @@ public class BizNews extends AppBaseEntity implements AppEntitySoftDel {
 //    @Column(name = "offset_time")
 //    private OffsetTime offsetTime;
 
-    //    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @Column(name = "offset_date_time")
-    private OffsetDateTime offsetDateTime;
+//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    mybatis 不支持 ！！！ Conversion not supported for type java.time.OffsetDateTime
+//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+//    @Column(name = "offset_date_time")
+//    private OffsetDateTime offsetDateTime;
 
     /**
      * 是否删除：1已删除；0未删除

@@ -63,12 +63,17 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
                 break;
             }
             case JPA: {
-                List<BizNews> bizNews = super.service.listJpa();
+                List<BizNews> bizNews = super.service.findJpa();
+                responseParam = ResponseParam.builder().content(bizNews).build();
+                break;
+            }
+            case FILTER: {
+                List<BizNews> bizNews = super.service.findFilter();
                 responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }
             case MYBATIS: {
-                List<BizNews> bizNews = super.service.listMyBatis();
+                List<BizNews> bizNews = super.service.findMyBatis();
                 responseParam = ResponseParam.builder().content(bizNews).build();
                 break;
             }

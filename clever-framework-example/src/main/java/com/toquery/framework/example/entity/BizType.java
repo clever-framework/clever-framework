@@ -2,6 +2,7 @@ package com.toquery.framework.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.toquery.framework.example.constant.BizNewsShowStatus;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
@@ -49,17 +50,6 @@ import java.util.HashSet;
 
 @Where(clause = "deleted = false")
 
-//@FilterDef(
-//        name = "gt100",
-//        parameters = {
-//                @ParamDef(name = "showNum", type = "int"),
-//                @ParamDef(name = "likeNum", type = "int")
-//        }
-//)
-//@Filter(name = "gt100",
-//        condition = "showNum > :showNum and likeNum > :likeNum"
-//)
-
 @Entity
 @Table(name = "biz_type")
 public class BizType extends AppBaseEntity implements AppEntitySoftDel {
@@ -71,12 +61,13 @@ public class BizType extends AppBaseEntity implements AppEntitySoftDel {
     private String typeName;
 
 
+    @JsonIgnoreProperties(value = {"types", "lastUpdateDatetime", "createDatetime"})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "biz_news_type",
             joinColumns = {@JoinColumn(name = "type_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "news_id", referencedColumnName = "id")})
     @BatchSize(size = 20)
-    private Collection<BizType> roles = new HashSet<>();
+    private Collection<BizNews> news = new HashSet<>();
 
 
     /**

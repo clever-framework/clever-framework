@@ -15,27 +15,35 @@ import java.util.Set;
 
 public interface IBizNewsService extends AppBaseService<BizNews, Long> {
 
-    BizNews update(Long id, String name);
-
-    BizNews getById(Long id);
-
     Page<BizNews> findByName(String name, Integer page, Integer size);
 
     org.springframework.data.domain.Page<BizNews> queryJpaByPage(int requestPageNumber, int requestPageSize);
 
     com.github.pagehelper.Page<BizNews> queryMyBatisByPage(int requestPageNumber, int requestPageSize);
 
-    List<BizNews> listJpa();
+    List<BizNews> findJpa();
 
-    List<BizNews> listMyBatis();
+    List<BizNews> findFilter();
+
+    List<BizNews> findMyBatis();
+
+
+    BizNews getById(Long id);
+
+
 
     BizNews saveJpa(BizNews bizNews);
 
     BizNews saveMyBatis(BizNews bizNews);
 
+
+
     BizNews updateJpa(BizNews bizNews);
 
     BizNews updateMyBatis(BizNews bizNews);
+
+    BizNews update(Long id, String name);
+
 
     void deleteJpa(Set<Long> ids);
 

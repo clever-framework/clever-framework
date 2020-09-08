@@ -1,7 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/clever_framework_demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    # serverTimezone=Asia/Shanghai 必须在URL追加时区设置
+    url: jdbc:mysql://127.0.0.1:3306/clever_framework_demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
   jpa:
@@ -19,11 +20,12 @@ logging:
     com.toquery: debug
 
 app:
-  minio:
-    enable: true
-    access-key: admin
-    secret-key: admin123
-    endpoint: http://127.0.0.1:9000/
-    port: 9000
-    path:
-      domain: http://127.0.0.1:9000
+  oss:
+    minio:
+      enable: true
+      access-key: admin
+      secret-key: admin123
+      endpoint: http://127.0.0.1:9000/
+      port: 9000
+      path:
+        domain: http://127.0.0.1:9000

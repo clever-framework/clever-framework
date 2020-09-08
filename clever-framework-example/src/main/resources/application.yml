@@ -11,7 +11,7 @@ app:
   security:
     ignoring:
       - /favicon.ico
-      # - /**
+      - /**
       - /index.html
       - /static/**
       - /error

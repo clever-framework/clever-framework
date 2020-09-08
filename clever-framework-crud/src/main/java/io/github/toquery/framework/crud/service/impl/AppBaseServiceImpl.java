@@ -281,9 +281,9 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
             if (queryExpressionMap == null) {
                 queryExpressionMap = Maps.newLinkedHashMap();
             }
-            if (!queryExpressionMap.containsKey("del:BOOLEANQE")) {
-                queryExpressionMap.put("del:BOOLEANQE", false);
-                log.info("添加软删除的查询参数 del:BOOLEANQE，查询没有删除的记录。");
+            if (!queryExpressionMap.containsKey("deleted:BOOLEANQE")) {
+                queryExpressionMap.put("deleted:BOOLEANQE", false);
+                log.info("添加软删除的查询参数 deleted:BOOLEANQE，查询没有删除的记录。");
             }
         }
 

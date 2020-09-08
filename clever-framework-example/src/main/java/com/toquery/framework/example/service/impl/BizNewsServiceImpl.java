@@ -6,11 +6,15 @@ import com.toquery.framework.example.dao.IBizNewsRepository;
 import com.toquery.framework.example.entity.BizNews;
 import com.toquery.framework.example.service.IBizNewsService;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import org.hibernate.Session;
+import org.hibernate.Filter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +28,10 @@ import java.util.Set;
 public class BizNewsServiceImpl extends AppBaseServiceImpl<Long, BizNews, IBizNewsRepository> implements IBizNewsService {
 
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
     private static final Map<String, String> map = new HashMap<String, String>() {
         {
             put("title", "name:EQ");
@@ -35,6 +43,15 @@ public class BizNewsServiceImpl extends AppBaseServiceImpl<Long, BizNews, IBizNe
     @Override
     public Map<String, String> getQueryExpressions() {
         return map;
+    }
+
+    public List<BizNews> findFilter() {
+        Filter filter = entityManager.unwrap(Session.class).enableFilter("gtNum");
+        filter.setParameter("showNum", 100);
+        filter.setParameter("likeNum", 100);
+        List<BizNews> lists = super.dao.findAll();
+        entityManager.unwrap(Session.class).disableFilter("gtNum");
+        return lists;
     }
 
 
@@ -71,12 +88,12 @@ public class BizNewsServiceImpl extends AppBaseServiceImpl<Long, BizNews, IBizNe
     }
 
     @Override
-    public List<BizNews> listJpa() {
+    public List<BizNews> findJpa() {
         return super.dao.findAll();
     }
 
     @Override
-    public List<BizNews> listMyBatis() {
+    public List<BizNews> findMyBatis() {
         return super.dao.findMyBatisByTitle(null);
     }
 
