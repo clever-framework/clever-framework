@@ -113,8 +113,8 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
             E entity = getById(id);
             if (entity != null) {
                 //设置软删除
-                ((AppEntitySoftDel) entity).setDel(true);
-                this.update(entity, Arrays.asList("del"));
+                ((AppEntitySoftDel) entity).setDeleted(true);
+                this.update(entity, Lists.newArrayList("deleted"));
             }
         } else {
             dao.deleteById(id);
@@ -255,7 +255,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
 //		Page<E> page = entityDao.findAll(specification, pageable) ;
 //		//将page对象转换为可以在dubbo中进行序列化和反序列化的分页对象
-//		//modified by liupeng , 根据分页查询结果修重新创建分页参数对象。
+//		//modified by dc , 根据分页查询结果修重新创建分页参数对象。
 //		//因为传入的分页参数并不一定都要分页数据
 //		return new PageImplInDubbo<E>(page.getContent() ,
 //				new PageRequest(page.getNumber() , page.getSize()) , page.getTotalElements()) ;

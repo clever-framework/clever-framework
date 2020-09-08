@@ -5,8 +5,8 @@ package io.github.toquery.framework.dao.entity;
  */
 public interface AppEntitySoftDel {
 
-    boolean getDel() ;
+    boolean getDeleted() ;
 
-    void setDel(boolean del) ;
+    void setDeleted(boolean deleted) ;
 
 }

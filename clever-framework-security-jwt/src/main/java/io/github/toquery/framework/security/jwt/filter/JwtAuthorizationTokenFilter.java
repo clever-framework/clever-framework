@@ -6,6 +6,7 @@ import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtPropert
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,16 +31,14 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
     private final JwtTokenHandler jwtTokenHandler;
-    private final String tokenHeader;
 
     private final AppSecurityProperties appSecurityProperties;
 
     private final PathMatcher matcher = new AntPathMatcher();
 
-    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenHandler jwtTokenHandler, AppSecurityProperties appSecurityProperties, AppSecurityJwtProperties appSecurityJwtProperties) {
+    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenHandler jwtTokenHandler, AppSecurityProperties appSecurityProperties) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenHandler = jwtTokenHandler;
-        this.tokenHeader = appSecurityJwtProperties.getHeader();
         this.appSecurityProperties = appSecurityProperties;
     }
 
@@ -53,10 +52,10 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         } else {
             log.debug("正在处理认证请求 {}", request.getRequestURL());
 
-            String token = request.getHeader(this.tokenHeader);
+            String token = request.getHeader(HttpHeaders.AUTHORIZATION);
             if (Strings.isNullOrEmpty(token)) {
-                log.debug("处理认证请求 {} 时未从 header 获取 {} 将从请求param中读取。", request.getRequestURL(), this.tokenHeader);
-                String[] requestParam = request.getParameterValues(this.tokenHeader);
+                log.warn("处理认证请求 {} 时未从 header 获取 {} 将从请求param中读取。", request.getRequestURL(), HttpHeaders.AUTHORIZATION);
+                String[] requestParam = request.getParameterValues(HttpHeaders.AUTHORIZATION);
                 if (requestParam != null && requestParam.length > 0 && !Strings.isNullOrEmpty(requestParam[0])) {
                     token = requestParam[0];
                 }

@@ -15,8 +15,6 @@ public class AppSecurityJwtProperties {
 
     public static final String PREFIX = "app.jwt";
 
-    private String header = "Authorization";
-
     private String secret = "clever";
 
     // 秒

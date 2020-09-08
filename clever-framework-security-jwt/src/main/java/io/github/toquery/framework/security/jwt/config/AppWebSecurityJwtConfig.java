@@ -48,7 +48,7 @@ public class AppWebSecurityJwtConfig implements AppSecurityConfigurer, AppSecuri
 
     @Bean
     public OncePerRequestFilter getFilter() {
-        return new JwtAuthorizationTokenFilter(userDetailsService, jwtTokenHandler, appSecurityProperties, appSecurityJwtProperties);
+        return new JwtAuthorizationTokenFilter(userDetailsService, jwtTokenHandler, appSecurityProperties);
     }
 
 

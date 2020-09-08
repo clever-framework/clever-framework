@@ -83,8 +83,8 @@ public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, Ap
      * 是否删除：1已删除；0未删除
      */
     @ColumnDefault("false")
-    @Column(name = "is_del")
-    private boolean del = false;
+    @Column(name = "deleted")
+    private boolean deleted = false;
 
 
     /**
@@ -105,8 +105,8 @@ public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, Ap
     }
 
     @Override
-    public boolean getDel() {
-        return del;
+    public boolean getDeleted() {
+        return deleted;
     }
 
     public boolean getHasChildren() {

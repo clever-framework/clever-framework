@@ -14,6 +14,7 @@ import io.github.toquery.framework.log.service.ISysLogService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -130,7 +131,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
     @GetMapping(value = "${app.jwt.path.refresh:/user/refresh}")
     public ResponseEntity<?> refreshAndGetAuthenticationToken() {
-        String authToken = request.getHeader(appSecurityJwtProperties.getHeader());
+        String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         String token = authToken.substring(7);
         String username = jwtTokenHandler.getUsernameFromToken(token);
         AppUserDetails user = (AppUserDetails) userDetailsService.loadUserByUsername(username);
@@ -164,7 +165,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
 
     private String getUserName() throws AppSecurityJwtException {
-        String token = request.getHeader(appJwtProperties.getHeader());
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (Strings.isNullOrEmpty(token)) {
             throw new AppSecurityJwtException("未检测到提交的用户信息");
         }

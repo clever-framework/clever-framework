@@ -11,7 +11,7 @@ app:
   security:
     ignoring:
       - /favicon.ico
-      - /**
+      # - /**
       - /index.html
       - /static/**
       - /error
@@ -62,8 +62,8 @@ spring:
 #    mapper:
 #      ACCEPT_CASE_INSENSITIVE_ENUMS: true
 
-  datasource:
-    data: database/data.sql
+#  datasource:
+#    data: database/data.sql # 单元测试提示错误
 #    schema:
 
 
