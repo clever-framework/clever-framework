@@ -63,7 +63,7 @@
         <swagger.version>2.1.4</swagger.version>
         <swagger-ui.version>3.32.5</swagger-ui.version>
 
-        <minio.version>7.1.0</minio.version>
+        <minio.version>7.1.2</minio.version>
 
         <!-- mybatis version
         <mybatis.version>3.5.2</mybatis.version>
