@@ -21,7 +21,7 @@ public class AppAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        String errorMsg = "请求访问:" + request.getRequestURI() + "接口,没有访问权限";
+        String errorMsg = "请求访问: " + request.getRequestURI() + " 接口,没有访问权限";
         log.error(errorMsg);
         accessDeniedException.printStackTrace();
         ResponseParam responseParam = ResponseParam.builder().message(errorMsg).build();

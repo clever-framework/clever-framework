@@ -11,6 +11,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
@@ -103,22 +104,25 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     @BatchSize(size = 20)
-    private Set<SysRole> authorities = new HashSet<>();
+    private Set<SysRole> roles = new HashSet<>();
 
     /**
      * 用于前端的角色code
      */
     @Transient
-    private Set<String> roles = new HashSet<>();
+    private Set<String> codes = new HashSet<>();
+
+    @Transient
+    private Set<? extends GrantedAuthority> authorities = new HashSet<>();
 
 
     /**
      * 将Spring属性转换为角色code
      */
     public void authorities2Roles() {
-        if (authorities != null && !authorities.isEmpty()) {
-            this.roles = authorities.stream().flatMap(item -> item.getMenus().stream().map(SysMenu::getCode)).collect(Collectors.toSet());
-            this.roles.addAll(authorities.stream().map(SysRole::getCode).collect(Collectors.toSet()));
+        if (roles != null && !roles.isEmpty()) {
+            this.authorities = roles.stream().flatMap(item -> item.getMenus().stream()).collect(Collectors.toSet());
+            this.codes = roles.stream().flatMap(item -> item.getMenus().stream().map(GrantedAuthority::getAuthority)).collect(Collectors.toSet());
         }
     }
 

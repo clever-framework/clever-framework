@@ -29,32 +29,13 @@ import java.util.HashSet;
 @Table(name = "sys_role")
 //@JsonIgnoreProperties("authors")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer"})
-public class SysRole extends AppBaseEntity implements GrantedAuthority {
+public class SysRole extends AppBaseEntity {
 
 
     @NotBlank
     @Length(min = 2, max = 50)
     @Column(length = 50)
     private String name;
-
-
-    /**
-     * @deprecated 2020.05.11 不使用角色的code
-     */
-    @Deprecated
-    @NotBlank
-    @Length(min = 4, max = 50)
-    @Column(length = 50)
-    private String code;
-
-/*
-    @JsonIgnoreProperties("roles")
-//    @JsonBackReference
-//    @JsonBackReference
-    //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
-    private Collection<SysUserRole> users = new HashSet<>();
-*/
 
     @JsonIgnoreProperties({"roles", "lastUpdateDatetime", "createDatetime"})
     @ManyToMany // (cascade = CascadeType.ALL)
@@ -68,7 +49,6 @@ public class SysRole extends AppBaseEntity implements GrantedAuthority {
 
     @JsonIgnoreProperties({"roles", "lastUpdateDatetime", "createDatetime"})
 //    @ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH})
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "sys_role_menu",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
@@ -76,8 +56,4 @@ public class SysRole extends AppBaseEntity implements GrantedAuthority {
     @BatchSize(size = 20)
     private Collection<SysMenu> menus = new HashSet<>();
 
-    @Override
-    public String getAuthority() {
-        return getCode();
-    }
 }

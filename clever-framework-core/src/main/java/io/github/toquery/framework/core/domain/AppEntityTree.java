@@ -8,7 +8,7 @@ import java.util.List;
  * @author toquery
  * @version 1
  */
-public interface AppEntityTree<E> extends AppBaseEntitySort, Comparable<E> {
+public interface AppEntityTree<E> extends AppEntitySort, Comparable<E> {
 
     public int getLevel();
 

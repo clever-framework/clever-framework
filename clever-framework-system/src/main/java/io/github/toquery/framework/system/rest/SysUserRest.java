@@ -57,7 +57,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser,
 
     @PutMapping
     public ResponseParam update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
-        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
+        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
         return super.update(sysUser, Sets.newHashSet("nickname", "phone", "status", "email", "authorities"));
@@ -65,7 +65,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser,
 
     @PutMapping("/reset-password")
     public ResponseParam restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
-        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
+        if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
         if (Strings.isNullOrEmpty(rawPassword)) {

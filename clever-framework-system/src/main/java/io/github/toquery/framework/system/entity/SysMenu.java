@@ -1,7 +1,7 @@
 package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.toquery.framework.core.domain.AppBaseEntitySort;
+import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +38,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_menu")
-public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, AppBaseEntitySort, AppEntitySoftDel {
+public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntityTree<SysMenu>, AppEntitySort, AppEntitySoftDel {
 
     public SysMenu(@NotNull @Size(max = 50) String name, @NotNull @Size(max = 50) String code) {
         this.name = name;
@@ -113,14 +114,13 @@ public class SysMenu extends AppBaseEntity implements AppEntityTree<SysMenu>, Ap
         return hasChildren;
     }
 
-    //    @Override
-//    public int compare(SysMenu o1, SysMenu o2) {
-//        return o1.getSortNum() - o2.getSortNum();
-//    }
-
-
     @Override
     public int compareTo(SysMenu sysMenu) {
         return sysMenu.getSortNum();
+    }
+
+    @Override
+    public String getAuthority() {
+        return this.getCode();
     }
 }

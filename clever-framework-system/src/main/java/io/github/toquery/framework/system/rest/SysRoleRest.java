@@ -48,10 +48,7 @@ public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole,
     }
 
     @PutMapping
-    public ResponseParam update(@RequestBody SysRole sysRole, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
-        if (("admin".equalsIgnoreCase(sysRole.getCode()) || "root".equalsIgnoreCase(sysRole.getCode())) && !appProperties.getRootPwd().equalsIgnoreCase(rootPwd)) {
-            throw new AppException("禁止修改 admin root 角色！");
-        }
+    public ResponseParam update(@RequestBody SysRole sysRole) throws AppException {
         return super.handleResponseParam(service.updateSysRoleCheck(sysRole, Sets.newHashSet("name", "code", "menus")));
     }
 

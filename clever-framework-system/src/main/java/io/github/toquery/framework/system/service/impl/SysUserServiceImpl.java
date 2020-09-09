@@ -45,7 +45,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user = dao.getByUsername(username);
+        SysUser user = super.dao.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
@@ -56,7 +56,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
 
     @Override
     public List<SysUser> findByIds(Set<Long> ids) {
-        return dao.findAllById(ids);
+        return super.dao.findAllById(ids);
     }
 
     @Override

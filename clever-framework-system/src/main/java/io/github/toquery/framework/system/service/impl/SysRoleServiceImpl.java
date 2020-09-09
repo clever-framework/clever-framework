@@ -50,14 +50,7 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRol
 
     @Override
     public SysRole saveSysRoleCheck(SysRole sysRole) throws AppException {
-        if ("admin".equalsIgnoreCase(sysRole.getCode()) || "root".equalsIgnoreCase(sysRole.getCode())) {
-            throw new AppException("保存角色错误，禁止保存 admin root角色");
-        }
-        List<SysRole> sysRoleList = this.findByCode(sysRole.getCode());
-        if (sysRoleList != null && sysRoleList.size() > 0) {
-            throw new AppException("保存角色错误，存在相同code的角色");
-        }
-        sysRoleList = this.findByName(sysRole.getName());
+        List<SysRole> sysRoleList = this.findByName(sysRole.getName());
         if (sysRoleList != null && sysRoleList.size() > 0) {
             throw new AppException("保存角色错误，存在相同名称的角色");
         }
@@ -66,25 +59,28 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<Long, SysRole, SysRol
 
     @Override
     public void deleteSysRoleCheck(Set<Long> ids) throws AppException {
+        /*
+        todo 删除前验证
         Map<String, Object> filter = new HashMap<>();
         filter.put("idIN", ids);
+
         Optional<SysRole> sysRoleOptional = super.find(filter).stream().filter(item -> "admin".equalsIgnoreCase(item.getCode()) || "root".equalsIgnoreCase(item.getCode())).findAny();
+
         if (sysRoleOptional.isPresent()) {
             throw new AppException("禁止删除 admin root 角色");
         }
+        */
         super.deleteByIds(ids);
 
     }
 
     @Override
     public SysRole updateSysRoleCheck(SysRole sysRole, HashSet<String> newHashSet) throws AppException {
-        List<SysRole> sysRoleList = dao.findByCodeOrName(sysRole.getCode(), sysRole.getName());
-
+        List<SysRole> sysRoleList = this.findByName(sysRole.getName());
         Optional<SysRole> sysRoleOptional = sysRoleList.stream().filter(item -> !sysRole.getId().equals(item.getId())).findAny();
         if (sysRoleOptional.isPresent()) {
-            throw new AppException("已存在相同code或名称的角色");
+            throw new AppException("已存在相同名称的角色");
         }
-
         return super.update(sysRole, newHashSet);
     }
 }

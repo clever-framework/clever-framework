@@ -39,12 +39,12 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
             log.error("{} 对应的 Mapper 为 null ", repositoryMetadata.getRepositoryInterface().getName());
             throw new RuntimeException("处理 MyBatis Mapper 为空");
         }
-        log.info("执行 {} . {} ，参数为 {} ", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), Arrays.toString(parameters));
+        log.info("执行 {}#{} 参数为 {} ", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), Arrays.toString(parameters));
         Object result = null;
         try {
             result = method.invoke(mapper, parameters);
         } catch (Exception e) {
-            log.error("使用 mybatis 执行 mapper {} 中方法 {} 失败", repositoryMetadata.getRepositoryInterface().getName(), method.getName());
+            log.error("使用 mybatis 执行 mapper中方法 {}#{} 失败", repositoryMetadata.getRepositoryInterface().getName(), method.getName());
             e.printStackTrace();
             if (e instanceof RuntimeException) {
                 throw (RuntimeException) e;
