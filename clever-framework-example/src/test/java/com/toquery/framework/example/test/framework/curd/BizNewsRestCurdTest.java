@@ -15,6 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -40,6 +42,9 @@ public class BizNewsRestCurdTest extends BaseSpringTest {
 
     @Test
     public void query() throws Exception {
+
+        List<BizNews> newsList = bizNewsService.findJpa();
+
         mvc.perform(get("/biz-news")
                 .param("queryType", QueryType.APP.name()))
                 .andDo(print())

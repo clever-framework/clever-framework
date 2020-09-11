@@ -22,20 +22,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-system</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-crud</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-test</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-webmvc</artifactId>
@@ -43,6 +37,13 @@
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-common</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

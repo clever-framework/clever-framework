@@ -30,5 +30,12 @@
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-common</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

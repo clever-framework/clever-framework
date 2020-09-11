@@ -73,7 +73,7 @@ public class AppBaseCrudController<S extends AppBaseService<E, ID>, E, ID extend
      */
     protected Page<E> handleQuery(Map<String, Object> filterParam, String[] sorts) {
         //执行分页查询
-        return service.queryByPage(filterParam, super.getRequestPageNumber(), super.getRequestPageSize(), sorts);
+        return service.queryByPage(filterParam, super.getRequestPageNum(), super.getRequestPageSize(), sorts);
     }
 
 

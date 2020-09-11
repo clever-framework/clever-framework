@@ -1,8 +1,8 @@
 package io.github.toquery.framework.security.auditor;
 
-import io.github.toquery.framework.system.domain.AppBaseAuditedEntity;
-import io.github.toquery.framework.system.entity.SysUser;
-import io.github.toquery.framework.system.service.ISysUserService;
+//import io.github.toquery.framework.system.domain.AppBaseAuditedEntity;
+//import io.github.toquery.framework.system.entity.SysUser;
+//import io.github.toquery.framework.system.service.ISysUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * @author toquery
  * @version 1
- */
+
 @Service
 public class AppAuditedHandle {
 
@@ -38,3 +38,4 @@ public class AppAuditedHandle {
     }
 
 }
+ */

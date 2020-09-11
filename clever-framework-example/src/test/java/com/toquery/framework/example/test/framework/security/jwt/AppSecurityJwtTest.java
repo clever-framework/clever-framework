@@ -30,29 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 public class AppSecurityJwtTest extends BaseSpringMvcTest {
 
-    @Resource
-    private AuthenticationManager authenticationManager;
-
-    @Resource
-    private PasswordEncoder passwordEncoder;
-
-    /*@Before
-    public void before() {
-        String username = "admin";
-        String encode = passwordEncoder.encode(username);
-        log.info("用户名： {} 原密码：{} ,加密后密码：{}", username, username, encode);
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, username));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }*/
-
-
-    @Autowired
-    private JwtTokenHandler jwtTokenHandler;
-
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Autowired
     private AppSecurityJwtProperties appSecurityJwtProperties;
 

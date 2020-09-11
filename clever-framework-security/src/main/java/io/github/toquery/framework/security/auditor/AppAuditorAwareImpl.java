@@ -1,6 +1,6 @@
 package io.github.toquery.framework.security.auditor;
 
-import io.github.toquery.framework.system.entity.SysUser;
+import io.github.toquery.framework.core.security.AppUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
@@ -23,8 +23,15 @@ public class AppAuditorAwareImpl implements AuditorAware<Long> {
     @Override
     public Optional<Long> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        SysUser sysUser = (SysUser) authentication.getPrincipal();
-        log.debug("自定审计，当前操作用户ID为：{} 用户名：{} ", sysUser.getId(), sysUser.getUsername());
+
+        // FIXME
+        if (authentication == null) {
+            log.error("审计错误，无法获取用户信息");
+            return Optional.of(null);
+        }
+
+        AppUserDetails sysUser = (AppUserDetails) authentication.getPrincipal();
+        log.debug("自定义审计，当前操作用户ID {} 用户名 {} ", sysUser.getId(), sysUser.getUsername());
         return Optional.of(sysUser.getId());
         // return Optional.of(1L);
     }

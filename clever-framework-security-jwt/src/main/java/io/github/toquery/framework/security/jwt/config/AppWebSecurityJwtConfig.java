@@ -4,9 +4,7 @@ import io.github.toquery.framework.core.security.AppSecurityConfigurer;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.jwt.JwtUnauthorizedEntryPoint;
 import io.github.toquery.framework.security.jwt.filter.JwtTokenAuthorizationFilter;
-import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
-import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +12,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -35,20 +32,11 @@ public class AppWebSecurityJwtConfig implements AppSecurityConfigurer, AppSecuri
     private JwtUnauthorizedEntryPoint unauthorizedEntryPoint;
 
     @Resource
-    private UserDetailsService userDetailsService;
-
-    @Resource
     private AppSecurityJwtProperties appSecurityJwtProperties;
-
-    @Resource
-    private AppSecurityProperties appSecurityProperties;
-
-    @Resource
-    private JwtTokenHandler jwtTokenHandler;
 
     @Bean
     public OncePerRequestFilter getFilter() {
-        return new JwtTokenAuthorizationFilter(userDetailsService, jwtTokenHandler, appSecurityProperties);
+        return new JwtTokenAuthorizationFilter();
     }
 
 

@@ -5,7 +5,7 @@ import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,18 +33,16 @@ public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
     public static final String JWT_TOKEN_REQUEST_ATTR_KEY = JwtTokenAuthorizationFilter.class.getName() + ".JwtToken";
 
 
-    private final UserDetailsService userDetailsService;
-    private final JwtTokenHandler jwtTokenHandler;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-    private final AppSecurityProperties appSecurityProperties;
+    @Autowired
+    private JwtTokenHandler jwtTokenHandler;
+
+    @Autowired
+    private AppSecurityProperties appSecurityProperties;
 
     private final PathMatcher matcher = new AntPathMatcher();
-
-    public JwtTokenAuthorizationFilter(UserDetailsService userDetailsService, JwtTokenHandler jwtTokenHandler, AppSecurityProperties appSecurityProperties) {
-        this.userDetailsService = userDetailsService;
-        this.jwtTokenHandler = jwtTokenHandler;
-        this.appSecurityProperties = appSecurityProperties;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
