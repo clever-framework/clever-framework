@@ -9,6 +9,8 @@ import java.util.Date;
  */
 public interface AppUserDetails extends UserDetails {
 
+    Long getId();
+
     Date getLastPasswordResetDate();
 
     void setLastPasswordResetDate(Date lastPasswordResetDate);

@@ -34,13 +34,6 @@ public class AppSecurityAutoConfiguration {
         return new AppAuditorAwareImpl();
     }
 
-   /*
-    @Bean
-    @ConditionalOnMissingBean
-    public ISysLogService getSysLogService() {
-        return new SysLogServiceImpl();
-    }*/
-
 
     @Bean
     @ConditionalOnMissingBean(AuthenticationSuccessHandler.class)
@@ -53,4 +46,5 @@ public class AppSecurityAutoConfiguration {
     AppAuthenticationFailureHandler appAuthenticationFailureHandler() {
         return new AppAuthenticationFailureHandler();
     }
+
 }

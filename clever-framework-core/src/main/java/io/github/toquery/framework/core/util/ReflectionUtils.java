@@ -15,8 +15,7 @@ import java.util.Set;
 /**
  * 反射工具类
  *
- * @author	  	pengpeng
- * @date	  	2014年7月19日 下午7:12:07
+ * @author	  	toquery
  * @version  	1.0
  */
 public class ReflectionUtils extends org.springframework.util.ReflectionUtils {

@@ -10,11 +10,9 @@ import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtExceptio
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.system.entity.SysUser;
-import io.github.toquery.framework.log.service.ISysLogService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -58,9 +56,6 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
     @Resource
     private ISysUserService sysUserService;
 
-    @Resource
-    private ISysLogService sysLogService;
-
 
     @Resource
     private AppSecurityJwtProperties appJwtProperties;
@@ -75,7 +70,6 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
         // Reload password post-security so we can generate the token
         String token = jwtTokenHandler.generateToken((UserDetails) authentication.getPrincipal());
-        sysLogService.insertSysLog(((SysUser) authentication.getPrincipal()).getId(), "系统", "登录成功", null, userName, null);
         // Return the token
         return ResponseEntity.ok(ResponseParam.builder().content(new JwtResponse(token)).build());
     }
@@ -94,11 +88,9 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
             }
             return authentication;
         } catch (DisabledException e) {
-            sysLogService.insertSysLog(null, "系统", "登录失败", null, username, null);
-            throw new AppSecurityJwtException("User is disabled!", e);
+            throw new AppSecurityJwtException("User is disabled", e);
         } catch (BadCredentialsException e) {
-            sysLogService.insertSysLog(null, "系统", "登录失败", null, username + "密码错误", null);
-            throw new AppSecurityJwtException("用户名或密码错误！", e, HttpStatus.BAD_REQUEST);
+            throw new AppSecurityJwtException("用户名或密码错误", e, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -145,7 +137,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
 
     @RequestMapping(value = "${app.jwt.path.info:/user/info}")
-    public ResponseEntity getAuthenticatedUser() throws AppSecurityJwtException {
+    public ResponseEntity<ResponseParam> getAuthenticatedUser() throws AppSecurityJwtException {
         String username = this.getUserName();
         SysUser user = (SysUser) userDetailsService.loadUserByUsername(username);
         user.authorities2Roles();
@@ -153,7 +145,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
     }
 
     @RequestMapping(value = "${app.jwt.path.password:/user/password}")
-    public ResponseEntity changePassword(@Validated @RequestBody AppUserChangePassword changePassword) throws AppException {
+    public ResponseEntity<ResponseParam> changePassword(@Validated @RequestBody AppUserChangePassword changePassword) throws AppException {
         if (!changePassword.getRawPassword().equals(changePassword.getRawPasswordConfirm())) {
             return ResponseEntity.badRequest().body(ResponseParam.builder().message("两次密码输入不一致").build());
         }
@@ -173,7 +165,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
 
     @PostMapping(value = "${app.jwt.path.register:/user/register}")
-    public ResponseEntity register(@RequestBody SysUser user) throws AppException {
+    public ResponseEntity<ResponseParam> register(@RequestBody SysUser user) throws AppException {
         String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
         user = sysUserService.saveSysUserCheck(user);
@@ -181,7 +173,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
     }
 
     @RequestMapping(value = "${app.jwt.path.logout:/user/logout}")
-    public ResponseEntity userLogout() {
+    public ResponseEntity<ResponseParam> userLogout() {
         return ResponseEntity.ok(ResponseParam.builder().content("user logout").build());
     }
 }

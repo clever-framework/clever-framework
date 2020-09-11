@@ -6,19 +6,18 @@ import io.github.toquery.framework.log.event.AppHibernateListenerConfigurer;
 import io.github.toquery.framework.log.event.listener.AppBizLogDeleteEventListener;
 import io.github.toquery.framework.log.event.listener.AppBizLogMergeEventListener;
 import io.github.toquery.framework.log.event.listener.AppBizLogPersistEventListener;
+import io.github.toquery.framework.log.listener.AppLogAuthenticationFailureListener;
+import io.github.toquery.framework.log.listener.AppLogAuthenticationSuccessListener;
 import io.github.toquery.framework.log.properties.AppLogProperties;
 import io.github.toquery.framework.log.rest.SysLogRest;
 import io.github.toquery.framework.log.service.ISysLogService;
 import io.github.toquery.framework.log.service.impl.SysLogServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -96,4 +95,17 @@ public class AppBizLogAutoConfiguration {
 //        log.debug("加载 自定义 Listener AppBizLogPersistEventListener");
 //        registry.getEventListenerGroup(EventType.PERSIST).appendListener(getAppBizLogPersistEventListener());
 //    }
+
+
+
+    @Bean
+    public AppLogAuthenticationFailureListener appLogAuthenticationFailureListener() {
+        return new AppLogAuthenticationFailureListener();
+    }
+
+
+    @Bean
+    public AppLogAuthenticationSuccessListener appLogAuthenticationSuccessListener() {
+        return new AppLogAuthenticationSuccessListener();
+    }
 }
