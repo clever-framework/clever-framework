@@ -40,7 +40,7 @@ public class JwtTokenUtil implements Serializable {
      * @return 获取相应属性
      */
     public static <T> T getClaimFromToken(String signingKey, String token, Function<Claims, T> claimsResolver) {
-        Claims claims = getAllClaimsFromToken(signingKey, token);
+        Claims claims = getClaimsFromToken(signingKey, token);
         return claimsResolver.apply(claims);
     }
 
@@ -50,13 +50,16 @@ public class JwtTokenUtil implements Serializable {
      * @param token 实体
      * @return 实体
      */
-    public static Claims getAllClaimsFromToken(String signingKey, String token) {
+    public static Claims getClaimsFromToken(String signingKey, String token) {
         return Jwts.parser()
                 .setSigningKey(signingKey)
                 .parseClaimsJws(token)
                 .getBody();
     }
 
+    /**
+     * 获取 token 是否过期
+     */
     public static Boolean isTokenExpired(String signingKey, String token) {
         Date expiration = getExpirationDateFromToken(signingKey, token);
         return expiration.before(new Date());

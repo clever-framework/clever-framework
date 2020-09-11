@@ -131,8 +131,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
     @GetMapping(value = "${app.jwt.path.refresh:/user/refresh}")
     public ResponseEntity<?> refreshAndGetAuthenticationToken() {
-        String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String token = authToken.substring(7);
+        String token = jwtTokenHandler.getJwtToken();
         String username = jwtTokenHandler.getUsernameFromToken(token);
         AppUserDetails user = (AppUserDetails) userDetailsService.loadUserByUsername(username);
 
@@ -165,14 +164,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
 
     private String getUserName() throws AppSecurityJwtException {
-        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (Strings.isNullOrEmpty(token)) {
-            throw new AppSecurityJwtException("未检测到提交的用户信息");
-        }
-        // 如果协议中以 Bearer 开始，则去获取真正的token
-        if (token.contains("Bearer ")) {
-            token = token.substring(7);
-        }
+        String token = jwtTokenHandler.getJwtToken();
         return jwtTokenHandler.getUsernameFromToken(token);
     }
 

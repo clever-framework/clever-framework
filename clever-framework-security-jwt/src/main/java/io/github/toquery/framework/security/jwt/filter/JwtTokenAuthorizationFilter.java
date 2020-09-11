@@ -2,7 +2,6 @@ package io.github.toquery.framework.security.jwt.filter;
 
 import com.google.common.base.Strings;
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
-import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,12 @@ import java.io.IOException;
  * 检测请求header中token是否合法
  */
 @Slf4j
-public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
+public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
+
+    /**
+     * 当前JWT令牌在请求Attribute中的Key
+     */
+    public static final String JWT_TOKEN_REQUEST_ATTR_KEY = JwtTokenAuthorizationFilter.class.getName() + ".JwtToken";
 
 
     private final UserDetailsService userDetailsService;
@@ -36,7 +40,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     private final PathMatcher matcher = new AntPathMatcher();
 
-    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenHandler jwtTokenHandler, AppSecurityProperties appSecurityProperties) {
+    public JwtTokenAuthorizationFilter(UserDetailsService userDetailsService, JwtTokenHandler jwtTokenHandler, AppSecurityProperties appSecurityProperties) {
         this.userDetailsService = userDetailsService;
         this.jwtTokenHandler = jwtTokenHandler;
         this.appSecurityProperties = appSecurityProperties;
@@ -52,35 +56,22 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         } else {
             log.debug("正在处理认证请求 {}", request.getRequestURL());
 
-            String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-            if (Strings.isNullOrEmpty(token)) {
-                log.warn("处理认证请求 {} 时未从 header 获取 {} 将从请求param中读取。", request.getRequestURL(), HttpHeaders.AUTHORIZATION);
-                String[] requestParam = request.getParameterValues(HttpHeaders.AUTHORIZATION);
-                if (requestParam != null && requestParam.length > 0 && !Strings.isNullOrEmpty(requestParam[0])) {
-                    token = requestParam[0];
-                }
-            }
+            String token = jwtTokenHandler.getJwtToken();
 
             String username = null;
-            if (Strings.isNullOrEmpty(token)) {
-                log.warn("couldn't find bearer string, will ignore the header");
-            } else {
-                if (token.startsWith("Bearer ") || token.startsWith("bearer ")) {
-                    token = token.substring(7);
-                }
-                try {
-                    username = jwtTokenHandler.getUsernameFromToken(token);
-                } catch (IllegalArgumentException e) {
-                    log.error("an error occured during getting username from token");
-                    e.printStackTrace();
-                } catch (ExpiredJwtException e) {
-                    log.warn("the token is expired and not valid anymore");
-                    e.printStackTrace();
-                }
+
+            try {
+                username = jwtTokenHandler.getUsernameFromToken(token);
+            } catch (IllegalArgumentException e) {
+                log.error("an error occured during getting username from token");
+                e.printStackTrace();
+            } catch (ExpiredJwtException e) {
+                log.warn("the token is expired and not valid anymore");
+                e.printStackTrace();
             }
 
             log.debug("checking authentication for user '{}'", username);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (!Strings.isNullOrEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
                 log.debug("security context was null, so authorizating user");
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
@@ -90,6 +81,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     log.info("authorizated user '{}', setting security context", username);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    request.setAttribute(JWT_TOKEN_REQUEST_ATTR_KEY, jwtTokenHandler.getClaimsFromToken(token)); //设置到请求属性中去
                 }
             }
 

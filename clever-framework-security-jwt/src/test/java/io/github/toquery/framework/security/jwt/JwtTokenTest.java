@@ -59,7 +59,7 @@ public class JwtTokenTest extends AppTestSpringBase {
 
     @Test
     public void jwtTokenUtil() {
-        Claims claims = JwtTokenUtil.getAllClaimsFromToken("", token);
+        Claims claims = JwtTokenUtil.getClaimsFromToken("", token);
         log.info(JacksonUtils.object2String(claims));
 //        claims.
     }

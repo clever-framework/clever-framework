@@ -3,7 +3,7 @@ package io.github.toquery.framework.security.jwt.config;
 import io.github.toquery.framework.core.security.AppSecurityConfigurer;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.jwt.JwtUnauthorizedEntryPoint;
-import io.github.toquery.framework.security.jwt.filter.JwtAuthorizationTokenFilter;
+import io.github.toquery.framework.security.jwt.filter.JwtTokenAuthorizationFilter;
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
@@ -48,7 +48,7 @@ public class AppWebSecurityJwtConfig implements AppSecurityConfigurer, AppSecuri
 
     @Bean
     public OncePerRequestFilter getFilter() {
-        return new JwtAuthorizationTokenFilter(userDetailsService, jwtTokenHandler, appSecurityProperties);
+        return new JwtTokenAuthorizationFilter(userDetailsService, jwtTokenHandler, appSecurityProperties);
     }
 
 

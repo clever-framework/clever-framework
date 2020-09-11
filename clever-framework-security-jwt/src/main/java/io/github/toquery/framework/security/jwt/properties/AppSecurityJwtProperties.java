@@ -18,9 +18,20 @@ public class AppSecurityJwtProperties {
     private String secret = "clever";
 
     // 秒
-    private Long expiration = 3600L;
+    private Long expires = 60 * 60L;
 
-    private boolean ignoreTokenExpiration = false;
+    /**
+     * JWT令牌自动续约提前时间(比如在过期前提前5分钟续约)
+     */
+    private Long renewalAheadTime = 5 * 60L;
+
+
+    /**
+     * 是否忽略Token已过期?
+     * <p>如果忽略，不会启用自动刷新Token功能，修改密码后也不会影响Token</p>
+     * todo <p>如果不忽略，会自动刷新Token，修改密码后需要重新登录</p>
+     */
+    private boolean ignoreTokenExpires = false;
 
     private AppJwtParamProperties param = new AppJwtParamProperties();
 
@@ -33,6 +44,7 @@ public class AppSecurityJwtProperties {
         private String info = "/user/info";
         private String refresh = "/user/refresh";
         private String register = "/user/register";
+        private String logout = "/user/logout";
     }
 
     @Getter
