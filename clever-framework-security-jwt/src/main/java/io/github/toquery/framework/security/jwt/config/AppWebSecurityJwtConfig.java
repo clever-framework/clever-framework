@@ -1,5 +1,6 @@
 package io.github.toquery.framework.security.jwt.config;
 
+import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.security.AppSecurityConfigurer;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.jwt.JwtUnauthorizedEntryPoint;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 @Order(50)
 @Slf4j
@@ -68,13 +70,13 @@ public class AppWebSecurityJwtConfig implements AppSecurityConfigurer, AppSecuri
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(ignoring());
+        // web.ignoring().antMatchers(ignoring());
     }
 
     @Override
-    public String[] ignoring() {
+    public Set<String> ignoring() {
         AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
-        return new String[]{pathProperties.getRegister(), pathProperties.getToken()};
+        return Sets.newHashSet(pathProperties.getRegister(), pathProperties.getToken());
     }
 
 }

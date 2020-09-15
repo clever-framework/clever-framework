@@ -2,6 +2,8 @@ package io.github.toquery.framework.core.security;
 
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
+import java.util.Set;
+
 /**
  * Spring 自带实现如下
  * @see org.springframework.security.config.annotation.web.builders.WebSecurity.IgnoredRequestConfigurer
@@ -11,6 +13,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
  */
 public interface AppSecurityIgnoring {
 
-    public String[] ignoring();
+    public Set<String> ignoring();
 
 }

@@ -22,7 +22,7 @@ import java.io.IOException;
  * JWT令牌自动续约过滤器
  * <p>
  * 前提是客户端(浏览器)是基于Cookie的方式来存储JWT令牌(而不是localStorage)
- */
+
 @Slf4j
 public class JwtTokenAutoRenewalFilter extends OncePerRequestFilter implements InitializingBean {
 
@@ -35,7 +35,7 @@ public class JwtTokenAutoRenewalFilter extends OncePerRequestFilter implements I
     private AntPathRequestMatcher loginRequestMatcher;
 
     public JwtTokenAutoRenewalFilter() {
-        log.debug("初始化Jwt");
+        log.debug("初始化JWT令牌自动续约过滤器");
     }
 
     @Override
@@ -62,12 +62,8 @@ public class JwtTokenAutoRenewalFilter extends OncePerRequestFilter implements I
         loginRequestMatcher = new AntPathRequestMatcher(jwtProperties.getPath().getLogout());
     }
 
-    /**
-     * 获取当前绑定在请求上下文中的JWT令牌对象
-     */
     protected Claims getCurrentJwtToken(HttpServletRequest request) {
         return (Claims) request.getAttribute(JwtTokenAuthorizationFilter.JWT_TOKEN_REQUEST_ATTR_KEY);
     }
-
-
 }
+ */

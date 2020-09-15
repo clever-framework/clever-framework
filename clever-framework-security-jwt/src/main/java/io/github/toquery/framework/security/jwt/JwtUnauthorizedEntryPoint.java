@@ -24,7 +24,7 @@ public class JwtUnauthorizedEntryPoint implements AuthenticationEntryPoint, Seri
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         // This is invoked when user tries to access a secured REST resource without supplying any credentials
         // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
-        log.error("认证出错, path = {}, {} = {}", request.getRequestURI(), authException.getClass().getName(), authException.getMessage());
+        log.error("认证出错 {}  {} {}", request.getRequestURI(), authException.getClass().getName(), authException.getMessage());
         // request.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, authException);
         // request.getRequestDispatcher(unauthenticatedHandlerUrl).forward(request, response);
 

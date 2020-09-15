@@ -1,10 +1,12 @@
 package io.github.toquery.framework.security.config;
 
+import com.google.common.collect.Sets;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.security.AppSecurityConfigurer;
+import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.handler.AppAccessDeniedHandler;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,6 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Order(51)
 @Slf4j
@@ -32,10 +35,10 @@ import java.util.List;
 public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
-    private UserDetailsService userDetailsService;
+    private List<AppSecurityConfigurer> serviceSecConfigs;
 
     @Resource
-    private List<AppSecurityConfigurer> serviceSecConfigs;
+    private List<AppSecurityIgnoring> appSecurityIgnoringList;
 
     @Resource
     private AppSecurityProperties appSecurityProperties;
@@ -85,8 +88,8 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .authorizeRequests()
 
-                // jwt
-                .antMatchers(this.getWhitelist()).permitAll()
+                //
+                .antMatchers(this.getIgnoringArray()).permitAll()
                 .anyRequest().authenticated();
 
         if (serviceSecConfigs != null && !serviceSecConfigs.isEmpty()) {
@@ -117,7 +120,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
 
         // AuthenticationTokenFilter will ignore the below paths
-        web.ignoring().antMatchers(this.getWhitelist());
+        web.ignoring().antMatchers(this.getIgnoringArray());
 
 
         if (serviceSecConfigs != null && !serviceSecConfigs.isEmpty()) {
@@ -130,15 +133,17 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 加载白名单
      */
-    private String[] getWhitelist() {
-        return ArrayUtils.addAll(appSecurityProperties.getIgnoringArray(), this.getCustomizeWhitelist());
-    }
-
-    /**
-     * 加载自定义白名单
-     */
-    protected String[] getCustomizeWhitelist() {
-        return new String[]{};
+    private String[] getIgnoringArray() {
+        Set<String> ignoringSet = Sets.newHashSet();
+        // 获取框架配置的地址
+        if (appSecurityIgnoringList != null && !appSecurityIgnoringList.isEmpty()) {
+            ignoringSet.addAll(appSecurityIgnoringList.stream().flatMap(appSecurityIgnoring -> appSecurityIgnoring.ignoring().stream()).collect(Collectors.toSet()));
+            log.debug("加载框架白名单URI {} 个 , 分别是 {}", ignoringSet.size(), JacksonUtils.object2String(ignoringSet));
+        }
+        ignoringSet.addAll(appSecurityProperties.getIgnoring());
+        log.debug("加载配置文件白名单URI {} 个 , 分别是 {}", appSecurityProperties.getIgnoring().size(), JacksonUtils.object2String(appSecurityProperties.getIgnoring()));
+        String[] ignoringArray = new String[ignoringSet.size()];
+        return ignoringSet.toArray(ignoringArray);
     }
 
     /**
