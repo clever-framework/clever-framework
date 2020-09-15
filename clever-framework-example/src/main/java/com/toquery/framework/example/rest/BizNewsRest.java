@@ -4,6 +4,8 @@ import com.google.common.collect.Sets;
 import com.toquery.framework.example.constant.QueryType;
 import com.toquery.framework.example.entity.BizNews;
 import com.toquery.framework.example.service.IBizNewsService;
+import io.github.toquery.framework.core.log.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -81,6 +83,8 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
         return responseParam;
     }
 
+
+    @AppLogMethod(value = BizNews.class, logType = AppLogType.CREATE, modelName = "$moduleName", bizName = "新增")
     @PostMapping
     public ResponseParam save(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @Validated @RequestBody BizNews bizNews) {
         ResponseParam responseParam = null;
@@ -103,6 +107,7 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
         return responseParam;
     }
 
+    @AppLogMethod(value = BizNews.class, logType = AppLogType.MODIFY, modelName = "$moduleName", bizName = "修改")
     @PutMapping
     public ResponseParam update(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestBody BizNews bizNews) {
         ResponseParam responseParam = null;
@@ -125,6 +130,8 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
         return responseParam;
     }
 
+
+    @AppLogMethod(value = BizNews.class, logType = AppLogType.DELETE, modelName = "$moduleName", bizName = "删除")
     @DeleteMapping
     public void delete(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestParam Set<Long> ids) {
         switch (queryType) {

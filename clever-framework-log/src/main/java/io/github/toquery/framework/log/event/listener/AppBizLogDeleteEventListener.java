@@ -41,7 +41,7 @@ public class AppBizLogDeleteEventListener implements DeleteEventListener {
             return;
         }
         Map<String, Object> targetData = appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity, appLogEntity));
-        SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(AppLogType.DEL, null, targetData, appLogEntity.modelName(), appLogEntity.bizName());
+        SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(AppLogType.DELETE, null, targetData, appLogEntity.modelName(), appLogEntity.bizName());
         sysLogService.save(sysLog);
         log.debug("接收到");
     }

@@ -61,6 +61,9 @@ public class AppBizLogMethodAspect {
     @Resource
     private AppBizLogAnnotationHandler appBizLogAnnotationHandler;
 
+    public AppBizLogMethodAspect() {
+        log.info("初始化 App Log 方法日志记录器的 Aspect");
+    }
 
     @Pointcut(value = "@annotation(appLogMethod)", argNames = "appLogMethod")
     public void pointcut(AppLogMethod appLogMethod) {

@@ -13,7 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum AppLogType {
 
-    CREATE("创建"), MODIFY("修改"), DEL("删除"), SEARCH("查看");
+    CREATE("创建"),
+    MODIFY("修改"),
+    DELETE("删除"),
+    QUERY("查看");
 
     private String remark;
 }

@@ -21,15 +21,7 @@ import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
@@ -169,6 +161,8 @@ public class BizNews extends AppBaseEntity implements AppEntitySoftDel {
         return deleted;
     }
 
+    @Transient
+    private String moduleName = "example新闻模块";
 
     /*
     @Override

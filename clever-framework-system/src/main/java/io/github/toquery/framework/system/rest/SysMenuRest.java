@@ -62,7 +62,7 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu,
         return super.update(menu, Sets.newHashSet("name", "code", "sortNum"));
     }
 
-    @AppLogMethod(value = SysMenu.class, logType = AppLogType.DEL, modelName = "$modelName", bizName = "$bizName")
+    @AppLogMethod(value = SysMenu.class, logType = AppLogType.DELETE, modelName = "$modelName", bizName = "$bizName")
     @DeleteMapping
     public void delete(@RequestParam Set<Long> ids) {
         service.deleteMenu(ids);
