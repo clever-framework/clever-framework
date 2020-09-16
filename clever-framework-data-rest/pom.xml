@@ -16,15 +16,16 @@
     <dependencies>
         <dependency>
             <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-dao</artifactId>
+            <artifactId>clever-framework-crud</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-webmvc</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-core</artifactId>
         </dependency>
     </dependencies>
 </project>

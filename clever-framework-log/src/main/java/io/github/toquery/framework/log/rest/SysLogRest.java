@@ -12,7 +12,6 @@ import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,16 +52,20 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Lo
         Page<SysLog> page = super.handleQuery(filterParam, PAGE_SORT);
         List<SysLog> sysLogList = page.getContent();
         Stream<SysLog> sysLogStream = sysLogList.size() > 6 ? sysLogList.parallelStream() : sysLogList.stream();
-        List<SysLog> sysLogVoList = sysLogStream.map(item ->
-                new SysLog(item, userDetailsService.getById(item.getCreateUserId()))
-        ).collect(Collectors.toList());
+        List<SysLog> sysLogVoList = sysLogStream.map(item -> {
+            Long userId = item.getUserId();
+            userId = userId == null ? item.getCreateUserId() : userId;
+            return new SysLog(item, userDetailsService.getById(userId));
+        }).collect(Collectors.toList());
         return new ResponseParamBuilder().page(new PageImpl<>(sysLogVoList, page.getPageable(), page.getTotalElements())).build();
     }
 
     @GetMapping("{id}")
     public ResponseParam detail(@PathVariable Long id) {
         SysLog sysLog = super.getById(id);
-        return super.handleResponseParam(new SysLog(sysLog, userDetailsService.getById(sysLog.getCreateUserId())));
+        Long userId = sysLog.getUserId();
+        userId = userId == null ? sysLog.getCreateUserId() : userId;
+        return super.handleResponseParam(new SysLog(sysLog, userDetailsService.getById(userId)));
     }
 
     @PostMapping

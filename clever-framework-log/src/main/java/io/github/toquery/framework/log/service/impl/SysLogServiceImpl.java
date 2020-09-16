@@ -43,6 +43,7 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<Long, SysLog, SysLogRe
         sysLog.setBizName(bizName);
         sysLog.setRawData(rawData);
         sysLog.setTargetData(targetData);
+        sysLog.setUserId(userId);
 
         if (logType == null) {
             sysLog.setLogType(AppLogType.CREATE);

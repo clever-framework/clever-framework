@@ -62,7 +62,6 @@ public class MybatisQueryLookupStrategy extends QueryLookupStrategyAdvice {
         } else {
             mapper = mybatisMapperMap.get(repositoryInterfaceName);
         }
-
         return new MybatisRepositoryQuery(mapper, method, metadata, factory);
     }
 

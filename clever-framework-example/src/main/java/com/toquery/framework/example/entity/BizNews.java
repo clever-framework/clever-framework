@@ -8,6 +8,7 @@ import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.data.rest.annotation.AppEntityRest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,8 @@ import java.util.HashSet;
 @NoArgsConstructor
 
 @AppLogEntity
+
+@AppEntityRest(path = "example-biz-news-rest")
 
 @Where(clause = "deleted = false")
 

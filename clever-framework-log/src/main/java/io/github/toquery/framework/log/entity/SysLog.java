@@ -1,5 +1,6 @@
 package io.github.toquery.framework.log.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogEntityIgnore;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
@@ -48,6 +49,13 @@ public class SysLog extends AppBaseEntity {
 
         this.sysUser = sysUser;
     }
+
+    /**
+     * 模块名称
+     */
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @Column(name = "user_id")
+    private Long userId;
 
     /**
      * 模块名称

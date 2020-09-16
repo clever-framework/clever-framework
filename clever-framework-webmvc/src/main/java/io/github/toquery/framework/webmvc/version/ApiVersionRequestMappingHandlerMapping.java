@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  */
 @AllArgsConstructor
-public class ApiRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
+public class ApiVersionRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
     //最小版本
     private int minimumVersion;
     //自动解析包名，获取版本号
