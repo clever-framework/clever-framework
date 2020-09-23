@@ -27,7 +27,7 @@ public class AppAuditorAwareImpl implements AuditorAware<Long> {
         // FIXME
         if (authentication == null) {
             log.error("审计错误，无法获取用户信息");
-            return Optional.of(null);
+            return Optional.of(1L);
         }
 
         AppUserDetails sysUser = (AppUserDetails) authentication.getPrincipal();

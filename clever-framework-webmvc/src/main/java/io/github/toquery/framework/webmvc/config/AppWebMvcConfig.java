@@ -3,10 +3,15 @@ package io.github.toquery.framework.webmvc.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.github.toquery.framework.webmvc.StringToEnumIgnoringCaseConverterFactory;
 import io.github.toquery.framework.webmvc.resolver.MethodArgumentUpperCaseResolver;
 import io.github.toquery.framework.webmvc.resolver.PathVariableMethodArgumentUpperCaseResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
+import org.springframework.boot.convert.ApplicationConversionService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.Validator;
@@ -19,19 +24,39 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Slf4j
+@Configuration
 public class AppWebMvcConfig implements WebMvcConfigurer {
 
     public AppWebMvcConfig() {
         log.info("初始化 App Web Mvc 配置 {}", this.getClass().getSimpleName());
     }
 
+    // fixme 这里更新版本后不起作用
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         log.debug("获取到原始解析器 {} 个", resolvers.size());
-        resolvers.add(new MethodArgumentUpperCaseResolver());
+        resolvers.add(getMethodArgumentUpperCaseResolver());
         log.debug("增加自定义解析器 MethodArgumentUpperCaseResolver ");
-        resolvers.add(new PathVariableMethodArgumentUpperCaseResolver());
+        resolvers.add(getPathVariableMethodArgumentUpperCaseResolver());
         log.debug("增加自定义解析器 PathVariableMethodArgumentUpperCaseResolver ");
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverterFactory(new StringToEnumIgnoringCaseConverterFactory());
+
+//        registry.addConverterFactory();
+//        ApplicationConversionService.configure(registry);
+    }
+
+    @Bean
+    public HandlerMethodArgumentResolver getMethodArgumentUpperCaseResolver() {
+        return new MethodArgumentUpperCaseResolver();
+    }
+
+    @Bean
+    public HandlerMethodArgumentResolver getPathVariableMethodArgumentUpperCaseResolver() {
+        return new PathVariableMethodArgumentUpperCaseResolver();
     }
 
     @Override

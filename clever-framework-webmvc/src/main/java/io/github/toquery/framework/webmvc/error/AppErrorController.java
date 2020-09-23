@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Slf4j
-@RestController
+//@RestController
 public class AppErrorController extends BasicErrorController {
 
     public AppErrorController(ServerProperties serverProperties) {
