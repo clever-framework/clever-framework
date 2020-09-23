@@ -1,5 +1,6 @@
 package com.toquery.framework.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.toquery.framework.example.constant.BizNewsShowStatus;
@@ -19,7 +20,9 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.Loader;
 import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -32,6 +35,11 @@ import java.util.HashSet;
  * @author toquery
  * @version 1
  */
+
+@Loader(namedQuery = "findBizNewsById") // todo
+@NamedQuery(name= "findBizNewsById", query =
+        "SELECT news FROM BizNews news WHERE news.id = ?1 AND news.deleted = false")
+
 @Slf4j
 @Setter
 @Getter
@@ -43,6 +51,7 @@ import java.util.HashSet;
 @AppEntityRest(path = "example-biz-news-rest")
 
 @Where(clause = "deleted = false")
+@SQLDelete(sql ="UPDATE BizNews SET deleted = true WHERE id = ?")
 
 @FilterDef(
         name = "gtNum",
@@ -78,6 +87,8 @@ public class BizNews extends AppBaseEntity implements AppEntitySoftDel {
     }
 
     @AppLogField("标题")
+    // @JsonProperty // 序列化 反序列化都会起效
+    @JsonAlias({"newsTitle", "masterTitle"}) // 只有在反序列化是起效
     @Column
     private String title;
 

@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
  *
  * @param <T>
  */
-public class AppFactoryBean<T> implements FactoryBean<T> {
+public class AppDictFactoryBean<T> implements FactoryBean<T> {
     private String innerClassName;
 
     public void setInnerClassName(String innerClassName) {
@@ -32,9 +32,9 @@ public class AppFactoryBean<T> implements FactoryBean<T> {
             enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
             enhancer.setCallback(new MethodInterceptor() {
                 @Override
-                public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+                public Object intercept(Object object, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
                     System.out.println("MethodInterceptorImpl:" + method.getName());
-                    return methodProxy.invokeSuper(o, objects);
+                    return methodProxy.invokeSuper(object, objects);
                 }
             });
             return (T) enhancer.create();

@@ -11,21 +11,21 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 
 import java.util.Set;
 
-public final class AppDictScanner extends ClassPathBeanDefinitionScanner {
+public final class ClassPathAppDictScanner extends ClassPathBeanDefinitionScanner {
 
-    public AppDictScanner(BeanDefinitionRegistry registry) {
+    public ClassPathAppDictScanner(BeanDefinitionRegistry registry) {
         super(registry);
     }
 
-    public AppDictScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters) {
+    public ClassPathAppDictScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters) {
         super(registry, useDefaultFilters);
     }
 
-    public AppDictScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters, Environment environment) {
+    public ClassPathAppDictScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters, Environment environment) {
         super(registry, useDefaultFilters, environment);
     }
 
-    public AppDictScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters, Environment environment, ResourceLoader resourceLoader) {
+    public ClassPathAppDictScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters, Environment environment, ResourceLoader resourceLoader) {
         super(registry, useDefaultFilters, environment, resourceLoader);
     }
 
@@ -37,6 +37,7 @@ public final class AppDictScanner extends ClassPathBeanDefinitionScanner {
 
 
 
+    @Override
     public Set<BeanDefinitionHolder> doScan(String... basePackages) {
 //        Set<BeanDefinitionHolder> beanDefinitions = super.doScan(basePackages);
 //        for (BeanDefinitionHolder holder : beanDefinitions) {
@@ -54,7 +55,7 @@ public final class AppDictScanner extends ClassPathBeanDefinitionScanner {
         for (BeanDefinitionHolder holder : beanDefinitionHolders) {
             GenericBeanDefinition definition = (GenericBeanDefinition) holder.getBeanDefinition();
             definition.getPropertyValues().add("innerClassName", definition.getBeanClassName());
-            definition.setBeanClass(AppFactoryBean.class);
+            definition.setBeanClass(AppDictFactoryBean.class);
         }
 
         return beanDefinitionHolders;

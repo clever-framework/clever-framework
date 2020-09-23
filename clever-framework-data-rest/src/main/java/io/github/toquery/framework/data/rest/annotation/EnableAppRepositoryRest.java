@@ -1,5 +1,7 @@
 package io.github.toquery.framework.data.rest.annotation;
 
+import org.springframework.context.annotation.Import;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -14,6 +16,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Inherited
+//@Inherited
+//@Import(ContractAutoHandlerRegisterConfiguration.class)
 public @interface EnableAppRepositoryRest {
+
+    String[] basePackages() default {};
 }

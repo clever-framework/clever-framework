@@ -16,7 +16,7 @@ public class AppDictScannerConfigurer implements BeanFactoryPostProcessor, Appli
         this.applicationContext = applicationContext;
     }
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        AppDictScanner scanner = new AppDictScanner((BeanDefinitionRegistry) beanFactory);
+        ClassPathAppDictScanner scanner = new ClassPathAppDictScanner((BeanDefinitionRegistry) beanFactory);
         scanner.setResourceLoader(this.applicationContext);
     }
 }

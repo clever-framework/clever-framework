@@ -15,12 +15,11 @@ import java.util.Set;
 
 public class AppDictScannerRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware {
 
-    ResourceLoader resourceLoader;
+    private ResourceLoader resourceLoader;
 
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
-
     }
 
 
@@ -29,14 +28,14 @@ public class AppDictScannerRegistrar implements ImportBeanDefinitionRegistrar, R
         //获取所有注解的属性和值
         AnnotationAttributes annotationAttributes = AnnotationAttributes.fromMap(annotationMetadata.getAnnotationAttributes(AppDictScan.class.getName()));
         assert annotationAttributes != null;
-        String[] basePackages = annotationAttributes.getStringArray("basePackage");
+        String[] basePackages = annotationAttributes.getStringArray("basePackages");
         //如果没有设置basePackage 扫描路径,就扫描对应包下面的值
         if(basePackages.length == 0){
             basePackages = new String[]{((StandardAnnotationMetadata) annotationMetadata).getIntrospectedClass().getPackage().getName()};
         }
 
         //自定义的包扫描器
-        AppDictScanner scanHandle = new  AppDictScanner(beanDefinitionRegistry,false);
+        ClassPathAppDictScanner scanHandle = new ClassPathAppDictScanner(beanDefinitionRegistry,false);
 
         if(resourceLoader != null){
             scanHandle.setResourceLoader(resourceLoader);
