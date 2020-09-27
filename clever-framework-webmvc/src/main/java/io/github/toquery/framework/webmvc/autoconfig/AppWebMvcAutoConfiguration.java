@@ -43,7 +43,8 @@ public class AppWebMvcAutoConfiguration {
     @Bean
     public AppErrorController getAppErrorController(){
         return new AppErrorController();
-    }*/
+    }
+     */
 }
 
 

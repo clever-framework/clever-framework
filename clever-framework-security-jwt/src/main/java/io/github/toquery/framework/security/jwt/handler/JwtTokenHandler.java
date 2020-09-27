@@ -2,6 +2,7 @@ package io.github.toquery.framework.security.jwt.handler;
 
 import com.google.common.base.Strings;
 import io.github.toquery.framework.core.security.AppUserDetails;
+import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.jwt.utils.JwtTokenUtil;
 import io.jsonwebtoken.Claims;
@@ -11,6 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,8 +52,8 @@ public class JwtTokenHandler {
 
         if (Strings.isNullOrEmpty(token)){
             log.error("未获取到 Token 信息");
-           // throw new RuntimeException("未获取到 Token 信息");
-            return null;
+            throw new AppSecurityJwtException(HttpStatus.BAD_REQUEST, "未获取到 Token 信息");
+//            return null;
         }
 
         if ((token.startsWith(PREFIX_AUTHORIZATION) || token.startsWith(PREFIX_AUTHORIZATION.toLowerCase()) || token.startsWith(PREFIX_AUTHORIZATION.toUpperCase()))) {

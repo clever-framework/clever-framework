@@ -1,5 +1,6 @@
 package io.github.toquery.framework.webmvc.resolver;
 
+import com.google.common.base.Strings;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -21,12 +22,22 @@ public class MethodArgumentUpperCaseResolver implements HandlerMethodArgumentRes
         log.debug("初始化自定义参数大写转换 {}", this.getClass().getName());
     }
 
+    @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterAnnotation(UpperCase.class) != null;
+        return parameter.getParameterAnnotation(UpperCase.class) != null &&
+                (String.class.isAssignableFrom(parameter.getParameterType()) || Enum.class.isAssignableFrom(parameter.getParameterType()) );
     }
 
+    @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        UpperCase upperCase = parameter.getParameterAnnotation(UpperCase.class);
-        return webRequest.getParameter(upperCase.value()).toUpperCase();
+        String parameterName = parameter.getParameterName();
+        if (Strings.isNullOrEmpty(parameterName)) {
+            return parameterName;
+        }
+        String parameterValue = webRequest.getParameter(parameterName);
+        if (Strings.isNullOrEmpty(parameterValue)) {
+            return parameterValue;
+        }
+        return parameterValue.toUpperCase();
     }
 }

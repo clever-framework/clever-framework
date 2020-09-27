@@ -27,6 +27,11 @@ public class AppSecurityJwtException extends AppException {
         super(message);
     }
 
+    public AppSecurityJwtException( HttpStatus httpStatus, String message) {
+        super(message);
+        this.httpStatus = httpStatus;
+    }
+
     public AppSecurityJwtException(String message, Throwable cause) {
         super(message, cause);
     }

@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @Slf4j
-@ControllerAdvice
-public class AppSecurityJwtExceptionHandle {
+//@ControllerAdvice
+@RestControllerAdvice
+public class AppSecurityJwtExceptionAdvice {
 
-    public AppSecurityJwtExceptionHandle(){
+    public AppSecurityJwtExceptionAdvice(){
         log.info("初始化 App Security Jwt Exception Handle");
     }
 
@@ -31,7 +33,7 @@ public class AppSecurityJwtExceptionHandle {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseParam> handleExpiredJwtException(AccessDeniedException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseParam.builder().message("访问被拒绝！").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseParam.builder().code(HttpStatus.UNAUTHORIZED.value()).message("访问被拒绝！").build());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -39,13 +41,13 @@ public class AppSecurityJwtExceptionHandle {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ResponseParam> handleExpiredJwtException(ExpiredJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseParam.builder().message("登录失效！").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseParam.builder().code(HttpStatus.UNAUTHORIZED.value()).message("登录失效！").build());
     }
 
     @ResponseBody
     @ExceptionHandler(AppSecurityJwtException.class)
     public ResponseEntity<ResponseParam> handleAuthenticationException(AppSecurityJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseParam.builder().message(exception.getMessage()).build());
+        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseParam.builder().code(exception.getHttpStatus().value()).message(exception.getMessage()).build());
     }
 }

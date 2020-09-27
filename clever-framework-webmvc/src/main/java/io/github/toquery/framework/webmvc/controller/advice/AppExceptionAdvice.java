@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
@@ -35,16 +36,19 @@ public class AppExceptionAdvice {
     }
     */
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseParam> handleAppException(Exception exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseParamBuilder().message(exception.getMessage()).build());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseParamBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
 
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ResponseParam> handleAppException(AppException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseParamBuilder().message(exception.getMessage()).build());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseParamBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
 
     /*
@@ -56,9 +60,11 @@ public class AppExceptionAdvice {
     }
     */
 
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ResponseParam> handleConstraintViolationException(ConstraintViolationException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseParamBuilder().message(exception.getConstraintViolations().iterator().next().getMessage()).build());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseParamBuilder().code(HttpStatus.BAD_REQUEST.value()).message(exception.getConstraintViolations().iterator().next().getMessage()).build());
     }
 }

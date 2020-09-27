@@ -4,7 +4,7 @@ package io.github.toquery.framework.core.exception;
  * @author toquery
  * @version 1
  */
-public class AppException extends Exception {
+public class AppException extends RuntimeException {
     public AppException() {
         super();
     }

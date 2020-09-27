@@ -17,9 +17,9 @@ app:
       - /error
       - /h2-console/**
       - /app/ueditor
-      - /app/files
-      - /app/files/**
-      - /app/minio/upload
+#      - /app/files
+#      - /app/files/**
+#      - /app/minio/upload
   jwt:
     secret: 123456
 

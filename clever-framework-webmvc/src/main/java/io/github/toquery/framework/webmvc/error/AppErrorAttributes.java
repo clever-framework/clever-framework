@@ -1,5 +1,6 @@
 package io.github.toquery.framework.webmvc.error;
 
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.core.Ordered;
 import org.springframework.web.context.request.WebRequest;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.Map;
 
 public class AppErrorAttributes implements ErrorAttributes, HandlerExceptionResolver, Ordered {
@@ -15,8 +17,8 @@ public class AppErrorAttributes implements ErrorAttributes, HandlerExceptionReso
     private static final String ERROR_ATTRIBUTE = AppErrorAttributes.class.getName() + ".ERROR";
 
     @Override
-    public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
-        return null;
+    public Map<String, Object> getErrorAttributes(WebRequest webRequest, ErrorAttributeOptions options) {
+        return Collections.emptyMap();
     }
 
     @Override

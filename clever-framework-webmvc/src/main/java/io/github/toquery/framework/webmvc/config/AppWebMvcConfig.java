@@ -31,7 +31,12 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
         log.info("初始化 App Web Mvc 配置 {}", this.getClass().getSimpleName());
     }
 
-    // fixme 这里更新版本后不起作用
+    /**
+     * 依据Spring的适配器，使用初始化顺序调用解析
+     * @see org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
+     * 如果接收参数使用其他注解处理，则只会使用其他的解析器
+     *
+     */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         log.debug("获取到原始解析器 {} 个", resolvers.size());
