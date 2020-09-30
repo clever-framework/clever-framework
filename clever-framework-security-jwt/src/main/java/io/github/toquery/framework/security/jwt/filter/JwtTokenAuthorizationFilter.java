@@ -1,10 +1,7 @@
 package io.github.toquery.framework.security.jwt.filter;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import io.github.toquery.framework.core.security.AppSecurityIgnoring;
-import io.github.toquery.framework.core.security.AppSecurityIgnoringHandler;
+import io.github.toquery.framework.core.security.AppSecurityIgnoringHandlerAdapter;
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -25,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 检测请求header中token是否合法
@@ -49,15 +45,14 @@ public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
     private AppSecurityProperties appSecurityProperties;
 
     @Autowired
-    private AppSecurityIgnoringHandler appSecurityIgnoringHandler;
+    private AppSecurityIgnoringHandlerAdapter appSecurityIgnoringHandler;
 
     private final PathMatcher matcher = new AntPathMatcher();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        Set<String> ignoring = appSecurityIgnoringHandler.getIgnoringSet();
-        ignoring.addAll(appSecurityIgnoringHandler.getIgnoringSet(appSecurityProperties.getIgnoring()));
+        Set<String> ignoring = appSecurityIgnoringHandler.allIgnoringSet(appSecurityProperties.getIgnoring());
 
         if (ignoring.stream().anyMatch(item -> matcher.match(item, request.getRequestURI()))) {
             // 继续而不调用此过滤器...
