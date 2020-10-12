@@ -40,7 +40,7 @@ public class AppExceptionAdvice {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseParam> handleAppException(Exception exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseParamBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseParamBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
 
 
@@ -48,7 +48,7 @@ public class AppExceptionAdvice {
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ResponseParam> handleAppException(AppException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseParamBuilder().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseParamBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
 
     /*
@@ -65,6 +65,6 @@ public class AppExceptionAdvice {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ResponseParam> handleConstraintViolationException(ConstraintViolationException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseParamBuilder().code(HttpStatus.BAD_REQUEST.value()).message(exception.getConstraintViolations().iterator().next().getMessage()).build());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseParamBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(exception.getConstraintViolations().iterator().next().getMessage()).build());
     }
 }

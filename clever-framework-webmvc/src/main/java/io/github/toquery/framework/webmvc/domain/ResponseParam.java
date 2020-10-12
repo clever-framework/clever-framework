@@ -33,6 +33,7 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
         this.code(builder.getCode());
         this.message(builder.getMessage());
         this.content(builder.getContent());
+        this.success(builder.getSuccess());
         this.page(builder.getPage());
         if (builder.getParam() != null) {
             builder.getParam().forEach(this::param);
@@ -45,6 +46,11 @@ public class ResponseParam extends HashMap<String, Object> { //implements Initia
 
     public ResponseParamBuilder newBuilder() {
         return new ResponseParamBuilder(this);
+    }
+
+    private ResponseParam success(boolean success){
+        this.put(SUCCESS_PARAM, success);
+        return this;
     }
 
     private ResponseParam content(Object content) {

@@ -12,7 +12,7 @@ import java.util.Map;
 public final class ResponseParamBuilder {
 
 
-    private boolean success;
+    private boolean success = true;
 
     private int code;
 
@@ -31,7 +31,18 @@ public final class ResponseParamBuilder {
     public ResponseParamBuilder(ResponseParam responseParam) {
     }
 
+    public boolean getSuccess() {
+        return success;
+    }
 
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public ResponseParamBuilder success(boolean success) {
+        this.success = success;
+        return this;
+    }
 
     public ResponseParamBuilder code(int code) {
         this.code = code;
@@ -88,7 +99,7 @@ public final class ResponseParamBuilder {
         return this;
     }
 
-    public ResponseParamBuilder message() {
+    public ResponseParamBuilder success() {
         this.message = "成功";
         this.success = true;
         return this;

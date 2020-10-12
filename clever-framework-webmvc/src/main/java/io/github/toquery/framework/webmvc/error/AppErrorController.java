@@ -42,7 +42,7 @@ public class AppErrorController extends BasicErrorController {
     @Override
     protected Map<String, Object> getErrorAttributes(HttpServletRequest request, ErrorAttributeOptions options) {
         Map<String, Object> superErrorAttributes = super.getErrorAttributes(request, options);
-        ResponseParam responseParam = new ResponseParamBuilder().message(superErrorAttributes.getOrDefault("message", "系统错误！").toString()).build();
+        ResponseParam responseParam = new ResponseParamBuilder().fail().message(superErrorAttributes.getOrDefault("message", "系统错误！").toString()).build();
         return JacksonUtils.object2HashMap(responseParam);
     }
 
