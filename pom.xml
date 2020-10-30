@@ -60,7 +60,7 @@
         <datanucleus.version>5.2.1</datanucleus.version>
 
         <swagger.version>2.1.4</swagger.version>
-        <swagger-ui.version>3.34.0</swagger-ui.version>
+        <swagger-ui.version>3.36.1</swagger-ui.version>
 
         <minio.version>7.1.4</minio.version>
 
