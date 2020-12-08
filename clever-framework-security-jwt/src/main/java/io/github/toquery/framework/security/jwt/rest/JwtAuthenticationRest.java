@@ -2,7 +2,9 @@ package io.github.toquery.framework.security.jwt.rest;
 
 
 import com.google.common.base.Strings;
+import io.github.toquery.framework.core.constant.AppEnumRoleModel;
 import io.github.toquery.framework.core.exception.AppException;
+import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.core.security.AppUserChangePassword;
 import io.github.toquery.framework.core.security.AppUserDetails;
 import io.github.toquery.framework.security.jwt.domain.JwtResponse;
@@ -13,6 +15,7 @@ import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -38,6 +42,7 @@ import java.util.Objects;
 /**
  * 用户认证信息
  */
+@Slf4j
 @RestController
 public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
@@ -55,6 +60,9 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
     @Resource
     private ISysUserService sysUserService;
+
+    @Resource
+    private AppProperties appProperties;
 
 
     @Resource
@@ -137,10 +145,16 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
 
     @RequestMapping(value = "${app.jwt.path.info:/user/info}")
-    public ResponseEntity<ResponseParam> getAuthenticatedUser() throws AppSecurityJwtException {
+    public ResponseEntity<ResponseParam> getAuthenticatedUser(@RequestParam(required = false) Long roleId) throws AppSecurityJwtException {
         String username = this.getUserName();
         SysUser user = (SysUser) userDetailsService.loadUserByUsername(username);
-        user.authorities2Roles();
+        if (appProperties.getRoleModel() == AppEnumRoleModel.COMPLEX){
+            user.complexRole();
+        }else if (appProperties.getRoleModel() == AppEnumRoleModel.ISOLATE){
+            user.isolateRole(roleId);
+        } else {
+            log.warn("未知的角色处理类型");
+        }
         return ResponseEntity.ok(ResponseParam.builder().content(user).build());
     }
 

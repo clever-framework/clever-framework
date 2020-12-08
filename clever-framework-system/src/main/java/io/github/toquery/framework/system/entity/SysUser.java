@@ -2,6 +2,7 @@ package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.security.AppUserDetails;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
@@ -23,14 +24,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A user.
@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
+@JsonIgnoreProperties(value = {"enabled", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
 @Table(name = "sys_user")
 public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetails {
 
@@ -66,7 +67,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     @Column(name = "phone", length = 50)
     private String phone;
 
-//    @Email
+    //    @Email
 //    @NotBlank
 //    @Size(min = 4, max = 50)
     @Column(name = "email", length = 50)
@@ -106,6 +107,11 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     @BatchSize(size = 20)
     private Set<SysRole> roles = new HashSet<>();
 
+
+    @JsonIgnoreProperties(value = {"users", "lastUpdateDatetime", "createDatetime"})
+    @Transient
+    private SysRole currentRole;
+
     /**
      * 用于前端的角色code
      */
@@ -117,12 +123,24 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
 
 
     /**
-     * 将Spring属性转换为角色code
+     * 角色的聚合模式，返回角色所有权限
      */
-    public void authorities2Roles() {
+    public void complexRole() {
         if (roles != null && !roles.isEmpty()) {
             this.authorities = roles.stream().flatMap(item -> item.getMenus().stream()).collect(Collectors.toSet());
             this.codes = roles.stream().flatMap(item -> item.getMenus().stream().map(GrantedAuthority::getAuthority)).collect(Collectors.toSet());
+        }
+    }
+
+    /**
+     * 角色的隔离模式，返回当前角色下的权限
+     */
+    public void isolateRole(Long roleId) {
+        if (roles != null && !roles.isEmpty()) {
+            Stream<SysRole> sysRoleStream = roles.stream().filter(item -> item != null && item.getMenus() != null && item.getMenus().size() > 0);
+            this.currentRole = roleId != null && roleId != 0 ? sysRoleStream.filter(item -> item.getId().equals(roleId)).findAny().get() : sysRoleStream.findFirst().get();
+            this.authorities = Sets.newHashSet(currentRole.getMenus());
+            this.codes = currentRole.getMenus().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
         }
     }
 

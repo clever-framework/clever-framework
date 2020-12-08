@@ -6,16 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,7 +19,6 @@ import java.util.HashSet;
 @Getter
 @Setter
 @Table(name = "sys_role")
-//@JsonIgnoreProperties("authors")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer"})
 public class SysRole extends AppBaseEntity {
 
@@ -56,4 +47,12 @@ public class SysRole extends AppBaseEntity {
     @BatchSize(size = 20)
     private Collection<SysMenu> menus = new HashSet<>();
 
+
+    @JsonIgnoreProperties({"roles", "lastUpdateDatetime", "createDatetime"})
+    @ManyToOne // (cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "sys_role_area",
+            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "area_id", referencedColumnName = "id")})
+    private SysArea scope = new SysArea();
 }

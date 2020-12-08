@@ -17,7 +17,7 @@ public class AppFrontSecurityConfig implements AppSecurityConfigurer, AppSecurit
     }
 
     public Set<String> ignoring() {
-        return Sets.newHashSet("/manifest.webapp", "/index.html", "/static/**");
+        return Sets.newHashSet("/manifest.webapp", "/index.html", "/static/**", "/app/front/**");
     }
 
     @Override

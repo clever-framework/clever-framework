@@ -3,9 +3,12 @@ package io.github.toquery.framework.front.autoconfig;
 import io.github.toquery.framework.front.connfig.AppFrontConfigurer;
 import io.github.toquery.framework.front.connfig.AppFrontSecurityConfig;
 import io.github.toquery.framework.front.properties.AppFrontProperties;
+import io.github.toquery.framework.front.rest.AppFrontConfigRest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -23,4 +26,9 @@ public class AppFrontAutoConfiguration {
         log.info("初始化 App Front 自动配置");
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public AppFrontConfigRest getAppFrontConfigRest(){
+        return new AppFrontConfigRest();
+    }
 }
