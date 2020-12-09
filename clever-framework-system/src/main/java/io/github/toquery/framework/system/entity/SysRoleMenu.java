@@ -5,29 +5,24 @@ import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
-import java.util.Collection;
 
-/**
- * An authority (a security role) used by Spring Security.
- */
 @Entity
 @Getter
 @Setter
-@Table(name = "sys_role")
-public class SysRole extends AppBaseEntity implements AppEntitySoftDel {
+@Table(name = "sys_role_menu")
+public class SysRoleMenu extends AppBaseEntity implements AppEntitySoftDel {
 
 
-    @NotBlank
-    @Length(min = 2, max = 50)
-    @Column(length = 50, unique = true)
-    private String name;
+    @Column(name = "menu_id")
+    private Long menuId;
+
+    @Column(name = "role_id")
+    private Long roleId;
 
     /**
      * 是否删除：1已删除；0未删除
@@ -35,12 +30,12 @@ public class SysRole extends AppBaseEntity implements AppEntitySoftDel {
     @ColumnDefault("false")
     @Column(name = "deleted")
     private boolean deleted = false;
+    
+    @Transient
+    private SysMenu menu;
 
     @Transient
-    private Collection<SysUser> users;
-
-    @Transient
-    private Collection<SysMenu> menus;
+    private SysRole role;
 
     @Override
     public boolean getDeleted() {

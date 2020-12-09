@@ -1,33 +1,25 @@
 package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
-import io.github.toquery.framework.core.security.AppUserDetails;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,7 +30,7 @@ import java.util.stream.Stream;
 @Entity
 @Getter
 @Setter
-@JsonIgnoreProperties(value = {"enabled", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "enabled", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
 @Table(name = "sys_user")
 public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetails {
 
@@ -55,8 +47,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     @Column(name = "nick_name", length = 50, nullable = false)
     private String nickname;
 
-
-    //    @JsonIgnore
+    @JsonIgnore
     @NotBlank
     @Length(min = 4, max = 100)
     @Column(name = "password", length = 100, nullable = false)
@@ -95,40 +86,37 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     private Collection<SysUserRole> roles = new HashSet<>();
     */
 
-    /**
-     * Spring 用户属性
-     */
-    @JsonIgnoreProperties(value = {"users", "lastUpdateDatetime", "createDatetime"})
-    @ManyToMany
-    @JoinTable(
-            name = "sys_user_role",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @BatchSize(size = 20)
-    private Set<SysRole> roles = new HashSet<>();
+    @Transient
+    private Collection<SysUserPermission> userPermissions;
 
 
-    @JsonIgnoreProperties(value = {"users", "lastUpdateDatetime", "createDatetime"})
+
     @Transient
     private SysRole currentRole;
+
+    @Transient
+    private SysArea currentArea;
+
+    @Transient
+    private SysUserPermission currentPermission;
 
     /**
      * 用于前端的角色code
      */
     @Transient
-    private Set<String> codes = new HashSet<>();
+    private Set<String> codes;
 
     @Transient
-    private Set<? extends GrantedAuthority> authorities = new HashSet<>();
+    private Set<? extends GrantedAuthority> authorities;
 
 
     /**
      * 角色的聚合模式，返回角色所有权限
      */
     public void complexRole() {
-        if (roles != null && !roles.isEmpty()) {
-            this.authorities = roles.stream().flatMap(item -> item.getMenus().stream()).collect(Collectors.toSet());
-            this.codes = roles.stream().flatMap(item -> item.getMenus().stream().map(GrantedAuthority::getAuthority)).collect(Collectors.toSet());
+        if (userPermissions != null && !userPermissions.isEmpty()) {
+            this.authorities = userPermissions.stream().filter(item -> item.getRole() != null).flatMap(item -> item.getRole().getMenus().stream()).collect(Collectors.toSet());
+            this.codes = userPermissions.stream().filter(item -> item.getRole() != null).flatMap(item -> item.getRole().getMenus().stream().map(GrantedAuthority::getAuthority)).collect(Collectors.toSet());
         }
     }
 
@@ -136,14 +124,20 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
      * 角色的隔离模式，返回当前角色下的权限
      */
     public void isolateRole(Long roleId) {
-        if (roles != null && !roles.isEmpty()) {
-            Stream<SysRole> sysRoleStream = roles.stream().filter(item -> item != null && item.getMenus() != null && item.getMenus().size() > 0);
-            this.currentRole = roleId != null && roleId != 0 ? sysRoleStream.filter(item -> item.getId().equals(roleId)).findAny().get() : sysRoleStream.findFirst().get();
+        if (userPermissions != null && !userPermissions.isEmpty()) {
+            Stream<SysUserPermission> sysRoleStream = userPermissions.stream().filter(item -> item.getRole() != null).filter(item -> item.getRole().getMenus() != null && item.getRole().getMenus().size() > 0);
+            currentPermission = roleId != null && roleId != 0 ? sysRoleStream.filter(item -> item.getId().equals(roleId)).findAny().get() : sysRoleStream.findFirst().get();
+            this.setCurrentPermission(currentPermission);
             this.authorities = Sets.newHashSet(currentRole.getMenus());
             this.codes = currentRole.getMenus().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
         }
     }
 
+    public void setCurrentPermission(SysUserPermission currentPermission) {
+        this.currentPermission = currentPermission;
+        this.currentArea = currentPermission.getArea();
+        this.currentRole = currentPermission.getRole();
+    }
 
     /**
      * Spring 用户属性

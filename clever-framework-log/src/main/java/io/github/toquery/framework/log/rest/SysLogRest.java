@@ -3,7 +3,7 @@ package io.github.toquery.framework.log.rest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
-import io.github.toquery.framework.core.security.AppUserDetailService;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.service.ISysLogService;

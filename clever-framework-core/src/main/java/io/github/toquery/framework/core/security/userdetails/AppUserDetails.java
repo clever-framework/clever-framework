@@ -1,4 +1,4 @@
-package io.github.toquery.framework.core.security;
+package io.github.toquery.framework.core.security.userdetails;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

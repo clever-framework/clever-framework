@@ -33,7 +33,7 @@ public class AppBizLogMergeEventListener implements MergeEventListener {
     @Override
     public void onMerge(MergeEvent event) throws HibernateException {
         Object entity = event.getEntity();
-        Object original = event.getOriginal();
+        entity = entity == null ? event.getOriginal() : entity;
         if (!(entity instanceof AppBaseEntity)) {
             log.warn("处理对象 {} 解析失败，将不记录审查日志。", entity.getClass().getSimpleName());
 

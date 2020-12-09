@@ -56,14 +56,6 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
     private String code;
 
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "sys_role_menu",
-            joinColumns = {@JoinColumn(name = "menu_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    @BatchSize(size = 20)
-    private Collection<SysRole> roles = new HashSet<>();
-
     // 树状结构
     @Column(name = "level")
     private int level = 0;
@@ -87,19 +79,20 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
     @Column(name = "deleted")
     private boolean deleted = false;
 
+    @Transient
+    private Collection<SysRole> roles;
 
     /**
      * 子集
      */
     @Transient
-    private List<SysMenu> children = new ArrayList<>();
+    private List<SysMenu> children;
 
     /**
      * 父级信息
      */
     @Transient
     private SysMenu parent;
-
 
     public boolean isHasChildren() {
         return hasChildren;

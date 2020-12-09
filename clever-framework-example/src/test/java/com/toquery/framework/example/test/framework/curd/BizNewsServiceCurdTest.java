@@ -60,7 +60,7 @@ public class BizNewsServiceCurdTest extends BaseSpringTest {
         List<BizNews> updateList = jpaDemoService.update(saveAll, Sets.newHashSet("name"));
         log.info("修改的数据 updateList ：\n{}", JacksonUtils.object2String(updateList));
 
-        List<BizNews> findAll = jpaDemoService.find(null);
+        List<BizNews> findAll = jpaDemoService.find();
         log.info("查询的数据 findAll ：\n{}", JacksonUtils.object2String(findAll));
 
         Map<String, Object> filterParams = Maps.newHashMap();

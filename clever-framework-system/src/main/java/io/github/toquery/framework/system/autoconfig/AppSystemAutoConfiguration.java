@@ -9,10 +9,12 @@ import io.github.toquery.framework.system.rest.SysUserRest;
 import io.github.toquery.framework.system.service.ISysConfigService;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.system.service.ISysRoleService;
+import io.github.toquery.framework.system.service.ISysUserPermissionService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.system.service.impl.SysConfigServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysMenuServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysRoleServiceImpl;
+import io.github.toquery.framework.system.service.impl.SysUserPermissionServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -93,6 +95,12 @@ public class AppSystemAutoConfiguration {
     @ConditionalOnMissingBean
     public ISysUserService getSysUserService() {
         return new SysUserServiceImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysUserPermissionService getSysUserPermissionServiceImpl() {
+        return new SysUserPermissionServiceImpl();
     }
 
 }

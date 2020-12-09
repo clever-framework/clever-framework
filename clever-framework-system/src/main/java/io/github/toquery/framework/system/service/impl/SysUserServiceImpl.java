@@ -3,15 +3,16 @@ package io.github.toquery.framework.system.service.impl;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysUser;
+import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.repository.SysUserRepository;
+import io.github.toquery.framework.system.service.ISysUserPermissionService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -25,21 +26,24 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUserRepository> implements UserDetailsService,ISysUserService {
+public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUserRepository> implements AppUserDetailService,ISysUserService {
 
     @Resource
     private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private ISysUserPermissionService sysUserPermissionService;
 
     @Override
     public Map<String, String> getQueryExpressions() {
         Map<String, String> map = new HashMap<>();
         map.put("idIN", "id:IN");
-        map.put("username", "username:EQ");
-        map.put("nickname", "nickname:EQ");
         map.put("email", "email:EQ");
         map.put("status", "status:EQ");
-        map.put("usernameLike", "username:LIKE");
         map.put("emailLike", "email:LIKE");
+        map.put("username", "username:EQ");
+        map.put("nickname", "nickname:EQ");
+        map.put("usernameLike", "username:LIKE");
         return map;
     }
 
@@ -48,9 +52,20 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
         SysUser user = super.dao.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
-        } else {
-            return user;
         }
+        return user;
+    }
+
+
+    @Override
+    public UserDetails loadFullUserByUsername(String username) throws UsernameNotFoundException {
+        SysUser user = super.dao.getByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+        }
+        List<SysUserPermission> sysUserPermissions = sysUserPermissionService.findByUserId(user.getId());
+        user.setUserPermissions(sysUserPermissions);
+        return user;
     }
 
 
@@ -64,7 +79,8 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
         String userName = sysUser.getUsername();
         if (Strings.isNullOrEmpty(userName)) {
             throw new AppException("用户名不能为空！");
-        } else if (userName.equalsIgnoreCase("admin") || userName.equalsIgnoreCase("root")) {
+        }
+        if (userName.equalsIgnoreCase("admin") || userName.equalsIgnoreCase("root")) {
             throw new AppException("用户名不能为 admin root ！");
         }
 

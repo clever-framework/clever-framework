@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.github.toquery.framework.system.repository.SysUserPermissionRepository">
+
+    <resultMap id="roleAndMenuAndAreaResultMap" type="io.github.toquery.framework.system.entity.SysUserPermission">
+        <id column="id" property="id"/>
+        <association property="area" javaType="io.github.toquery.framework.system.entity.SysArea">
+            <id column="areaId" property="id"/>
+            <result column="areaName" property="name"/>
+            <result column="areaFullName" property="fullName"/>
+            <result column="areaCode" property="code"/>
+            <result column="areaLevel" property="level"/>
+            <result column="areaParentId" property="parentId"/>
+            <result column="areaParentCode" property="parentCode"/>
+            <result column="areaParentIds" property="parentIds"/>
+            <result column="areaParentCodes" property="parentCodes"/>
+            <result column="areaSortNum" property="sortNum"/>
+            <result column="areaHasChildren" property="hasChildren"/>
+        </association>
+        <association property="role" javaType="io.github.toquery.framework.system.entity.SysRole">
+            <id column="roleId" property="id"/>
+            <result column="roleName" property="name"/>
+            <collection property="menus" javaType="ArrayList" ofType="io.github.toquery.framework.system.entity.SysMenu">
+                <id column="menuId" property="id"/>
+                <result column="menuName" property="name"/>
+                <result column="menuCode" property="code"/>
+                <result column="menuLevel" property="level"/>
+                <result column="menuParentId" property="parentId"/>
+                <result column="menuParentIds" property="parentIds"/>
+                <result column="menuSortNum" property="sortNum"/>
+                <result column="menuHasChildren" property="hasChildren"/>
+            </collection>
+        </association>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="roleAndMenuAndAreaResultMap">
+        select
+            sup.id as id,
+            sa.name as areaName,
+            sa.code as areaCode,
+            sa.level as areaLevel,
+            sa.parent_id as areaParentId,
+            sa.parent_code as areaParentCode,
+            sa.parent_ids as areaParentIds,
+            sa.parent_codes as areaParentCodes,
+            sa.sort_num as areaSortNum,
+            sa.has_children as areaHasChildren,
+            sr.id as roleId,
+            sr.name as roleName,
+            sm.name as menuName,
+            sm.code as menuCode,
+            sm.level as menuLevel,
+            sm.parent_id as menuParentId,
+            sm.parent_ids as menuParentIds,
+            sm.sort_num as menuSortNum,
+            sm.has_children as menuHasChildren
+        from sys_user_permission sup
+        left join sys_role sr on sr.id = sup.role_id and sr.deleted = 'f'
+        left join sys_role_menu srm on sr.id = srm.role_id and srm.deleted = 'f'
+        left join sys_menu sm on sm.id = srm.menu_id and sm.deleted = 'f'
+        left join sys_area sa on sa.id = sup.area_id and sa.deleted = 'f'
+        where sup.deleted = 'f' and sup.user_id = #{userId}
+    </select>
+</mapper>

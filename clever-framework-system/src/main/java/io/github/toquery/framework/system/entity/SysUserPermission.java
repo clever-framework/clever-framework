@@ -5,29 +5,29 @@ import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
-import java.util.Collection;
 
 /**
- * An authority (a security role) used by Spring Security.
+ * A user. 权限
  */
 @Entity
 @Getter
 @Setter
-@Table(name = "sys_role")
-public class SysRole extends AppBaseEntity implements AppEntitySoftDel {
+@Table(name = "sys_user_permission")
+public class SysUserPermission extends AppBaseEntity implements AppEntitySoftDel {
 
+    @Column(name = "user_id")
+    private Long userId;
 
-    @NotBlank
-    @Length(min = 2, max = 50)
-    @Column(length = 50, unique = true)
-    private String name;
+    @Column(name = "role_id")
+    private Long roleId;
+
+    @Column(name = "area_id")
+    private Long areaId;
 
     /**
      * 是否删除：1已删除；0未删除
@@ -36,15 +36,16 @@ public class SysRole extends AppBaseEntity implements AppEntitySoftDel {
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    @Transient
-    private Collection<SysUser> users;
-
-    @Transient
-    private Collection<SysMenu> menus;
-
-    @Override
     public boolean getDeleted() {
         return deleted;
     }
 
+    @Transient
+    private SysUser user;
+
+    @Transient
+    private SysRole role;
+
+    @Transient
+    private SysArea area;
 }

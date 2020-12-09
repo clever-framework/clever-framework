@@ -57,8 +57,10 @@ spring:
     time-zone: GMT+8 # 该设置与数据库 spring.jpa.properties.hibernate.jdbc.time_zone 保持一致
     date-format: yyyy-MM-dd HH:mm # 优先使用@JsonFormat设置的格式，否则使用该格式
     locale: zh_CN
+    default-property-inclusion: non_null
     serialization:
       write-dates-as-timestamps: false # 将 date 数据转换为 timestamps(Long)，否则转换为 date-format 格式
+      write_null_map_values: false # 不返还 null
 #    mapper:
 #      ACCEPT_CASE_INSENSITIVE_ENUMS: true
 

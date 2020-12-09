@@ -1,7 +1,7 @@
 package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.core.security.AppUserDetailService;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysUser;
 import org.springframework.security.core.userdetails.UserDetailsService;

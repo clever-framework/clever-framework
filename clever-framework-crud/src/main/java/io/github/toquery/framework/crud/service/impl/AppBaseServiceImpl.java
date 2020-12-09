@@ -57,7 +57,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     @Transactional
     public E save(E entity) {
         preSaveHandler(entity);
-        E e = dao.save(entity);
+        E e = this.dao.save(entity);
         postSaveHandler(entity);
         return e;
     }
@@ -80,7 +80,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     @Transactional
     public List<E> save(List<E> entityList) {
         preSaveBatchHandler(entityList);
-        List<E> saveData = dao.saveAll(entityList);
+        List<E> saveData = this.dao.saveAll(entityList);
         postSaveBatchHandler(entityList);
         return saveData;
     }
@@ -117,7 +117,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
                 this.update(entity, Lists.newArrayList("deleted"));
             }
         } else {
-            dao.deleteById(id);
+            this.dao.deleteById(id);
         }
         postDeleteHandler(id);
     }
@@ -228,19 +228,36 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
         return isSoftDel;
     }
 
-    @Override
-    public boolean existsById(Map<String, Object> searchParams) {
-        LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, dao.getDomainClass());
-        return dao.count(specification) > 0;
-    }
+
 
 
     @Override
     public long count(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, dao.getDomainClass());
-        return dao.count(specification);
+        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.dao.getDomainClass());
+        return this.dao.count(specification);
+    }
+
+    /**
+     * 不带排序的分页查询
+     *
+     * @param pageNum  分页号，由0开始
+     * @param pageSize 每页数据的大小
+     */
+    public Page<E> queryByPage(int pageNum, int pageSize){
+        return this.queryByPage(pageNum, pageSize, null);
+    }
+
+    /**
+     * 带排序的分页查询
+     *
+     * @param pageNum  分页号，由0开始
+     * @param pageSize 每页数据的大小
+     * @param sorts        排序条件
+     */
+    public Page<E> queryByPage(int pageNum, int pageSize, String[] sorts){
+        Pageable pageable = PageRequest.of(pageNum, pageSize, getSort(sorts));
+        return this.dao.findAll(pageable);
     }
 
     @Override
@@ -251,7 +268,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
         Pageable pageable = PageRequest.of(pageNum, pageSize, getSort(sorts));
 
-        return dao.findAll(specification, pageable);
+        return this.dao.findAll(specification, pageable);
 
 //		Page<E> page = entityDao.findAll(specification, pageable) ;
 //		//将page对象转换为可以在dubbo中进行序列化和反序列化的分页对象
@@ -261,11 +278,6 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 //				new PageRequest(page.getNumber() , page.getSize()) , page.getTotalElements()) ;
     }
 
-    @Override
-    public List<E> find(Map<String, Object> searchParams, String[] sorts) {
-        Specification<E> specification = getQuerySpecification(searchParams);
-        return dao.findAll(specification, getSort(sorts));
-    }
 
     /**
      * 获取查询条件的Specification对象
@@ -288,7 +300,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
         }
 
         //构建查询条件
-        return DynamicJPASpecifications.bySearchParam(queryExpressionMap, dao.getDomainClass());
+        return DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.dao.getDomainClass());
     }
 
     /**
@@ -345,7 +357,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
     @Override
     public E getById(ID id) {
-        Optional<E> result = dao.findById(id);
+        Optional<E> result = this.dao.findById(id);
         return result.isPresent() ? result.get() : null;
     }
 
@@ -358,7 +370,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
             newUpdateFields.addAll(updateFields);
         }
         preUpdateHandler(entity, newUpdateFields);
-        E e = dao.update(entity, newUpdateFields);
+        E e = this.dao.update(entity, newUpdateFields);
         postUpdateHandler(entity, newUpdateFields);
         return e;
     }
@@ -397,19 +409,47 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
     @Override
     public boolean existsById(ID id) {
-        return dao.existsById(id);
+        return this.dao.existsById(id);
+    }
+
+    @Override
+    public boolean exists(Map<String, Object> searchParams) {
+        LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
+        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.dao.getDomainClass());
+        return this.dao.count(specification) > 0;
     }
 
     @Override
     public Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize) {
-        return queryByPage(searchParams, pageNum, pageSize, null);
+        return this.queryByPage(searchParams, pageNum, pageSize, null);
     }
 
+
+
+    @Override
+    public List<E> find() {
+        return this.dao.findAll();
+    }
+
+    /**
+     * 查询所有实体
+     */
+    public List<E> find(String[] sorts){
+        return this.dao.findAll(this.getSort(sorts));
+    }
 
     @Override
     public List<E> find(Map<String, Object> searchParams) {
         return find(searchParams, null);
     }
+
+
+    @Override
+    public List<E> find(Map<String, Object> searchParams, String[] sorts) {
+        Specification<E> specification = getQuerySpecification(searchParams);
+        return this.dao.findAll(specification, getSort(sorts));
+    }
+
 
     /**
      * 获取查询条件的表达式，用于匹配查询参数对应的查询条件，保存查询字段和数据库查询表达式的映射<br>

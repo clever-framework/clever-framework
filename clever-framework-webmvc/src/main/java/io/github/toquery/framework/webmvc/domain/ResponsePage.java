@@ -20,7 +20,7 @@ public class ResponsePage {
 
     private int pageNum;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     private Long totalElements;
 
     private int totalPages;

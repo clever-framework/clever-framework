@@ -6,11 +6,12 @@ import io.github.toquery.framework.core.constant.AppEnumRoleModel;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.core.security.AppUserChangePassword;
-import io.github.toquery.framework.core.security.AppUserDetails;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.security.jwt.domain.JwtResponse;
 import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
@@ -56,17 +57,14 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
     private JwtTokenHandler jwtTokenHandler;
 
     @Resource
-    private UserDetailsService userDetailsService;
-
-    @Resource
     private ISysUserService sysUserService;
 
     @Resource
     private AppProperties appProperties;
 
-
     @Resource
-    private AppSecurityJwtProperties appJwtProperties;
+    private AppUserDetailService appUserDetailsService;
+
 
 
     @PostMapping(value = "${app.jwt.path.token:/user/token}")
@@ -133,7 +131,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
     public ResponseEntity<?> refreshAndGetAuthenticationToken() {
         String token = jwtTokenHandler.getJwtToken();
         String username = jwtTokenHandler.getUsernameFromToken(token);
-        AppUserDetails user = (AppUserDetails) userDetailsService.loadUserByUsername(username);
+        AppUserDetails user = (AppUserDetails) appUserDetailsService.loadFullUserByUsername(username);
 
         if (jwtTokenHandler.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = jwtTokenHandler.refreshToken(token);
@@ -147,7 +145,8 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
     @RequestMapping(value = "${app.jwt.path.info:/user/info}")
     public ResponseEntity<ResponseParam> getAuthenticatedUser(@RequestParam(required = false) Long roleId) throws AppSecurityJwtException {
         String username = this.getUserName();
-        SysUser user = (SysUser) userDetailsService.loadUserByUsername(username);
+        SysUser user = (SysUser) appUserDetailsService.loadFullUserByUsername(username);
+
         if (appProperties.getRoleModel() == AppEnumRoleModel.COMPLEX){
             user.complexRole();
         }else if (appProperties.getRoleModel() == AppEnumRoleModel.ISOLATE){

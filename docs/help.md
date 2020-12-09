@@ -49,9 +49,12 @@ mvn deploy -Dregistry=https://maven.pkg.github.com/ToQuery -Dtoken=xxx -X -Dskip
 https://github.com/javers/javers
 https://yangbingdong.com/2019/spring-boot-data-jpa-learning/
 
+
 - @SQLDelete
 - @Where
+- @SecondaryTable 做二级表，与下面的注解配合使用
 - @Embedded
+- @Embeddable
 - @Convert
 
 

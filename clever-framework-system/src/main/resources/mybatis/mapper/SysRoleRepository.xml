@@ -2,9 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="io.github.toquery.framework.system.repository.SysRoleRepository">
 
-    <select id="findByCodeOrName" resultType="io.github.toquery.framework.system.entity.SysRole">
-        select *
-        from sys_role
-        where code = #{code} or name = #{name}
-    </select>
+
 </mapper>

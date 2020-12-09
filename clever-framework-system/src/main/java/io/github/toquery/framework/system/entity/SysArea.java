@@ -1,7 +1,9 @@
 package io.github.toquery.framework.system.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.github.toquery.framework.core.domain.AppEntitySort;
+import io.github.toquery.framework.core.domain.AppEntityTree;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,17 +11,12 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -29,7 +26,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "sys_area")
-public class SysArea extends AppBaseEntity {
+public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, AppEntitySort, AppEntitySoftDel {
 
     /**
      * 名称
@@ -38,6 +35,14 @@ public class SysArea extends AppBaseEntity {
     @Length(min = 4, max = 100)
     @Column(name = "name", length = 100)
     private String name;
+
+    /**
+     * 全部名称
+     */
+    @NotBlank
+    @Length(min = 4, max = 255)
+    @Column(name = "full_name")
+    private String fullName;
 
     /**
      * 编码
@@ -78,6 +83,9 @@ public class SysArea extends AppBaseEntity {
     @Column(name = "sort_num")
     private Integer sortNum = 0;
 
+    @Column(name = "has_children")
+    private boolean hasChildren = false;
+
     /**
      * 是否删除：1已删除；0未删除
      */
@@ -85,18 +93,44 @@ public class SysArea extends AppBaseEntity {
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    @JsonIgnoreProperties({"scope", "lastUpdateDatetime", "createDatetime"})
-    @OneToMany // (cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "sys_role_area",
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
-            joinColumns = {@JoinColumn(name = "area_id", referencedColumnName = "id")})
-    private Collection<SysRole> roles = new HashSet<>();
+    @Transient
+    private Collection<SysRole> roles;
+
+    /**
+     * 父级信息
+     */
+    @Transient
+    private SysArea parent;
 
     /**
      * 子集
      */
     @Transient
-    private List<SysArea> children = new ArrayList<>();
+    private List<SysArea> children;
+
+    @Override
+    public boolean isHasChildren() {
+        return hasChildren;
+    }
+
+    public void setHasChildren(boolean hasChildren) {
+        this.hasChildren = hasChildren;
+    }
+
+    @Override
+    public boolean getHasChildren() {
+        return hasChildren;
+    }
+
+
+    @Override
+    public boolean getDeleted() {
+        return deleted;
+    }
+
+    @Override
+    public int compareTo(SysArea sysArea) {
+        return sysArea.getSortNum();
+    }
 
 }

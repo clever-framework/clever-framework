@@ -251,6 +251,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         }
         //更新实体及相关属性
         newEntity = entityManager.merge(existEntity);
+        entityManager.flush();
         return newEntity;
     }
 

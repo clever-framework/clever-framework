@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.jwt.handler;
 
 import com.google.common.base.Strings;
-import io.github.toquery.framework.core.security.AppUserDetails;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.security.jwt.exception.AppSecurityJwtException;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.jwt.utils.JwtTokenUtil;

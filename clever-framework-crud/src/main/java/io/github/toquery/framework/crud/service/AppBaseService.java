@@ -1,13 +1,12 @@
 package io.github.toquery.framework.crud.service;
 
+import org.springframework.data.domain.Page;
+
+import javax.persistence.criteria.Predicate;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import javax.persistence.criteria.Predicate;
-
-import org.springframework.data.domain.Page;
 
 public interface AppBaseService<E, ID extends Serializable> {
 
@@ -55,7 +54,7 @@ public interface AppBaseService<E, ID extends Serializable> {
      *
      * @param searchParams 查询条件
      */
-    boolean existsById(Map<String, Object> searchParams);
+    boolean exists(Map<String, Object> searchParams);
 
     /**
      * 根据id查询实体对象
@@ -93,6 +92,23 @@ public interface AppBaseService<E, ID extends Serializable> {
     /**
      * 不带排序的分页查询
      *
+     * @param pageNum  分页号，由0开始
+     * @param pageSize 每页数据的大小
+     */
+    Page<E> queryByPage(int pageNum, int pageSize);
+
+    /**
+     * 带排序的分页查询
+     *
+     * @param pageNum  分页号，由0开始
+     * @param pageSize 每页数据的大小
+     * @param sorts        排序条件
+     */
+    Page<E> queryByPage(int pageNum, int pageSize, String[] sorts);
+
+    /**
+     * 不带排序的分页查询
+     *
      * @param searchParams 查询条件
      * @param pageNum      分页号，由0开始
      * @param pageSize     每页数据的大小
@@ -110,6 +126,25 @@ public interface AppBaseService<E, ID extends Serializable> {
      */
     Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize, String[] sorts);
 
+
+
+    /**
+     * 查询所有实体
+     */
+    List<E> find();
+
+    /**
+     * 查询所有实体
+     */
+    List<E> find(String[] sorts);
+
+    /**
+     * 查询满足条件的所有实体。在分布式服务中慎用此方法，查询效率比分页查询效率要低。
+     *
+     * @param searchParams 查询条件
+     */
+    List<E> find(Map<String, Object> searchParams);
+
     /**
      * 查询满足条件的所有实体。在分布式服务中慎用此方法，查询效率比分页查询效率要低。
      *
@@ -118,11 +153,6 @@ public interface AppBaseService<E, ID extends Serializable> {
      */
     List<E> find(Map<String, Object> searchParams, String[] sorts);
 
-    /**
-     * 查询满足条件的所有实体。在分布式服务中慎用此方法，查询效率比分页查询效率要低。
-     *
-     * @param searchParams 查询条件
-     */
-    List<E> find(Map<String, Object> searchParams);
+
 
 }

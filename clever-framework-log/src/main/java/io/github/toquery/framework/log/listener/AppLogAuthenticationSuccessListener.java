@@ -1,6 +1,6 @@
 package io.github.toquery.framework.log.listener;
 
-import io.github.toquery.framework.core.security.AppUserDetails;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.log.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
