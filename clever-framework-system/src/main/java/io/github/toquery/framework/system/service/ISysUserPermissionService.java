@@ -4,8 +4,11 @@ import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
 import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.repository.SysUserPermissionRepository;
+import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author toquery
@@ -44,4 +47,19 @@ public interface ISysUserPermissionService extends AppBaseService<SysUserPermiss
      * @return true 存在 false 不存在记录
      */
     boolean existsByAreaId(Long areaId);
+
+    /**
+     * 获取全量的分页数据
+     * @param filterParam
+     * @param requestPageNum
+     * @param requestPageSize
+     * @return
+     */
+    Page<SysUserPermission> queryWithRoleAndArea(Map<String, Object> filterParam, int requestPageNum, int requestPageSize);
+
+    SysUserPermission updateUserPermissionCheck(SysUserPermission sysUserPermission);
+
+    SysUserPermission saveUserPermissionCheck(SysUserPermission sysUserPermission);
+
+    SysUserPermission detailWithRoleAndArea(Long id);
 }

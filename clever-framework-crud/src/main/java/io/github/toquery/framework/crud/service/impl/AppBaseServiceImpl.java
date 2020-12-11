@@ -450,6 +450,13 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
         return this.dao.findAll(specification, getSort(sorts));
     }
 
+    @Override
+    public List<E> findByIds(Collection<ID> ids) {
+        if (ids == null || ids.size() <= 0){
+            return Lists.newArrayList();
+        }
+        return this.dao.findAllById(ids);
+    }
 
     /**
      * 获取查询条件的表达式，用于匹配查询参数对应的查询条件，保存查询字段和数据库查询表达式的映射<br>

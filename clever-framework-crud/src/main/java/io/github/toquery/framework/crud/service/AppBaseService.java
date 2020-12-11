@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface AppBaseService<E, ID extends Serializable> {
 
@@ -153,6 +154,8 @@ public interface AppBaseService<E, ID extends Serializable> {
      */
     List<E> find(Map<String, Object> searchParams, String[] sorts);
 
-
-
+    /**
+     * 查询所有实体
+     */
+    List<E> findByIds(Collection<ID> ids);
 }
