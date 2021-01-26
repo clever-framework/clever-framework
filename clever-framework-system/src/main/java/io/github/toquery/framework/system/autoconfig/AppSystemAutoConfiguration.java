@@ -2,16 +2,25 @@ package io.github.toquery.framework.system.autoconfig;
 
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
+import io.github.toquery.framework.system.rest.SysAreaRest;
 import io.github.toquery.framework.system.rest.SysConfigRest;
+import io.github.toquery.framework.system.rest.SysDictItemRest;
+import io.github.toquery.framework.system.rest.SysDictRest;
 import io.github.toquery.framework.system.rest.SysMenuRest;
 import io.github.toquery.framework.system.rest.SysRoleRest;
 import io.github.toquery.framework.system.rest.SysUserRest;
+import io.github.toquery.framework.system.service.ISysAreaService;
 import io.github.toquery.framework.system.service.ISysConfigService;
+import io.github.toquery.framework.system.service.ISysDictItemService;
+import io.github.toquery.framework.system.service.ISysDictService;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.system.service.ISysRoleService;
 import io.github.toquery.framework.system.service.ISysUserPermissionService;
 import io.github.toquery.framework.system.service.ISysUserService;
+import io.github.toquery.framework.system.service.impl.SysAreaServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysConfigServiceImpl;
+import io.github.toquery.framework.system.service.impl.SysDictItemServiceImpl;
+import io.github.toquery.framework.system.service.impl.SysDictServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysMenuServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysRoleServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysUserPermissionServiceImpl;
@@ -35,7 +44,6 @@ import org.springframework.context.annotation.Role;
 //@Configuration
 //@EnableAppRepositoryRest
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-//@ComponentScan("io.github.toquery.framework.system")
 @EnableConfigurationProperties({AppSystemProperties.class})
 @EntityScan(basePackages = "io.github.toquery.framework.system.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system")
@@ -62,6 +70,12 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public SysAreaRest getSysAreaRest() {
+        return new SysAreaRest();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public SysRoleRest getSysRoleRest() {
         return new SysRoleRest();
     }
@@ -72,11 +86,42 @@ public class AppSystemAutoConfiguration {
         return new SysUserRest();
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public SysDictRest getSysDictRest() {
+        return new SysDictRest();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SysDictItemRest getSysDictItemRest() {
+        return new SysDictItemRest();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysAreaService getISysAreaService() {
+        return new SysAreaServiceImpl();
+    }
+
 
     @Bean
     @ConditionalOnMissingBean
     public ISysConfigService getSysConfigService() {
         return new SysConfigServiceImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysDictService getISysDictService() {
+        return new SysDictServiceImpl();
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysDictItemService getISysDictItemService() {
+        return new SysDictItemServiceImpl();
     }
 
     @Bean
