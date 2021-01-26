@@ -2,9 +2,14 @@ package io.github.toquery.framework.minio.service;
 
 import com.google.common.io.Files;
 import io.github.toquery.framework.minio.exception.AppMinioException;
+import io.minio.BucketExistsArgs;
+import io.minio.GetPresignedObjectUrlArgs;
+import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
-import io.minio.PutObjectOptions;
+import io.minio.PutObjectArgs;
 import io.minio.ServerSideEncryption;
+import io.minio.UploadObjectArgs;
+import io.minio.http.Method;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +24,10 @@ public class AppMinioService {
     @Autowired
     private MinioClient minioClient;
 
+
+    // 10M 分包
+    public static final int MIN_PART_SIZE = 10 * 1024 * 1024;
+
     /**
      * 判断bucketName是否存在
      *
@@ -27,9 +36,9 @@ public class AppMinioService {
      * @throws AppMinioException
      */
     public boolean bucketExists(String bucketName) throws AppMinioException {
-        boolean bucketExists;
+        boolean bucketExists = false;
         try {
-            bucketExists = minioClient.bucketExists(bucketName);
+            bucketExists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
         } catch (Exception e) {
             throw new AppMinioException(e);
         }
@@ -44,7 +53,7 @@ public class AppMinioService {
      */
     public void makeBucket(String bucketName) throws AppMinioException {
         try {
-            minioClient.makeBucket(bucketName);
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
         } catch (Exception e) {
             throw new AppMinioException(e);
         }
@@ -73,7 +82,13 @@ public class AppMinioService {
      */
     public String getObjectUrl(String bucketName, String objectName) throws AppMinioException {
         try {
-            return minioClient.getObjectUrl(bucketName, objectName);
+            GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
+                    .method(Method.GET)
+                    .bucket(bucketName)
+                    .object(objectName)
+                     // .expiry(2, TimeUnit.HOURS)
+                    .build();
+            return minioClient.getPresignedObjectUrl(args);
         } catch (Exception e) {
             throw new AppMinioException(e);
         }
@@ -114,12 +129,15 @@ public class AppMinioService {
     public void putObject(String bucketName, String objectName, InputStream stream, Long size,
                           Map<String, String> headerMap, ServerSideEncryption sse, String contentType) throws AppMinioException {
         try {
-            // todo 临时配置
-            PutObjectOptions putObjectOptions = new PutObjectOptions(size, -1);
-            putObjectOptions.setContentType(contentType);
-            putObjectOptions.setSse(sse);
-            putObjectOptions.setHeaders(headerMap);
-            minioClient.putObject(bucketName, objectName, stream, putObjectOptions);
+            PutObjectArgs putObjectArgs = PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(objectName)
+                    .contentType(contentType)
+                    .sse(sse)
+                    .headers(headerMap)
+                    .stream(stream, size, MIN_PART_SIZE)
+                    .build();
+            minioClient.putObject(putObjectArgs);
         } catch (Exception e) {
             throw new AppMinioException(e);
         }

@@ -39,7 +39,7 @@ spring:
     format:
       date: yyyy-MM-dd
       time: HH:mm:ss
-      date-time: yyyy-MM-dd HH:mm:ss
+      date-time: ${spring.mvc.format.date} ${spring.mvc.format.time}
 
   # 不要为我们工程中的资源文件建立映射
   resources:
