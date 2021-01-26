@@ -30,7 +30,8 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
-
+  application:
+    name: clever-framework-demo
   mvc:
     locale: zh_CN
     throw-exception-if-no-handler-found: true
