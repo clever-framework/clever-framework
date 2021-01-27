@@ -4,7 +4,7 @@ ____ _    ____ _  _ ____ ____     ____ ____ ____ _  _ ____ _ _ _ ____ ____ _  _
 |___ |___ |___  \/  |___ |  \     |    |  \ |  | |  | |___ |_|_| |__| |  \ | \_
 
 
-${AnsiColor.GREEN} :: spring-boot      :: ${spring-boot.version}
-${AnsiColor.GREEN} :: clever-framework :: ${clever-framework.version}
+${AnsiColor.BRIGHT_GREEN} :: spring-boot      :: ${spring-boot.version}
+${AnsiColor.BRIGHT_GREEN} :: clever-framework :: ${clever-framework.version}
 
 ${AnsiColor.DEFAULT}
