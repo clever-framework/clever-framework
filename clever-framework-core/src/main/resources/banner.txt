@@ -1,9 +1,10 @@
-
+${AnsiColor.BRIGHT_YELLOW}
 ____ _    ____ _  _ ____ ____     ____ ____ ____ _  _ ____ _ _ _ ____ ____ _  _
 |    |    |___ |  | |___ |__/     |___ |__/ |__| |\/| |___ | | | |  | |__/ |_/
 |___ |___ |___  \/  |___ |  \     |    |  \ |  | |  | |___ |_|_| |__| |  \ | \_
 
 
-${AnsiColor.GREEN} :: spring-boot      :: ${AnsiColor.BLACK} ${spring-boot.version}
-${AnsiColor.GREEN} :: clever-framework :: ${AnsiColor.BLACK} ${clever-framework.version}
+${AnsiColor.GREEN} :: spring-boot      :: ${spring-boot.version}
+${AnsiColor.GREEN} :: clever-framework :: ${clever-framework.version}
 
+${AnsiColor.DEFAULT}
