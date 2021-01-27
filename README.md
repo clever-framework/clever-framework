@@ -16,9 +16,9 @@
 
 | 依赖         | 版本       |
 | ------------ | ------------- |
-| Spring       | 5.2.8.RELEASE |
-| Spring Boot  | 2.3.3.RELEASE |
-| Spring Cloud | Hoxton.SR7    |
+| Spring       | 5.3.x.RELEASE |
+| Spring Boot  | 2.4.x.RELEASE |
+| Spring Cloud | 2020.0.0      |
 
 
 [![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=toquery&repo=clever-framework)](https://github.com/toquery/clever-framework)
