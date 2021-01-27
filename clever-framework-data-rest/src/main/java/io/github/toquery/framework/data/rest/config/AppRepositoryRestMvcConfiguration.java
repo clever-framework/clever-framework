@@ -1,3 +1,4 @@
+/*
 package io.github.toquery.framework.data.rest.config;
 
 import com.google.common.collect.Lists;
@@ -26,12 +27,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import java.util.Arrays;
 import java.util.List;
 
+*/
 /**
  * 自定义RepositoryRestMvc 配置，重载linkCollector方法，移除元素上自带的 _link 属性
  *
  * @author toquery
  * @version 1
- */
+ *//*
+
 
 @Slf4j
 @Configuration
@@ -55,12 +58,14 @@ public class AppRepositoryRestMvcConfiguration extends RepositoryRestMvcConfigur
     }
 
 
-    /*
+    */
+/*
     @Override
     public MessageSourceAccessor resourceDescriptionMessageSourceAccessor() {
         return super.resourceDescriptionMessageSourceAccessor();
     }
-    */
+    *//*
+
 
     @Override
     public TypeConstrainedMappingJackson2HttpMessageConverter jacksonHttpMessageConverter() {
@@ -112,3 +117,4 @@ public class AppRepositoryRestMvcConfiguration extends RepositoryRestMvcConfigur
 //        log.info("--");
 //    }
 }
+*/

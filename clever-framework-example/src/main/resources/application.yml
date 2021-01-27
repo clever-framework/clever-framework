@@ -32,18 +32,17 @@ spring:
       enabled: ALWAYS
   application:
     name: clever-framework-demo
-  mvc:
+  web: #spring.web.resources.add-mappings
     locale: zh_CN
+    resources:
+      add-mappings: false # 不要为我们工程中的资源文件建立映射
+  mvc:
     throw-exception-if-no-handler-found: true
     # 暂时未发现该配置作用 ？todo @DateTimeFormat ？
     format:
       date: yyyy-MM-dd
       time: HH:mm:ss
       date-time: ${spring.mvc.format.date} ${spring.mvc.format.time}
-
-  # 不要为我们工程中的资源文件建立映射
-  resources:
-    add-mappings: false
 
   # todo 这个配置是干什么的
   main:

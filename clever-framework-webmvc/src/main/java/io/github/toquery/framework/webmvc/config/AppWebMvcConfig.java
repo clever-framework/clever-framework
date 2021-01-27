@@ -1,24 +1,17 @@
 package io.github.toquery.framework.webmvc.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.github.toquery.framework.webmvc.StringToEnumIgnoringCaseConverterFactory;
 import io.github.toquery.framework.webmvc.resolver.MethodArgumentUpperCaseResolver;
 import io.github.toquery.framework.webmvc.resolver.PathVariableMethodArgumentUpperCaseResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.HibernateValidator;
-import org.springframework.boot.convert.ApplicationConversionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -33,9 +26,9 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 依据Spring的适配器，使用初始化顺序调用解析
+     *
      * @see org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
      * 如果接收参数使用其他注解处理，则只会使用其他的解析器
-     *
      */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -64,10 +57,12 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
         return new PathVariableMethodArgumentUpperCaseResolver();
     }
 
-    @Override
+   /* 兼容新版 2.4.x spring boot
+   @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+    */
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
