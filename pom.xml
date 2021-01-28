@@ -99,6 +99,7 @@
         <module>clever-framework-swagger</module>
         <module>clever-framework-minio</module>
         <module>clever-framework-data-rest</module>
+        <module>clever-framework-cache</module>
         <!--
         <module>clever-framework-dependencies</module>
         -->
@@ -168,6 +169,11 @@
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-dao</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-cache</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
