@@ -7,10 +7,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  */
 @Data
-@ConfigurationProperties(prefix = AppCacheProperties.PREFIX_CACHE)
+@ConfigurationProperties(prefix = AppCacheProperties.PREFIX)
 public class AppCacheProperties {
 
-    public static final String PREFIX_CACHE = "app.cache";
+    public static final String PREFIX = "app.cache";
 
     /**
      * 是否开启缓存
