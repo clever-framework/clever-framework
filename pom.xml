@@ -32,7 +32,7 @@
         <revision>${clever-framework.version}</revision>
 
         <!-- spring jar -->
-        <spring-cloud.version>2020.0.0</spring-cloud.version>
+        <spring-cloud.version>2020.0.1</spring-cloud.version>
 
         <!-- tool jar -->
         <!--
