@@ -1,0 +1,35 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "21:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: io.swagger.core.v3:swagger-core
+    versions:
+    - 2.1.7
+    - 2.1.8
+  - dependency-name: io.minio:minio
+    versions:
+    - 8.1.0
+    - 8.2.0
+  - dependency-name: org.webjars:swagger-ui
+    versions:
+    - 3.42.0
+    - 3.43.0
+    - 3.44.0
+    - 3.45.0
+    - 3.46.0
+  - dependency-name: org.springframework.boot:spring-boot-starter-parent
+    versions:
+    - 2.4.3
+    - 2.4.4
+  - dependency-name: com.github.eirslett:frontend-maven-plugin
+    versions:
+    - 1.11.0
+    - 1.11.2
+  - dependency-name: org.springframework.cloud:spring-cloud-dependencies
+    versions:
+    - 2020.0.1
