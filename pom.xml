@@ -78,7 +78,7 @@
         <npm.version>6.13.4</npm.version>
 
         <!-- plugin properties -->
-        <frontend-maven.version>1.10.4</frontend-maven.version>
+        <frontend-maven.version>1.12.0</frontend-maven.version>
     </properties>
 
     <modules>
