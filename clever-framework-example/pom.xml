@@ -100,10 +100,12 @@
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-security-jwt</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-minio</artifactId>
         </dependency>
+        -->
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-crud</artifactId>

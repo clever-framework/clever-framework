@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 public class AppBaseWebMvcController extends AppBaseWebController {
 
     public AppBaseWebMvcController() {
-        log.debug("AppBaseWebMvcController");
+        log.debug(this.getClass().getName());
     }
 
     @Autowired
