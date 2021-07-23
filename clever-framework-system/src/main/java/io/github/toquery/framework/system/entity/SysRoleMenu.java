@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,12 +31,18 @@ public class SysRoleMenu extends AppBaseEntity implements AppEntitySoftDel {
     @ColumnDefault("false")
     @Column(name = "deleted")
     private boolean deleted = false;
-    
+
     @Transient
     private SysMenu menu;
 
     @Transient
     private SysRole role;
+
+    @Transient
+    private List<SysMenu> menus;
+
+    @Transient
+    private List<SysRole> roles;
 
     @Override
     public boolean getDeleted() {

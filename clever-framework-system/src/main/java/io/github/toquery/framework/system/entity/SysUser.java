@@ -67,7 +67,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     @NotNull
     @ColumnDefault("true")
     @Column(name = "enabled")
-    private Boolean status = true;
+    private Boolean enabled = true;
 
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -144,7 +144,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
      */
     @Override
     public boolean isAccountNonExpired() {
-        return this.getStatus();
+        return this.getEnabled();
     }
 
     /**
@@ -152,7 +152,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
      */
     @Override
     public boolean isAccountNonLocked() {
-        return this.getStatus();
+        return this.getEnabled();
     }
 
     /**
@@ -160,7 +160,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
      */
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.getStatus();
+        return this.getEnabled();
     }
 
     /**
@@ -168,6 +168,6 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
      */
     @Override
     public boolean isEnabled() {
-        return this.getStatus();
+        return this.getEnabled();
     }
 }

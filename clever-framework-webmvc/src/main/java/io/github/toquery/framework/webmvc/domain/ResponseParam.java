@@ -1,14 +1,11 @@
 package io.github.toquery.framework.webmvc.domain;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 响应参数购将，根据相应的类型，将数据填充到content

@@ -1,5 +1,5 @@
 -- 插入菜单
-insert into sys_menu (id, code, name, level, sort_num, parent_id, parent_ids, has_children, create_user_id, create_time,
+insert into sys_menu (id, menu_code, menu_name, menu_level, sort_num, parent_id, parent_ids, has_children, create_user_id, create_time,
                       last_update_user_id, last_update_time)
 values (1, 'root', '根菜单', 0, 1, null, null, true, null, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11'),
        (101, 'system', '系统管理', 1, 1, 1, '1', true, 1, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11'),
@@ -10,7 +10,7 @@ values (1, 'root', '根菜单', 0, 1, null, null, true, null, '2019-06-06 11:11:
        (10105, 'config', '配置管理', 2, 1, 101, '1,101', false, 1, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11');
 
 -- 插入角色
-insert into sys_role (id, name, create_user_id, create_time, last_update_user_id, last_update_time)
+insert into sys_role (id, role_name, create_user_id, create_time, last_update_user_id, last_update_time)
 values (1, '管理员', 1, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11'),
        (2, '普通用户', 1, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11');
 
@@ -29,7 +29,7 @@ values (5, 1, 10105, false, '2020-11-11 11:11:11', '2020-11-11 11:11:11');
 
 -- 插入行政区
 insert into sys_area (id, create_time, create_user_id, last_update_time, last_update_user_id,
-                                            code, deleted, has_children, level, name, parent_id, parent_ids,
+                      area_code, deleted, has_children, area_level, area_name, parent_id, parent_ids,
                                             parent_code, parent_codes, sort_num)
 values (1, '2019-06-06 11:11:11', null, '2019-06-06 11:11:11', 1, '37', false, true, 0, '山东省', null, null, null, null,
         1);

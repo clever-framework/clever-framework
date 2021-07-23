@@ -5,6 +5,11 @@ package io.github.toquery.framework.core.exception;
  * @version 1
  */
 public class AppException extends RuntimeException {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     public AppException() {
         super();
     }

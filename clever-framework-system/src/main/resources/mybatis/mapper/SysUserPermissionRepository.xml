@@ -4,12 +4,14 @@
 
     <resultMap id="roleAndMenuAndAreaResultMap" type="io.github.toquery.framework.system.entity.SysUserPermission">
         <id column="id" property="id"/>
+        <result column="areaId" property="areaId"/>
+        <result column="roleId" property="roleId"/>
         <association property="area" javaType="io.github.toquery.framework.system.entity.SysArea">
             <id column="areaId" property="id"/>
-            <result column="areaName" property="name"/>
+            <result column="areaName" property="areaName"/>
             <result column="areaFullName" property="fullName"/>
-            <result column="areaCode" property="code"/>
-            <result column="areaLevel" property="level"/>
+            <result column="areaCode" property="areaCode"/>
+            <result column="areaLevel" property="areaLevel"/>
             <result column="areaParentId" property="parentId"/>
             <result column="areaParentCode" property="parentCode"/>
             <result column="areaParentIds" property="parentIds"/>
@@ -19,12 +21,12 @@
         </association>
         <association property="role" javaType="io.github.toquery.framework.system.entity.SysRole">
             <id column="roleId" property="id"/>
-            <result column="roleName" property="name"/>
+            <result column="roleName" property="roleName"/>
             <collection property="menus" javaType="ArrayList" ofType="io.github.toquery.framework.system.entity.SysMenu">
                 <id column="menuId" property="id"/>
-                <result column="menuName" property="name"/>
-                <result column="menuCode" property="code"/>
-                <result column="menuLevel" property="level"/>
+                <result column="menuName" property="menuName"/>
+                <result column="menuCode" property="menuCode"/>
+                <result column="menuLevel" property="menuLevel"/>
                 <result column="menuParentId" property="parentId"/>
                 <result column="menuParentIds" property="parentIds"/>
                 <result column="menuSortNum" property="sortNum"/>
@@ -36,9 +38,9 @@
     <select id="findByUserId" resultMap="roleAndMenuAndAreaResultMap">
         select
             sup.id as id,
-            sa.name as areaName,
-            sa.code as areaCode,
-            sa.level as areaLevel,
+            sa.area_name as areaName,
+            sa.area_code as areaCode,
+            sa.area_level as areaLevel,
             sa.parent_id as areaParentId,
             sa.parent_code as areaParentCode,
             sa.parent_ids as areaParentIds,
@@ -46,10 +48,10 @@
             sa.sort_num as areaSortNum,
             sa.has_children as areaHasChildren,
             sr.id as roleId,
-            sr.name as roleName,
-            sm.name as menuName,
-            sm.code as menuCode,
-            sm.level as menuLevel,
+            sr.role_name as roleName,
+            sm.menu_name as menuName,
+            sm.menu_code as menuCode,
+            sm.menu_level as menuLevel,
             sm.parent_id as menuParentId,
             sm.parent_ids as menuParentIds,
             sm.sort_num as menuSortNum,

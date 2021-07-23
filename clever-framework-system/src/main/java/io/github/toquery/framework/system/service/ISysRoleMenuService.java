@@ -1,31 +1,18 @@
 package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.crud.service.AppBaseService;
+import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
+import io.github.toquery.framework.system.entity.SysUser;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author toquery
  * @version 1
  */
 public interface ISysRoleMenuService extends AppBaseService<SysRoleMenu, Long> {
-
-    /**
-     * 通过用户id获取所有角色菜单信息
-     *
-     * @param userId 用户id
-     * @return 所有角色菜单信息
-     */
-    List<SysRoleMenu> findByUserId(Long userId);
-
-    /**
-     * 通过用户id，判断是否存在记录
-     *
-     * @param userId 用户id
-     * @return true 存在 false 不存在记录
-     */
-    boolean existsByUserId(Long userId);
 
     /**
      * 通过角色id，判断是否存在记录
@@ -35,11 +22,21 @@ public interface ISysRoleMenuService extends AppBaseService<SysRoleMenu, Long> {
      */
     boolean existsByRoleId(Long roleId);
 
-    /**
-     * 通过区域id，判断是否存在记录
-     *
-     * @param areaId 区域
-     * @return true 存在 false 不存在记录
-     */
-    boolean existsByAreaId(Long areaId);
+    boolean existsByMenuId(Long menuId);
+
+    List<SysRoleMenu> findByRoleId(Long roleId);
+
+    List<SysRoleMenu> findByRoleIds(Set<Long> sysRoleIds);
+
+    List<SysRoleMenu> findByMenuId(Long menuId);
+
+    List<SysRoleMenu> findByMenuIds(Set<Long> sysMenuIds);
+
+
+    List<SysMenu> findSysMenuByRoleId(Long sysRoleId);
+
+    List<SysMenu> findSysMenuByRoleIds(Set<Long> sysRoleIds);
+
+    List<SysRoleMenu> findWithSysMenuByRoleIds(Set<Long> sysRoleIds);
+
 }

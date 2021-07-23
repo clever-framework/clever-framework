@@ -1,7 +1,5 @@
 package io.github.toquery.framework.common.util;
 
-import com.fasterxml.jackson.databind.util.ClassUtil;
-import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.ClassUtils;
 

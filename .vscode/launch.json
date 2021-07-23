@@ -1,42 +1,28 @@
 {
-    // 使用 IntelliSense 了解相关属性。 
+    // 使用 IntelliSense 了解相关属性。
     // 悬停以查看现有属性的描述。
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch) - CleverFrameworkDemoApplication",
+            "name": "CleverFrameworkDemoApplication",
             "request": "launch",
-            "mainClass": "com.toquery.framework.demo.CleverFrameworkDemoApplication",
-            "projectName": "clever-framework-demo"
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.toquery.framework.example.CleverFrameworkDemoApplication",
+            "projectName": "clever-framework-example",
+            "args": ""
         },
         {
             "type": "java",
-            "name": "Debug (Launch) - Current File",
+            "name": "CleverFrameworkDemoApplication[local]",
             "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-CommonCook<clever-framework-demo>",
-            "request": "launch",
-            "mainClass": "com.toquery.framework.demo.test.future.CommonCook",
-            "projectName": "clever-framework-demo"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-FutureCook<clever-framework-demo>",
-            "request": "launch",
-            "mainClass": "com.toquery.framework.demo.test.future.FutureCook",
-            "projectName": "clever-framework-demo"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-UserCF<clever-framework-demo>",
-            "request": "launch",
-            "mainClass": "com.toquery.framework.demo.test.usercf.UserCF",
-            "projectName": "clever-framework-demo"
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.toquery.framework.example.CleverFrameworkDemoApplication",
+            "projectName": "clever-framework-example",
+            "args": "--spring.profiles.active=local"
         }
     ]
 }

@@ -3,6 +3,7 @@ package io.github.toquery.framework.system.service.impl;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.system.constant.SysUserPermissionEnum;
 import io.github.toquery.framework.system.entity.SysArea;
 import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.entity.SysUserPermission;
@@ -13,11 +14,13 @@ import io.github.toquery.framework.system.service.ISysUserPermissionService;
 import org.springframework.data.domain.Page;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author toquery
@@ -43,6 +46,23 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<Long, SysUs
     @Override
     public List<SysUserPermission> findByUserId(Long userId) {
         return super.dao.findByUserId(userId);
+    }
+
+    @Override
+    public List<SysUserPermission> findByUserId(Long userId, SysUserPermissionEnum... sysUserPermissionEnums) {
+        List<SysUserPermission> sysUserPermissions = this.findByUserId(userId);
+        if (sysUserPermissionEnums != null && sysUserPermissionEnums.length >= 1) {
+            Stream<SysUserPermissionEnum> sysUserPermissionEnumStream = Arrays.stream(sysUserPermissionEnums);
+            if (sysUserPermissionEnumStream.anyMatch(item -> item == SysUserPermissionEnum.AREA)) {
+                Set<Long> sysAreaIds = sysUserPermissions.stream().map(SysUserPermission::getAreaId).collect(Collectors.toSet());
+                Map<Long, SysArea> sysAreaMap = sysAreaService.findByIds(sysAreaIds).stream().collect(Collectors.toMap(SysArea::getId, item -> item, (n, o) -> n));
+            }
+            if (sysUserPermissionEnumStream.anyMatch(item -> item == SysUserPermissionEnum.ROLE)) {
+                Set<Long> sysRoleIds = sysUserPermissions.stream().map(SysUserPermission::getRoleId).collect(Collectors.toSet());
+                Map<Long, SysRole> sysRoleMap = sysRoleService.findWithMenuByIds(sysRoleIds).stream().collect(Collectors.toMap(SysRole::getId, item -> item, (n, o) -> n));
+            }
+        }
+        return null;
     }
 
     @Override

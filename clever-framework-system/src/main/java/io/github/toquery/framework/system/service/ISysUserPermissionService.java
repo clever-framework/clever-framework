@@ -1,6 +1,7 @@
 package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.crud.service.AppBaseService;
+import io.github.toquery.framework.system.constant.SysUserPermissionEnum;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
 import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.repository.SysUserPermissionRepository;
@@ -23,6 +24,8 @@ public interface ISysUserPermissionService extends AppBaseService<SysUserPermiss
      * @return 所有角色菜单信息
      */
     List<SysUserPermission> findByUserId(Long userId);
+
+    List<SysUserPermission> findByUserId(Long userId, SysUserPermissionEnum... sysUserPermissionEnums);
 
     /**
      * 通过用户id，判断是否存在记录

@@ -43,6 +43,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AppSpecification<T> implements Specification<T> {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
     private Class<T> entityClazz;
 

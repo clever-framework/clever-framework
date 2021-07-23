@@ -14,6 +14,7 @@ import io.github.toquery.framework.system.service.ISysConfigService;
 import io.github.toquery.framework.system.service.ISysDictItemService;
 import io.github.toquery.framework.system.service.ISysDictService;
 import io.github.toquery.framework.system.service.ISysMenuService;
+import io.github.toquery.framework.system.service.ISysRoleMenuService;
 import io.github.toquery.framework.system.service.ISysRoleService;
 import io.github.toquery.framework.system.service.ISysUserPermissionService;
 import io.github.toquery.framework.system.service.ISysUserService;
@@ -22,6 +23,7 @@ import io.github.toquery.framework.system.service.impl.SysConfigServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysDictItemServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysDictServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysMenuServiceImpl;
+import io.github.toquery.framework.system.service.impl.SysRoleMenuServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysRoleServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysUserPermissionServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysUserServiceImpl;
@@ -140,6 +142,12 @@ public class AppSystemAutoConfiguration {
     @ConditionalOnMissingBean
     public ISysUserService getSysUserService() {
         return new SysUserServiceImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysRoleMenuService getSysRoleMenuService() {
+        return new SysRoleMenuServiceImpl();
     }
 
     @Bean

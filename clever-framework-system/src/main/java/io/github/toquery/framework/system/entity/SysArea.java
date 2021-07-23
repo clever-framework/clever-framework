@@ -33,8 +33,8 @@ public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, Ap
      */
     @NotBlank
     @Length(min = 4, max = 100)
-    @Column(name = "name", length = 100)
-    private String name;
+    @Column(name = "area_name", length = 100)
+    private String areaName;
 
     /**
      * 全部名称
@@ -50,10 +50,10 @@ public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, Ap
     @NotNull
     @Size(max = 50)
     @Column(length = 50)
-    private String code;
+    private String areaCode;
 
-    @Column(name = "level")
-    private int level = 0;
+    @Column(name = "area_level")
+    private int areaLevel = 0;
 
     /**
      * 上级编码
@@ -109,6 +109,16 @@ public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, Ap
     private List<SysArea> children;
 
     @Override
+    public int getLevel() {
+        return this.areaLevel;
+    }
+
+    @Override
+    public void setLevel(int areaLevel) {
+        this.areaLevel = areaLevel;
+    }
+
+    @Override
     public boolean isHasChildren() {
         return hasChildren;
     }
@@ -127,6 +137,8 @@ public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, Ap
     public boolean getDeleted() {
         return deleted;
     }
+
+
 
     @Override
     public int compareTo(SysArea sysArea) {

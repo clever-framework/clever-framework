@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.github.toquery.framework.system.repository.SysRoleMenuRepository">
+
+    <resultMap id="roleAndMenuResultMap" type="io.github.toquery.framework.system.entity.SysRoleMenu">
+        <id column="id" property="id"/>
+        <result column="roleId" property="roleId"/>
+        <association property="menu" javaType="io.github.toquery.framework.system.entity.SysMenu">
+            <id column="menuId" property="id"/>
+            <result column="menuName" property="menuName"/>
+            <result column="menuCode" property="menuCode"/>
+            <result column="menuLevel" property="menuLevel"/>
+            <result column="menuParentId" property="parentId"/>
+            <result column="menuParentIds" property="parentIds"/>
+            <result column="menuSortNum" property="sortNum"/>
+            <result column="menuHasChildren" property="hasChildren"/>
+        </association>
+    </resultMap>
+
+    <select id="findWithSysRoleMenuByRoleIds" resultType="io.github.toquery.framework.system.entity.SysRoleMenu">
+        select srm.id,
+               srm.role_id as roleId,
+               sm.id as menuId,
+               sm.name as
+        from sys_role_menu srm
+        left join sys_menu sm on srm.menu_id = sm.id
+        where 1 = 1
+        <foreach collection="sysRoleIds" item="sysRoleId" open=" and srm.role_id in ( " separator="," close=" ) ">
+            #{sysRoleId}
+        </foreach>
+
+    </select>
+</mapper>

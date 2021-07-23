@@ -2,9 +2,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # serverTimezone=Asia/Shanghai 必须在URL追加时区设置
-    url: jdbc:mysql://127.0.0.1:3306/clever_framework_demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-    username: root
-    password: 123456
+    url: jdbc:mysql://${DB_MYSQL_HOST:127.0.0.1}:3306/clever_framework_demo?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: ${DB_MYSQL_USER:root}
+    password: ${DB_MYSQL_PASSWORD:123456}
   jpa:
     properties:
       hibernate:

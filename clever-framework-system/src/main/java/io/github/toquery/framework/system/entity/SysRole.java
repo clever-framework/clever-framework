@@ -26,8 +26,8 @@ public class SysRole extends AppBaseEntity implements AppEntitySoftDel {
 
     @NotBlank
     @Length(min = 2, max = 50)
-    @Column(length = 50, unique = true)
-    private String name;
+    @Column(name = "role_name", length = 50, unique = true)
+    private String roleName;
 
     /**
      * 是否删除：1已删除；0未删除

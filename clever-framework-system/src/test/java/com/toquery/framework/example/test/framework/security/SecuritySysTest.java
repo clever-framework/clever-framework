@@ -41,7 +41,7 @@ public class SecuritySysTest extends AppTestSpringBase {
 
         SysRole sysRole1 = new SysRole();
         sysRole1.setMenus(sysMenus1);
-        sysRole1.setName("1");
+        sysRole1.setRoleName("1");
         sysRole1 = sysRoleDao.saveAndFlush(sysRole1);
 
 
@@ -52,7 +52,7 @@ public class SecuritySysTest extends AppTestSpringBase {
 
         SysRole sysRole2 = new SysRole();
         sysRole2.setMenus(sysMenus2);
-        sysRole2.setName("2");
+        sysRole2.setRoleName("2");
         sysRole2 = sysRoleDao.saveAndFlush(sysRole2);
 
 
