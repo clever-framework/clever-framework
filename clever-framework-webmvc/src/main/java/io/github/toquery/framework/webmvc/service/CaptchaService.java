@@ -76,9 +76,10 @@ public class CaptchaService extends AbstractCaptchaService {
      * @return 图形验证码bean
      */
     public CaptchaResponse generateCaptcha() {
+        AppWebMvcProperties.AppWebMvcCaptchaProperties appWebMvcCaptchaProperties = appWebMvcProperties.getCaptcha();
         //定义图形验证码的长和宽
-        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
-        lineCaptcha.setGenerator(new RandomGenerator(CAPTCHA_CODES, 4));
+        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(appWebMvcCaptchaProperties.getWidth(), appWebMvcCaptchaProperties.getHeight());
+        lineCaptcha.setGenerator(new RandomGenerator(appWebMvcCaptchaProperties.getRandomCode(), appWebMvcCaptchaProperties.getLength()));
         String createTime = String.valueOf(System.currentTimeMillis());
         String captchaBase64 = imgToBase64(lineCaptcha.getImage());
         String token = this.createToken(lineCaptcha.getCode().toUpperCase(), createTime);
