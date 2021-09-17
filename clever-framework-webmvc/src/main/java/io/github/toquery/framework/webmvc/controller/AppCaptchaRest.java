@@ -38,7 +38,7 @@ public class AppCaptchaRest {
     @PostMapping("/captcha/valid")
     public ResponseParam captcha(@Validated @RequestBody CaptchaValidRequest captchaValidReq) {
         ResponseParam responseParam = ResponseParam.builder().success().build();
-        if (!captchaService.valid(captchaValidReq.getCaptcha(), captchaValidReq.getToken())) {
+        if (!captchaService.valid(captchaValidReq.getCaptchaValue(), captchaValidReq.getCaptchaToken())) {
             responseParam = ResponseParam.builder().fail().message("验证码输入错误").build();
         }
         return responseParam;
