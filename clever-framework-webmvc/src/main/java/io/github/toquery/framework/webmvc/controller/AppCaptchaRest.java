@@ -1,6 +1,6 @@
 package io.github.toquery.framework.webmvc.controller;
 
-import io.github.toquery.framework.webmvc.domain.CaptchaValidReq;
+import io.github.toquery.framework.webmvc.domain.CaptchaValidRequest;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.service.CaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class AppCaptchaRest {
      * @return httpResponse
      */
     @PostMapping("/captcha/valid")
-    public ResponseParam captcha(@Validated @RequestBody CaptchaValidReq captchaValidReq) {
+    public ResponseParam captcha(@Validated @RequestBody CaptchaValidRequest captchaValidReq) {
         ResponseParam responseParam = ResponseParam.builder().success().build();
         if (!captchaService.valid(captchaValidReq.getCaptcha(), captchaValidReq.getToken())) {
             responseParam = ResponseParam.builder().fail().message("验证码输入错误").build();

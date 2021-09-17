@@ -7,9 +7,11 @@ import javax.validation.constraints.NotBlank;
 /**
  */
 @Data
-public class CaptchaValidReq {
+public class CaptchaValidRequest {
+
     @NotBlank
-    private String captcha;
+    private String captchaValue;
+
     @NotBlank
-    private String token;
+    private String captchaToken;
 }

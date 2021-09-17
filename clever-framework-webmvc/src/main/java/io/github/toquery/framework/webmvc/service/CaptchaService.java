@@ -8,7 +8,7 @@ import cn.hutool.crypto.digest.Digester;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.core.captcha.AbstractCaptchaService;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.webmvc.domain.CaptchaBean;
+import io.github.toquery.framework.webmvc.domain.CaptchaResponse;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
@@ -76,14 +75,14 @@ public class CaptchaService extends AbstractCaptchaService {
      *
      * @return 图形验证码bean
      */
-    public CaptchaBean generateCaptcha() {
+    public CaptchaResponse generateCaptcha() {
         //定义图形验证码的长和宽
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
         lineCaptcha.setGenerator(new RandomGenerator(CAPTCHA_CODES, 4));
         String createTime = String.valueOf(System.currentTimeMillis());
         String captchaBase64 = imgToBase64(lineCaptcha.getImage());
         String token = this.createToken(lineCaptcha.getCode().toUpperCase(), createTime);
-        return new CaptchaBean(token + EXPIRED_SEPARATION + createTime, "data:image/png;base64," + captchaBase64);
+        return new CaptchaResponse(token + EXPIRED_SEPARATION + createTime, "data:image/png;base64," + captchaBase64);
     }
 
 
