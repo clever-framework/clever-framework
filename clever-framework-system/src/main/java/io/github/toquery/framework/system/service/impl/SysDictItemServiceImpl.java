@@ -20,6 +20,7 @@ public class SysDictItemServiceImpl extends AppBaseServiceImpl<Long, SysDictItem
         Map<String, String> map = new HashMap<>();
         map.put("idIN", "id:IN");
         map.put("name", "name:EQ");
+        map.put("dictId", "dictId:EQ");
         map.put("nameLike", "name:LIKE");
 
         map.put("code", "code:EQ");
@@ -31,6 +32,7 @@ public class SysDictItemServiceImpl extends AppBaseServiceImpl<Long, SysDictItem
     @Override
     public List<SysDictItem> findByDictId(Long dictId) {
         Map<String, Object> param = new HashMap<>();
+        param.put("dictId", dictId);
         return super.find(param);
     }
 }

@@ -23,8 +23,22 @@ public class AppWebMvcProperties {
 
     public static final String PREFIX = "app.web-mvc";
 
+    private AppWebMvcCaptchaProperties captcha = new AppWebMvcCaptchaProperties();
+
     private AppWebParamProperties param = new AppWebParamProperties();
 
     private AppWebParamDefaultProperties defaultValue = new AppWebParamDefaultProperties();
+
+    @Getter
+    @Setter
+    public static class AppWebMvcCaptchaProperties {
+
+        private String salt = "clever-framework";
+
+        /**
+         * 过期时间（分钟）
+         */
+        private int expired = 1;
+    }
 
 }

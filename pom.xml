@@ -22,7 +22,7 @@
     </parent>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -63,6 +63,9 @@
         <swagger-ui.version>3.51.1</swagger-ui.version>
 
         <minio.version>8.3.0</minio.version>
+
+
+        <hutool.version>5.7.12</hutool.version>
 
         <!-- mybatis version
         <mybatis.version>3.5.2</mybatis.version>
@@ -261,6 +264,18 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-captcha</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
 
             <dependency>

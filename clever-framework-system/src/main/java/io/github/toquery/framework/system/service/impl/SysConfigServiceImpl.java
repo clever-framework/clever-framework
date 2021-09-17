@@ -5,7 +5,6 @@ import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysConfig;
 import io.github.toquery.framework.system.repository.SysConfigRepository;
 import io.github.toquery.framework.system.service.ISysConfigService;
-import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 import java.util.List;

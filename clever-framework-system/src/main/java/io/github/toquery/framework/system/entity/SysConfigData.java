@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author toquery
@@ -27,8 +28,9 @@ import javax.persistence.Table;
 @Table(name = "sys_config_data")
 public class SysConfigData extends AppBaseEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "config_id", nullable = false)
+//    @ManyToOne
+//    @JoinColumn(name = "config_id", nullable = false)
+    @Transient
     private SysConfig config;
 
     @Column(name = "name", length = 50)

@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class SysConfig extends AppBaseEntity {
     private Map<String, String> data = new HashMap<>();
     */
 
-    @OneToMany(mappedBy = "config", cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "config", cascade = CascadeType.ALL)
+    @Transient
     private List<SysConfigData> configMap = new ArrayList<>();
 }
