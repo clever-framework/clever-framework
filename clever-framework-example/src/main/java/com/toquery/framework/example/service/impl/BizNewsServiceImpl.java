@@ -65,7 +65,7 @@ public class BizNewsServiceImpl extends AppBaseServiceImpl<Long, BizNews, IBizNe
 
     @Override
     public BizNews getById(Long id) {
-        return dao.getOne(id);
+        return dao.getById(id);
     }
 
     @Override

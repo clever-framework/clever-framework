@@ -71,7 +71,7 @@ public class BizNewsDaoCurdTest extends BaseSpringTest {
         List<BizNews> updateAll = bizNewsRepository.update(saveAll, Sets.newHashSet("title"));
         log.info("修改的数据 updateAll ：\n{}", JacksonUtils.object2String(updateAll));
 
-        BizNews getOne = bizNewsRepository.getOne(save.getId());
+        BizNews getOne = bizNewsRepository.getById(save.getId());
         log.info("查询的数据 getOne ：\n{}", JacksonUtils.object2String(getOne));
 
         //BizNews getByName = bizNewsRepository.getByName("save-test");

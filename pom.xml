@@ -64,6 +64,8 @@
 
         <minio.version>8.3.0</minio.version>
 
+        <grpc.version>1.40.1</grpc.version>
+        <io-protostuff.version>1.7.4</io-protostuff.version>
 
         <hutool.version>5.7.13</hutool.version>
 
@@ -103,6 +105,7 @@
         <module>clever-framework-minio</module>
         <module>clever-framework-data-rest</module>
         <module>clever-framework-cache</module>
+        <module>clever-framework-grpc</module>
         <!--
         <module>clever-framework-dependencies</module>
         -->
@@ -259,6 +262,28 @@
                 <version>${javers.version}</version>
             </dependency>
             -->
+
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-core</artifactId>
+                <version>${io-protostuff.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-runtime</artifactId>
+                <version>${io-protostuff.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>

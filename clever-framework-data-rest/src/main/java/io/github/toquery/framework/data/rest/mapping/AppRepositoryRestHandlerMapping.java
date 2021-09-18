@@ -84,7 +84,7 @@ public class AppRepositoryRestHandlerMapping extends PersistentEntitiesResourceM
             PersistentEntity<?, ?> entity = repositories.getPersistentEntity(type);
 
             RepositoryDetectionStrategy strategy = configuration.getRepositoryDetectionStrategy();
-            LinkRelationProvider provider = configuration.getRelProvider();
+            LinkRelationProvider provider = configuration.getLinkRelationProvider();
 
             CollectionResourceMapping mapping = new AppEntityRestCollectionResourceMapping(repositoryInformation, strategy,
                     provider);
