@@ -53,6 +53,12 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.16</version>
+            <scope>provided</scope>
+        </dependency>
         <!--
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
