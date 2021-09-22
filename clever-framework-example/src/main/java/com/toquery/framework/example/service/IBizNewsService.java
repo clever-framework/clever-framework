@@ -17,9 +17,9 @@ public interface IBizNewsService extends AppBaseService<BizNews, Long> {
 
     Page<BizNews> findByName(String name, Integer page, Integer size);
 
-    org.springframework.data.domain.Page<BizNews> queryJpaByPage(int requestPageNumber, int requestPageSize);
+    org.springframework.data.domain.Page<BizNews> queryJpaByPage(int current, int requestPageSize);
 
-    com.github.pagehelper.Page<BizNews> queryMyBatisByPage(int requestPageNumber, int requestPageSize);
+    com.github.pagehelper.Page<BizNews> queryMyBatisByPage(int current, int requestPageSize);
 
     List<BizNews> findJpa();
 

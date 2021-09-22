@@ -119,15 +119,15 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
 
         //检查查询的数据是否超出总记录数，如果超出总记录数，默认查询最后一页，并修改pageable参数
         if (pageable.getOffset() >= total) {
-            int pagenum = 0;
+            int current = 0;
             //由于页号是从0开始，所以需要考虑整除的情况
             if (total % pageable.getPageSize() == 0) {
-                pagenum = Ints.checkedCast(Math.max(total / pageable.getPageSize() - 1, 0));
+                current = Ints.checkedCast(Math.max(total / pageable.getPageSize() - 1, 0));
             } else {
-                pagenum = Ints.checkedCast(total / pageable.getPageSize());
+                current = Ints.checkedCast(total / pageable.getPageSize());
             }
-            log.info("总记录数为 {} ，当前页号为 {} 。超出分页查询范围，只返回最后一页（第{}页）的数据。", total, pageable.getPageNumber(), pagenum);
-            pageable = PageRequest.of(pagenum, pageable.getPageSize());
+            log.info("总记录数为 {} ，当前页号为 {} 。超出分页查询范围，只返回最后一页（第{}页）的数据。", total, pageable.getPageNumber(), current);
+            pageable = PageRequest.of(current, pageable.getPageSize());
         }
         //设置分页查询参数
         query.setFirstResult(Long.valueOf(pageable.getOffset()).intValue());

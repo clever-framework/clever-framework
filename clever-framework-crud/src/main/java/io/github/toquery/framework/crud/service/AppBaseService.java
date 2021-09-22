@@ -93,39 +93,39 @@ public interface AppBaseService<E, ID extends Serializable> {
     /**
      * 不带排序的分页查询
      *
-     * @param pageNum  分页号，由0开始
+     * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
      */
-    Page<E> queryByPage(int pageNum, int pageSize);
+    Page<E> queryByPage(int current, int pageSize);
 
     /**
      * 带排序的分页查询
      *
-     * @param pageNum  分页号，由0开始
+     * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
      * @param sorts        排序条件
      */
-    Page<E> queryByPage(int pageNum, int pageSize, String[] sorts);
+    Page<E> queryByPage(int current, int pageSize, String[] sorts);
 
     /**
      * 不带排序的分页查询
      *
      * @param searchParams 查询条件
-     * @param pageNum      分页号，由0开始
+     * @param current      分页号，由0开始
      * @param pageSize     每页数据的大小
      */
-    Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize);
+    Page<E> queryByPage(Map<String, Object> searchParams, int current, int pageSize);
 
     /**
      * 带排序的分页查询<br>
      * sorts中每个元素结构为："字段名称"或"字段名称_asc"或"字段名称_desc"，如果不带排序方式则默认为升序
      *
      * @param searchParams 查询条件
-     * @param pageNum      分页号，由0开始
+     * @param current      分页号，由0开始
      * @param pageSize     每页数据的大小
      * @param sorts        排序条件
      */
-    Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize, String[] sorts);
+    Page<E> queryByPage(Map<String, Object> searchParams, int current, int pageSize, String[] sorts);
 
 
 

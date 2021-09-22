@@ -87,8 +87,8 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<Long, SysUs
     }
 
     @Override
-    public Page<SysUserPermission> queryWithRoleAndArea(Map<String, Object> filterParam, int requestPageNum, int requestPageSize) {
-        Page<SysUserPermission> permissionPage = super.queryByPage(filterParam, requestPageNum, requestPageSize);
+    public Page<SysUserPermission> queryWithRoleAndArea(Map<String, Object> filterParam, int current, int requestPageSize) {
+        Page<SysUserPermission> permissionPage = super.queryByPage(filterParam, current, requestPageSize);
         Set<Long> roleIds = permissionPage.getContent().stream().map(SysUserPermission::getRoleId).collect(Collectors.toSet());
         Map<Long, SysRole> roleMap = sysRoleService.findByIds(roleIds).stream().collect(Collectors.toMap(SysRole::getId, item -> item, (n, o) -> n));
 

@@ -12,6 +12,8 @@ import java.util.Set;
  * @version 1
  */
 public interface ISysMenuService extends AppBaseService<SysMenu, Long> {
+
+
     /**
      * 自定义保存，变更上级的 hasChildren
      *

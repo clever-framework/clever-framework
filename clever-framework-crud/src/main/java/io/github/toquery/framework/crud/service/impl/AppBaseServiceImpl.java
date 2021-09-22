@@ -241,32 +241,32 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     /**
      * 不带排序的分页查询
      *
-     * @param pageNum  分页号，由0开始
+     * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
      */
-    public Page<E> queryByPage(int pageNum, int pageSize){
-        return this.queryByPage(pageNum, pageSize, null);
+    public Page<E> queryByPage(int current, int pageSize){
+        return this.queryByPage(current, pageSize, null);
     }
 
     /**
      * 带排序的分页查询
      *
-     * @param pageNum  分页号，由0开始
+     * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
      * @param sorts        排序条件
      */
-    public Page<E> queryByPage(int pageNum, int pageSize, String[] sorts){
-        Pageable pageable = PageRequest.of(pageNum, pageSize, getSort(sorts));
+    public Page<E> queryByPage(int current, int pageSize, String[] sorts){
+        Pageable pageable = PageRequest.of(current, pageSize, getSort(sorts));
         return this.dao.findAll(pageable);
     }
 
     @Override
-    public Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize, String[] sorts) {
+    public Page<E> queryByPage(Map<String, Object> searchParams, int current, int pageSize, String[] sorts) {
         log.info("获取的原始查询参数->" + JacksonUtils.object2String(searchParams));
 
         Specification<E> specification = getQuerySpecification(searchParams);
 
-        Pageable pageable = PageRequest.of(pageNum, pageSize, getSort(sorts));
+        Pageable pageable = PageRequest.of(current, pageSize, getSort(sorts));
 
         return this.dao.findAll(specification, pageable);
 
@@ -277,6 +277,18 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 //		return new PageImplInDubbo<E>(page.getContent() ,
 //				new PageRequest(page.getNumber() , page.getSize()) , page.getTotalElements()) ;
     }
+
+    //
+    private Page<E> handlePage(Page<E> page) {
+        List<E> content = page.getContent();
+        return page;
+    }
+
+    public List<E> queryByPagePost(List<E> content) {
+        return content;
+    }
+
+
 
 
     /**
@@ -420,8 +432,8 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     }
 
     @Override
-    public Page<E> queryByPage(Map<String, Object> searchParams, int pageNum, int pageSize) {
-        return this.queryByPage(searchParams, pageNum, pageSize, null);
+    public Page<E> queryByPage(Map<String, Object> searchParams, int current, int pageSize) {
+        return this.queryByPage(searchParams, current, pageSize, null);
     }
 
 

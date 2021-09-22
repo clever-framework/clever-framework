@@ -22,7 +22,7 @@ import java.util.HashMap;
 @AllArgsConstructor
 public final class ResponsePageBuilder {
     private int pageSize;
-    private int pageNum;
+    private int current;
     private Long totalElements;
     private int totalPages;
 
@@ -31,7 +31,7 @@ public final class ResponsePageBuilder {
 
     public ResponsePageBuilder(ResponsePage responsePage) {
         this.pageSize = responsePage.getPageSize();
-        this.pageNum = responsePage.getPageSize();
+        this.current = responsePage.getPageSize();
         this.totalElements = responsePage.getTotalElements();
         this.totalPages = responsePage.getTotalPages();
     }
@@ -42,7 +42,7 @@ public final class ResponsePageBuilder {
 
     public ResponsePageBuilder(PagedModel.PageMetadata pageMetadata) {
         if (pageMetadata != null) {
-            this.pageNum = (int) pageMetadata.getNumber() + 1;
+            this.current = (int) pageMetadata.getNumber() + 1;
             this.pageSize = (int) pageMetadata.getSize();
             this.totalElements = pageMetadata.getTotalElements();
             this.totalPages = (int) pageMetadata.getTotalPages();
@@ -56,7 +56,7 @@ public final class ResponsePageBuilder {
      */
     public ResponsePageBuilder(com.github.pagehelper.Page<?> page) {
         if (page != null) {
-            this.pageNum = page.getPageNum() + 1;
+            this.current = page.getPageNum() + 1;
             this.pageSize = page.getPageSize();
             this.totalElements = page.getTotal();
             this.totalPages = page.getPages();
@@ -65,7 +65,7 @@ public final class ResponsePageBuilder {
 
     public ResponsePageBuilder(org.springframework.data.domain.Page<?> page) {
         if (page != null) {
-            this.pageNum = page.getNumber() + 1;
+            this.current = page.getNumber() + 1;
             this.pageSize = page.getSize();
             this.totalElements = page.getTotalElements();
             this.totalPages = page.getTotalPages();
@@ -80,7 +80,7 @@ public final class ResponsePageBuilder {
 
     public ResponsePageBuilder page(PagedModel.PageMetadata pageMetadata) {
         if (pageMetadata != null) {
-            this.pageNum = (int) pageMetadata.getNumber() + 1;
+            this.current = (int) pageMetadata.getNumber() + 1;
             this.pageSize = (int) pageMetadata.getSize();
             this.totalElements = pageMetadata.getTotalElements();
             this.totalPages = (int) pageMetadata.getTotalPages();
@@ -95,7 +95,7 @@ public final class ResponsePageBuilder {
      */
     public ResponsePageBuilder page(com.github.pagehelper.Page<?> page) {
         if (page != null) {
-            this.pageNum = page.getPageNum() + 1;
+            this.current = page.getPageNum() + 1;
             this.pageSize = page.getPageSize();
             this.totalElements = page.getTotal();
             this.totalPages = page.getPages();
@@ -105,7 +105,7 @@ public final class ResponsePageBuilder {
 
     public ResponsePageBuilder page(org.springframework.data.domain.Page<?> page) {
         if (page != null) {
-            this.pageNum = page.getNumber() + 1;
+            this.current = page.getNumber() + 1;
             this.pageSize = page.getSize();
             this.totalElements = page.getTotalElements();
             this.totalPages = page.getTotalPages();
@@ -118,8 +118,8 @@ public final class ResponsePageBuilder {
         return this;
     }
 
-    public ResponsePageBuilder pageNum(int pageNum) {
-        this.pageNum = pageNum;
+    public ResponsePageBuilder current(int pageNum) {
+        this.current = pageNum;
         return this;
     }
 

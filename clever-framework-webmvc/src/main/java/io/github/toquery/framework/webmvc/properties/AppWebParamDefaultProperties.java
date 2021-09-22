@@ -11,6 +11,6 @@ import lombok.Setter;
 @Getter
 public class AppWebParamDefaultProperties {
 
-    private int pageNumber = 0;
+    private int current = 0;
     private int pageSize = 20;
 }

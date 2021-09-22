@@ -13,10 +13,10 @@ import lombok.Setter;
 @Setter
 @Getter
 public class AppWebParamProperties {
-    //    当前页号，从0开始
-    private String pageNumber = "pageNumber";
+    //    当前页号，从1开始
+    private String current = "current";
     //    分页大小
     private String pageSize = "pageSize";
     //    过滤参数前缀
-    private String filterPrefix = "filter_";
+    private String filterPrefix = "";
 }

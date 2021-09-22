@@ -54,11 +54,11 @@ public interface ISysUserPermissionService extends AppBaseService<SysUserPermiss
     /**
      * 获取全量的分页数据
      * @param filterParam
-     * @param requestPageNum
+     * @param current
      * @param requestPageSize
      * @return
      */
-    Page<SysUserPermission> queryWithRoleAndArea(Map<String, Object> filterParam, int requestPageNum, int requestPageSize);
+    Page<SysUserPermission> queryWithRoleAndArea(Map<String, Object> filterParam, int current, int requestPageSize);
 
     SysUserPermission updateUserPermissionCheck(SysUserPermission sysUserPermission);
 

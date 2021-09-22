@@ -18,7 +18,7 @@ public class ResponsePage {
 
     private int pageSize;
 
-    private int pageNum;
+    private int current;
 
     @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     private Long totalElements;
@@ -30,7 +30,7 @@ public class ResponsePage {
 
     public ResponsePage(ResponsePageBuilder builder) {
         this.pageSize = builder.getPageSize();
-        this.pageNum = builder.getPageNum();
+        this.current = builder.getCurrent();
         this.totalElements = builder.getTotalElements();
         this.totalPages = builder.getTotalPages();
     }

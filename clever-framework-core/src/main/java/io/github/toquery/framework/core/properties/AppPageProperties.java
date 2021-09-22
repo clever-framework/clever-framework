@@ -22,7 +22,7 @@ public class AppPageProperties {
     @Getter
     public class AppPageParamProperties {
         private String pageSize;
-        private String pageNumber;
+        private String current;
         private String totalElements;
         private String totalPages;
     }

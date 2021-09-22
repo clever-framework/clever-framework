@@ -43,12 +43,12 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews,
                 break;
             }
             case JPA: {
-                org.springframework.data.domain.Page<BizNews> bizNewsPage = super.service.queryJpaByPage(super.getRequestPageNum(), super.getRequestPageSize());
+                org.springframework.data.domain.Page<BizNews> bizNewsPage = super.service.queryJpaByPage(super.getRequestCurrent(), super.getRequestPageSize());
                 responseParam = ResponseParam.builder().page(bizNewsPage).build();
                 break;
             }
             case MYBATIS: {
-                com.github.pagehelper.Page<BizNews> bizNewsPage = super.service.queryMyBatisByPage(super.getRequestPageNum(), super.getRequestPageSize());
+                com.github.pagehelper.Page<BizNews> bizNewsPage = super.service.queryMyBatisByPage(super.getRequestCurrent(), super.getRequestPageSize());
                 responseParam = ResponseParam.builder().page(bizNewsPage).build();
                 break;
             }

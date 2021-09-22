@@ -35,7 +35,7 @@ public class SysUserPermissiomRest extends AppBaseCrudController<ISysUserPermiss
 
     @GetMapping
     public ResponseParam query() {
-        Page<SysUserPermission> sysUserPermissionPage = super.service.queryWithRoleAndArea(super.getFilterParam(), super.getRequestPageNum(), super.getRequestPageSize());
+        Page<SysUserPermission> sysUserPermissionPage = super.service.queryWithRoleAndArea(super.getFilterParam(), super.getRequestCurrent(), super.getRequestPageSize());
         return new ResponseParamBuilder().page(sysUserPermissionPage).build();
     }
 

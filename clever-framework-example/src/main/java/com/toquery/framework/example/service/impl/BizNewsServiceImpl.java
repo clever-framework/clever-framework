@@ -76,13 +76,13 @@ public class BizNewsServiceImpl extends AppBaseServiceImpl<Long, BizNews, IBizNe
     }
 
     @Override
-    public Page<BizNews> queryJpaByPage(int pageNum, int pageSize) {
-        return super.dao.findAll(PageRequest.of(pageNum, pageSize));
+    public Page<BizNews> queryJpaByPage(int current, int pageSize) {
+        return super.dao.findAll(PageRequest.of(current, pageSize));
     }
 
     @Override
-    public com.github.pagehelper.Page<BizNews> queryMyBatisByPage(int pageNum, int pageSize) {
-        com.github.pagehelper.Page<BizNews> bizNewsPage = PageHelper.startPage(pageNum, pageSize);
+    public com.github.pagehelper.Page<BizNews> queryMyBatisByPage(int current, int pageSize) {
+        com.github.pagehelper.Page<BizNews> bizNewsPage = PageHelper.startPage(current, pageSize);
         super.dao.findMyBatisByTitle(null);
         return bizNewsPage;
     }

@@ -46,9 +46,9 @@ public class AppBaseWebMvcController extends AppBaseWebController {
      * 获取当前第几页，第一页为1（1 转换为 0）
      * @return  当前第几页
      */
-    protected int getRequestPageNum() {
-        String pageNumber = this.getRequestParameterValue(appWebMvcProperties.getParam().getPageNumber());
-        return Strings.isNullOrEmpty(pageNumber) ? appWebMvcProperties.getDefaultValue().getPageNumber() : Integer.parseInt(pageNumber) - 1;
+    protected int getRequestCurrent() {
+        String current = this.getRequestParameterValue(appWebMvcProperties.getParam().getCurrent());
+        return Strings.isNullOrEmpty(current) ? appWebMvcProperties.getDefaultValue().getCurrent() : Integer.parseInt(current) - 1;
     }
 
 
