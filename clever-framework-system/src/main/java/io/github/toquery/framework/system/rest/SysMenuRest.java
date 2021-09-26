@@ -44,7 +44,8 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu,
 
     @GetMapping("/tree")
     public ResponseParam tree() throws Exception {
-        List<SysMenu> sysMenuList = service.find(null, sort);
+        List<SysMenu> sysMenuList = service.find(super.getFilterParam(), sort);
+        sysMenuList.add(ISysMenuService.ROOT_SYS_MENU);
         // 将lits数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
         return new ResponseParamBuilder().content(sysMenuList).build();
@@ -59,7 +60,7 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu,
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODIFY, modelName = "$modelName", bizName = "$bizName")
     @PutMapping
     public ResponseParam update(@RequestBody SysMenu menu) {
-        return super.update(menu, Sets.newHashSet("name", "code", "sortNum"));
+        return this.handleResponseParam(super.service.updateMenu(menu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.DELETE, modelName = "$modelName", bizName = "$bizName")

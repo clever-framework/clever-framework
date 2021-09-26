@@ -5,6 +5,7 @@ import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.data.rest.annotation.EnableAppEntityRest;
 import io.github.toquery.framework.data.rest.annotation.EnableAppRepositoryRest;
 import io.github.toquery.framework.web.dict.annotation.AppDictScan;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -18,7 +19,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 //@EntityScan // (basePackages = {"io.github.toquery.framework.security.domain", "com.toquery.framework.demo.entity"})
 //@EnableAppJpaRepositories //(basePackages = {"io.github.toquery.framework.security", "com.toquery.framework.demo"})
 //@EnableAppRepositoryRest
-
+@MapperScan("com.toquery.framework.example.dao")
 @EnableAppEntityRest
 @AppDictScan
 //@AppDictScan(basePackage = "com.toquery.framework.demo.constant")

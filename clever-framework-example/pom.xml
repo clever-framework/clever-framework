@@ -59,6 +59,13 @@
             <version>0.16</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>3.4.3.3</version>
+        </dependency>
+
         <!--
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

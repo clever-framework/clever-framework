@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 @Entity
 @Getter
 @Setter
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "enabled", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
 @Table(name = "sys_user")
 public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetails {
 

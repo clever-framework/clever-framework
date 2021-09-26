@@ -32,6 +32,12 @@ import java.util.List;
 @Table(name = "sys_menu")
 public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntityTree<SysMenu>, AppEntitySort, AppEntitySoftDel {
 
+    public SysMenu(Long id, String menuName, String menuCode) {
+        this.id = id;
+        this.menuName = menuName;
+        this.menuCode = menuCode;
+    }
+
     public SysMenu(@NotNull @Size(max = 50) String menuName, @NotNull @Size(max = 50) String menuCode) {
         this.menuName = menuName;
         this.menuCode = menuCode;
@@ -57,6 +63,9 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
 
     @Column(name = "parent_ids")
     private String parentIds;
+
+    @Column(name = "tree_path")
+    private String treePath;
 
     @Column(name = "has_children")
     private boolean hasChildren = false;
