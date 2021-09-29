@@ -26,7 +26,7 @@ import java.util.UUID;
  * @version 1
  */
 @Service
-public class SysFilesServiceImpl extends AppBaseServiceImpl<Long, SysFiles, SysFilesRepository> implements ISysFilesService {
+public class SysFilesServiceImpl extends AppBaseServiceImpl<SysFiles, SysFilesRepository> implements ISysFilesService {
     /**
      * 查询条件表达式
      */

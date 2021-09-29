@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface AppBaseService<E, ID extends Serializable> {
+public interface AppBaseService<E> {
 
     /**
      * 保存实体对象，如果是一个已经存在的实体，则进行更新。<br>
@@ -28,12 +28,14 @@ public interface AppBaseService<E, ID extends Serializable> {
     /**
      * 根据id删除
      */
-    void deleteById(ID id);
+    void deleteById(Long id);
 
     /**
      * 根据ids批量删除
      */
-    void deleteByIds(Iterable<ID> ids);
+    void deleteByIds(Iterable<Long> ids);
+
+    void delete(Collection<E> deleteList);
 
     /**
      * 根据相应的条件参数删除数据，如果实现软删除接口则软删除
@@ -48,7 +50,7 @@ public interface AppBaseService<E, ID extends Serializable> {
     /**
      * 根据ID判断实体是否存在
      */
-    boolean existsById(ID id);
+    boolean existsById(Long id);
 
     /**
      * 判断满足条件的实体对象是否存在
@@ -60,7 +62,7 @@ public interface AppBaseService<E, ID extends Serializable> {
     /**
      * 根据id查询实体对象
      */
-    E getById(ID id);
+    E getById(Long id);
 
 
     /**
@@ -157,5 +159,5 @@ public interface AppBaseService<E, ID extends Serializable> {
     /**
      * 查询所有实体
      */
-    List<E> findByIds(Collection<ID> ids);
+    List<E> findByIds(Collection<Long> ids);
 }

@@ -61,7 +61,7 @@ public class BizType extends AppBaseEntity implements AppEntitySoftDel {
     private String typeName;
 
 
-    @JsonIgnoreProperties(value = {"types", "lastUpdateDatetime", "createDatetime"})
+    @JsonIgnoreProperties(value = {"types", "updateDateTime", "createDateTime"})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "biz_news_type",
             joinColumns = {@JoinColumn(name = "type_id", referencedColumnName = "id")},

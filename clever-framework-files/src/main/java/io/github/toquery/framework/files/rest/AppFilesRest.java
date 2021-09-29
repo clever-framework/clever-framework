@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFiles, Long> {
+public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFiles> {
 
     public AppFilesRest() {
         log.info(this.getClass().getSimpleName());

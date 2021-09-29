@@ -52,10 +52,9 @@ import java.util.Map;
  * <p>如果接口实现类需要交由spring管理，必须提供不带参数的构造方法。</p>
  *
  * @param <E>  实体类
- * @param <ID> 主键类型
  */
 @Slf4j
-public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends SimpleJpaRepository<E, ID> implements AppJpaBaseRepository<E, ID> {
+public class AppJpaBaseRepositoryImpl<E> extends SimpleJpaRepository<E, Long> implements AppJpaBaseRepository<E> {
 
     @Getter
     private final EntityManager entityManager;
@@ -162,7 +161,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
         //清理持久化上下文中的托管实体，避免重复更新
         entityManager.clear();
         //查询是否存在待更新的实体
-        E existEntity = findExistEntity((ID) entityInformation.getId(entity));
+        E existEntity = findExistEntity((Long) entityInformation.getId(entity));
         Assert.notNull(existEntity, "no exist " + entity.getClass() + " in database .");
         /* deprecated 1.0.5 直接修改不会经过lister,新版本会执行动态更新
         //如果存在需要更新的字段，则按照字段进行更新；否则整个更新实体
@@ -269,7 +268,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
     /**
      * 根据id查询已经存在的实体对象
      */
-    private E findExistEntity(ID id) {
+    private E findExistEntity(Long id) {
         //查询是否存在待更新的实体
         E existEntity = getOne(id);
 
@@ -286,7 +285,7 @@ public class AppJpaBaseRepositoryImpl<E, ID extends Serializable> extends Simple
     }
 
     @Override
-    public void deleteByIds(Collection<ID> ids) {
+    public void deleteByIds(Collection<Long> ids) {
         ids.forEach(this::deleteById);
     }
 

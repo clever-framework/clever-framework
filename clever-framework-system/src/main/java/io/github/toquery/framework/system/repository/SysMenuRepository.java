@@ -7,6 +7,6 @@ import io.github.toquery.framework.system.entity.SysMenu;
  * @author toquery
  * @version 1
  */
-public interface SysMenuRepository extends AppJpaBaseRepository<SysMenu, Long> {
+public interface SysMenuRepository extends AppJpaBaseRepository<SysMenu> {
 
 }

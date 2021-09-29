@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,20 +35,20 @@ import java.util.stream.Stream;
  */
 @RestController
 @RequestMapping("/sys/log")
-public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog, Long> {
+public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
 
     @Resource
     private AppUserDetailService userDetailsService;
 
-    private static final String[] PAGE_SORT = new String[]{"createDatetime_desc"};
+    private static final String[] PAGE_SORT = new String[]{"createDateTime_desc"};
 
     @GetMapping
-    public ResponseParam query(@RequestParam(value = "filter_createDatetimeGT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) Date createDataGT,
-                               @RequestParam(value = "filter_createDatetimeLT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) Date createDataLT) {
+    public ResponseParam query(@RequestParam(value = "filter_createDateTimeGT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataGT,
+                               @RequestParam(value = "filter_createDateTimeLT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataLT) {
         Map<String, Object> filterParam = super.getFilterParam();
         if (createDataGT != null && createDataLT != null) {
-            filterParam.put("createDatetimeGT", createDataGT);
-            filterParam.put("createDatetimeLT", createDataLT);
+            filterParam.put("createDateTimeGT", createDataGT);
+            filterParam.put("createDateTimeLT", createDataLT);
         }
         Page<SysLog> page = super.handleQuery(filterParam, PAGE_SORT);
         List<SysLog> sysLogList = page.getContent();

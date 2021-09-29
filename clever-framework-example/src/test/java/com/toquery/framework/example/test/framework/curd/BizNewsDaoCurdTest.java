@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,8 +45,8 @@ public class BizNewsDaoCurdTest extends BaseSpringTest {
         Assert.assertNotNull(saveAndFlush.getId());
 
         BizNews bizNews = new BizNews(new SnowFlake().nextId(), "saveAndFlush-test", new Date());
-        bizNews.setCreateDatetime(new Date());
-        bizNews.setLastUpdateDatetime(new Date());
+        bizNews.setCreateDateTime(LocalDateTime.now());
+        bizNews.setUpdateDateTime(LocalDateTime.now());
 //        BizNews saveMyBatis =
         bizNewsRepository.saveMyBatis(bizNews);
         log.info("插入的数据 saveMyBatis ：\n{}", JacksonUtils.object2String(bizNews));

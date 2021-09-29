@@ -1,5 +1,6 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.google.common.collect.Lists;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
@@ -9,6 +10,7 @@ import io.github.toquery.framework.system.service.ISysRoleMenuService;
 import io.github.toquery.framework.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<Long, SysRoleMenu, SysRoleMenuRepository> implements ISysRoleMenuService {
+public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysRoleMenuRepository> implements ISysRoleMenuService {
 
     @Autowired
     private ISysRoleService sysRoleService;
@@ -96,6 +98,39 @@ public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<Long, SysRoleMenu
         Map<Long,List<SysRoleMenu>> roleMenuMap = sysRoleMenus.stream().collect(Collectors.groupingBy(SysRoleMenu::getRoleId));
         List<SysMenu> sysMenus = sysMenuService.findByIds(sysRoleMenus.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toSet()));
         return sysRoleMenus;
+    }
+
+    @Override
+    public List<SysRoleMenu> reSaveMenu(Long roleId, Collection<SysMenu> menus) {
+        List<SysRoleMenu> sysRoleMenus = this.findByRoleId(roleId);
+
+        Map<Long,SysRoleMenu> sysRoleMenuMap = sysRoleMenus.stream().collect(Collectors.toMap(SysRoleMenu::getMenuId, item->item, (o,n)->n));;
+
+        List<Long> dbMenuIds = sysRoleMenus.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
+        List<Long> newMenuIds = menus.stream().map(SysMenu::getId).collect(Collectors.toList());
+
+
+        // 差集 dbMenuIds - newMenuIds
+        List<SysRoleMenu> deleteList = dbMenuIds.stream()
+                .filter(menuId -> !newMenuIds.contains(menuId))
+                .map(sysRoleMenuMap::get)
+                .collect(Collectors.toList());
+
+        // 差集 newMenuIds - dbMenuIds
+        List<SysRoleMenu> addList = newMenuIds.stream()
+                .filter(menuId -> !dbMenuIds.contains(menuId))
+                .map(menuId -> new SysRoleMenu(roleId, menuId))
+                .collect(Collectors.toList());
+
+        if (dbMenuIds.size() > 0) {
+            super.delete(deleteList);
+        }
+
+        if (addList.size() > 0) {
+            super.save(addList);
+        }
+
+        return null;
     }
 
 

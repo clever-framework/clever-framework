@@ -28,7 +28,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/dict/item")
-public class SysDictItemRest extends AppBaseCrudController<ISysDictItemService, SysDictItem, Long> {
+public class SysDictItemRest extends AppBaseCrudController<ISysDictItemService, SysDictItem> {
 
 
     private String[] sort = new String[]{"sortNum_desc"};

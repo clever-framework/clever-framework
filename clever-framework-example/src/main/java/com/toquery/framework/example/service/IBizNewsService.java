@@ -13,7 +13,7 @@ import java.util.Set;
  * @version 1
  */
 
-public interface IBizNewsService extends AppBaseService<BizNews, Long> {
+public interface IBizNewsService extends AppBaseService<BizNews> {
 
     Page<BizNews> findByName(String name, Integer page, Integer size);
 

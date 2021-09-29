@@ -10,7 +10,7 @@ import java.util.List;
  * @author toquery
  * @version 1
  */
-public interface ISysDictItemService extends AppBaseService<SysDictItem, Long> {
+public interface ISysDictItemService extends AppBaseService<SysDictItem> {
 
     List<SysDictItem> findByDictId(Long dictId);
 }

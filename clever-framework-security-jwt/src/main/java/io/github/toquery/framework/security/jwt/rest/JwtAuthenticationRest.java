@@ -133,7 +133,7 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
         String username = jwtTokenHandler.getUsernameFromToken(token);
         AppUserDetails user = (AppUserDetails) appUserDetailsService.loadFullUserByUsername(username);
 
-        if (jwtTokenHandler.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+        if (jwtTokenHandler.canTokenBeRefreshed(token, user.getChangePasswordDateTime())) {
             String refreshedToken = jwtTokenHandler.refreshToken(token);
             return ResponseEntity.ok(new JwtResponse(refreshedToken));
         } else {

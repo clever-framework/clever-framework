@@ -30,7 +30,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/user/permission")
-public class SysUserPermissiomRest extends AppBaseCrudController<ISysUserPermissionService, SysUserPermission, Long> {
+public class SysUserPermissiomRest extends AppBaseCrudController<ISysUserPermissionService, SysUserPermission> {
 
 
     @GetMapping

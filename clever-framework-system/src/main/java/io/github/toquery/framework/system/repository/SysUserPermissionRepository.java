@@ -13,7 +13,7 @@ import java.util.List;
  * @version 1
  */
 //@RepositoryRestResource(path = "sys-role")
-public interface SysUserPermissionRepository extends AppJpaBaseRepository<SysUserPermission, Long> {
+public interface SysUserPermissionRepository extends AppJpaBaseRepository<SysUserPermission> {
 
     @MybatisQuery
     List<SysUserPermission> findByUserId(@Param("userId") Long userId);

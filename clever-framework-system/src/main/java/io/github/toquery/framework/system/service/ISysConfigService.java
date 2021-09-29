@@ -10,6 +10,6 @@ import java.util.List;
  * @author toquery
  * @version 1
  */
-public interface ISysConfigService extends AppBaseService<SysConfig, Long> {
+public interface ISysConfigService extends AppBaseService<SysConfig> {
     List<SysConfig> reSave(Long bizId, String configGroup, List<SysConfig> sysConfigList);
 }

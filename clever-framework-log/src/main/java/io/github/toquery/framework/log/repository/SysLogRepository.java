@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * @version 1
  */
 
-public interface SysLogRepository extends AppJpaBaseRepository<SysLog, Long> {
+public interface SysLogRepository extends AppJpaBaseRepository<SysLog> {
 
     @MybatisQuery
     public int insertSysLog(@Param("sysLog") SysLog sysLog);

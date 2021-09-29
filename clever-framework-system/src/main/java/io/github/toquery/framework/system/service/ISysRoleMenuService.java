@@ -5,6 +5,7 @@ import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
 import io.github.toquery.framework.system.entity.SysUser;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public interface ISysRoleMenuService extends AppBaseService<SysRoleMenu, Long> {
+public interface ISysRoleMenuService extends AppBaseService<SysRoleMenu> {
 
     /**
      * 通过角色id，判断是否存在记录
@@ -39,4 +40,5 @@ public interface ISysRoleMenuService extends AppBaseService<SysRoleMenu, Long> {
 
     List<SysRoleMenu> findWithSysMenuByRoleIds(Set<Long> sysRoleIds);
 
+    List<SysRoleMenu> reSaveMenu(Long roleId, Collection<SysMenu> menus);
 }

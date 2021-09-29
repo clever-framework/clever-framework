@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/user")
-public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser, Long> {
+public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser> {
 
     @Resource
     private AppProperties appProperties;
@@ -72,7 +73,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser,
             throw new AppException("新密码不能为空！");
         }
         sysUser.setPassword(passwordEncoder.encode(rawPassword));
-        sysUser.setLastPasswordResetDate(new Date());
+        sysUser.setChangePasswordDateTime(LocalDateTime.now());
         return super.update(sysUser, Sets.newHashSet("password", "lastPasswordResetDate"));
     }
 

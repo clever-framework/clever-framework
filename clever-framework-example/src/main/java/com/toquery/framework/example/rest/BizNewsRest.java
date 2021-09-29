@@ -31,7 +31,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/biz-news")
-public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews, Long> {
+public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews> {
 
 
     @GetMapping

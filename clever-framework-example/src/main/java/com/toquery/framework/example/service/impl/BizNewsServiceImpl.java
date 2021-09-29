@@ -25,7 +25,7 @@ import java.util.Set;
  * @version 1
  */
 @Service
-public class BizNewsServiceImpl extends AppBaseServiceImpl<Long, BizNews, IBizNewsRepository> implements IBizNewsService {
+public class BizNewsServiceImpl extends AppBaseServiceImpl<BizNews, IBizNewsRepository> implements IBizNewsService {
 
 
     @PersistenceContext

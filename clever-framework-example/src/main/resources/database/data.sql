@@ -37,12 +37,12 @@ values (1, '2019-06-06 11:11:11', null, '2019-06-06 11:11:11', 1, '37', false, t
 
 -- 插入用户
 insert into sys_user (id, create_time, create_user_id, last_update_time, last_update_user_id, email,
-                      last_password_reset_date, nick_name, password, phone, enabled,
+                      change_password_date_time, nick_name, password, phone, enabled,
                       user_name)
 values (1, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11', 1, 'admin@qq.com', '2019-06-06 11:11:11', 'admin',
         '$2a$10$z5htSCYs.GdnYDJXIR/tC.tIQjHobYo8AqsMIiClxZlgMX4CNAv.u', null, true, 'admin');
 insert into sys_user (id, create_time, create_user_id, last_update_time, last_update_user_id,
-                      email, last_password_reset_date, nick_name, password, phone, enabled,
+                      email, change_password_date_time, nick_name, password, phone, enabled,
                       user_name)
 values (2, '2019-06-06 11:11:11', 1, '2019-06-06 11:11:11', 1, 'user1@qq.com', '2019-06-06 11:11:11', 'user1',
         '$2a$10$z5htSCYs.GdnYDJXIR/tC.tIQjHobYo8AqsMIiClxZlgMX4CNAv.u', null, true, 'user1');

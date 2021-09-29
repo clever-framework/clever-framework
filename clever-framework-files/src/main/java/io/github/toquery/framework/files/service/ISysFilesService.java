@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author toquery
  * @version 1
  */
-public interface ISysFilesService extends AppBaseService<SysFiles, Long> {
+public interface ISysFilesService extends AppBaseService<SysFiles> {
     SysFiles saveFiles(MultipartFile file) throws IOException;
 
     String storeFiles(MultipartFile multipartRequest) throws IOException;

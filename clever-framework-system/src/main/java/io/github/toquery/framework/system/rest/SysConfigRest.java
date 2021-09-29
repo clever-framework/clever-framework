@@ -28,7 +28,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/config")
-public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysConfig, Long> {
+public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysConfig> {
     private String[] sort = new String[]{"sortNum_desc"};
 
     @GetMapping

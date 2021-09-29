@@ -7,6 +7,6 @@ import io.github.toquery.framework.files.entity.SysFiles;
  * @author toquery
  * @version 1
  */
-public interface SysFilesRepository extends AppJpaBaseRepository<SysFiles, Long> {
+public interface SysFilesRepository extends AppJpaBaseRepository<SysFiles> {
 
 }

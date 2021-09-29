@@ -29,6 +29,7 @@ import javax.persistence.Transient;
 import javax.persistence.criteria.Predicate;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -43,12 +44,11 @@ import java.util.stream.Collectors;
 /**
  * jpa快速curd方法
  *
- * @param <ID> 主键类型
  * @param <E>  实体类型
  * @param <D>  Dao操作类
  */
 @Slf4j
-public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppBaseEntity, D extends AppJpaBaseRepository<E, ID>> implements AppBaseService<E, ID> {
+public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJpaBaseRepository<E>> implements AppBaseService<E> {
 
     @Autowired
     protected D dao;
@@ -100,13 +100,17 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
     }
 
+    public void delete(Collection<E> deleteList) {
+        this.dao.deleteAll(deleteList);
+    }
+
     /**
      * 根据id删除记录，删除时和当前对象的关联关系会被同步删除
      */
     @Override
     @Transactional
-    public void deleteById(ID id) {
-        if (isBlankId(id)) {
+    public void deleteById(Long id) {
+        if (id == null) {
             return;
         }
         if (isSoftDel()) {
@@ -122,7 +126,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
         postDeleteHandler(id);
     }
 
-    public void postDeleteHandler(ID id) {
+    public void postDeleteHandler(Long id) {
         //在进行刷新操作前，先刷新当前实体缓存
         this.dao.flush();
     }
@@ -132,9 +136,9 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
      */
     @Override
     @Transactional
-    public void deleteByIds(Iterable<ID> ids) {
-        for (ID id : ids) {
-            if (isBlankId(id)) {
+    public void deleteByIds(Iterable<Long> ids) {
+        for (Long id : ids) {
+            if (id == null) {
                 continue;
             }
             deleteById(id);
@@ -166,8 +170,8 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
         Assert.notEmpty(updateFields, "必须指定更新的字段");
 
         //设置记录的更新时间
-        entity.setLastUpdateDatetime(new Date());
-        updateFields.add("lastUpdateDatetime");
+        entity.setUpdateDateTime(LocalDateTime.now());
+        updateFields.add("updateDatetime");
 
         //todo 设置记录更新人的id
             /*AppAuthPrincipal appAuthPrincipal = appAuthPrincipalService.getAppAuthPrincipal();
@@ -322,7 +326,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     protected Sort getSort(String[] sorts) {
         //默认按照创建时间排序
         if ((sorts == null || sorts.length < 1) && AppBaseEntity.class.isAssignableFrom(this.dao.getDomainClass())) {
-            sorts = new String[]{"createDatetime"};
+            sorts = new String[]{"createDateTime"};
         }
 
         //没有指定排序字段，则返回未排序的对象
@@ -368,9 +372,9 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
 
 
     @Override
-    public E getById(ID id) {
+    public E getById(Long id) {
         Optional<E> result = this.dao.findById(id);
-        return result.isPresent() ? result.get() : null;
+        return result.orElse(null);
     }
 
 
@@ -411,16 +415,9 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
         return list;
     }
 
-    /**
-     * id是否为空
-     */
-    private boolean isBlankId(ID id) {
-        return id == null || (id instanceof String) && Strings.isNullOrEmpty(id.toString());
-    }
-
 
     @Override
-    public boolean existsById(ID id) {
+    public boolean existsById(Long id) {
         return this.dao.existsById(id);
     }
 
@@ -463,7 +460,7 @@ public abstract class AppBaseServiceImpl<ID extends Serializable, E extends AppB
     }
 
     @Override
-    public List<E> findByIds(Collection<ID> ids) {
+    public List<E> findByIds(Collection<Long> ids) {
         if (ids == null || ids.size() <= 0){
             return Lists.newArrayList();
         }

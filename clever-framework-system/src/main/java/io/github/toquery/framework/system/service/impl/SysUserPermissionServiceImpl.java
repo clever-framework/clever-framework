@@ -26,7 +26,7 @@ import java.util.stream.Stream;
  * @author toquery
  * @version 1
  */
-public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<Long, SysUserPermission, SysUserPermissionRepository> implements ISysUserPermissionService {
+public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPermission, SysUserPermissionRepository> implements ISysUserPermissionService {
 
     @Resource
     private ISysRoleService sysRoleService;

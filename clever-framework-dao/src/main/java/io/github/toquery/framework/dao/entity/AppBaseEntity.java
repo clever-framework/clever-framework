@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 //import org.hibernate.annotations.DynamicUpdate;
@@ -66,26 +67,26 @@ public class AppBaseEntity implements Serializable {
 
     @CreatedDate
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @Column(name = "create_time", updatable = false, nullable = false)
-    private Date createDatetime;
+    @Column(name = "create_date_time", updatable = false, nullable = false)
+    private LocalDateTime createDateTime;
 
 
     @LastModifiedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @Column(name = "last_update_user_id", length = 32)
-    private Long lastUpdateUserId;
+    @Column(name = "update_user_id", length = 32)
+    private Long updateUserId;
 
 
     @LastModifiedDate
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_update_time", nullable = false)
+    //@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_date_time", nullable = false)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    private Date lastUpdateDatetime;
+    private LocalDateTime updateDateTime;
 
 //    @Version
 //    private int version;

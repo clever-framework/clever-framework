@@ -1,5 +1,6 @@
 package io.github.toquery.framework.system.rest;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -29,8 +31,8 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/menu")
-public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu, Long> {
-    private String[] sort = new String[]{"sortNum_desc"};
+public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu> {
+    private String[] sort = new String[]{"parentIds_asc", "sortNum_desc"};
 
     @GetMapping
     public ResponseParam query() {
@@ -44,8 +46,9 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu,
 
     @GetMapping("/tree")
     public ResponseParam tree() throws Exception {
-        List<SysMenu> sysMenuList = service.find(super.getFilterParam(), sort);
-        sysMenuList.add(ISysMenuService.ROOT_SYS_MENU);
+        List<SysMenu> sysMenuList = Lists.newArrayList(new SysMenu(0L, "根菜单", "root"));
+        List<SysMenu> childrenList = service.find(super.getFilterParam(), sort);
+        sysMenuList.addAll(childrenList);
         // 将lits数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
         return new ResponseParamBuilder().content(sysMenuList).build();

@@ -108,7 +108,7 @@ public class BizNews extends AppBaseEntity implements AppEntitySoftDel {
     private BizNewsShowStatus showStatus;
 
 
-    @JsonIgnoreProperties(value = {"news", "lastUpdateDatetime", "createDatetime"})
+    @JsonIgnoreProperties(value = {"news", "lastUpdateDateTime", "createDateTime"})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "biz_news_type",
             joinColumns = {@JoinColumn(name = "news_id", referencedColumnName = "id")},

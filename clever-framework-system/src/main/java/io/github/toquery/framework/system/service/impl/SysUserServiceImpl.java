@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUserRepository> implements AppUserDetailService,ISysUserService {
+public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepository> implements AppUserDetailService,ISysUserService {
 
     @Resource
     private PasswordEncoder passwordEncoder;
@@ -113,7 +114,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<Long, SysUser, SysUse
         }
         String encodePassword = passwordEncoder.encode(rawPassword);
         sysUser.setPassword(encodePassword);
-        sysUser.setLastPasswordResetDate(new Date());
+        sysUser.setChangePasswordDateTime(LocalDateTime.now());
         return this.update(sysUser, Sets.newHashSet("password", "lastPasswordResetDate"));
     }
 

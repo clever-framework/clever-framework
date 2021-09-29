@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,9 +106,11 @@ public class JwtTokenHandler {
                 .compact();
     }
 
-    public boolean canTokenBeRefreshed(String token, Date lastPasswordResetDate) {
+    public boolean canTokenBeRefreshed(String token, LocalDateTime lastPasswordChangeDateTime) {
         Date created = JwtTokenUtil.getIssuedAtDateFromToken(appSecurityJwtProperties.getSecret(), token);
-        return !JwtTokenUtil.isCreatedBeforeLastPasswordReset(created, lastPasswordResetDate)
+        Date changePasswordDateTime = Date.from(lastPasswordChangeDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        return !JwtTokenUtil.isCreatedBeforeLastPasswordReset(created, changePasswordDateTime)
                 && (!JwtTokenUtil.isTokenExpired(appSecurityJwtProperties.getSecret(), token) || ignoreTokenExpiration(token));
     }
 
@@ -150,11 +154,13 @@ public class JwtTokenHandler {
         AppUserDetails user = (AppUserDetails) userDetails;
         String username = JwtTokenUtil.getUsernameFromToken(appSecurityJwtProperties.getSecret(), token);
         Date created = JwtTokenUtil.getIssuedAtDateFromToken(appSecurityJwtProperties.getSecret(), token);
+
+        Date changePasswordDateTime = Date.from(user.getChangePasswordDateTime().atZone(ZoneId.systemDefault()).toInstant());
         //final Date expiration = getExpirationDateFromToken(token);
         return (
                 username.equals(user.getUsername())
                         && !JwtTokenUtil.isTokenExpired(appSecurityJwtProperties.getSecret(), token)
-                        && !JwtTokenUtil.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())
+                        && !JwtTokenUtil.isCreatedBeforeLastPasswordReset(created, changePasswordDateTime)
         );
     }
 

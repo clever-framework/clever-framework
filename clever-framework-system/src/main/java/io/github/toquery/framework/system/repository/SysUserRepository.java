@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
  * @author toquery
  * @version 1
  */
-public interface SysUserRepository extends AppJpaBaseRepository<SysUser, Long> {
+public interface SysUserRepository extends AppJpaBaseRepository<SysUser> {
 
     @SuppressWarnings("MybatisMapperMethodInspection")
     @Query("from SysUser where username=:username")

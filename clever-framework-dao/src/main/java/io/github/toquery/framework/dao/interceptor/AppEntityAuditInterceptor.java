@@ -13,6 +13,7 @@ import org.apache.ibatis.plugin.Signature;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Properties;
 
@@ -51,14 +52,14 @@ public class AppEntityAuditInterceptor implements Interceptor {
                         case "createUserId":
                             setProperty(arg, "createUserId", "111");
                             break;
-                        case "createDatetime":
-                            setProperty(arg, "createDatetime", new Date());
+                        case "createDateTime":
+                            setProperty(arg, "createDateTime", LocalDateTime.now());
                             break;
-                        case "lastUpdateUserId":
+                        case "updateUserId":
                             setProperty(arg, "lastUpdateUserId", "111");
                             break;
-                        case "lastUpdateDatetime":
-                            setProperty(arg, "lastUpdateDatetime", new Date());
+                        case "updateDateTime":
+                            setProperty(arg, "updateDateTime", LocalDateTime.now());
                             break;
                         case "delFlag":
                             setProperty(arg, "delFlag", "0");

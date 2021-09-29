@@ -61,13 +61,13 @@ public final class ResponseParamBuilder {
 
     public ResponseParamBuilder page(com.github.pagehelper.Page<?> page) {
         this.page =  new ResponsePageBuilder().page(page).build();
-        this.content = page.getResult();
+        this.content = page == null ? null : page.getResult();
         return this;
     }
 
     public ResponseParamBuilder page(org.springframework.data.domain.Page<?> page) {
-        this.page =  new ResponsePageBuilder().page(page).build();
-        this.content = page.getContent();
+        this.page = new ResponsePageBuilder().page(page).build();
+        this.content = page == null ? null : page.getContent();
         return this;
     }
 

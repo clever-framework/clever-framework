@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author toquery
  * @version 1
  */
-public class SysDictServiceImpl extends AppBaseServiceImpl<Long, SysDict, SysDictRepository> implements ISysDictService {
+public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepository> implements ISysDictService {
 
 
     @Autowired

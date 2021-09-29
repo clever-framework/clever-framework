@@ -36,9 +36,9 @@ public class SysLog extends AppBaseEntity {
     public SysLog(SysLog sysLog, UserDetails sysUser) {
         super.setId(sysLog.getId());
         super.setCreateUserId(sysLog.getCreateUserId());
-        super.setLastUpdateUserId(sysLog.getLastUpdateUserId());
-        super.setCreateDatetime(sysLog.getCreateDatetime());
-        super.setLastUpdateDatetime(sysLog.getLastUpdateDatetime());
+        super.setUpdateUserId(sysLog.getUpdateUserId());
+        super.setCreateDateTime(sysLog.getCreateDateTime());
+        super.setUpdateDateTime(sysLog.getUpdateDateTime());
 
         this.moduleName = sysLog.getModuleName();
         this.bizName = sysLog.getBizName();

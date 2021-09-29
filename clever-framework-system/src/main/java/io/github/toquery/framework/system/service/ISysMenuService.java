@@ -15,11 +15,9 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public interface ISysMenuService extends AppBaseService<SysMenu, Long> {
+public interface ISysMenuService extends AppBaseService<SysMenu> {
 
     public static final String ROOT_ID = "0";
-
-    public static final SysMenu ROOT_SYS_MENU = new SysMenu(0L, "根菜单", "root");
 
     public static final Set<String> UPDATE_FIELD = Sets.newHashSet("menuName", "menuCode", "sortNum", "parentId", "parentIds", "treePath", "hasChildren");
 
@@ -38,6 +36,8 @@ public interface ISysMenuService extends AppBaseService<SysMenu, Long> {
      * @return SysMenu
      */
     SysMenu updateMenu(SysMenu sysMenu);
+
+    public List<SysMenu> findByMenuCode(String menuCode);
 
     /**
      * 通过 parentId 进行 where in查询

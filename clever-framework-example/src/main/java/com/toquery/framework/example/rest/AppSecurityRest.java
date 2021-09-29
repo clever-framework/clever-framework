@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/app/security")
-public class AppSecurityRest extends AppBaseCrudController<IBizNewsService, BizNews, Long> {
+public class AppSecurityRest extends AppBaseCrudController<IBizNewsService, BizNews> {
 
 
     // @Filters()

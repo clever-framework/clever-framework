@@ -24,7 +24,7 @@ import java.util.List;
 @SuppressWarnings("MybatisMapperMethodInspection")
 @RestResource(path = "rest-resource")
 @RepositoryRestResource(path = "example-biz-news-spring")
-public interface IBizNewsRepository extends AppJpaBaseRepository<BizNews, Long> {
+public interface IBizNewsRepository extends AppJpaBaseRepository<BizNews> {
 
     /**
      * jpa 注解方式查询

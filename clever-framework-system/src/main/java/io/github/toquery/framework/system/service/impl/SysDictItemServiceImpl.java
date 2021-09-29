@@ -13,7 +13,7 @@ import java.util.Map;
  * @author toquery
  * @version 1
  */
-public class SysDictItemServiceImpl extends AppBaseServiceImpl<Long, SysDictItem, SysDictItemRepository> implements ISysDictItemService {
+public class SysDictItemServiceImpl extends AppBaseServiceImpl<SysDictItem, SysDictItemRepository> implements ISysDictItemService {
 
     @Override
     public Map<String, String> getQueryExpressions() {

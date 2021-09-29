@@ -2,6 +2,7 @@ package io.github.toquery.framework.core.security.userdetails;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ public interface AppUserDetails extends UserDetails {
 
     Long getId();
 
-    Date getLastPasswordResetDate();
+    LocalDateTime getChangePasswordDateTime();
 
-    void setLastPasswordResetDate(Date lastPasswordResetDate);
+    void setChangePasswordDateTime(LocalDateTime changePasswordDateTime);
 }

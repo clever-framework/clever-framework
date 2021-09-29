@@ -12,7 +12,7 @@ import java.util.Set;
  * @version 1
  */
 //@RepositoryRestResource(path = "sys-role")
-public interface SysRoleMenuRepository extends AppJpaBaseRepository<SysRoleMenu, Long> {
+public interface SysRoleMenuRepository extends AppJpaBaseRepository<SysRoleMenu> {
 
     @MybatisQuery
     List<SysRoleMenu> findWithSysRoleMenuByRoleIds(Set<Long> sysRoleIds);

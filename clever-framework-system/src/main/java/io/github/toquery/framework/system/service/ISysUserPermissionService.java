@@ -15,7 +15,7 @@ import java.util.Map;
  * @author toquery
  * @version 1
  */
-public interface ISysUserPermissionService extends AppBaseService<SysUserPermission, Long> {
+public interface ISysUserPermissionService extends AppBaseService<SysUserPermission> {
 
     /**
      * 通过用户id获取所有角色菜单信息

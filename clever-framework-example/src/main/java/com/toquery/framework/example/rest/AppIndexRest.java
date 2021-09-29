@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1
  */
 @RestController
-public class AppIndexRest extends AppBaseCrudController<IBizNewsService, BizNews, Long> {
+public class AppIndexRest extends AppBaseCrudController<IBizNewsService, BizNews> {
 
 
     @RequestMapping({"", "/", "/index"})

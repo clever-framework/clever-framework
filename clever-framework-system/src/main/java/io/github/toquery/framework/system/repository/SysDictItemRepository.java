@@ -8,6 +8,6 @@ import io.github.toquery.framework.system.entity.SysDictItem;
  * @version 1
  */
 //@RepositoryRestResource(path = "sys-role")
-public interface SysDictItemRepository extends AppJpaBaseRepository<SysDictItem, Long> {
+public interface SysDictItemRepository extends AppJpaBaseRepository<SysDictItem> {
 
 }

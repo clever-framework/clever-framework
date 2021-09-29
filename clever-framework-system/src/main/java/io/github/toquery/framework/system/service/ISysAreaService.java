@@ -13,6 +13,6 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public interface ISysAreaService extends AppBaseService<SysArea, Long> {
+public interface ISysAreaService extends AppBaseService<SysArea> {
 
 }

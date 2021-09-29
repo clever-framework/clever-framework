@@ -8,7 +8,7 @@ import io.github.toquery.framework.log.entity.SysLog;
  * @author toquery
  * @version 1
  */
-public interface ISysLogService extends AppBaseService<SysLog, Long> {
+public interface ISysLogService extends AppBaseService<SysLog> {
 
     public int insertSysLog(Long userId, String moduleName, String bizName, AppLogType logType, String rawData, String targetData);
 }

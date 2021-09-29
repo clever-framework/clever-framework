@@ -12,7 +12,7 @@ import java.util.Map;
  * @author toquery
  * @version 1
  */
-public class SysAreaServiceImpl extends AppBaseServiceImpl<Long, SysArea, SysAreaRepository> implements ISysAreaService {
+public class SysAreaServiceImpl extends AppBaseServiceImpl<SysArea, SysAreaRepository> implements ISysAreaService {
 
     @Override
     public Map<String, String> getQueryExpressions() {

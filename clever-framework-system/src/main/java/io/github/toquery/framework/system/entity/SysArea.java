@@ -59,7 +59,7 @@ public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, Ap
      * 上级编码
      */
     @Column(name = "parent_id")
-    private String parentId;
+    private Long parentId;
 
     /**
      * 上级编码

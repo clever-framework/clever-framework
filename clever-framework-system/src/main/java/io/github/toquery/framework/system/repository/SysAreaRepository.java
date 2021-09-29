@@ -13,6 +13,6 @@ import java.util.List;
  * @version 1
  */
 //@RepositoryRestResource(path = "sys-role")
-public interface SysAreaRepository extends AppJpaBaseRepository<SysArea, Long> {
+public interface SysAreaRepository extends AppJpaBaseRepository<SysArea> {
 
 }

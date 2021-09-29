@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @NoRepositoryBean
-public interface AppJpaBaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+public interface AppJpaBaseRepository<T> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
 
     /**
      * 统计加和运算
@@ -76,7 +76,7 @@ public interface AppJpaBaseRepository<T, ID extends Serializable> extends JpaRep
      * 根据ID循环删除数据
      *
      */
-    void deleteByIds(Collection<ID> ids);
+    void deleteByIds(Collection<Long> ids);
 
     /**
      * 根据相应的条件参数删除数据

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysConfigServiceImpl extends AppBaseServiceImpl<Long, SysConfig, SysConfigRepository> implements ISysConfigService {
+public class SysConfigServiceImpl extends AppBaseServiceImpl<SysConfig, SysConfigRepository> implements ISysConfigService {
 
     /**
      * 查询条件表达式

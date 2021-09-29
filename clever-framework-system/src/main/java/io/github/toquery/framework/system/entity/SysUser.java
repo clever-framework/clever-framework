@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -70,12 +71,12 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     private Boolean enabled = true;
 
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_password_reset_date")
+    // @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "change_password_date_time")
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    private Date lastPasswordResetDate = new Date();
+    private LocalDateTime changePasswordDateTime = LocalDateTime.now();
 
     /*
     @JsonIgnoreProperties("users")

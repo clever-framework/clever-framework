@@ -10,25 +10,33 @@ import java.util.List;
  */
 public interface AppEntityTree<E> extends AppEntitySort, Comparable<E> {
 
-    public int getLevel();
+    Long getId();
 
-    public void setLevel(int level);
+    void setId(Long id);
 
-    public String getParentIds();
+    Long getParentId();
 
-    public void setParentIds(String parentIds);
+    void setParentId(Long parentId);
 
-    public boolean isHasChildren();
+    int getLevel();
 
-    public boolean getHasChildren();
+    void setLevel(int level);
 
-    public void setHasChildren(boolean hasChildren);
+    String getParentIds();
 
-    public E getParent();
+    void setParentIds(String parentIds);
 
-    public void setParent(E parent);
+    boolean isHasChildren();
 
-    public List<E> getChildren();
+    boolean getHasChildren();
 
-    public void setChildren(List<E> children);
+    void setHasChildren(boolean hasChildren);
+
+    E getParent();
+
+    void setParent(E parent);
+
+    List<E> getChildren();
+
+    void setChildren(List<E> children);
 }

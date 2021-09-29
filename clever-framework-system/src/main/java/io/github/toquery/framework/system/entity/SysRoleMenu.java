@@ -2,7 +2,9 @@ package io.github.toquery.framework.system.entity;
 
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -16,14 +18,22 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "sys_role_menu")
+@NoArgsConstructor
+@AllArgsConstructor
 public class SysRoleMenu extends AppBaseEntity implements AppEntitySoftDel {
 
+
+    public SysRoleMenu(Long roleId, Long menuId) {
+        this.roleId = roleId;
+        this.menuId = menuId;
+    }
+
+    @Column(name = "role_id")
+    private Long roleId;
 
     @Column(name = "menu_id")
     private Long menuId;
 
-    @Column(name = "role_id")
-    private Long roleId;
 
     /**
      * 是否删除：1已删除；0未删除

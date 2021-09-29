@@ -10,7 +10,7 @@ import java.util.List;
  * @author toquery
  * @version 1
  */
-public interface ISysDictService extends AppBaseService<SysDict, Long> {
+public interface ISysDictService extends AppBaseService<SysDict> {
 
     List<SysDict> findByCode(String dictCode);
 

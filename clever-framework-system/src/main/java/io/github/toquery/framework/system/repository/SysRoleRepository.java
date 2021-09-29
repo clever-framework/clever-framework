@@ -8,7 +8,7 @@ import io.github.toquery.framework.system.entity.SysRole;
  * @version 1
  */
 //@RepositoryRestResource(path = "sys-role")
-public interface SysRoleRepository extends AppJpaBaseRepository<SysRole, Long> {
+public interface SysRoleRepository extends AppJpaBaseRepository<SysRole> {
 
 
 }

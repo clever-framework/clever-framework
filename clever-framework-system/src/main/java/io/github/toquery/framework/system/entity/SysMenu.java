@@ -43,6 +43,14 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
         this.menuCode = menuCode;
     }
 
+    public SysMenu(Long id, String menuName, String menuCode, Long parentId, String parentIds) {
+        this.id = id;
+        this.menuName = menuName;
+        this.menuCode = menuCode;
+        this.parentId = parentId;
+        this.parentIds = parentIds;
+    }
+
     @NotNull
     @Size(max = 50)
     @Column(name = "menu_name", length = 50)

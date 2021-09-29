@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMenuRepository> implements ISysMenuService {
+public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepository> implements ISysMenuService {
 
 
     /**
@@ -53,10 +53,20 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMen
 
     @Override
     public SysMenu saveMenu(SysMenu sysMenu) {
-        SysMenu parentSysMenu = this.getById(sysMenu.getParentId());
+        List<SysMenu> sysMenuList = this.findByMenuCode(sysMenu.getMenuCode());
 
-        parentSysMenu.setHasChildren(true);
-        this.update(parentSysMenu, Sets.newHashSet("hasChildren"));
+        if (sysMenuList != null && sysMenuList.size() > 0){
+            throw new AppException("已存在菜单'" + sysMenu.getMenuName() + "'");
+        }
+
+        Long parentId = sysMenu.getParentId();
+
+        SysMenu parentSysMenu = parentId != 0L ? this.getById(parentId) : new SysMenu(0L, "根菜单", "root");
+
+        if(parentId != 0L) {
+            parentSysMenu.setHasChildren(true);
+            this.update(parentSysMenu, Sets.newHashSet("hasChildren"));
+        }
 
         sysMenu.setHasChildren(false);
         sysMenu.setLevel(parentSysMenu.getLevel() + 1);
@@ -169,6 +179,13 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMen
         super.update(updateSysMenu, UPDATE_FIELD);
     }
 
+    @Override
+    public List<SysMenu> findByMenuCode(String menuCode) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("menuCode", menuCode);
+        return this.find(params);
+    }
+
 
     @Override
     public List<SysMenu> findByParentId(Long parentId) {
@@ -197,9 +214,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<Long, SysMenu, SysMen
      */
     @Override
     public void deleteMenu(Set<Long> ids) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("idIN", ids);
-        List<SysMenu> sysMenuList = this.find(params);
+        List<SysMenu> sysMenuList = super.findByIds(ids);
 
         List<SysMenu> parentSysMenuList = this.findByParentIds(sysMenuList.stream().map(SysMenu::getParentId).collect(Collectors.toSet()));
 

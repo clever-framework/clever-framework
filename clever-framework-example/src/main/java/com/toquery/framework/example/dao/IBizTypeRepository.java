@@ -23,7 +23,7 @@ import java.util.List;
  */
 @SuppressWarnings("MybatisMapperMethodInspection")
 @RepositoryRestResource(path = "example-biz-type")
-public interface IBizTypeRepository extends AppJpaBaseRepository<BizType, Long> {
+public interface IBizTypeRepository extends AppJpaBaseRepository<BizType> {
 
 }
 

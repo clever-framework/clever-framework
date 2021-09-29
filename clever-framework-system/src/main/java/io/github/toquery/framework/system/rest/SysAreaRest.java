@@ -33,7 +33,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/area")
-public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea, Long> {
+public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea> {
 
 
     private String[] sort = new String[]{"sortNum_desc"};

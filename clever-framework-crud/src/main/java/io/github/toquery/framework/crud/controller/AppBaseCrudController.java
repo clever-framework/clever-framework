@@ -16,7 +16,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public class AppBaseCrudController<S extends AppBaseService<E, ID>, E, ID extends Serializable> extends AppBaseWebMvcController {
+public class AppBaseCrudController<S extends AppBaseService<E>, E> extends AppBaseWebMvcController {
 
 
     @Autowired
@@ -148,16 +148,16 @@ public class AppBaseCrudController<S extends AppBaseService<E, ID>, E, ID extend
         return this.handleResponseParam(service.update(entity, updateEntityFields));
     }
 
-    public void delete(Set<ID> ids) {
+    public void delete(Set<Long> ids) {
         service.deleteByIds(ids);
     }
 
 
-    public E getById(ID id) {
+    public E getById(Long id) {
         return service.getById(id);
     }
 
-    public ResponseParam detail(ID id) {
+    public ResponseParam detail(Long id) {
         return this.handleResponseParam(this.getById(id));
     }
 
