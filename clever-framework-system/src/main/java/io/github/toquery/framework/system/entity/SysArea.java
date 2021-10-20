@@ -3,10 +3,12 @@ package io.github.toquery.framework.system.entity;
 import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -26,7 +28,9 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "sys_area")
-public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, AppEntitySort, AppEntitySoftDel {
+@Where(clause = "deleted = false")
+@SQLDelete(sql ="UPDATE SysArea SET deleted = true WHERE id = ?")
+public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, AppEntitySort, AppEntityLogicDel {
 
     /**
      * 名称

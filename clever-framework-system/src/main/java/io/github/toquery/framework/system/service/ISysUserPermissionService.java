@@ -2,10 +2,7 @@ package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.constant.SysUserPermissionEnum;
-import io.github.toquery.framework.system.entity.SysRoleMenu;
 import io.github.toquery.framework.system.entity.SysUserPermission;
-import io.github.toquery.framework.system.repository.SysUserPermissionRepository;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -65,4 +62,6 @@ public interface ISysUserPermissionService extends AppBaseService<SysUserPermiss
     SysUserPermission saveUserPermissionCheck(SysUserPermission sysUserPermission);
 
     SysUserPermission detailWithRoleAndArea(Long id);
+
+    void authorize(Long userId, List<SysUserPermission> sysUserPermissions);
 }

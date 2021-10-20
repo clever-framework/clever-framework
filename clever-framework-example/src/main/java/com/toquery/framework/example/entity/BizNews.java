@@ -8,7 +8,7 @@ import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import io.github.toquery.framework.data.rest.annotation.AppEntityRest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -72,7 +72,7 @@ import java.util.HashSet;
 
 @Entity
 @Table(name = "biz_news")
-public class BizNews extends AppBaseEntity implements AppEntitySoftDel {
+public class BizNews extends AppBaseEntity implements AppEntityLogicDel {
 
 
     public BizNews(String title, Date showTime) {

@@ -1,14 +1,10 @@
 package com.toquery.framework.example.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.toquery.framework.example.constant.BizNewsShowStatus;
-import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,24 +12,16 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 
 /**
@@ -52,7 +40,7 @@ import java.util.HashSet;
 
 @Entity
 @Table(name = "biz_type")
-public class BizType extends AppBaseEntity implements AppEntitySoftDel {
+public class BizType extends AppBaseEntity implements AppEntityLogicDel {
 
 
 

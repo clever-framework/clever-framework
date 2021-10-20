@@ -43,6 +43,7 @@
         <guava.version>31.0.1-jre</guava.version>
         <jsqlparse.version>4.1</jsqlparse.version>
 
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
         <!--
         <jsqlparse.version>0.9.1</jsqlparse.version>
         <reflections.version>0.9.11</reflections.version>
@@ -307,6 +308,12 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-captcha</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
 
             <dependency>

@@ -3,12 +3,14 @@ package io.github.toquery.framework.system.entity;
 import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
@@ -30,7 +32,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_menu")
-public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntityTree<SysMenu>, AppEntitySort, AppEntitySoftDel {
+@Where(clause = "deleted = false")
+@SQLDelete(sql ="UPDATE SysMenu SET deleted = true WHERE id = ?")
+public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntityTree<SysMenu>, AppEntitySort, AppEntityLogicDel {
 
     public SysMenu(Long id, String menuName, String menuCode) {
         this.id = id;

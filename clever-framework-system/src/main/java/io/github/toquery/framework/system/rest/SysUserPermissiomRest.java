@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -47,6 +48,12 @@ public class SysUserPermissiomRest extends AppBaseCrudController<ISysUserPermiss
     @PostMapping
     public ResponseParam saveSysUserCheck(@Validated @RequestBody SysUserPermission sysUserPermission) throws AppException {
         return super.handleResponseParam(super.service.saveUserPermissionCheck(sysUserPermission));
+    }
+
+    @PostMapping("/authorize")
+    public ResponseParam authorize(@RequestParam Long userId, @Validated @RequestBody List<SysUserPermission> sysUserPermissions) throws AppException {
+        super.service.authorize(userId, sysUserPermissions);
+        return new ResponseParamBuilder().success().build();
     }
 
     @PutMapping

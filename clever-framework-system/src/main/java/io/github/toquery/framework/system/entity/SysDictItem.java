@@ -1,23 +1,21 @@
 package io.github.toquery.framework.system.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author toquery
@@ -30,7 +28,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_dict_item")
-public class SysDictItem extends AppBaseEntity implements AppEntitySort, AppEntitySoftDel {
+@Where(clause = "deleted = false")
+@SQLDelete(sql ="UPDATE SysDictItem SET deleted = true WHERE id = ?")
+public class SysDictItem extends AppBaseEntity implements AppEntitySort, AppEntityLogicDel {
 
 
     /**

@@ -61,7 +61,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
-        return super.update(sysUser, Sets.newHashSet("nickname", "phone", "status", "email", "authorities"));
+        return super.update(sysUser, Sets.newHashSet("nickname", "phone", "userStatus", "email"));
     }
 
     @PutMapping("/reset-password")

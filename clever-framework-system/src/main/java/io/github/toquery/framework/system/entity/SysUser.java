@@ -1,15 +1,18 @@
 package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +23,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,7 +35,9 @@ import java.util.stream.Stream;
 @Setter
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
 @Table(name = "sys_user")
-public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetails {
+@Where(clause = "deleted = false")
+@SQLDelete(sql ="UPDATE SysUser SET deleted = true WHERE id = ?")
+public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetails, AppEntityLogicDel {
 
 
     // 用户名，唯一
@@ -48,9 +52,10 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     @Column(name = "nick_name", length = 50, nullable = false)
     private String nickname;
 
-    @JsonIgnore
-    @NotBlank
-    @Length(min = 4, max = 100)
+    //@JsonIgnore
+    //@NotBlank
+    //@Length(min = 4, max = 100)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", length = 100, nullable = false)
     private String password;
 
@@ -66,9 +71,9 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     private String email;
 
     @NotNull
-    @ColumnDefault("true")
-    @Column(name = "enabled")
-    private Boolean enabled = true;
+    @ColumnDefault("1")
+    @Column(name = "user_status")
+    private Integer userStatus = 1;
 
 
     // @Temporal(TemporalType.TIMESTAMP)
@@ -77,6 +82,10 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private LocalDateTime changePasswordDateTime = LocalDateTime.now();
+
+    @ColumnDefault("false")
+    @Column(name = "deleted")
+    private boolean deleted = false;
 
     /*
     @JsonIgnoreProperties("users")
@@ -138,6 +147,15 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
         this.currentPermission = currentPermission;
         this.currentArea = currentPermission.getArea();
         this.currentRole = currentPermission.getRole();
+    }
+
+    public boolean getEnabled(){
+         return this.getUserStatus()!= null && this.getUserStatus() == 1;
+    }
+
+    @Override
+    public boolean getDeleted() {
+        return deleted;
     }
 
     /**

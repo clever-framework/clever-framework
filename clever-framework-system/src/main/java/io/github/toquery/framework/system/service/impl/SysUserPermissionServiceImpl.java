@@ -1,5 +1,6 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,6 +39,7 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPerm
     @Override
     public Map<String, String> getQueryExpressions() {
         Map<String, String> map = new HashMap<>();
+        map.put("userId", "userId:EQ");
         map.put("menuId", "menuId:EQ");
         map.put("roleId", "roleId:EQ");
         map.put("areaId", "areaId:EQ");
@@ -121,5 +124,33 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPerm
         SysArea sysArea = sysAreaService.getById(sysUserPermission.getAreaId());
         sysUserPermission.setArea(sysArea);
         return sysUserPermission;
+    }
+
+    @Override
+    public void authorize(Long userId, List<SysUserPermission> sysUserPermissions) {
+        List<SysUserPermission> dbSysUserPermissionList = this.findByUserId(userId);
+        List<Long> dbIds = dbSysUserPermissionList.stream().map(SysUserPermission::getId).filter(Objects::nonNull).collect(Collectors.toList());
+        List<SysUserPermission> saveSysUserPermissionList = sysUserPermissions.stream().filter(item -> item.getId() == null).collect(Collectors.toList());
+        List<SysUserPermission> updateSysUserPermissionList = Lists.newArrayList(), deleteSysUserPermissionList = Lists.newArrayList();
+        sysUserPermissions.forEach(sysUserPermission -> {
+            if (dbIds.contains(sysUserPermission.getId())) {
+                updateSysUserPermissionList.add(sysUserPermission);
+            } else {
+                deleteSysUserPermissionList.add(sysUserPermission);
+            }
+        });
+
+        if (saveSysUserPermissionList.size() > 0) {
+            super.save(saveSysUserPermissionList);
+        }
+
+        if (updateSysUserPermissionList.size() > 0) {
+            super.update(updateSysUserPermissionList, Lists.newArrayList("roleId", "areaId"));
+        }
+
+        if (deleteSysUserPermissionList.size() > 0) {
+            super.delete(deleteSysUserPermissionList);
+        }
+
     }
 }

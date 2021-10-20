@@ -6,11 +6,15 @@ import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 /**
  * @see org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
@@ -60,6 +64,14 @@ public class AppExceptionAdvice {
     }
     */
 
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseParam> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        exception.printStackTrace();
+        FieldError fieldError = exception.getBindingResult().getFieldError();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseParamBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(fieldError.getField() + fieldError.getDefaultMessage()).build());
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)

@@ -1,12 +1,14 @@
 package io.github.toquery.framework.system.entity;
 
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,9 @@ import java.util.List;
 @Table(name = "sys_role_menu")
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysRoleMenu extends AppBaseEntity implements AppEntitySoftDel {
+@Where(clause = "deleted = false")
+@SQLDelete(sql ="UPDATE SysRoleMenu SET deleted = true WHERE id = ?")
+public class SysRoleMenu extends AppBaseEntity implements AppEntityLogicDel {
 
 
     public SysRoleMenu(Long roleId, Long menuId) {

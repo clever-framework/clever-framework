@@ -1,10 +1,12 @@
 package io.github.toquery.framework.system.entity;
 
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -21,7 +23,9 @@ import java.util.Collection;
 @Getter
 @Setter
 @Table(name = "sys_role")
-public class SysRole extends AppBaseEntity implements AppEntitySoftDel {
+@Where(clause = "deleted = false")
+@SQLDelete(sql ="UPDATE SysRole SET deleted = true WHERE id = ?")
+public class SysRole extends AppBaseEntity implements AppEntityLogicDel {
 
 
     @NotBlank

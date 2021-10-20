@@ -143,13 +143,19 @@ public class JwtAuthenticationRest extends AppBaseWebMvcController {
 
 
     @RequestMapping(value = "${app.jwt.path.info:/user/info}")
-    public ResponseEntity<ResponseParam> getAuthenticatedUser(@RequestParam(required = false) Long roleId) throws AppSecurityJwtException {
+    public ResponseEntity<ResponseParam> getAuthenticatedUser(@RequestParam(required = false) Long roleId,
+                                                              @RequestParam(required = false) String roleModel) throws AppSecurityJwtException {
         String username = this.getUserName();
         SysUser user = (SysUser) appUserDetailsService.loadFullUserByUsername(username);
 
-        if (appProperties.getRoleModel() == AppEnumRoleModel.COMPLEX){
+        AppEnumRoleModel defaultRoleModel = appProperties.getRoleModel();
+        if (!Strings.isNullOrEmpty(roleModel)){
+            defaultRoleModel = AppEnumRoleModel.valueOf(roleModel);
+        }
+
+        if (defaultRoleModel == AppEnumRoleModel.COMPLEX){
             user.complexRole();
-        }else if (appProperties.getRoleModel() == AppEnumRoleModel.ISOLATE){
+        }else if (defaultRoleModel == AppEnumRoleModel.ISOLATE){
             user.isolateRole(roleId);
         } else {
             log.warn("未知的角色处理类型");

@@ -8,7 +8,7 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntitySoftDel;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +27,9 @@ import org.springframework.util.Assert;
 
 import javax.persistence.Transient;
 import javax.persistence.criteria.Predicate;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -117,7 +114,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
             E entity = getById(id);
             if (entity != null) {
                 //设置软删除
-                ((AppEntitySoftDel) entity).setDeleted(true);
+                ((AppEntityLogicDel) entity).setDeleted(true);
                 this.update(entity, Lists.newArrayList("deleted"));
             }
         } else {
@@ -225,7 +222,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      * @return
      */
     public boolean isSoftDel() {
-        boolean isSoftDel = ClassUtils.isAssignable(this.dao.getDomainClass(), AppEntitySoftDel.class);
+        boolean isSoftDel = ClassUtils.isAssignable(this.dao.getDomainClass(), AppEntityLogicDel.class);
         if (isSoftDel) {
             log.info("{} 删除为软删除", this.dao.getDomainClass().getName());
         }
