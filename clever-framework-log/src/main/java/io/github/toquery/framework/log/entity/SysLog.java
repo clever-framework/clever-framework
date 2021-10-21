@@ -17,6 +17,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.time.LocalDateTime;
 
 /**
  * app 设计日志，通过 createUserId 获取日志操作人信息ø
@@ -42,7 +43,6 @@ public class SysLog extends AppBaseEntity {
 
         this.moduleName = sysLog.getModuleName();
         this.bizName = sysLog.getBizName();
-        this.moduleName = sysLog.getModuleName();
         this.logType = sysLog.getLogType();
         this.rawData = sysLog.getRawData();
         this.targetData = sysLog.getTargetData();
@@ -73,6 +73,12 @@ public class SysLog extends AppBaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "log_type")
     private AppLogType logType;
+
+    /**
+     * 操作时间
+     */
+    @Column(name = "option_date_time")
+    private LocalDateTime optionDateTime;
 
     /**
      * 原数据

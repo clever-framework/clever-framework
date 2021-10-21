@@ -3,6 +3,8 @@ package io.github.toquery.framework.system.rest;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
+import io.github.toquery.framework.core.log.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysUser;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 
 /**
@@ -33,22 +34,29 @@ import java.util.Set;
 @RequestMapping("/sys/user")
 public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser> {
 
+    public static final String MODEL_NAME = "系统管理";
+
+    public static final String BIZ_NAME = "用户管理";
+
     @Resource
     private AppProperties appProperties;
 
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping
     public ResponseParam query() {
         return super.query();
     }
 
+    @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping("/list")
     public ResponseParam list() {
         return super.list();
     }
 
+    @AppLogMethod(value = SysUser.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     public ResponseParam saveSysUserCheck(@Validated @RequestBody SysUser sysUser) throws AppException {
         String encodePassword = passwordEncoder.encode(sysUser.getPassword());
@@ -56,6 +64,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
         return super.handleResponseParam(service.saveSysUserCheck(sysUser));
     }
 
+    @AppLogMethod(value = SysUser.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
     public ResponseParam update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
@@ -64,6 +73,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
         return super.update(sysUser, Sets.newHashSet("nickname", "phone", "userStatus", "email"));
     }
 
+    @AppLogMethod(value = SysUser.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping("/reset-password")
     public ResponseParam restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
@@ -77,11 +87,13 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
         return super.update(sysUser, Sets.newHashSet("password", "lastPasswordResetDate"));
     }
 
+    @AppLogMethod(value = SysUser.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     public void deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
         service.deleteSysUserCheck(ids);
     }
 
+    @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping("{id}")
     public ResponseParam detail(@PathVariable Long id) {
         return super.detail(id);

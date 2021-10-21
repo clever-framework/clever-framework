@@ -36,9 +36,9 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
             put("menuName", "menuName:LIKE");
             put("menuCode", "menuCode:LIKE");
             put("parentId", "parentId:EQ");
-            put("parentIdLike", "parentId:LIKE");
             put("parentIdIN", "parentId:IN");
             put("parentIdsIN", "parentIds:IN");
+            put("parentIdsLIKE", "parentIds:LIKE");
             put("level", "level:EQ");
             put("levelIN", "level:IN");
             put("parentPath", "parentPath:EQ");
@@ -204,7 +204,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
 
     public List<SysMenu> findAllChildren(Long parentId) {
         Map<String, Object> params = Maps.newHashMap();
-        params.put("parentIdLike", parentId);
+        params.put("parentIdsLIKE", parentId);
         return super.find(params);
     }
 

@@ -44,6 +44,7 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<SysLog, SysLogReposito
         sysLog.setRawData(rawData);
         sysLog.setTargetData(targetData);
         sysLog.setUserId(userId);
+        sysLog.setOptionDateTime(LocalDateTime.now());
 
         if (logType == null) {
             sysLog.setLogType(AppLogType.CREATE);

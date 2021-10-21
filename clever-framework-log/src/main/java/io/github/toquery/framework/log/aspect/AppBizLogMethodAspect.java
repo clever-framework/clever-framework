@@ -1,6 +1,7 @@
 package io.github.toquery.framework.log.aspect;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
@@ -87,7 +88,7 @@ public class AppBizLogMethodAspect {
         String modelName = appLogMethod.modelName().startsWith(INVOKE_FIELD_PREFIX) ? this.invokeFieldValue(appLogMethod.modelName(), appBaseEntity) : appLogMethod.modelName();
         String bizName = appLogMethod.bizName().startsWith(INVOKE_FIELD_PREFIX) ? this.invokeFieldValue(appLogMethod.bizName(), appBaseEntity) : appLogMethod.bizName();
 
-        Map<String, Object> targetData = appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity, null));
+        Map<String, Object> targetData = appBaseEntity == null ? Maps.newHashMap() : appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity, null));
 
         SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(appLogMethod.logType(), null, targetData,
                 Strings.isNullOrEmpty(modelName) ? appLogMethod.modelName() : modelName,
