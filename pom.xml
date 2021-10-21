@@ -68,7 +68,7 @@
         <grpc.version>1.41.0</grpc.version>
         <io-protostuff.version>1.7.4</io-protostuff.version>
 
-        <hutool.version>5.7.13</hutool.version>
+        <hutool.version>5.7.15</hutool.version>
 
         <!-- mybatis version
         <mybatis.version>3.5.2</mybatis.version>
