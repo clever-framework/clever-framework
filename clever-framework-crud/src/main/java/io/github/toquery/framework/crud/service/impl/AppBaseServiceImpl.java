@@ -12,8 +12,6 @@ import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import io.github.toquery.framework.dao.jpa.support.DynamicJPASpecifications;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +39,8 @@ import java.util.stream.Collectors;
 /**
  * jpa快速curd方法
  *
- * @param <E>  实体类型
- * @param <D>  Dao操作类
+ * @param <E> 实体类型
+ * @param <D> Dao操作类
  */
 @Slf4j
 public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJpaBaseRepository<E>> implements AppBaseService<E> {
@@ -230,8 +228,6 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     }
 
 
-
-
     @Override
     public long count(Map<String, Object> searchParams) {
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
@@ -245,7 +241,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
      */
-    public Page<E> queryByPage(int current, int pageSize){
+    public Page<E> queryByPage(int current, int pageSize) {
         return this.queryByPage(current, pageSize, null);
     }
 
@@ -254,9 +250,9 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      *
      * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
-     * @param sorts        排序条件
+     * @param sorts    排序条件
      */
-    public Page<E> queryByPage(int current, int pageSize, String[] sorts){
+    public Page<E> queryByPage(int current, int pageSize, String[] sorts) {
         Pageable pageable = PageRequest.of(current, pageSize, getSort(sorts));
         return this.dao.findAll(pageable);
     }
@@ -288,8 +284,6 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     public List<E> queryByPagePost(List<E> content) {
         return content;
     }
-
-
 
 
     /**
@@ -379,7 +373,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     @Override
     public E update(E entity, Collection<String> updateFields) {
         Set<String> newUpdateFields = new HashSet<String>();
-        if (!CollectionUtils.isEmpty(updateFields)) {
+        if (updateFields != null && !updateFields.isEmpty()) {
             newUpdateFields.addAll(updateFields);
         }
         preUpdateHandler(entity, newUpdateFields);
@@ -431,7 +425,6 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     }
 
 
-
     @Override
     public List<E> find() {
         return this.dao.findAll();
@@ -440,7 +433,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     /**
      * 查询所有实体
      */
-    public List<E> find(String[] sorts){
+    public List<E> find(String[] sorts) {
         return this.dao.findAll(this.getSort(sorts));
     }
 
@@ -458,7 +451,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
 
     @Override
     public List<E> findByIds(Collection<Long> ids) {
-        if (ids == null || ids.size() <= 0){
+        if (ids == null || ids.size() <= 0) {
             return Lists.newArrayList();
         }
         return this.dao.findAllById(ids);
@@ -487,8 +480,8 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      */
     public LinkedHashMap<String, Object> formatQueryExpression(Map<String, Object> searchParams) {
         if (!isEnableQueryAllRecord()) {
-            Assert.isTrue(MapUtils.isNotEmpty(searchParams), "查询参数Map不能为空。");
-            Assert.isTrue(MapUtils.isNotEmpty(getQueryExpressions()), "查询条件的映射Map不能为空。");
+            Assert.isTrue(searchParams == null || searchParams.size() <= 0, "查询参数Map不能为空。");
+            Assert.isTrue(getQueryExpressions() == null || getQueryExpressions().size() <= 0, "查询条件的映射Map不能为空。");
         }
         LinkedHashMap<String, Object> queryMap = null;
         //匹配参数和service中提供的查询条件
@@ -506,7 +499,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
         log.debug("查询条件：" + JacksonUtils.object2String(queryMap));
         if (!isEnableQueryAllRecord()) {
             //为了查询数据安全，必须由已有的查询配置中获取查询条件
-            Assert.isTrue(MapUtils.isNotEmpty(queryMap), "没有匹配的查询条件，查询参数必须由已有的查询表达式中获取。");
+            Assert.isTrue(queryMap == null || queryMap.size() <= 0, "没有匹配的查询条件，查询参数必须由已有的查询表达式中获取。");
         }
         return queryMap;
     }

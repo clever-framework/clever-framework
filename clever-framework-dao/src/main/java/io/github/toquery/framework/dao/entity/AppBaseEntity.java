@@ -2,6 +2,7 @@ package io.github.toquery.framework.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.dao.audit.AppEntityD3Listener;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,13 +17,20 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-//import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.*;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 //import org.hibernate.annotations.DynamicUpdate;
 
@@ -39,7 +47,7 @@ import java.util.Date;
 @Access(AccessType.FIELD)
 @EntityListeners({AuditingEntityListener.class, AppEntityD3Listener.class})
 //@RevisionEntity(AppRevisionListener.class)
-public class AppBaseEntity implements Serializable {
+public class AppBaseEntity implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -91,6 +99,42 @@ public class AppBaseEntity implements Serializable {
 //    @Version
 //    private int version;
 
+    private Long getUserId() {
+        Long userId = 0L;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof AppUserDetails) {
+            AppUserDetails appUserDetails = (AppUserDetails) authentication.getPrincipal();
+            userId = appUserDetails.getId();
+        }
+        return userId;
+    }
+
+    public void preInsert(Long userId) {
+        LocalDateTime now = LocalDateTime.now();
+        this.createUserId = userId;
+        this.createDateTime = now;
+        this.updateUserId = userId;
+        this.updateDateTime = now;
+    }
+
+    public void preInsert(Long id, Long userId) {
+        this.id = id;
+        this.preInsert(userId);
+    }
+
+    public void preInsert() {
+        this.preInsert(this.getUserId());
+    }
+
+
+    public void preUpdate(Long userId) {
+        this.updateUserId = userId;
+        this.updateDateTime = LocalDateTime.now();
+    }
+
+    public void preUpdate() {
+        this.preUpdate(this.getUserId());
+    }
 
     @DomainEvents
     public void domainEvents() {
@@ -102,4 +146,11 @@ public class AppBaseEntity implements Serializable {
         log.debug("Spring DDD Model: AppBaseEntity ---- @AfterDomainEventPublication");
     }
 
+    /**
+     * 所有的实体调用save方法都是新的插入，而不是修改
+     */
+    @Override
+    public boolean isNew() {
+        return true;
+    }
 }

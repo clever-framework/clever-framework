@@ -2,7 +2,6 @@ package io.github.toquery.framework.dao.validate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.HibernateValidator;
 
 import javax.validation.ConstraintViolation;
@@ -55,7 +54,7 @@ public abstract class ValidateHelper {
      * @return 返回错误消息
      */
     public static <S> List<String> validateProperties(S object, Collection<String> properties) {
-        if (object == null || CollectionUtils.isEmpty(properties)) {
+        if (object == null || properties == null || properties.isEmpty()) {
             return null;
         }
         Set<ConstraintViolation<S>> totalConstraintViolations = null;
@@ -65,7 +64,7 @@ public abstract class ValidateHelper {
         for (String property : properties) {
             //执行属性验证
             propertyViolations = VALIDATOR.validateProperty(object, property);
-            if (CollectionUtils.isEmpty(propertyViolations)) {
+            if (propertyViolations == null || propertyViolations.size() <= 0) {
                 continue;
             }
             //将单个属性违反的规则加到列表中
@@ -103,7 +102,7 @@ public abstract class ValidateHelper {
      * @return 消息对象
      */
     public static <S> List<String> getInvalidMsg(Set<ConstraintViolation<S>> constraintViolations) {
-        if (CollectionUtils.isEmpty(constraintViolations)) {
+        if (constraintViolations == null || constraintViolations.size() <= 0) {
             return null;
         }
 

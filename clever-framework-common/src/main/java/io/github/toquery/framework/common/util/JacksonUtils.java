@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class JacksonUtils {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = createDefaultObjectMapper();
 
     private static final TypeReference<HashMap<String, Object>> TYPE_REFERENCE_HASHMAP = new TypeReference<HashMap<String, Object>>() {
     };
@@ -27,8 +27,6 @@ public class JacksonUtils {
     public static final String DEFAULT_EMPTY_JSON_ARRAY = "[]";
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    private static final ObjectMapper DEFAULT_OBJECT_MAPPER = createDefaultObjectMapper();
 
     /**
      * 创建默认配置的ObjectMapper
@@ -63,7 +61,7 @@ public class JacksonUtils {
     }
 
     public static ObjectMapper getDefaultObjectMapper() {
-        return DEFAULT_OBJECT_MAPPER;
+        return objectMapper;
     }
 
     /**

@@ -101,23 +101,22 @@ public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysR
     }
 
     @Override
-    public List<SysRoleMenu> reSaveMenu(Long roleId, Collection<SysMenu> menus) {
+    public List<SysRoleMenu> reSaveMenu(Long roleId, Collection<Long> menuIds) {
         List<SysRoleMenu> sysRoleMenus = this.findByRoleId(roleId);
 
         Map<Long,SysRoleMenu> sysRoleMenuMap = sysRoleMenus.stream().collect(Collectors.toMap(SysRoleMenu::getMenuId, item->item, (o,n)->n));;
 
         List<Long> dbMenuIds = sysRoleMenus.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
-        List<Long> newMenuIds = menus.stream().map(SysMenu::getId).collect(Collectors.toList());
 
 
         // 差集 dbMenuIds - newMenuIds
         List<SysRoleMenu> deleteList = dbMenuIds.stream()
-                .filter(menuId -> !newMenuIds.contains(menuId))
+                .filter(menuId -> !menuIds.contains(menuId))
                 .map(sysRoleMenuMap::get)
                 .collect(Collectors.toList());
 
         // 差集 newMenuIds - dbMenuIds
-        List<SysRoleMenu> addList = newMenuIds.stream()
+        List<SysRoleMenu> addList = menuIds.stream()
                 .filter(menuId -> !dbMenuIds.contains(menuId))
                 .map(menuId -> new SysRoleMenu(roleId, menuId))
                 .collect(Collectors.toList());

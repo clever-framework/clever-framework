@@ -1,5 +1,6 @@
 package io.github.toquery.framework.dao.primary.generator;
 
+import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.primary.snowflake.SnowFlake;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
@@ -25,6 +26,7 @@ public class AppSnowFlakeIdGenerator implements IdentifierGenerator, Configurabl
 
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-        return snowFlake.nextId();
+        AppBaseEntity appBaseEntity = (AppBaseEntity) object;
+        return (appBaseEntity != null && appBaseEntity.getId() != null && appBaseEntity.getId() != 0L) ? appBaseEntity.getId() : snowFlake.nextId();
     }
 }

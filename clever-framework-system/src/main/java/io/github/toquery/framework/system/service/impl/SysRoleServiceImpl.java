@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepository> implements ISysRoleService {
 
-    public static final Set<String> UPDATE_FIELD = Sets.newHashSet("role_name");
+    public static final Set<String> UPDATE_FIELD = Sets.newHashSet("roleName");
 
     @Autowired
     private ISysRoleMenuService sysRoleMenuService;
@@ -32,15 +32,15 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
     public Map<String, String> getQueryExpressions() {
         Map<String, String> map = new HashMap<>();
         map.put("idIN", "id:IN");
-        map.put("name", "name:EQ");
-        map.put("nameLike", "name:LIKE");
+        map.put("roleName", "roleName:EQ");
+        map.put("roleNameLike", "roleName:LIKE");
         return map;
     }
 
     @Override
     public List<SysRole> findByRoleName(String roleName) {
         Map<String, Object> filter = new HashMap<>();
-        filter.put("name", roleName);
+        filter.put("roleName", roleName);
         return super.find(filter);
     }
 
@@ -57,7 +57,9 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
         if (sysRoleList != null && sysRoleList.size() > 0) {
             throw new AppException("保存角色错误，存在相同名称的角色");
         }
-        return super.save(sysRole);
+        sysRole = super.save(sysRole);
+        sysRoleMenuService.reSaveMenu(sysRole.getId(), sysRole.getMenuIds());
+        return sysRole;
     }
 
     @Override
@@ -85,7 +87,7 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
             throw new AppException("已存在相同名称的角色");
         }
         super.update(sysRole, UPDATE_FIELD);
-        sysRoleMenuService.reSaveMenu(sysRole.getId(), sysRole.getMenus());
+        sysRoleMenuService.reSaveMenu(sysRole.getId(), sysRole.getMenuIds());
         return sysRole;
     }
 
@@ -97,6 +99,7 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
         }
         List<SysMenu> sysMenus = sysRoleMenuService.findSysMenuByRoleId(roleId);
         sysRole.setMenus(sysMenus);
+        sysRole.setMenuIds(sysMenus.stream().map(SysMenu::getId).collect(Collectors.toList()));
         return sysRole;
     }
 }

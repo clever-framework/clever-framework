@@ -5,9 +5,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.toquery.framework.example.dao.IBizNewsRepository;
 import com.toquery.framework.example.entity.BizNews;
-import io.toquery.framework.example.test.BaseSpringTest;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.dao.primary.snowflake.SnowFlake;
+import io.toquery.framework.example.test.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -103,6 +103,21 @@ public class BizNewsDaoCurdTest extends BaseSpringTest {
 
         bizNewsRepository.deleteByIds(updateList.stream().map(BizNews::getId).collect(Collectors.toSet()));
         log.info("要删除的数据 deleteByIds ：\n{}", JacksonUtils.object2String(updateList.stream().map(BizNews::getId).collect(Collectors.toSet())));
+    }
+
+    @Test
+    public void testBatchCurdWithId() {
+        BizNews bizNews = new BizNews(101L, "testBatchCurdWithId-1", new Date());
+        bizNews.preInsert();
+        List<BizNews> saveAll = bizNewsRepository.saveAll(Lists.newArrayList(
+                bizNews,
+                new BizNews(102L, "testBatchCurdWithId-2", new Date())
+        ));
+        log.info("插入的数据 saveAll ：\n{}", JacksonUtils.object2String(saveAll));
+
+        List<BizNews> allNews = bizNewsRepository.findAll();
+        log.info("数据库的数据 allNews ：\n{}", JacksonUtils.object2String(allNews));
+
     }
 
     @Test

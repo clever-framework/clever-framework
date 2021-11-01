@@ -23,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysRoleMenu SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_role_menu SET deleted = true WHERE id = ?")
 public class SysRoleMenu extends AppBaseEntity implements AppEntityLogicDel {
 
 

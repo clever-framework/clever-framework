@@ -5,7 +5,6 @@ import io.github.toquery.framework.dao.support.AppDaoEnumOperator;
 import io.github.toquery.framework.dao.support.SearchFilter;
 import io.github.toquery.framework.dao.util.UtilEscape;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -68,7 +67,7 @@ public class AppSpecification<T> implements Specification<T> {
 
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        if (MapUtils.isEmpty(filters)) {
+        if (filters == null || filters.size() <= 0) {
             return null;
         }
         //按照查询条件进行分组

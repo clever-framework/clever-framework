@@ -10,7 +10,6 @@ import io.github.toquery.framework.dao.validate.ValidateHelper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.query.criteria.internal.CriteriaBuilderImpl;
 import org.hibernate.query.criteria.internal.CriteriaUpdateImpl;
@@ -146,7 +145,7 @@ public class AppJpaBaseRepositoryImpl<E> extends SimpleJpaRepository<E, Long> im
         //进行实体验证
         if (enableValidator) {
             List<String> invalidmsg = ValidateHelper.validateProperties(entity, properties);
-            if (CollectionUtils.isNotEmpty(invalidmsg)) {
+            if (properties == null || properties.isEmpty()) {
                 throw new ValidationException(Joiner.on(";").join(invalidmsg));
             }
         }
@@ -155,7 +154,7 @@ public class AppJpaBaseRepositoryImpl<E> extends SimpleJpaRepository<E, Long> im
     @Transactional
     public E update(E entity, Collection<String> updateFieldsName) {
         //检查更新实体是否具有id
-        if (entityInformation.isNew(entity)) {
+        if (entityInformation.getId(entity) == null) {
             throw new EntityNotFoundException("未找到将要修改对象 ，请检查主键信息 .");
         }
         //清理持久化上下文中的托管实体，避免重复更新

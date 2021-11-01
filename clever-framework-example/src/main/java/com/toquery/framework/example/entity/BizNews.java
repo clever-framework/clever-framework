@@ -15,16 +15,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.Filters;
-import org.hibernate.annotations.Loader;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -37,7 +33,7 @@ import java.util.HashSet;
  */
 
 @Loader(namedQuery = "findBizNewsById") // todo
-@NamedQuery(name= "findBizNewsById", query =
+@NamedQuery(name = "findBizNewsById", query =
         "SELECT news FROM BizNews news WHERE news.id = ?1 AND news.deleted = false")
 
 @Slf4j
@@ -51,7 +47,7 @@ import java.util.HashSet;
 @AppEntityRest(path = "example-biz-news-rest")
 
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE BizNews SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE BizNews SET deleted = true WHERE id = ?")
 
 @FilterDef(
         name = "gtNum",

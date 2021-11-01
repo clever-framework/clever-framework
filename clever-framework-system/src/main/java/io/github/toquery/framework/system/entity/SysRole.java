@@ -1,5 +1,6 @@
 package io.github.toquery.framework.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.Getter;
@@ -39,6 +40,9 @@ public class SysRole extends AppBaseEntity implements AppEntityLogicDel {
     @ColumnDefault("false")
     @Column(name = "deleted")
     private boolean deleted = false;
+
+    @Transient
+    private Collection<Long> menuIds;
 
     @Transient
     private Collection<SysUser> users;

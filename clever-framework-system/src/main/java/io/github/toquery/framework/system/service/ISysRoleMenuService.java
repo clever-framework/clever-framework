@@ -40,5 +40,5 @@ public interface ISysRoleMenuService extends AppBaseService<SysRoleMenu> {
 
     List<SysRoleMenu> findWithSysMenuByRoleIds(Set<Long> sysRoleIds);
 
-    List<SysRoleMenu> reSaveMenu(Long roleId, Collection<SysMenu> menus);
+    List<SysRoleMenu> reSaveMenu(Long roleId, Collection<Long> menuIds);
 }

@@ -1,8 +1,10 @@
 package io.github.toquery.framework.core.autoconfig;
 
 import io.github.toquery.framework.core.properties.AppProperties;
+import io.github.toquery.framework.core.security.AppSecurityDefaultIgnoring;
 import io.github.toquery.framework.core.security.AppSecurityIgnoringHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,5 +27,11 @@ public class AppCoreAutoConfiguration {
     @Bean
     public AppSecurityIgnoringHandlerAdapter getAppSecurityIgnoringHandler(){
         return new AppSecurityIgnoringHandlerAdapter();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AppSecurityDefaultIgnoring getAppSecurityDefaultIgnoring(){
+        return new AppSecurityDefaultIgnoring();
     }
 }
