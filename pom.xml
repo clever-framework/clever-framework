@@ -65,7 +65,7 @@
 
         <minio.version>8.3.0</minio.version>
 
-        <grpc.version>1.41.0</grpc.version>
+        <grpc.version>1.42.0</grpc.version>
         <io-protostuff.version>1.7.4</io-protostuff.version>
 
         <hutool.version>5.7.13</hutool.version>
