@@ -8,6 +8,7 @@ import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.Configurable;
 import org.hibernate.id.IdentifierGenerator;
+import org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
 
@@ -21,7 +22,7 @@ public class AppSnowFlakeIdGenerator implements IdentifierGenerator, Configurabl
 
     @Override
     public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) throws MappingException {
-
+        log.info("AppSnowFlakeIdGenerator configure");
     }
 
     @Override

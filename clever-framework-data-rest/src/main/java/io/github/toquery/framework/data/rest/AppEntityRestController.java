@@ -22,6 +22,10 @@ public class AppEntityRestController extends AppBaseWebController {
     private static final String BASE_MAPPING = "/{entity-rest}";
 
     /**
+     * todo
+     *  org.springframework.validation.BeanPropertyBindingResult: 1 errors
+     *  Field error in object 'defaultedPageable' on field 'isDefault': rejected value [null]; codes [typeMismatch.defaultedPageable.isDefault,typeMismatch.isDefault,typeMismatch.boolean,typeMismatch]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [defaultedPageable.isDefault,isDefault]; arguments []; default message [isDefault]]; default message [Failed to convert value of type 'null' to required type 'boolean'; nested exception is org.springframework.core.convert.ConversionFailedException: Failed to convert from type [null] to type [boolean] for value 'null'; nested exception is java.lang.IllegalArgumentException: A null value cannot be assigned to a primitive type]
+     *
      * <code>GET /{repository}</code> - Returns the collection resource (paged or unpaged).
      *
      * @param resourceInformation
@@ -31,7 +35,7 @@ public class AppEntityRestController extends AppBaseWebController {
      * @return
      * @throws ResourceNotFoundException
      * @throws HttpRequestMethodNotSupportedException
-     */
+
     @ResponseBody
     @RequestMapping(value = BASE_MAPPING, method = RequestMethod.GET)
     public String getCollectionResource(@QuerydslPredicate RootResourceInformation resourceInformation,
@@ -53,4 +57,5 @@ public class AppEntityRestController extends AppBaseWebController {
 
         return "String";
     }
+     */
 }

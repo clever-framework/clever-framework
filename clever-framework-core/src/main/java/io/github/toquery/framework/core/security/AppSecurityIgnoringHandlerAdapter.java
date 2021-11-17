@@ -24,7 +24,6 @@ public class AppSecurityIgnoringHandlerAdapter implements ServletContextAware {
 
     @Setter
     @Getter
-    @Nullable
     private ServletContext servletContext;
 
     @Autowired

@@ -17,9 +17,9 @@ import java.util.Set;
  */
 public interface ISysMenuService extends AppBaseService<SysMenu> {
 
-    public static final String ROOT_ID = "0";
+    String ROOT_ID = "0";
 
-    public static final Set<String> UPDATE_FIELD = Sets.newHashSet("menuName", "menuCode", "sortNum", "parentId", "parentIds", "treePath", "hasChildren");
+    Set<String> UPDATE_FIELD = Sets.newHashSet("menuName", "menuCode", "sortNum", "parentId", "parentIds", "treePath", "hasChildren");
 
     /**
      * 自定义保存，变更上级的 hasChildren
@@ -28,6 +28,12 @@ public interface ISysMenuService extends AppBaseService<SysMenu> {
      * @return SysMenu
      */
     SysMenu saveMenu(SysMenu sysMenu);
+
+    /**
+     * 扫码包含使用注解的类，并自动添加到数据库中
+     *
+     */
+    void scan();
 
     /**
      * 自定义修改，变更上级的 hasChildren

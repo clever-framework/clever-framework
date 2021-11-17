@@ -15,4 +15,6 @@ public class AppSystemProperties {
 
     private boolean enable = true;
 
+    private boolean generateMenu = true;
+
 }

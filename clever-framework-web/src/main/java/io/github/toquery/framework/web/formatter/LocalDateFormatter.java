@@ -7,15 +7,15 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.google.common.base.Strings;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @author zhangbowen
+ *
  */
 public class LocalDateFormatter {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -33,7 +33,7 @@ public class LocalDateFormatter {
         @Override
         public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             String date = p.getText();
-            if (StringUtils.isEmpty(date)) {
+            if (Strings.isNullOrEmpty(date)) {
                 return null;
             }
             return LocalDate.parse(date, formatter);

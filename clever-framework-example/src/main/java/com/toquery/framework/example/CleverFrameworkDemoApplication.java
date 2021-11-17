@@ -9,6 +9,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * @author toquery
@@ -22,6 +23,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @MapperScan("com.toquery.framework.example.dao")
 @EnableAppEntityRest
 @AppDictScan
+@EnableCaching
 //@AppDictScan(basePackage = "com.toquery.framework.demo.constant")
 @EntityScan
 @EnableAppRepositoryRest

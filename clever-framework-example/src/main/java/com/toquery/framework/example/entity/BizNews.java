@@ -47,7 +47,7 @@ import java.util.HashSet;
 @AppEntityRest(path = "example-biz-news-rest")
 
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE BizNews SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE biz_news SET deleted = true WHERE id = ?")
 
 @FilterDef(
         name = "gtNum",
@@ -64,8 +64,6 @@ import java.util.HashSet;
                 condition = "like_num > :likeNum"
         )
 })
-
-
 @Entity
 @Table(name = "biz_news")
 public class BizNews extends AppBaseEntity implements AppEntityLogicDel {

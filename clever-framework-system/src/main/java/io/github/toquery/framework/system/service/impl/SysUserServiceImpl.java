@@ -5,11 +5,14 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.repository.SysUserRepository;
 import io.github.toquery.framework.system.service.ISysUserPermissionService;
 import io.github.toquery.framework.system.service.ISysUserService;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author toquery
@@ -48,13 +52,15 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
         return map;
     }
 
+    @Cacheable(value = "userCache", key = "#username")
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user = super.dao.getByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
-        }
-        return user;
+//        SysUser user = super.dao.getByUsername(username);
+//        if (user == null) {
+//            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+//        }
+//        return user;
+        return this.loadFullUserByUsername(username);
     }
 
 
@@ -66,6 +72,9 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
         }
         List<SysUserPermission> sysUserPermissions = sysUserPermissionService.findByUserId(user.getId());
         user.setUserPermissions(sysUserPermissions);
+
+        Set<SysMenu> sysMenus = sysUserPermissions.stream().flatMap(sysUserPermission -> sysUserPermission.getRole().getMenus().stream()).collect(Collectors.toSet());
+        user.setAuthorities(sysMenus);
         return user;
     }
 

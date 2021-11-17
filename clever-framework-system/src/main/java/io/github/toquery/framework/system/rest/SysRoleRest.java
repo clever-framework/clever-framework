@@ -8,6 +8,7 @@ import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.service.ISysRoleService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,31 +35,37 @@ public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole>
     private AppProperties appProperties;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('system:role:query')")
     public ResponseParam query() {
         return super.query();
     }
 
     @GetMapping(value = "/list")
+    @PreAuthorize("hasAnyAuthority('system:role:query')")
     public ResponseParam list() {
         return super.list();
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('system:role:add')")
     public ResponseParam saveSysRoleCheck(@Validated @RequestBody SysRole sysRole) throws AppException {
         return super.handleResponseParam(service.saveSysRoleCheck(sysRole));
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyAuthority('system:role:modify')")
     public ResponseParam update(@RequestBody SysRole sysRole) throws AppException {
         return super.handleResponseParam(service.updateSysRoleCheck(sysRole));
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('system:role:delete')")
     public void deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
         service.deleteSysRoleCheck(ids);
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('system:role:query')")
     public ResponseParam detail(@PathVariable Long id) {
         return new ResponseParamBuilder().content(super.service.getWithMenusById(id)).build();
     }

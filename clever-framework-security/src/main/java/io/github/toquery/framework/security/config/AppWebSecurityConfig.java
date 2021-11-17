@@ -5,6 +5,7 @@ import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.security.AppSecurityConfigurer;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.handler.AppAccessDeniedHandler;
+import io.github.toquery.framework.security.handler.AppAuthenticationEntryPoint;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -102,6 +103,7 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .exceptionHandling()
                 .accessDeniedHandler(new AppAccessDeniedHandler())
+                .authenticationEntryPoint(new AppAuthenticationEntryPoint())
         ;
 
         if (getCustomizeFilter() != null) {

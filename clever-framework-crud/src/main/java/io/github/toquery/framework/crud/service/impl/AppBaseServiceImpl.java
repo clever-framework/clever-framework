@@ -75,7 +75,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     @Transactional
     public List<E> save(List<E> entityList) {
         preSaveBatchHandler(entityList);
-        List<E> saveData = this.dao.saveAll(entityList);
+        List<E> saveData = this.dao.saveAllAndFlush(entityList);
         postSaveBatchHandler(entityList);
         return saveData;
     }

@@ -269,7 +269,7 @@ public class AppJpaBaseRepositoryImpl<E> extends SimpleJpaRepository<E, Long> im
      */
     private E findExistEntity(Long id) {
         //查询是否存在待更新的实体
-        E existEntity = getOne(id);
+        E existEntity = getById(id);
 
         if (existEntity == null) {
             throw new IllegalArgumentException("can not find exist entity with primary : " + id.toString());

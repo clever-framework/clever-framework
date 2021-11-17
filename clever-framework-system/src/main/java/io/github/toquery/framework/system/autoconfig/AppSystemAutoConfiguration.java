@@ -9,6 +9,7 @@ import io.github.toquery.framework.system.rest.SysDictRest;
 import io.github.toquery.framework.system.rest.SysMenuRest;
 import io.github.toquery.framework.system.rest.SysRoleRest;
 import io.github.toquery.framework.system.rest.SysUserRest;
+import io.github.toquery.framework.system.runner.AppSystemRunner;
 import io.github.toquery.framework.system.service.ISysAreaService;
 import io.github.toquery.framework.system.service.ISysConfigService;
 import io.github.toquery.framework.system.service.ISysDictItemService;
@@ -28,7 +29,9 @@ import io.github.toquery.framework.system.service.impl.SysRoleServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysUserPermissionServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -52,6 +55,10 @@ import org.springframework.context.annotation.Role;
 @ConditionalOnProperty(prefix = AppSystemProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 //@EnableJpaRepositories(basePackages = {"io.github.toquery.framework.system.repository"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppSystemAutoConfiguration {
+
+    @Autowired
+    private AppSystemProperties appSystemProperties;
+
 
     public AppSystemAutoConfiguration() {
         log.info("开始自动装配 App System 自动配置");
@@ -154,6 +161,13 @@ public class AppSystemAutoConfiguration {
     @ConditionalOnMissingBean
     public ISysUserPermissionService getSysUserPermissionServiceImpl() {
         return new SysUserPermissionServiceImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ApplicationRunner getAppSystemRunner() {
+        return new AppSystemRunner();
+
     }
 
 }

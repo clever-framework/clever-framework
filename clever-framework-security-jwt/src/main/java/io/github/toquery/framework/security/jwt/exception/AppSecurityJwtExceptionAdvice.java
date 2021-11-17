@@ -33,7 +33,7 @@ public class AppSecurityJwtExceptionAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseParam> handleExpiredJwtException(AccessDeniedException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseParam.builder().code(HttpStatus.UNAUTHORIZED.value()).message("访问被拒绝！").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseParam.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("访问被拒绝！").build());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -41,13 +41,13 @@ public class AppSecurityJwtExceptionAdvice {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ResponseParam> handleExpiredJwtException(ExpiredJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseParam.builder().code(HttpStatus.UNAUTHORIZED.value()).message("登录失效！").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseParam.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("登录失效！").build());
     }
 
     @ResponseBody
     @ExceptionHandler(AppSecurityJwtException.class)
     public ResponseEntity<ResponseParam> handleAuthenticationException(AppSecurityJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseParam.builder().code(exception.getHttpStatus().value()).message(exception.getMessage()).build());
+        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseParam.builder().code(exception.getHttpStatus().value()).success(false).message(exception.getMessage()).build());
     }
 }

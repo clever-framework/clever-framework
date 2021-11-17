@@ -10,6 +10,8 @@ import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,18 +47,21 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     private PasswordEncoder passwordEncoder;
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping
     public ResponseParam query() {
         return super.query();
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("/list")
     public ResponseParam list() {
         return super.list();
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:user:add')")
     @PostMapping
     public ResponseParam saveSysUserCheck(@Validated @RequestBody SysUser sysUser) throws AppException {
         String encodePassword = passwordEncoder.encode(sysUser.getPassword());
@@ -65,6 +70,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:user:modify')")
     @PutMapping
     public ResponseParam update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
@@ -74,6 +80,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:user:modify')")
     @PutMapping("/reset-password")
     public ResponseParam restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
@@ -88,12 +95,14 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:user:delete')")
     @DeleteMapping
     public void deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
         service.deleteSysUserCheck(ids);
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("{id}")
     public ResponseParam detail(@PathVariable Long id) {
         return super.detail(id);

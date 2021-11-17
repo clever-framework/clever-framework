@@ -33,14 +33,14 @@ public class AppSecurityRest extends AppBaseCrudController<IBizNewsService, BizN
         return ResponseParam.builder().content("normal").build();
     }
 
-    @PreAuthorize("hasAnyAuthority('admin')")
+    // @PreAuthorize("hasAnyAuthority('admin')")
     @RequestMapping("/admin")
     public ResponseParam admin() {
         return ResponseParam.builder().content("admin").build();
     }
 
 
-    @PreAuthorize("hasAnyAuthority('normal','admin')")
+    // @PreAuthorize("hasAnyAuthority('normal','admin')")
     @RequestMapping("/all")
     public ResponseParam all() {
         return ResponseParam.builder().content("all").build();

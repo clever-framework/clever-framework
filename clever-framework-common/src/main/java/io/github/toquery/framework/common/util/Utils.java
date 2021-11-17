@@ -1,8 +1,8 @@
 package io.github.toquery.framework.common.util;
 
+import com.google.common.base.Strings;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -137,7 +137,7 @@ public class Utils {
      * @return 后缀名称
      */
     public static String fileSuffixWithPoint(String fileName) {
-        if (StringUtils.isEmpty(fileName)) {
+        if (Strings.isNullOrEmpty(fileName)) {
             return "";
         }
         int suffixIndex = fileName.lastIndexOf(".");
@@ -154,7 +154,7 @@ public class Utils {
      * @return 后缀名称
      */
     public static String fileSuffix(String fileName) {
-        if (StringUtils.isEmpty(fileName)) {
+        if (Strings.isNullOrEmpty(fileName)) {
             return "";
         }
         int suffixIndex = fileName.lastIndexOf(".");

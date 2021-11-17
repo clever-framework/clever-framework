@@ -44,7 +44,8 @@ public class BizNewsDaoCurdTest extends BaseSpringTest {
         Assert.assertNotNull(saveAndFlush);
         Assert.assertNotNull(saveAndFlush.getId());
 
-        BizNews bizNews = new BizNews(new SnowFlake().nextId(), "saveAndFlush-test", new Date());
+        BizNews bizNews = new BizNews("saveAndFlush-test", new Date());
+        bizNews.preInsert();
         bizNews.setCreateDateTime(LocalDateTime.now());
         bizNews.setUpdateDateTime(LocalDateTime.now());
 //        BizNews saveMyBatis =

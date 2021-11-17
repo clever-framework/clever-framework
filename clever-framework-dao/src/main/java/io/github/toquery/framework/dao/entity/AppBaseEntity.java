@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.dao.audit.AppEntityD3Listener;
+import io.github.toquery.framework.dao.primary.snowflake.SnowFlake;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
@@ -27,6 +29,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
@@ -55,8 +58,8 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     @Column
     // @RevisionNumber
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @GeneratedValue(generator = "generatedkey")
-    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppSnowFlakeIdGenerator")
+    @GeneratedValue(generator = "generatedkey", strategy = GenerationType.AUTO)
+    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppSnowFlakeIdGenerator", parameters = { @Parameter(name = "sequence", value = "II_FIRM_DOC_PRM_SEQ") })
     protected Long id;
 
 
@@ -123,7 +126,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     }
 
     public void preInsert() {
-        this.preInsert(this.getUserId());
+        this.preInsert(new SnowFlake().nextId(), this.getUserId());
     }
 
 
@@ -151,6 +154,6 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
      */
     @Override
     public boolean isNew() {
-        return true;
+        return this.getId() == null || this.getId() == 0L;
     }
 }
