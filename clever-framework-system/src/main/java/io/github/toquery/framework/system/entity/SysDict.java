@@ -61,8 +61,8 @@ public class SysDict extends AppBaseEntity implements AppEntitySort, AppEntityLo
      * 描述
      */
     @AppLogField("描述")
-    @Column(name = "description", length = 50)
-    private String description;
+    @Column(name = "dict_desc", length = 50)
+    private String dictDesc;
 
 
     @AppLogField("配置排序")

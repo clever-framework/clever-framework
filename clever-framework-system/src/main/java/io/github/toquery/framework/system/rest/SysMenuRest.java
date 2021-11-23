@@ -34,7 +34,7 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
 
     public static final String MODEL_NAME = "系统管理";
 
-    public static final String BIZ_NAME = "用户管理";
+    public static final String BIZ_NAME = "菜单管理";
 
     private String[] sort = new String[]{"parentIds_asc", "sortNum_desc"};
 

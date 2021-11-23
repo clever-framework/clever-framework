@@ -1,4 +1,4 @@
-package com.toquery.framework.example.entity;
+package com.toquery.framework.example.modules.news.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;

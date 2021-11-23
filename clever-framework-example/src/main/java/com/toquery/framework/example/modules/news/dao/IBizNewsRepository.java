@@ -1,6 +1,6 @@
-package com.toquery.framework.example.dao;
+package com.toquery.framework.example.modules.news.dao;
 
-import com.toquery.framework.example.entity.BizNews;
+import com.toquery.framework.example.modules.news.entity.BizNews;
 import io.github.toquery.framework.dao.annotation.JpaParam;
 import io.github.toquery.framework.dao.annotation.MybatisParam;
 import io.github.toquery.framework.dao.annotation.MybatisQuery;
@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 
 import java.util.Collection;
 import java.util.List;

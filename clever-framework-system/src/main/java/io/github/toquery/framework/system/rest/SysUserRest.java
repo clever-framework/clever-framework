@@ -105,6 +105,6 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("{id}")
     public ResponseParam detail(@PathVariable Long id) {
-        return super.detail(id);
+        return this.handleResponseParam(super.service.getByIdWithRole(id));
     }
 }

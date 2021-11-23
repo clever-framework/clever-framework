@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author toquery
@@ -29,7 +30,9 @@ public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepos
     public Map<String, String> getQueryExpressions() {
         Map<String, String> map = new HashMap<>();
         map.put("idIN", "id:IN");
-        map.put("dictCode", "dictCode:EQ");
+        map.put("dictCode", "dictCode:LIKE");
+        map.put("dictName", "dictName:LIKE");
+        map.put("description", "description:LIKE");
         return map;
     }
 
@@ -66,17 +69,15 @@ public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepos
 
     @Override
     public SysDict updateSysDictCheck(SysDict sysDict) {
+        Long sysDictId = sysDict.getId();
         List<SysDict> sysDicts = this.findByCode(sysDict.getDictCode());
-        if (sysDicts != null && sysDicts.size() > 1) {
-            throw new AppException("字典" + sysDict.getDictCode() + "错误");
+        if (sysDicts != null && sysDicts.size() > 1 && sysDicts.stream().noneMatch(dbSysDict -> dbSysDict.getId().equals(sysDictId))) {
+            throw new AppException("已存在字典项" + sysDict.getDictCode());
         }
-        if (sysDicts != null && sysDicts.get(0) != null) {
-            SysDict dbSysDict = sysDicts.get(0);
-            if (!dbSysDict.getId().equals(sysDict.getId()) && dbSysDict.getDictCode().equalsIgnoreCase(sysDict.getDictCode())) {
-                throw new AppException("已存在字典项" + sysDict.getDictCode());
-            }
-        }
-        return super.update(sysDict, Sets.newHashSet("dictName", "dictCode", "description", "sortNum"));
+        List<SysDictItem> sysDictItems = sysDictItemService.reSave(sysDict.getId(), sysDict.getDictItems());
+        sysDict = super.update(sysDict, Sets.newHashSet("dictName", "dictCode", "description", "sortNum"));
+        sysDict.setDictItems(sysDictItems);
+        return sysDict;
     }
 
     @Override
@@ -90,5 +91,23 @@ public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepos
             throw new AppException("未找到字典项" + dictCode + itemValue);
         }
         return optional.get();
+    }
+
+    @Override
+    public void deleteSysDictCheck(Set<Long> ids) {
+        sysDictItemService.deleteByDictIds(ids);
+        super.deleteByIds(ids);
+    }
+
+    @Override
+    public SysDict saveSysDictCheck(SysDict sysDict) {
+        List<SysDict> sysDicts = this.findByCode(sysDict.getDictCode());
+        if (sysDicts != null && sysDicts.size() > 1) {
+            throw new AppException("已存在字典项 " + sysDict.getDictCode());
+        }
+        super.save(sysDict);
+        List<SysDictItem> sysDictItems = sysDictItemService.reSave(sysDict.getId(), sysDict.getDictItems());
+        sysDict.setDictItems(sysDictItems);
+        return sysDict;
     }
 }

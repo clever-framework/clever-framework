@@ -1,8 +1,8 @@
-package com.toquery.framework.example.rest;
+package com.toquery.framework.example.bff.admin.news.rest;
 
 import com.google.common.collect.Lists;
-import com.toquery.framework.example.entity.BizNews;
-import com.toquery.framework.example.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.entity.BizNews;
+import com.toquery.framework.example.modules.news.service.IBizNewsService;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.webmvc.domain.ResponsePage;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;

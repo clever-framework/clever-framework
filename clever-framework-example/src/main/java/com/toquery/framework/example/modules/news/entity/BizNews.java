@@ -1,4 +1,4 @@
-package com.toquery.framework.example.entity;
+package com.toquery.framework.example.modules.news.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.*;
 
 import javax.persistence.Entity;
@@ -168,9 +167,6 @@ public class BizNews extends AppBaseEntity implements AppEntityLogicDel {
     public boolean getDeleted() {
         return deleted;
     }
-
-    @Transient
-    private String moduleName = "example新闻模块";
 
     /*
     @Override

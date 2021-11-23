@@ -49,6 +49,7 @@
             sa.has_children as areaHasChildren,
             sr.id as roleId,
             sr.role_name as roleName,
+            sm.id as menuId,
             sm.menu_name as menuName,
             sm.menu_code as menuCode,
             sm.menu_level as menuLevel,

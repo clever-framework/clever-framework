@@ -1,10 +1,10 @@
-package com.toquery.framework.example.service.impl;
+package com.toquery.framework.example.modules.news.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Sets;
-import com.toquery.framework.example.dao.IBizNewsRepository;
-import com.toquery.framework.example.entity.BizNews;
-import com.toquery.framework.example.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.dao.IBizNewsRepository;
+import com.toquery.framework.example.modules.news.entity.BizNews;
+import com.toquery.framework.example.modules.news.service.IBizNewsService;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import org.hibernate.Session;
 import org.hibernate.Filter;
@@ -32,17 +32,19 @@ public class BizNewsServiceImpl extends AppBaseServiceImpl<BizNews, IBizNewsRepo
     private EntityManager entityManager;
 
 
-    private static final Map<String, String> map = new HashMap<String, String>() {
+    public static final Map<String, String> QUERY_EXPRESSIONS = new HashMap<String, String>() {
         {
-            put("title", "name:EQ");
             put("num", "num:EQ");
+            put("title", "title:EQ");
             put("showTime", "showTime:EQ");
+            put("showStatus", "showStatus:EQ");
+            put("localDateTime", "localDateTime:EQ");
         }
     };
 
     @Override
     public Map<String, String> getQueryExpressions() {
-        return map;
+        return QUERY_EXPRESSIONS;
     }
 
     public List<BizNews> findFilter() {

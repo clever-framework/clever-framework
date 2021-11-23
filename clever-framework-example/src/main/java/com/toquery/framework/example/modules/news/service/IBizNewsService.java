@@ -1,7 +1,7 @@
-package com.toquery.framework.example.service;
+package com.toquery.framework.example.modules.news.service;
 
 
-import com.toquery.framework.example.entity.BizNews;
+import com.toquery.framework.example.modules.news.entity.BizNews;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import org.springframework.data.domain.Page;
 

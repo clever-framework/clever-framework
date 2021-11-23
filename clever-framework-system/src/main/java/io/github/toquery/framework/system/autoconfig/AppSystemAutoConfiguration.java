@@ -4,7 +4,6 @@ import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import io.github.toquery.framework.system.rest.SysAreaRest;
 import io.github.toquery.framework.system.rest.SysConfigRest;
-import io.github.toquery.framework.system.rest.SysDictItemRest;
 import io.github.toquery.framework.system.rest.SysDictRest;
 import io.github.toquery.framework.system.rest.SysMenuRest;
 import io.github.toquery.framework.system.rest.SysRoleRest;
@@ -99,12 +98,6 @@ public class AppSystemAutoConfiguration {
     @ConditionalOnMissingBean
     public SysDictRest getSysDictRest() {
         return new SysDictRest();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public SysDictItemRest getSysDictItemRest() {
-        return new SysDictItemRest();
     }
 
     @Bean

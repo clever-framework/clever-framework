@@ -2,7 +2,6 @@ package io.github.toquery.framework.system.service;
 
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysConfig;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,4 +11,12 @@ import java.util.List;
  */
 public interface ISysConfigService extends AppBaseService<SysConfig> {
     List<SysConfig> reSave(Long bizId, String configGroup, List<SysConfig> sysConfigList);
+
+    List<SysConfig> findByConfigName(String configName);
+
+    SysConfig saveSysConfigCheck(SysConfig sysConfig);
+
+    SysConfig updateSysConfigCheck(SysConfig sysConfig);
+
+    SysConfig value(String configName);
 }

@@ -1,5 +1,13 @@
 package io.github.toquery.framework.system.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
@@ -9,13 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * @author toquery
@@ -29,7 +30,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Table(name = "sys_dict_item")
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysDictItem SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_dict_item SET deleted = true WHERE id = ?")
 public class SysDictItem extends AppBaseEntity implements AppEntitySort, AppEntityLogicDel {
 
 
@@ -54,14 +55,14 @@ public class SysDictItem extends AppBaseEntity implements AppEntitySort, AppEnti
     /**
      * 描述
      */
-    @Column(name = "description")
-    private String description;
+    @Column(name = "item_desc")
+    private String itemDesc;
 
     /**
-     * 状态（1启用 0不启用）
+     * 状态（1禁用 0启用）
      */
-    @Column(name = "status")
-    private Integer status;
+    @Column(name = "disable")
+    private Integer disable = 0;
 
     /**
      * 排序

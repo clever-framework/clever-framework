@@ -1,11 +1,10 @@
-package com.toquery.framework.example.rest;
+package com.toquery.framework.example.bff.admin.news.rest;
 
-import com.toquery.framework.example.entity.BizNews;
-import com.toquery.framework.example.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.entity.BizNews;
+import com.toquery.framework.example.modules.news.service.IBizNewsService;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

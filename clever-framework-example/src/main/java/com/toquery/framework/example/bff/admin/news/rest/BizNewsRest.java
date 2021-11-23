@@ -1,9 +1,9 @@
-package com.toquery.framework.example.rest;
+package com.toquery.framework.example.bff.admin.news.rest;
 
 import com.google.common.collect.Sets;
 import com.toquery.framework.example.constant.QueryType;
-import com.toquery.framework.example.entity.BizNews;
-import com.toquery.framework.example.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.entity.BizNews;
+import com.toquery.framework.example.modules.news.service.IBizNewsService;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;

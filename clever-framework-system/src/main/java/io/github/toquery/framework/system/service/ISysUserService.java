@@ -42,4 +42,6 @@ public interface ISysUserService extends AppUserDetailService, UserDetailsServic
      * @param ids 用户
      */
     void deleteSysUserCheck(Set<Long> ids) throws AppException;
+
+    SysUser getByIdWithRole(Long id);
 }

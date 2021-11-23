@@ -108,7 +108,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
         if (id == null) {
             return;
         }
-        if (isSoftDel()) {
+        if (isLogicDel()) {
             E entity = getById(id);
             if (entity != null) {
                 //设置软删除
@@ -143,9 +143,10 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     @Override
     @Transactional
     public void delete(Map<String, Object> params, Predicate.BooleanOperator connector) {
-        if (isSoftDel()) {
+        if (isLogicDel()) {
             List<E> entityList = this.find(params);
-            this.update(entityList, Sets.newHashSet(""));
+            entityList.forEach(entity -> { ((AppEntityLogicDel)entity).setDeleted(true);});
+            this.update(entityList, Sets.newHashSet("deleted"));
         } else {
             this.dao.delete(params, connector);
         }
@@ -215,11 +216,11 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
 
 
     /**
-     * 是否是软删除。如果是软删除需要在响应的底层服务中进行相关逻辑处理
+     * 是否是逻辑删除。如果是软删除需要在响应的底层服务中进行相关逻辑处理
      *
      * @return
      */
-    public boolean isSoftDel() {
+    public boolean isLogicDel() {
         boolean isSoftDel = ClassUtils.isAssignable(this.dao.getDomainClass(), AppEntityLogicDel.class);
         if (isSoftDel) {
             log.info("{} 删除为软删除", this.dao.getDomainClass().getName());
@@ -296,7 +297,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
         LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
 
         //如果是软删除，默认查询未删除的记录
-        if (isSoftDel()) {
+        if (isLogicDel()) {
             if (queryExpressionMap == null) {
                 queryExpressionMap = Maps.newLinkedHashMap();
             }

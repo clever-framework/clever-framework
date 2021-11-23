@@ -3,8 +3,8 @@ package io.toquery.framework.example.test.framework.curd;
 
 import com.toquery.framework.example.constant.BizNewsShowStatus;
 import com.toquery.framework.example.constant.QueryType;
-import com.toquery.framework.example.entity.BizNews;
-import com.toquery.framework.example.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.entity.BizNews;
+import com.toquery.framework.example.modules.news.service.IBizNewsService;
 import io.toquery.framework.example.test.BaseSpringTest;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;

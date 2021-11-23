@@ -5,6 +5,7 @@ import io.github.toquery.framework.system.entity.SysDict;
 import io.github.toquery.framework.system.entity.SysDictItem;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author toquery
@@ -23,4 +24,8 @@ public interface ISysDictService extends AppBaseService<SysDict> {
     SysDict updateSysDictCheck(SysDict sysDict);
 
     SysDictItem item(String dictCode, String itemValue);
+
+    void deleteSysDictCheck(Set<Long> ids);
+
+    SysDict saveSysDictCheck(SysDict sysDict);
 }

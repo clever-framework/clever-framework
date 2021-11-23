@@ -24,9 +24,6 @@ import java.util.stream.Collectors;
 public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysRoleMenuRepository> implements ISysRoleMenuService {
 
     @Autowired
-    private ISysRoleService sysRoleService;
-
-    @Autowired
     private ISysMenuService sysMenuService;
 
     @Override

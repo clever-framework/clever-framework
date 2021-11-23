@@ -137,4 +137,12 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
         }
         super.deleteByIds(ids);
     }
+
+    @Override
+    public SysUser getByIdWithRole(Long id) {
+        SysUser sysUser = super.getById(id);
+        List<SysUserPermission> sysUserPermissions = sysUserPermissionService.findByUserId(id);
+        sysUser.setRoles(sysUserPermissions.stream().map(SysUserPermission::getRole).collect(Collectors.toSet()));
+        return sysUser;
+    }
 }

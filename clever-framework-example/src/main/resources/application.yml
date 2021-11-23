@@ -47,6 +47,7 @@ spring:
   # todo 这个配置是干什么的
   main:
     allow-bean-definition-overriding: true
+    allow-circular-references: true # 允许循环引用
 
   servlet:
     multipart:

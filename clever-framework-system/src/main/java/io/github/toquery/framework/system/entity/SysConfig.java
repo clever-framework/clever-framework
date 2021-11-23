@@ -1,18 +1,19 @@
 package io.github.toquery.framework.system.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.ArrayList;
@@ -29,19 +30,44 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_config")
-public class SysConfig extends AppBaseEntity {
+public class SysConfig extends AppBaseEntity implements AppEntitySort, AppEntityLogicDel {
 
-    @AppLogField("业务ID")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @Column(name = "biz_id", length = 50)
-    private Long bizId;
+//    @AppLogField("业务ID")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING)
+//    @Column(name = "biz_id", length = 50)
+//    private Long bizId;
 
     @Column(name = "config_name", length = 50)
     private String configName;
 
+    @Lob
+    @Column(name = "config_value", columnDefinition = "text")
+    private String configValue;
+
+    @Column(name = "config_desc")
+    private String configDesc;
+
     @AppLogField("配置排序")
     @Column(name = "sort_num")
-    private int sortNum = 0;
+    private Integer sortNum = 0;
+
+    /**
+     * 状态（1禁用 0启用）
+     */
+    @Column(name = "disable")
+    private Integer disable = 0;
+
+    /**
+     * 是否删除：1已删除；0未删除
+     */
+    @ColumnDefault("false")
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
+    @Override
+    public boolean getDeleted() {
+        return deleted;
+    }
 
     /*
     @ElementCollection

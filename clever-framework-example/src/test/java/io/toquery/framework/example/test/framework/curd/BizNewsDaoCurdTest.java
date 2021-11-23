@@ -3,10 +3,9 @@ package io.toquery.framework.example.test.framework.curd;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.toquery.framework.example.dao.IBizNewsRepository;
-import com.toquery.framework.example.entity.BizNews;
+import com.toquery.framework.example.modules.news.dao.IBizNewsRepository;
+import com.toquery.framework.example.modules.news.entity.BizNews;
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.dao.primary.snowflake.SnowFlake;
 import io.toquery.framework.example.test.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
