@@ -1,10 +1,10 @@
 package io.toquery.framework.example.test.framework.curd;
 
 
-import com.toquery.framework.example.constant.BizNewsShowStatus;
-import com.toquery.framework.example.constant.QueryType;
+import com.toquery.framework.example.bff.admin.news.model.constant.QueryType;
+import com.toquery.framework.example.modules.news.constant.BizNewsShowStatus;
 import com.toquery.framework.example.modules.news.entity.BizNews;
-import com.toquery.framework.example.modules.news.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.service.BizNewsDomainService;
 import io.toquery.framework.example.test.BaseSpringTest;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class BizNewsRestCurdTest extends BaseSpringTest {
     private MockMvc mvc;
 
     @MockBean
-    private IBizNewsService bizNewsService;
+    private BizNewsDomainService bizNewsService;
 
     @Test
     public void query() throws Exception {

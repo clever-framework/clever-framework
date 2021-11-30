@@ -1,4 +1,4 @@
-package com.toquery.framework.example.minio;
+package com.toquery.framework.example.core.minio;
 
 //import io.minio.policy.PolicyType;
 import lombok.extern.slf4j.Slf4j;

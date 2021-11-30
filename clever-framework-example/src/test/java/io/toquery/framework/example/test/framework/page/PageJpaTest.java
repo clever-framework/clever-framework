@@ -2,7 +2,7 @@ package io.toquery.framework.example.test.framework.page;
 
 import com.google.common.collect.Lists;
 import com.toquery.framework.example.modules.news.entity.BizNews;
-import com.toquery.framework.example.modules.news.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.service.BizNewsDomainService;
 import io.toquery.framework.example.test.BaseSpringTest;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class PageJpaTest extends BaseSpringTest {
 
 
     @Resource
-    private IBizNewsService jpaDemoService;
+    private BizNewsDomainService jpaDemoService;
 
     @Test
     public void insertData() {

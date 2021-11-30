@@ -3,7 +3,7 @@ package com.toquery.framework.example.modules.news.entity;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.toquery.framework.example.constant.BizNewsShowStatus;
+import com.toquery.framework.example.modules.news.constant.BizNewsShowStatus;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
@@ -21,7 +21,9 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -125,16 +127,14 @@ public class BizNews extends AppBaseEntity implements AppEntityLogicDel {
 
 //    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
 //    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @Column(name = "local_time")
-//    private LocalTime localTime;
+    @JsonFormat(pattern = AppCommonConstant.TIME_PATTERN)
+    @Column(name = "local_time")
+    private LocalTime localTime;
 
 
-//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @Column(name = "local_date")
-//    private LocalDate localDate;
+
+    @Column(name = "local_date")
+    private LocalDate localDate;
 
 
 //    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)

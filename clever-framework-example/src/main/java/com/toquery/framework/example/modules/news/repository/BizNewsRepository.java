@@ -1,4 +1,4 @@
-package com.toquery.framework.example.modules.news.dao;
+package com.toquery.framework.example.modules.news.repository;
 
 import com.toquery.framework.example.modules.news.entity.BizNews;
 import io.github.toquery.framework.dao.annotation.JpaParam;
@@ -23,7 +23,7 @@ import java.util.List;
 @SuppressWarnings("MybatisMapperMethodInspection")
 @RestResource(path = "rest-resource")
 @RepositoryRestResource(path = "example-biz-news-spring")
-public interface IBizNewsRepository extends AppJpaBaseRepository<BizNews> {
+public interface BizNewsRepository extends AppJpaBaseRepository<BizNews> {
 
     /**
      * jpa 注解方式查询

@@ -1,16 +1,14 @@
-package com.toquery.framework.example.bff.admin.news.model.request;
+package com.toquery.framework.example.bff.admin.news.model.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.toquery.framework.example.modules.news.constant.BizNewsShowStatus;
 import com.toquery.framework.example.modules.news.entity.BizType;
-import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,31 +27,32 @@ import java.util.HashSet;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BizNewsPageRequest extends AppBaseEntity {
+public class BizNewsExportResponse extends AppBaseEntity {
 
+    @ExcelProperty("标题")
     private String title;
 
+    @ExcelProperty("序号")
     private Long showNum;
 
+    @ExcelProperty("点赞数量")
     private Integer likeNum;
 
+    @ExcelProperty("显示状态")
     private BizNewsShowStatus showStatus;
 
     private Collection<BizType> types = new HashSet<>();
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+    @ExcelProperty("显示时间")
     private Date showTime;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @JsonFormat(pattern = AppCommonConstant.DATE_PATTERN)
+    @ExcelProperty("日期")
     private LocalDate localDate;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    @JsonFormat(pattern = AppCommonConstant.TIME_PATTERN)
+    @ExcelProperty("时间")
     private LocalTime localTime;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+    @ExcelProperty("日期时间")
     private LocalDateTime localDateTime;
+
 }

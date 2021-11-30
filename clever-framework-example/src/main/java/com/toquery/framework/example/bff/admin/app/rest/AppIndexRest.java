@@ -1,8 +1,8 @@
-package com.toquery.framework.example.bff.admin.news.rest;
+package com.toquery.framework.example.bff.admin.app.rest;
 
 import com.google.common.collect.Lists;
 import com.toquery.framework.example.modules.news.entity.BizNews;
-import com.toquery.framework.example.modules.news.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.service.BizNewsDomainService;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.webmvc.domain.ResponsePage;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1
  */
 @RestController
-public class AppIndexRest extends AppBaseCrudController<IBizNewsService, BizNews> {
+public class AppIndexRest extends AppBaseCrudController<BizNewsDomainService, BizNews> {
 
 
     @RequestMapping({"", "/", "/index"})

@@ -1,20 +1,24 @@
 package com.toquery.framework.example.bff.admin.news.service;
 
-import com.toquery.framework.example.modules.news.dao.IBizNewsRepository;
+import com.toquery.framework.example.bff.admin.news.mapper.BizNewsDao;
 import com.toquery.framework.example.modules.news.entity.BizNews;
-import com.toquery.framework.example.modules.news.service.impl.BizNewsServiceImpl;
+import com.toquery.framework.example.modules.news.repository.BizNewsRepository;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-import static com.toquery.framework.example.modules.news.service.impl.BizNewsServiceImpl.QUERY_EXPRESSIONS;
+import static com.toquery.framework.example.modules.news.service.BizNewsDomainService.QUERY_EXPRESSIONS;
 
 /**
  *
  */
 @Service
-public class BizNewsService extends AppBaseServiceImpl<BizNews, IBizNewsRepository> {
+public class BizNewsService extends AppBaseServiceImpl<BizNews, BizNewsRepository> {
+
+    @Autowired
+    private BizNewsDao bizNewsDao;
 
     @Override
     public Map<String, String> getQueryExpressions() {

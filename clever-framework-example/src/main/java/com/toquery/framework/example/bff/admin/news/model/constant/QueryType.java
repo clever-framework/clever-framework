@@ -1,4 +1,4 @@
-package com.toquery.framework.example.constant;
+package com.toquery.framework.example.bff.admin.news.model.constant;
 
 import lombok.Getter;
 

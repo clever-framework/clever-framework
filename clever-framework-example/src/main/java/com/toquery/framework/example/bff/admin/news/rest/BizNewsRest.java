@@ -1,14 +1,18 @@
 package com.toquery.framework.example.bff.admin.news.rest;
 
 import com.google.common.collect.Sets;
-import com.toquery.framework.example.constant.QueryType;
+import com.toquery.framework.example.bff.admin.news.model.constant.QueryType;
+import com.toquery.framework.example.bff.admin.news.model.request.BizNewsListRequest;
+import com.toquery.framework.example.bff.admin.news.model.request.BizNewsPageRequest;
+import com.toquery.framework.example.bff.admin.news.service.BizNewsService;
 import com.toquery.framework.example.modules.news.entity.BizNews;
-import com.toquery.framework.example.modules.news.service.IBizNewsService;
+import com.toquery.framework.example.modules.news.service.BizNewsDomainService;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,18 +28,21 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 常量
+ * 新闻
  *
  * @author toquery
  * @version 1
  */
 @RestController
 @RequestMapping("/biz-news")
-public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews> {
+public class BizNewsRest extends AppBaseCrudController<BizNewsDomainService, BizNews> {
 
+    @Autowired
+    private BizNewsService bizNewsService;
 
     @GetMapping
-    public ResponseParam query(@RequestParam(name = "queryType", defaultValue = "APP") @UpperCase QueryType queryType) {
+    public ResponseParam query(@RequestParam BizNewsPageRequest bizNewsPageRequest,
+                               @RequestParam(name = "queryType", defaultValue = "APP") @UpperCase QueryType queryType) {
         ResponseParam responseParam = null;
         switch (queryType) {
             case APP: {
@@ -57,7 +64,8 @@ public class BizNewsRest extends AppBaseCrudController<IBizNewsService, BizNews>
     }
 
     @GetMapping("/list")
-    public ResponseParam list(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType) {
+    public ResponseParam list(@RequestParam BizNewsListRequest bizNewsListRequest,
+                              @RequestParam(defaultValue = "APP") @UpperCase QueryType queryType) {
         ResponseParam responseParam = null;
         switch (queryType) {
             case APP: {

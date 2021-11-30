@@ -1,4 +1,4 @@
-package com.toquery.framework.example.modules.news.dao;
+package com.toquery.framework.example.modules.news.repository;
 
 import com.toquery.framework.example.modules.news.entity.BizType;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
@@ -12,7 +12,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  */
 @SuppressWarnings("MybatisMapperMethodInspection")
 @RepositoryRestResource(path = "example-biz-type")
-public interface IBizTypeRepository extends AppJpaBaseRepository<BizType> {
+public interface BizTypeRepository extends AppJpaBaseRepository<BizType> {
 
 }
 

@@ -29,7 +29,7 @@ import java.util.HashSet;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BizNewsPageRequest extends AppBaseEntity {
+public class BizNewsListRequest extends AppBaseEntity {
 
     private String title;
 

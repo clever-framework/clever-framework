@@ -1,4 +1,4 @@
-package com.toquery.framework.example.scanner;
+package com.toquery.framework.example.core.scanner;
 
 /*
 public class DefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {

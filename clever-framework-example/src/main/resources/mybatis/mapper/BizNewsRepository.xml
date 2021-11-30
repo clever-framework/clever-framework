@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toquery.framework.example.modules.news.dao.IBizNewsRepository">
+<mapper namespace="com.toquery.framework.example.modules.news.repository.BizNewsRepository">
     <insert id="saveMyBatis" parameterType="com.toquery.framework.example.modules.news.entity.BizNews">
         insert into biz_news(id, title, create_date_time, update_date_time)
         value (#{id}, #{title}, #{createDateTime}, #{updateDateTime})

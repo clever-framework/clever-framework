@@ -1,4 +1,4 @@
-package com.toquery.framework.example.bff.admin.news.model.request;
+package com.toquery.framework.example.bff.admin.news.model.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.toquery.framework.example.modules.news.constant.BizNewsShowStatus;
@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,7 +28,7 @@ import java.util.HashSet;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BizNewsPageRequest extends AppBaseEntity {
+public class BizNewsListResponse extends AppBaseEntity {
 
     private String title;
 
@@ -41,19 +40,16 @@ public class BizNewsPageRequest extends AppBaseEntity {
 
     private Collection<BizType> types = new HashSet<>();
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private Date showTime;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = AppCommonConstant.DATE_PATTERN)
     private LocalDate localDate;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @JsonFormat(pattern = AppCommonConstant.TIME_PATTERN)
     private LocalTime localTime;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private LocalDateTime localDateTime;
+
 }

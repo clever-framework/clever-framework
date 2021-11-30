@@ -1,6 +1,5 @@
-package com.toquery.framework.example.constant;
+package com.toquery.framework.example.modules.news.constant;
 
-import io.github.toquery.framework.web.dict.annotation.AppDict;
 import io.github.toquery.framework.web.dict.AppDictRuntime;
 import lombok.Getter;
 

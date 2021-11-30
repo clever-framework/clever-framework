@@ -3,7 +3,7 @@ package io.toquery.framework.example.test.framework.curd;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.toquery.framework.example.modules.news.dao.IBizNewsRepository;
+import com.toquery.framework.example.modules.news.repository.BizNewsRepository;
 import com.toquery.framework.example.modules.news.entity.BizNews;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.toquery.framework.example.test.BaseSpringTest;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class BizNewsDaoCurdTest extends BaseSpringTest {
 
     @Resource
-    private IBizNewsRepository bizNewsRepository;
+    private BizNewsRepository bizNewsRepository;
 
 
     @Test

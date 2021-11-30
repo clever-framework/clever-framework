@@ -1,10 +1,13 @@
 package com.toquery.framework.example.modules.news.service;
 
+import org.springframework.stereotype.Service;
 
 /**
  * @author toquery
  * @version 1
  */
-public interface IBizTypeService{
+@Service
+public class BizTypeDomainService {
+
 
 }
