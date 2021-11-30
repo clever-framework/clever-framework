@@ -15,8 +15,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 通过
- *
  * @author toquery
  * @version 1
  */

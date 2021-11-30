@@ -2,7 +2,6 @@ package com.toquery.framework.example.modules.news.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.toquery.framework.example.modules.news.constant.BizNewsShowStatus;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
@@ -15,18 +14,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 
 /**
  * @author toquery
@@ -69,7 +75,6 @@ import java.util.HashSet;
 @Table(name = "biz_news")
 public class BizNews extends AppBaseEntity implements AppEntityLogicDel {
 
-
     public BizNews(String title, Date showTime) {
         this.title = title;
         this.showTime = showTime;
@@ -96,65 +101,23 @@ public class BizNews extends AppBaseEntity implements AppEntityLogicDel {
     @Column(name = "like_num")
     private Integer likeNum;
 
-
     @AppLogField("展示状态")
     @Enumerated(EnumType.STRING)
     @Column(name = "show_status")
     private BizNewsShowStatus showStatus;
 
-
-    @JsonIgnoreProperties(value = {"news", "lastUpdateDateTime", "createDateTime"})
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "biz_news_type",
-            joinColumns = {@JoinColumn(name = "news_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "type_id", referencedColumnName = "id")})
-    @BatchSize(size = 20)
-    private Collection<BizType> types = new HashSet<>();
-
     @AppLogField("显示时间")
-    @JsonFormat
-    // @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, timezone = "GMT+8")
     @Column(name = "show_time")
     private Date showTime;
 
-
-//    @AppLogField("instant")
-//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @Column(name = "instant")
-//    private Instant instant;
-
-
-//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    @JsonFormat(pattern = AppCommonConstant.TIME_PATTERN)
     @Column(name = "local_time")
     private LocalTime localTime;
-
-
 
     @Column(name = "local_date")
     private LocalDate localDate;
 
-
-//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-
-    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
-
-
-//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @Column(name = "offset_time")
-//    private OffsetTime offsetTime;
-
-//    @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    mybatis 不支持 ！！！ Conversion not supported for type java.time.OffsetDateTime
-//    @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-//    @Column(name = "offset_date_time")
-//    private OffsetDateTime offsetDateTime;
 
     /**
      * 是否删除：1已删除；0未删除
