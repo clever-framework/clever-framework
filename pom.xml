@@ -67,7 +67,7 @@
         <swagger.version>2.1.10</swagger.version>
         <swagger-ui.version>3.51.1</swagger-ui.version>
 
-        <minio.version>8.3.0</minio.version>
+        <minio.version>8.3.4</minio.version>
 
         <grpc.version>1.41.0</grpc.version>
         <io-protostuff.version>1.7.4</io-protostuff.version>
