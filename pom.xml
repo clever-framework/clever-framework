@@ -64,7 +64,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <datanucleus.version>5.2.1</datanucleus.version>
 
-        <swagger.version>2.1.10</swagger.version>
+        <swagger.version>2.1.11</swagger.version>
         <swagger-ui.version>4.1.2</swagger-ui.version>
 
         <minio.version>8.3.4</minio.version>
