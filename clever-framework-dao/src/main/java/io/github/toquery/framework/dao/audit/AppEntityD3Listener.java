@@ -34,7 +34,7 @@ public class AppEntityD3Listener {
     private Set<AppAuditorHandler> appAuditorHandles = new HashSet<>();
 
     public AppEntityD3Listener() {
-        log.info("初始化App Entity DDD 监听器 - Spring DDD Model ");
+        log.debug("初始化App Entity DDD 监听器 - Spring DDD Model ");
     }
 
     /**
@@ -90,7 +90,7 @@ public class AppEntityD3Listener {
 
     @PreRemove
     public void onPreRemove(AppBaseEntity appBaseEntity) {
-        log.info("Spring DDD Model: AppEntityD3Listener - @PreRemove");
+        log.debug("Spring DDD Model: AppEntityD3Listener - @PreRemove");
         appAuditorHandles.stream().filter(AppAuditorHandler::enable).forEach(item -> item.onPreRemove(appBaseEntity));
     }
 

@@ -22,7 +22,7 @@ public class AppSnowFlakeIdGenerator implements IdentifierGenerator, Configurabl
 
     @Override
     public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) throws MappingException {
-        log.info("AppSnowFlakeIdGenerator configure");
+        log.debug("AppSnowFlakeIdGenerator configure");
     }
 
     @Override
