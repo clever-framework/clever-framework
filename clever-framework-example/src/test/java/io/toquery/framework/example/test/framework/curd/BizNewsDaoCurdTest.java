@@ -3,8 +3,9 @@ package io.toquery.framework.example.test.framework.curd;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.toquery.framework.example.modules.news.repository.BizNewsRepository;
-import com.toquery.framework.example.modules.news.entity.BizNews;
+import com.toquery.framework.example.bff.admin.news.info.dao.BizNewsDao;
+import com.toquery.framework.example.modules.news.info.repository.BizNewsRepository;
+import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.toquery.framework.example.test.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,9 @@ public class BizNewsDaoCurdTest extends BaseSpringTest {
     private BizNewsRepository bizNewsRepository;
 
 
+    @Resource
+    private BizNewsDao bizNewsDao;
+
     @Test
     public void testSingleCurd() {
 
@@ -48,7 +52,7 @@ public class BizNewsDaoCurdTest extends BaseSpringTest {
         bizNews.setCreateDateTime(LocalDateTime.now());
         bizNews.setUpdateDateTime(LocalDateTime.now());
 //        BizNews saveMyBatis =
-        bizNewsRepository.saveMyBatis(bizNews);
+        bizNewsDao.saveMyBatis(bizNews);
         log.info("插入的数据 saveMyBatis ：\n{}", JacksonUtils.object2String(bizNews));
         Assert.assertNotNull(bizNews);
         Assert.assertNotNull(bizNews.getId());

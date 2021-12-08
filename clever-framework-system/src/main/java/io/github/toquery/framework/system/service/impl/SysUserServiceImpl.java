@@ -11,7 +11,6 @@ import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.repository.SysUserRepository;
 import io.github.toquery.framework.system.service.ISysUserPermissionService;
 import io.github.toquery.framework.system.service.ISysUserService;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +64,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
 
     @Override
     public UserDetails loadFullUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user = super.dao.getByUsername(username);
+        SysUser user = super.repository.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         }
@@ -81,7 +79,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
 
     @Override
     public List<SysUser> findByIds(Set<Long> ids) {
-        return super.dao.findAllById(ids);
+        return super.repository.findAllById(ids);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
             throw new AppException("用户名不能为 admin root ！");
         }
 
-        SysUser dbSysUser = dao.getByUsername(userName);
+        SysUser dbSysUser = repository.getByUsername(userName);
         if (dbSysUser != null) {
             throw new AppException("用户已存在");
         }
@@ -113,7 +111,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
      */
     @Override
     public SysUser changePassword(String userName, String sourcePassword, String rawPassword) throws AppException {
-        SysUser sysUser = dao.getByUsername(userName);
+        SysUser sysUser = repository.getByUsername(userName);
         if (sysUser == null) {
             throw new AppException("未找到用户");
         }

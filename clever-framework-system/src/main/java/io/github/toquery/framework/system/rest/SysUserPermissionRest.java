@@ -1,15 +1,12 @@
 package io.github.toquery.framework.system.rest;
 
-import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
-import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.service.ISysUserPermissionService;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import org.springframework.data.domain.Page;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 
@@ -35,40 +31,40 @@ public class SysUserPermissionRest extends AppBaseCrudController<ISysUserPermiss
 
 
     @GetMapping
-    public ResponseParam query() {
-        Page<SysUserPermission> sysUserPermissionPage = super.service.queryWithRoleAndArea(super.getFilterParam(), super.getRequestCurrent(), super.getRequestPageSize());
-        return new ResponseParamBuilder().page(sysUserPermissionPage).build();
+    public ResponseBody pageResponseBody() {
+        Page<SysUserPermission> sysUserPermissionPage = super.doaminService.queryWithRoleAndArea(super.getFilterParam(), super.getRequestCurrent(), super.getRequestPageSize());
+        return new ResponseBodyBuilder().page(sysUserPermissionPage).build();
     }
 
     @GetMapping("/list")
-    public ResponseParam list() {
-        return super.list();
+    public ResponseBody listResponseBody() {
+        return super.listResponseBody();
     }
 
     @PostMapping
-    public ResponseParam saveSysUserCheck(@Validated @RequestBody SysUserPermission sysUserPermission) throws AppException {
-        return super.handleResponseParam(super.service.saveUserPermissionCheck(sysUserPermission));
+    public ResponseBody saveSysUserCheck(@Validated @RequestBody SysUserPermission sysUserPermission) throws AppException {
+        return super.handleResponseBody(super.doaminService.saveUserPermissionCheck(sysUserPermission));
     }
 
     @PostMapping("/authorize")
-    public ResponseParam authorize(@RequestParam Long userId, @Validated @RequestBody List<SysUserPermission> sysUserPermissions) throws AppException {
-        super.service.authorize(userId, sysUserPermissions);
-        return new ResponseParamBuilder().success().build();
+    public ResponseBody authorize(@RequestParam Long userId, @Validated @RequestBody List<SysUserPermission> sysUserPermissions) throws AppException {
+        super.doaminService.authorize(userId, sysUserPermissions);
+        return new ResponseBodyBuilder().success().build();
     }
 
     @PutMapping
-    public ResponseParam update(@RequestBody SysUserPermission sysUserPermission) throws AppException {
-        return this.handleResponseParam(super.service.updateUserPermissionCheck(sysUserPermission));
+    public ResponseBody updateResponseBody(@RequestBody SysUserPermission sysUserPermission) throws AppException {
+        return this.handleResponseBody(super.doaminService.updateUserPermissionCheck(sysUserPermission));
     }
 
 
     @DeleteMapping
     public void deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
-        service.deleteByIds(ids);
+        doaminService.deleteByIds(ids);
     }
 
     @GetMapping("{id}")
-    public ResponseParam detail(@PathVariable Long id) {
-        return this.handleResponseParam(super.service.detailWithRoleAndArea(id));
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
+        return this.handleResponseBody(super.doaminService.detailWithRoleAndArea(id));
     }
 }

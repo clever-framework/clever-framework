@@ -63,6 +63,6 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<SysLog, SysLogReposito
 
         sysLog.preInsert();
         sysLog.setId(new SnowFlake().nextId());
-        return dao.insertSysLog(sysLog);
+        return repository.insertSysLog(sysLog);
     }
 }

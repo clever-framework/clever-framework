@@ -7,8 +7,8 @@ import io.github.toquery.framework.core.security.userdetails.AppUserDetailServic
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.service.ISysLogService;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,14 +42,14 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
     private static final String[] PAGE_SORT = new String[]{"createDateTime_desc"};
 
     @GetMapping
-    public ResponseParam query(@RequestParam(value = "filter_createDateTimeGT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataGT,
-                               @RequestParam(value = "filter_createDateTimeLT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataLT) {
+    public ResponseBody query(@RequestParam(value = "filter_createDateTimeGT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataGT,
+                              @RequestParam(value = "filter_createDateTimeLT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataLT) {
         Map<String, Object> filterParam = super.getFilterParam();
         if (createDataGT != null && createDataLT != null) {
             filterParam.put("createDateTimeGT", createDataGT);
             filterParam.put("createDateTimeLT", createDataLT);
         }
-        Page<SysLog> page = super.handleQuery(filterParam, PAGE_SORT);
+        Page<SysLog> page = super.page(filterParam, PAGE_SORT);
         List<SysLog> sysLogList = page.getContent();
         Stream<SysLog> sysLogStream = sysLogList.size() > 6 ? sysLogList.parallelStream() : sysLogList.stream();
         List<SysLog> sysLogVoList = sysLogStream.map(item -> {
@@ -58,20 +57,20 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
             userId = userId == null ? item.getCreateUserId() : userId;
             return new SysLog(item, userDetailsService.getById(userId));
         }).collect(Collectors.toList());
-        return new ResponseParamBuilder().page(new PageImpl<>(sysLogVoList, page.getPageable(), page.getTotalElements())).build();
+        return new ResponseBodyBuilder().page(new PageImpl<>(sysLogVoList, page.getPageable(), page.getTotalElements())).build();
     }
 
     @GetMapping("{id}")
-    public ResponseParam detail(@PathVariable Long id) {
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
         SysLog sysLog = super.getById(id);
         Long userId = sysLog.getUserId();
         userId = userId == null ? sysLog.getCreateUserId() : userId;
-        return super.handleResponseParam(new SysLog(sysLog, userDetailsService.getById(userId)));
+        return super.handleResponseBody(new SysLog(sysLog, userDetailsService.getById(userId)));
     }
 
     @PostMapping
-    public ResponseParam save(@Validated @RequestBody SysLog sysLog) {
-        return super.save(sysLog);
+    public ResponseBody saveResponseBody(@Validated @RequestBody SysLog sysLog) {
+        return super.saveResponseBody(sysLog);
     }
 
 

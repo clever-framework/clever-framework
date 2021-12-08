@@ -7,8 +7,8 @@ import io.github.toquery.framework.files.entity.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
 import io.github.toquery.framework.files.service.ISysFilesService;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.http.ResponseEntity;
@@ -40,18 +40,18 @@ public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFil
     private AppFilesProperties appFilesProperties;
 
     @PostMapping("${app.files.path.upload:/app/files/upload}")
-    public ResponseParam uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "DATABASE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
-        ResponseParamBuilder responseParam = ResponseParam.builder();
+    public ResponseBody uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "DATABASE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
+        ResponseBodyBuilder responseParam = ResponseBody.builder();
         if (fileStoreType == AppFileStoreTypeEnum.DATABASE) {
-            SysFiles sysFiles = service.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            SysFiles sysFiles = doaminService.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
             responseParam.content(sysFiles);
         } else if (fileStoreType == AppFileStoreTypeEnum.DB) {
-            SysFiles sysFiles = service.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            SysFiles sysFiles = doaminService.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
             responseParam.content(sysFiles);
         } else if (fileStoreType == AppFileStoreTypeEnum.FILE) {
-            String filePath = service.storeFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            String filePath = doaminService.storeFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             SysFiles sysFiles = new SysFiles();
             sysFiles.setFullDownloadPath(filePath);
             responseParam.content(sysFiles);
@@ -65,7 +65,7 @@ public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFil
     public ResponseEntity downloadFile(@PathVariable("id") Long id, @PathVariable String extension) {
         ResponseEntity responseEntity = null;
         try {
-            SysFiles sysFiles = service.getByIdAndExtension(id, extension);
+            SysFiles sysFiles = doaminService.getByIdAndExtension(id, extension);
             responseEntity = AppDownloadFileUtil.download(appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName(), sysFiles.getMimeType());
         } catch (Exception e) {
             e.printStackTrace();

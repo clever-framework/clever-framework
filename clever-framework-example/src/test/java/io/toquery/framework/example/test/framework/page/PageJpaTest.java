@@ -1,8 +1,8 @@
 package io.toquery.framework.example.test.framework.page;
 
 import com.google.common.collect.Lists;
-import com.toquery.framework.example.modules.news.entity.BizNews;
-import com.toquery.framework.example.modules.news.service.BizNewsDomainService;
+import com.toquery.framework.example.modules.news.info.entity.BizNews;
+import com.toquery.framework.example.modules.news.info.service.BizNewsDomainService;
 import io.toquery.framework.example.test.BaseSpringTest;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;

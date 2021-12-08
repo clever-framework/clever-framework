@@ -21,6 +21,7 @@ import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -47,6 +48,7 @@ import java.time.LocalDateTime;
 @Audited
 @MappedSuperclass
 //@DynamicUpdate
+//@DynamicInsert
 @Access(AccessType.FIELD)
 @EntityListeners({AuditingEntityListener.class, AppEntityD3Listener.class})
 //@RevisionEntity(AppRevisionListener.class)
@@ -59,12 +61,12 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     // @RevisionNumber
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @GeneratedValue(generator = "generatedkey", strategy = GenerationType.AUTO)
-    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppSnowFlakeIdGenerator", parameters = { @Parameter(name = "sequence", value = "II_FIRM_DOC_PRM_SEQ") })
+    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.dao.primary.generator.AppSnowFlakeIdGenerator", parameters = {@Parameter(name = "sequence", value = "II_FIRM_DOC_PRM_SEQ")})
     protected Long id;
 
 
 //    @RevisionTimestamp
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 //    @Column(name = "revision_time", updatable = false, nullable = false)
 //    private long revisionDatetime;

@@ -240,8 +240,9 @@ public class AppJpaBaseRepositoryImpl<E> extends SimpleJpaRepository<E, Long> im
         //设置托管实体中需要更新的属性
         for (String updateField : updateFieldsName) {
             try {
-                //设置已有实体的属性
-                PropertyUtils.setProperty(existEntity, updateField, PropertyUtils.getProperty(newEntity, updateField));
+                //设置已有实体的属性, 如果更新值为null 则不更新该字段
+                Object value = PropertyUtils.getProperty(newEntity, updateField);
+                PropertyUtils.setProperty(existEntity, updateField, value == null ? PropertyUtils.getProperty(existEntity, updateField) : value);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new RuntimeException(e.getMessage());

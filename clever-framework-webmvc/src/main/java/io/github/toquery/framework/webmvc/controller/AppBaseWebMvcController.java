@@ -2,8 +2,8 @@ package io.github.toquery.framework.webmvc.controller;
 
 import com.google.common.base.Strings;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
  * @version 1
  */
 @Slf4j
-public class AppBaseWebMvcController extends AppBaseWebController {
+public abstract class AppBaseWebMvcController extends AppBaseWebController {
 
     public AppBaseWebMvcController() {
         log.debug(this.getClass().getName());
@@ -52,24 +52,25 @@ public class AppBaseWebMvcController extends AppBaseWebController {
     }
 
 
-    protected ResponseParam handleResponseParam(Object object) {
-        return new ResponseParamBuilder().content(object).build();
+
+    protected ResponseBody handleResponseBody(Object object) {
+        return new ResponseBodyBuilder().content(object).build();
     }
 
-    protected ResponseEntity responseEntity(ResponseParam responseParam, HttpStatus httpStatus) {
+    protected ResponseEntity<?> responseEntity(ResponseBody responseParam, HttpStatus httpStatus) {
         return new ResponseEntity<>(responseParam, httpStatus);
     }
 
-    protected ResponseEntity responseEntity(String message, HttpStatus httpStatus) {
-        ResponseParam responseParam = new ResponseParamBuilder().message(message).build();
+    protected ResponseEntity<?> responseEntity(String message, HttpStatus httpStatus) {
+        ResponseBody responseParam = new ResponseBodyBuilder().message(message).build();
         return this.responseEntity(responseParam, httpStatus);
     }
 
-    protected ResponseEntity notFound(String message) {
+    protected ResponseEntity<?> notFound(String message) {
         return this.responseEntity(message, HttpStatus.NOT_FOUND);
     }
 
-    protected ResponseEntity notFound() {
+    protected ResponseEntity<?> notFound() {
         return this.notFound("未找到");
     }
 

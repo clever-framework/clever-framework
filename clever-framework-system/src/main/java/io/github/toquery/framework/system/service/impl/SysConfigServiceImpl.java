@@ -24,7 +24,7 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<SysConfig, SysConfi
     /**
      * 查询条件表达式
      */
-    private static final Map<String, String> QUERY_EXPRESSIONS = new LinkedHashMap<>() {
+    public static final Map<String, String> QUERY_EXPRESSIONS = new LinkedHashMap<String, String>() {
         {
             put("configName", "configName:EQ");
             put("configValue", "configValue:EQ");

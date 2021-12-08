@@ -1,19 +1,20 @@
 package io.github.toquery.framework.dao.autoconfig;
 
-import io.github.toquery.framework.dao.interceptor.AppEntityAuditInterceptor;
+import io.github.toquery.framework.dao.properties.AppDaoProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Import;
 
 import javax.sql.DataSource;
 
 @Slf4j
 //@Configuration
 @ConditionalOnBean(DataSource.class)
+@Import(HibernateListenerConfigurer.class)
+@EnableConfigurationProperties(AppDaoProperties.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 // @EnableJpaRepositories(basePackages = {"io.github.toquery.framework"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppDaoAutoConfiguration {

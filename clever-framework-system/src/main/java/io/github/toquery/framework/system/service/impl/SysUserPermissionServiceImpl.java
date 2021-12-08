@@ -48,7 +48,7 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPerm
 
     @Override
     public List<SysUserPermission> findByUserId(Long userId) {
-        return super.dao.findByUserId(userId);
+        return super.repository.findByUserId(userId);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPerm
 
     @Override
     public Page<SysUserPermission> queryWithRoleAndArea(Map<String, Object> filterParam, int current, int requestPageSize) {
-        Page<SysUserPermission> permissionPage = super.queryByPage(filterParam, current, requestPageSize);
+        Page<SysUserPermission> permissionPage = super.page(filterParam, current, requestPageSize);
         Set<Long> roleIds = permissionPage.getContent().stream().map(SysUserPermission::getRoleId).collect(Collectors.toSet());
         Map<Long, SysRole> roleMap = sysRoleService.findByIds(roleIds).stream().collect(Collectors.toMap(SysRole::getId, item -> item, (n, o) -> n));
 

@@ -46,57 +46,59 @@ import java.util.stream.Collectors;
 public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJpaBaseRepository<E>> implements AppBaseService<E> {
 
     @Autowired
-    protected D dao;
+    protected D repository;
 
-    @Override
-    @Transactional
-    public E save(E entity) {
-        preSaveHandler(entity);
-        E e = this.dao.save(entity);
-        postSaveHandler(entity);
-        return e;
-    }
+
+    private Set<String> entityFields;
 
     /**
      * 保存之前的处理操作
      */
-    protected void preSaveHandler(E entity) {
+    protected void preSave(E entity) {
 
+    }
+
+    @Override
+    @Transactional
+    public E save(E entity) {
+        preSave(entity);
+        E e = this.repository.save(entity);
+        postSave(entity);
+        return e;
     }
 
     /**
      * 保存之后的处理操作
      */
-    protected void postSaveHandler(E entity) {
+    protected void postSave(E entity) {
+
+    }
+
+    /**
+     * 保存之前的预处理操作
+     */
+    protected void preSaveBatch(List<E> entityList) {
 
     }
 
     @Override
     @Transactional
     public List<E> save(List<E> entityList) {
-        preSaveBatchHandler(entityList);
-        List<E> saveData = this.dao.saveAllAndFlush(entityList);
-        postSaveBatchHandler(entityList);
+        preSaveBatch(entityList);
+        List<E> saveData = this.repository.saveAllAndFlush(entityList);
+        postSaveBatch(entityList);
         return saveData;
     }
 
     /**
-     * 保存之前的预处理操作
-     */
-    protected void preSaveBatchHandler(List<E> entityList) {
-
-    }
-
-
-    /**
      * 保存之后的处理操作
      */
-    protected void postSaveBatchHandler(List<E> entityList) {
+    protected void postSaveBatch(List<E> entityList) {
 
     }
 
     public void delete(Collection<E> deleteList) {
-        this.dao.deleteAll(deleteList);
+        this.repository.deleteAll(deleteList);
     }
 
     /**
@@ -116,14 +118,14 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
                 this.update(entity, Lists.newArrayList("deleted"));
             }
         } else {
-            this.dao.deleteById(id);
+            this.repository.deleteById(id);
         }
-        postDeleteHandler(id);
+        postDelete(id);
     }
 
-    public void postDeleteHandler(Long id) {
+    public void postDelete(Long id) {
         //在进行刷新操作前，先刷新当前实体缓存
-        this.dao.flush();
+        this.repository.flush();
     }
 
     /**
@@ -145,10 +147,12 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     public void delete(Map<String, Object> params, Predicate.BooleanOperator connector) {
         if (isLogicDel()) {
             List<E> entityList = this.find(params);
-            entityList.forEach(entity -> { ((AppEntityLogicDel)entity).setDeleted(true);});
+            entityList.forEach(entity -> {
+                ((AppEntityLogicDel) entity).setDeleted(true);
+            });
             this.update(entityList, Sets.newHashSet("deleted"));
         } else {
-            this.dao.delete(params, connector);
+            this.repository.delete(params, connector);
         }
     }
 
@@ -162,7 +166,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     /**
      * 更新之前的预处理操作
      */
-    public void preUpdateHandler(E entity, Collection<String> updateFields) {
+    public void preUpdate(E entity, Collection<String> updateFields) {
         Assert.notEmpty(updateFields, "必须指定更新的字段");
 
         //设置记录的更新时间
@@ -178,7 +182,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
 
 
         //获取当前实体的所有属性
-        if (entityFields == null) {
+        if (entityFields == null || entityFields.size() <= 0) {
             entityFields = FieldUtils.getAllFieldsList(entity.getClass()).stream().filter(field -> field.getAnnotation(Transient.class) == null).map(Field::getName).collect(Collectors.toSet());
         }
 
@@ -221,19 +225,24 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      * @return
      */
     public boolean isLogicDel() {
-        boolean isSoftDel = ClassUtils.isAssignable(this.dao.getDomainClass(), AppEntityLogicDel.class);
+        boolean isSoftDel = ClassUtils.isAssignable(this.repository.getDomainClass(), AppEntityLogicDel.class);
         if (isSoftDel) {
-            log.info("{} 删除为软删除", this.dao.getDomainClass().getName());
+            log.info("{} 删除为软删除", this.repository.getDomainClass().getName());
         }
         return isSoftDel;
     }
 
-
     @Override
     public long count(Map<String, Object> searchParams) {
-        LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.dao.getDomainClass());
-        return this.dao.count(specification);
+        return this.count(this.getQueryExpressions(), searchParams);
+    }
+
+
+    @Override
+    public long count(Map<String, String> queryExpressions, Map<String, Object> searchParams) {
+        LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(queryExpressions, searchParams);
+        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.repository.getDomainClass());
+        return this.repository.count(specification);
     }
 
     /**
@@ -242,8 +251,8 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
      */
-    public Page<E> queryByPage(int current, int pageSize) {
-        return this.queryByPage(current, pageSize, null);
+    public Page<E> page(int current, int pageSize) {
+        return this.page(current, pageSize, null);
     }
 
     /**
@@ -253,37 +262,27 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      * @param pageSize 每页数据的大小
      * @param sorts    排序条件
      */
-    public Page<E> queryByPage(int current, int pageSize, String[] sorts) {
+    public Page<E> page(int current, int pageSize, String[] sorts) {
         Pageable pageable = PageRequest.of(current, pageSize, getSort(sorts));
-        return this.dao.findAll(pageable);
+        return this.repository.findAll(pageable);
     }
 
     @Override
-    public Page<E> queryByPage(Map<String, Object> searchParams, int current, int pageSize, String[] sorts) {
+    public Page<E> page(Map<String, Object> searchParams, int current, int pageSize, String[] sorts) {
+        return this.page(this.getQueryExpressions(), searchParams, current, pageSize, sorts);
+    }
+
+
+    @Override
+    public Page<E> page(Map<String, String> queryExpressions, Map<String, Object> searchParams, int current, int pageSize, String[] sorts) {
         log.info("获取的原始查询参数->" + JacksonUtils.object2String(searchParams));
 
-        Specification<E> specification = getQuerySpecification(searchParams);
+        Specification<E> specification = getQuerySpecification(queryExpressions, searchParams);
 
         Pageable pageable = PageRequest.of(current, pageSize, getSort(sorts));
 
-        return this.dao.findAll(specification, pageable);
+        return this.repository.findAll(specification, pageable);
 
-//		Page<E> page = entityDao.findAll(specification, pageable) ;
-//		//将page对象转换为可以在dubbo中进行序列化和反序列化的分页对象
-//		//modified by dc , 根据分页查询结果修重新创建分页参数对象。
-//		//因为传入的分页参数并不一定都要分页数据
-//		return new PageImplInDubbo<E>(page.getContent() ,
-//				new PageRequest(page.getNumber() , page.getSize()) , page.getTotalElements()) ;
-    }
-
-    //
-    private Page<E> handlePage(Page<E> page) {
-        List<E> content = page.getContent();
-        return page;
-    }
-
-    public List<E> queryByPagePost(List<E> content) {
-        return content;
     }
 
 
@@ -293,8 +292,8 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      * @param searchParams 查询条件map
      * @return
      */
-    public Specification<E> getQuerySpecification(Map<String, Object> searchParams) {
-        LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
+    public Specification<E> getQuerySpecification(Map<String, String> queryExpressions, Map<String, Object> searchParams) {
+        LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(queryExpressions, searchParams);
 
         //如果是软删除，默认查询未删除的记录
         if (isLogicDel()) {
@@ -308,7 +307,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
         }
 
         //构建查询条件
-        return DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.dao.getDomainClass());
+        return DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.repository.getDomainClass());
     }
 
     /**
@@ -317,7 +316,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      */
     protected Sort getSort(String[] sorts) {
         //默认按照创建时间排序
-        if ((sorts == null || sorts.length < 1) && AppBaseEntity.class.isAssignableFrom(this.dao.getDomainClass())) {
+        if ((sorts == null || sorts.length < 1) && AppBaseEntity.class.isAssignableFrom(this.repository.getDomainClass())) {
             sorts = new String[]{"createDateTime"};
         }
 
@@ -365,10 +364,14 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
 
     @Override
     public E getById(Long id) {
-        Optional<E> result = this.dao.findById(id);
+        Optional<E> result = this.repository.findById(id);
         return result.orElse(null);
     }
 
+    @Override
+    public E update(E entity) {
+        return this.repository.saveAndFlush(entity);
+    }
 
     @Transactional
     @Override
@@ -377,13 +380,12 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
         if (updateFields != null && !updateFields.isEmpty()) {
             newUpdateFields.addAll(updateFields);
         }
-        preUpdateHandler(entity, newUpdateFields);
-        E e = this.dao.update(entity, newUpdateFields);
-        postUpdateHandler(entity, newUpdateFields);
+        preUpdate(entity, newUpdateFields);
+        E e = this.repository.update(entity, newUpdateFields);
+        postUpdate(entity, newUpdateFields);
         return e;
     }
 
-    private Set<String> entityFields;
 
 
     /**
@@ -392,8 +394,18 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      * @param entity
      * @param updateFields
      */
-    public void postUpdateHandler(E entity, Collection<String> updateFields) {
+    public void postUpdate(E entity, Collection<String> updateFields) {
 
+    }
+
+    @Transactional
+    public List<E> update(List<E> entityList) {
+        List<E> list = Lists.newArrayList();
+        for (E entity : entityList) {
+            E e = this.update(entity);
+            list.add(e);
+        }
+        return list;
     }
 
     @Transactional
@@ -410,32 +422,37 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
 
     @Override
     public boolean existsById(Long id) {
-        return this.dao.existsById(id);
+        return this.repository.existsById(id);
     }
 
     @Override
     public boolean exists(Map<String, Object> searchParams) {
-        LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(searchParams);
-        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.dao.getDomainClass());
-        return this.dao.count(specification) > 0;
+        return this.exists(this.getQueryExpressions(), searchParams);
     }
 
     @Override
-    public Page<E> queryByPage(Map<String, Object> searchParams, int current, int pageSize) {
-        return this.queryByPage(searchParams, current, pageSize, null);
+    public boolean exists(Map<String, String> queryExpressions, Map<String, Object> searchParams) {
+        LinkedHashMap<String, Object> queryExpressionMap = formatQueryExpression(queryExpressions, searchParams);
+        Specification<E> specification = DynamicJPASpecifications.bySearchParam(queryExpressionMap, this.repository.getDomainClass());
+        return this.repository.count(specification) > 0;
+    }
+
+    @Override
+    public Page<E> page(Map<String, Object> searchParams, int current, int pageSize) {
+        return this.page(searchParams, current, pageSize, null);
     }
 
 
     @Override
     public List<E> find() {
-        return this.dao.findAll();
+        return this.repository.findAll();
     }
 
     /**
      * 查询所有实体
      */
     public List<E> find(String[] sorts) {
-        return this.dao.findAll(this.getSort(sorts));
+        return this.repository.findAll(this.getSort(sorts));
     }
 
     @Override
@@ -443,11 +460,14 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
         return find(searchParams, null);
     }
 
+    public List<E> find(Map<String, Object> searchParams, String[] sorts) {
+        return this.find(this.getQueryExpressions(), searchParams, sorts);
+    }
 
     @Override
-    public List<E> find(Map<String, Object> searchParams, String[] sorts) {
-        Specification<E> specification = getQuerySpecification(searchParams);
-        return this.dao.findAll(specification, getSort(sorts));
+    public List<E> find(Map<String, String> queryExpressions, Map<String, Object> searchParams, String[] sorts) {
+        Specification<E> specification = getQuerySpecification(queryExpressions, searchParams);
+        return this.repository.findAll(specification, getSort(sorts));
     }
 
     @Override
@@ -455,20 +475,20 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
         if (ids == null || ids.size() <= 0) {
             return Lists.newArrayList();
         }
-        return this.dao.findAllById(ids);
+        return this.repository.findAllById(ids);
     }
 
     /**
      * 获取查询条件的表达式，用于匹配查询参数对应的查询条件，保存查询字段和数据库查询表达式的映射<br>
      *
-     * @return
+     * @return  查询条件的表达式
      */
     public abstract Map<String, String> getQueryExpressions();
 
     /**
      * 在执行查询时是否允许查询所有的记录，默认为 true
      *
-     * @return
+     * @return 是否查询所有记录
      */
     public boolean isEnableQueryAllRecord() {
         return true;
@@ -479,15 +499,15 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      *
      * @param searchParams 由request中获取的查询参数
      */
-    public LinkedHashMap<String, Object> formatQueryExpression(Map<String, Object> searchParams) {
+    public LinkedHashMap<String, Object> formatQueryExpression(Map<String, String> queryExpressions, Map<String, Object> searchParams) {
         if (!isEnableQueryAllRecord()) {
             Assert.isTrue(searchParams == null || searchParams.size() <= 0, "查询参数Map不能为空。");
-            Assert.isTrue(getQueryExpressions() == null || getQueryExpressions().size() <= 0, "查询条件的映射Map不能为空。");
+            Assert.isTrue(queryExpressions == null || queryExpressions.size() <= 0, "查询条件的映射Map不能为空。");
         }
         LinkedHashMap<String, Object> queryMap = null;
         //匹配参数和service中提供的查询条件
         if (searchParams != null && searchParams.size() > 0) {
-            for (Map.Entry<String, String> expressionMap : getQueryExpressions().entrySet()) {
+            for (Map.Entry<String, String> expressionMap : queryExpressions.entrySet()) {
                 if (!searchParams.containsKey(expressionMap.getKey())) {
                     continue;
                 }

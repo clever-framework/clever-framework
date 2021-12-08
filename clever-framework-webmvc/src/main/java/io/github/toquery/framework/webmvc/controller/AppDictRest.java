@@ -6,15 +6,14 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.web.dict.annotation.AppDict;
 import io.github.toquery.framework.web.dict.AppDictRuntime;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,14 +68,14 @@ public class AppDictRest extends AppBaseWebController implements ApplicationList
     }
 
     @RequestMapping({"{code}"})
-    public ResponseParam runtimeDictionary(@PathVariable String code, @RequestParam(required = false) Set<String> excludes, @RequestParam(required = false, defaultValue = "true") Boolean wrapped) {
+    public ResponseBody runtimeDictionary(@PathVariable String code, @RequestParam(required = false) Set<String> excludes, @RequestParam(required = false, defaultValue = "true") Boolean wrapped) {
         if (!runtimeDictMap.containsKey(code)) {
-            return new ResponseParamBuilder().fail().message("没有指定的字典项").build();
+            return new ResponseBodyBuilder().fail().message("没有指定的字典项").build();
         }
 
         Class<?> runtimeDictClass = runtimeDictMap.get(code);
         if (!runtimeDictClass.isEnum()) {
-            return new ResponseParamBuilder().fail().message("运行时字典必须为枚举类型").build();
+            return new ResponseBodyBuilder().fail().message("运行时字典必须为枚举类型").build();
         }
 
         AppDictRuntime[] appRuntimeDicts = null;
@@ -85,10 +84,10 @@ public class AppDictRest extends AppBaseWebController implements ApplicationList
             Method valuesMethod = runtimeDictClass.getMethod("values");
             appRuntimeDicts = (AppDictRuntime[]) ((AppDictRuntime[]) valuesMethod.invoke((Object) null, (Object[]) null));
         } catch (Exception exception) {
-            return new ResponseParamBuilder().fail().message("运行时字典必须为枚举类型, " + exception.getMessage()).build();
+            return new ResponseBodyBuilder().fail().message("运行时字典必须为枚举类型, " + exception.getMessage()).build();
         }
 
-        ResponseParamBuilder responseParamBuilder = new ResponseParamBuilder();
+        ResponseBodyBuilder responseParamBuilder = new ResponseBodyBuilder();
         if (appRuntimeDicts != null) {
             List<Map<String, String>> dictList = Lists.newArrayListWithExpectedSize(appRuntimeDicts.length);
             Arrays.stream(appRuntimeDicts).filter((appRuntimeDict) -> !excludes.contains(appRuntimeDict.name())).forEach((appRuntimeDict) -> {

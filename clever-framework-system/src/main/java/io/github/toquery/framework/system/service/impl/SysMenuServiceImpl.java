@@ -39,7 +39,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
     /**
      * 查询条件表达式
      */
-    private Map<String, String> expressionMap = new LinkedHashMap<>() {
+    public static final Map<String, String> expressionMap = new LinkedHashMap<String, String>() {
         {
             put("id", "id:EQ");
             put("idIN", "id:IN");

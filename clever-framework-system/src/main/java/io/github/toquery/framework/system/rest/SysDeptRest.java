@@ -7,8 +7,8 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysDept;
 import io.github.toquery.framework.system.service.ISysDeptService;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -42,54 +42,54 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping
-    public ResponseParam query() {
-        return super.query(SORT);
+    public ResponseBody pageResponseBody() {
+        return super.pageResponseBody(SORT);
     }
 
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("/list")
-    public ResponseParam list() {
-        return super.list(SORT);
+    public ResponseBody listResponseBody() {
+        return super.listResponseBody(SORT);
     }
 
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("/tree")
-    public ResponseParam tree(@RequestParam(required = false, defaultValue = "根节点") String rootName) throws Exception {
+    public ResponseBody tree(@RequestParam(required = false, defaultValue = "根节点") String rootName) throws Exception {
         List<SysDept> sysDeptList = Lists.newArrayList(new SysDept(0L, rootName));
-        List<SysDept> childrenList = service.find(super.getFilterParam(), SORT);
+        List<SysDept> childrenList = doaminService.find(super.getFilterParam(), SORT);
         sysDeptList.addAll(childrenList);
         // 将lits数据转为tree
         sysDeptList = AppTreeUtil.getTreeData(sysDeptList);
-        return new ResponseParamBuilder().content(sysDeptList).build();
+        return new ResponseBodyBuilder().content(sysDeptList).build();
     }
 
     @PreAuthorize("hasAnyAuthority('system:dept:add')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
-    public ResponseParam save(@Validated @RequestBody SysDept sysDept) {
-        return super.handleResponseParam(service.saveDept(sysDept));
+    public ResponseBody saveResponseBody(@Validated @RequestBody SysDept sysDept) {
+        return super.handleResponseBody(doaminService.saveDept(sysDept));
     }
 
     @PreAuthorize("hasAnyAuthority('system:dept:modify')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
-    public ResponseParam update(@RequestBody SysDept sysDept) {
-        return this.handleResponseParam(super.service.updateDept(sysDept));
+    public ResponseBody updateResponseBody(@RequestBody SysDept sysDept) {
+        return this.handleResponseBody(super.doaminService.updateDept(sysDept));
     }
 
     @PreAuthorize("hasAnyAuthority('system:dept:delete')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     public void delete(@RequestParam Set<Long> ids) {
-        service.deleteDept(ids);
+        doaminService.deleteDept(ids);
     }
 
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("{id}")
-    public ResponseParam detail(@PathVariable Long id) {
-        return super.detail(id);
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
+        return super.detailResponseBody(id);
     }
 }

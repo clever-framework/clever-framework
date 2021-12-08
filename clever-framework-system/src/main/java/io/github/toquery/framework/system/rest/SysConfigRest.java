@@ -1,13 +1,11 @@
 package io.github.toquery.framework.system.rest;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.system.entity.SysConfig;
 import io.github.toquery.framework.system.service.ISysConfigService;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -40,29 +37,29 @@ public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysC
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:query')")
     @GetMapping
-    public ResponseParam query() {
-        return super.query(SORT);
+    public ResponseBody pageResponseBody() {
+        return super.pageResponseBody(SORT);
     }
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:query')")
     @GetMapping("/list")
-    public ResponseParam list() {
-        return super.list(SORT);
+    public ResponseBody listResponseBody() {
+        return super.listResponseBody(SORT);
     }
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.CREATE, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:add')")
     @PostMapping
-    public ResponseParam saveSysConfigCheck(@Validated @RequestBody SysConfig sysConfig) {
-        return super.handleResponseParam(service.saveSysConfigCheck(sysConfig));
+    public ResponseBody saveSysConfigCheck(@Validated @RequestBody SysConfig sysConfig) {
+        return super.handleResponseBody(doaminService.saveSysConfigCheck(sysConfig));
     }
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:modify')")
     @PutMapping
-    public ResponseParam updateSysConfigCheck(@RequestBody SysConfig sysConfig) {
-        return super.handleResponseParam(service.updateSysConfigCheck(sysConfig));
+    public ResponseBody updateSysConfigCheck(@RequestBody SysConfig sysConfig) {
+        return super.handleResponseBody(doaminService.updateSysConfigCheck(sysConfig));
     }
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.DELETE, modelName =  MODEL_NAME, bizName = BIZ_NAME)
@@ -75,12 +72,12 @@ public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysC
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("{id}")
-    public ResponseParam detail(@PathVariable Long id) {
-        return super.detail(id);
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
+        return super.detailResponseBody(id);
     }
 
     @GetMapping("value")
-    public ResponseParam value(@RequestParam String configName) {
-        return super.handleResponseParam(service.value(configName));
+    public ResponseBody value(@RequestParam String configName) {
+        return super.handleResponseBody(doaminService.value(configName));
     }
 }

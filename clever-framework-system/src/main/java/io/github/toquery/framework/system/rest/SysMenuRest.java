@@ -7,8 +7,8 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
-import io.github.toquery.framework.webmvc.domain.ResponseParamBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,61 +41,61 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @GetMapping
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseParam query() {
-        return super.query(sort);
+    public ResponseBody pageResponseBody() {
+        return super.pageResponseBody(sort);
     }
 
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseParam list() {
-        return super.list(sort);
+    public ResponseBody listResponseBody() {
+        return super.listResponseBody(sort);
     }
 
     @GetMapping("/tree")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseParam tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
+    public ResponseBody tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
         List<SysMenu> sysMenuList = Lists.newArrayList(new SysMenu(0L, rootName, "root"));
-        List<SysMenu> childrenList = service.find(super.getFilterParam(), sort);
+        List<SysMenu> childrenList = doaminService.find(super.getFilterParam(), sort);
         sysMenuList.addAll(childrenList);
         // 将list数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
-        return new ResponseParamBuilder().content(sysMenuList).build();
+        return new ResponseBodyBuilder().content(sysMenuList).build();
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseParam save(@Validated @RequestBody SysMenu sysMenu) {
-        return super.handleResponseParam(service.saveMenu(sysMenu));
+    public ResponseBody saveResponseBody(@Validated @RequestBody SysMenu sysMenu) {
+        return super.handleResponseBody(doaminService.saveMenu(sysMenu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping("/scan")
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseParam scan() {
-        service.scan();
-        return new ResponseParamBuilder().message("添加完成").build();
+    public ResponseBody scan() {
+        doaminService.scan();
+        return new ResponseBodyBuilder().message("添加完成").build();
     }
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('system:menu:modify')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseParam update(@RequestBody SysMenu menu) {
-        return this.handleResponseParam(super.service.updateMenu(menu));
+    public ResponseBody updateResponseBody(@RequestBody SysMenu menu) {
+        return this.handleResponseBody(super.doaminService.updateMenu(menu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('system:menu:delete')")
     public void delete(@RequestParam Set<Long> ids) {
-        service.deleteMenu(ids);
+        doaminService.deleteMenu(ids);
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
-    public ResponseParam detail(@PathVariable Long id) {
-        return super.detail(id);
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
+        return super.detailResponseBody(id);
     }
 }

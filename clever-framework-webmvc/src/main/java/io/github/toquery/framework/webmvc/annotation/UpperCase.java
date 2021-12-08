@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * @author toquery
  * @version 1
  */
-@Target(ElementType.PARAMETER)
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface UpperCase {

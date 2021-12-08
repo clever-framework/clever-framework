@@ -9,7 +9,7 @@ import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,40 +49,40 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping
-    public ResponseParam query() {
-        return super.query();
+    public ResponseBody pageResponseBody() {
+        return super.pageResponseBody();
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("/list")
-    public ResponseParam list() {
-        return super.list();
+    public ResponseBody listResponseBody() {
+        return super.listResponseBody();
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:add')")
     @PostMapping
-    public ResponseParam saveSysUserCheck(@Validated @RequestBody SysUser sysUser) throws AppException {
+    public ResponseBody saveSysUserCheck(@Validated @RequestBody SysUser sysUser) throws AppException {
         String encodePassword = passwordEncoder.encode(sysUser.getPassword());
         sysUser.setPassword(encodePassword);
-        return super.handleResponseParam(service.saveSysUserCheck(sysUser));
+        return super.handleResponseBody(doaminService.saveSysUserCheck(sysUser));
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:modify')")
     @PutMapping
-    public ResponseParam update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
+    public ResponseBody update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
-        return super.update(sysUser, Sets.newHashSet("nickname", "phone", "userStatus", "email"));
+        return super.updateResponseBody(sysUser, Sets.newHashSet("nickname", "phone", "userStatus", "email"));
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:modify')")
     @PutMapping("/reset-password")
-    public ResponseParam restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
+    public ResponseBody restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
@@ -91,20 +91,20 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
         }
         sysUser.setPassword(passwordEncoder.encode(rawPassword));
         sysUser.setChangePasswordDateTime(LocalDateTime.now());
-        return super.update(sysUser, Sets.newHashSet("password", "lastPasswordResetDate"));
+        return super.updateResponseBody(sysUser, Sets.newHashSet("password", "lastPasswordResetDate"));
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:delete')")
     @DeleteMapping
     public void deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
-        service.deleteSysUserCheck(ids);
+        doaminService.deleteSysUserCheck(ids);
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("{id}")
-    public ResponseParam detail(@PathVariable Long id) {
-        return this.handleResponseParam(super.service.getByIdWithRole(id));
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
+        return this.handleResponseBody(super.doaminService.getByIdWithRole(id));
     }
 }

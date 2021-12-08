@@ -3,11 +3,9 @@ package io.github.toquery.framework.crud.service;
 import org.springframework.data.domain.Page;
 
 import javax.persistence.criteria.Predicate;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface AppBaseService<E> {
 
@@ -59,12 +57,13 @@ public interface AppBaseService<E> {
      */
     boolean exists(Map<String, Object> searchParams);
 
+    boolean exists(Map<String, String> queryExpressions, Map<String, Object> searchParams);
     /**
      * 根据id查询实体对象
      */
     E getById(Long id);
 
-
+    E update(E entity);
     /**
      * 更新实体对象指定字段内容<br>
      * 更新机制为：根据更新字段设置更新字段的内容，但是生成update语句和更新全部字段的SQL语句相同
@@ -74,6 +73,8 @@ public interface AppBaseService<E> {
      */
     E update(E entity, Collection<String> updateFields);
 
+
+    List<E> update(List<E> entityList);
     /**
      * 批量更新实体对象内容<br>
      * 更新机制为：根据更新字段设置更新字段的内容，但是生成update语句和更新全部字段的SQL语句相同
@@ -91,14 +92,20 @@ public interface AppBaseService<E> {
      * @return
      */
     long count(Map<String, Object> searchParams);
-
+    /**
+     * 查询满足条件的记录数
+     *
+     * @param searchParams
+     * @return
+     */
+    public long count(Map<String, String> queryExpressions, Map<String, Object> searchParams);
     /**
      * 不带排序的分页查询
      *
      * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
      */
-    Page<E> queryByPage(int current, int pageSize);
+    Page<E> page(int current, int pageSize);
 
     /**
      * 带排序的分页查询
@@ -107,7 +114,9 @@ public interface AppBaseService<E> {
      * @param pageSize 每页数据的大小
      * @param sorts        排序条件
      */
-    Page<E> queryByPage(int current, int pageSize, String[] sorts);
+    Page<E> page(int current, int pageSize, String[] sorts);
+
+    public Page<E> page(Map<String, String> queryExpressions, Map<String, Object> searchParams, int current, int pageSize, String[] sorts);
 
     /**
      * 不带排序的分页查询
@@ -116,7 +125,7 @@ public interface AppBaseService<E> {
      * @param current      分页号，由0开始
      * @param pageSize     每页数据的大小
      */
-    Page<E> queryByPage(Map<String, Object> searchParams, int current, int pageSize);
+    Page<E> page(Map<String, Object> searchParams, int current, int pageSize);
 
     /**
      * 带排序的分页查询<br>
@@ -127,7 +136,7 @@ public interface AppBaseService<E> {
      * @param pageSize     每页数据的大小
      * @param sorts        排序条件
      */
-    Page<E> queryByPage(Map<String, Object> searchParams, int current, int pageSize, String[] sorts);
+    Page<E> page(Map<String, Object> searchParams, int current, int pageSize, String[] sorts);
 
 
 
@@ -155,6 +164,8 @@ public interface AppBaseService<E> {
      * @param sorts        排序条件
      */
     List<E> find(Map<String, Object> searchParams, String[] sorts);
+
+    public List<E> find(Map<String, String> queryExpressions, Map<String, Object> searchParams, String[] sorts);
 
     /**
      * 查询所有实体

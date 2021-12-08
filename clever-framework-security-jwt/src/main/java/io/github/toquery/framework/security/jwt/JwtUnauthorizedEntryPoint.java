@@ -1,12 +1,11 @@
 package io.github.toquery.framework.security.jwt;
 
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.webmvc.domain.ResponseParam;
+import io.github.toquery.framework.webmvc.domain.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,7 @@ public class JwtUnauthorizedEntryPoint implements AuthenticationEntryPoint, Seri
         // request.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, authException);
         // request.getRequestDispatcher(unauthenticatedHandlerUrl).forward(request, response);
 
-        ResponseParam responseParam = ResponseParam.builder().message("用户信息错误").build();
+        ResponseBody responseParam = ResponseBody.builder().message("用户信息错误").build();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("utf-8");
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));

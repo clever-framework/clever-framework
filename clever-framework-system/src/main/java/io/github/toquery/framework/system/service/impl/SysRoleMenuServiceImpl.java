@@ -1,13 +1,11 @@
 package io.github.toquery.framework.system.service.impl;
 
-import com.google.common.collect.Lists;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
 import io.github.toquery.framework.system.repository.SysRoleMenuRepository;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.system.service.ISysRoleMenuService;
-import io.github.toquery.framework.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
@@ -131,6 +129,6 @@ public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysR
 
 
     public List<SysRoleMenu> findWithSysRoleMenuByRoleIds(Set<Long> sysRoleIds) {
-        return super.dao.findWithSysRoleMenuByRoleIds(sysRoleIds);
+        return super.repository.findWithSysRoleMenuByRoleIds(sysRoleIds);
     }
 }
