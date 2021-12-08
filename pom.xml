@@ -32,6 +32,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+
         <clever-framework.version>1.0.8-SNAPSHOT</clever-framework.version>
 
         <!-- CI-friendly property 必须使用这个名称，否则IDEA报错-->
@@ -40,20 +42,10 @@
         <!-- spring jar -->
         <spring-cloud.version>2021.0.0</spring-cloud.version>
 
-        <!-- tool jar -->
-        <!--
-        <javers.version>5.8.13</javers.version>
-        <json.version>20190722</json.version>
-        -->
-
         <guava.version>31.0.1-jre</guava.version>
         <jsqlparse.version>4.2</jsqlparse.version>
 
         <mapstruct.version>1.4.2.Final</mapstruct.version>
-        <!--
-        <jsqlparse.version>0.9.1</jsqlparse.version>
-        <reflections.version>0.9.11</reflections.version>
-        -->
 
         <!-- apache jar -->
         <commons-fileupload.version>1.4</commons-fileupload.version>
@@ -76,13 +68,6 @@
 
         <hutool.version>5.7.16</hutool.version>
 
-        <!-- mybatis version
-        <mybatis.version>3.5.2</mybatis.version>
-        <mybatis-spring.version>2.0.2</mybatis-spring.version>
-
-        <nimbus.version>8.20</nimbus.version>
-        <resilience4j.version>1.4.0</resilience4j.version>
-        -->
         <mybatis-spring-boot-starter.version>2.2.0</mybatis-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.4.1</pagehelper-spring-boot-starter.version>
 
@@ -247,34 +232,6 @@
                 <version>${jjwt.version}</version>
             </dependency>
 
-            <!--
-            <dependency>
-                <groupId>com.nimbusds</groupId>
-                <artifactId>nimbus-jose-jwt</artifactId>
-                <version>${nimbus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-api</artifactId>
-                <version>0.10.7</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-impl</artifactId>
-                <version>0.10.7</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-jackson</artifactId>
-                <version>0.10.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.javers</groupId>
-                <artifactId>javers-core</artifactId>
-                <version>${javers.version}</version>
-            </dependency>
-            -->
-
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-netty-shaded</artifactId>
@@ -350,18 +307,6 @@
                 <version>${swagger-ui.version}</version>
             </dependency>
 
-            <!-- mybatis
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>${mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis-spring.version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -373,14 +318,6 @@
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper-spring-boot-starter.version}</version>
             </dependency>
-            <!--
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-spring-boot2</artifactId>
-                <version>${resilience4j.version}</version>
-            </dependency>
-            -->
-
 
             <dependency>
                 <groupId>javax.validation</groupId>
