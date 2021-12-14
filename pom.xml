@@ -43,7 +43,7 @@
         <spring-cloud.version>2021.0.0</spring-cloud.version>
 
         <guava.version>31.0.1-jre</guava.version>
-        <jsqlparse.version>4.2</jsqlparse.version>
+        <jsqlparse.version>4.3</jsqlparse.version>
 
         <mapstruct.version>1.4.2.Final</mapstruct.version>
 
