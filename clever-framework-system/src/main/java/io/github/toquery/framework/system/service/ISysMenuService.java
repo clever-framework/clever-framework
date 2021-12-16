@@ -28,8 +28,9 @@ public interface ISysMenuService extends AppBaseService<SysMenu> {
     /**
      * 扫码包含使用注解的类，并自动添加到数据库中
      *
+     * @param generateView
      */
-    void scan();
+    void scanAndInsertMenus(boolean generateView);
 
     /**
      * 自定义修改，变更上级的 hasChildren

@@ -1,7 +1,6 @@
 package com.toquery.framework.example.bff.admin.news.info.controller;
 
 import com.toquery.framework.example.bff.admin.news.info.model.constant.QueryType;
-import com.toquery.framework.example.bff.admin.news.info.model.mapper.BizNewsMapper;
 import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsAddRequest;
 import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsListRequest;
 import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsPageRequest;
@@ -14,7 +13,7 @@ import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseBFFController;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,18 +48,18 @@ public class BizNewsController extends AppBaseBFFController<BizNewsService> {
     }
 
     @GetMapping
-    public ResponseBody page(BizNewsPageRequest bizNewsPageRequest) {
+    public ResponseResult page(BizNewsPageRequest bizNewsPageRequest) {
         Page<BizNews> bizNewsPage = bffService.page(bizNewsPageRequest);
-        return ResponseBody.builder().page(bizNewsPage).build();
+        return ResponseResult.builder().page(bizNewsPage).build();
     }
 
     @GetMapping("/multi")
-    public ResponseBody pageMultiType(BizNewsPageRequest bizNewsPageRequest) {
+    public ResponseResult pageMultiType(BizNewsPageRequest bizNewsPageRequest) {
         return bffService.pageMultiType(bizNewsPageRequest);
     }
 
     @GetMapping("/list")
-    public ResponseBody list(@RequestParam BizNewsListRequest bizNewsListRequest) {
+    public ResponseResult list(@RequestParam BizNewsListRequest bizNewsListRequest) {
         List<BizNewsListResponse> listResponses = bffService.list(bizNewsListRequest);
         return super.handleResponseBody(listResponses);
     }
@@ -68,14 +67,14 @@ public class BizNewsController extends AppBaseBFFController<BizNewsService> {
 
     @AppLogMethod(value = BizNews.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
-    public ResponseBody save(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @Validated @RequestBody BizNewsAddRequest request) {
+    public ResponseResult save(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @Validated @RequestBody BizNewsAddRequest request) {
         BizNewsInfoResponse bizNewsInfoResponse = bffService.save(queryType, request);
         return super.handleResponseBody(bizNewsInfoResponse);
     }
 
     @AppLogMethod(value = BizNews.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
-    public ResponseBody update(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestBody BizNewsUpdateRequest request) {
+    public ResponseResult update(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestBody BizNewsUpdateRequest request) {
 
         BizNewsInfoResponse bizNewsInfoResponse = bffService.update(queryType, request);
         return super.handleResponseBody(bizNewsInfoResponse);
@@ -91,7 +90,7 @@ public class BizNewsController extends AppBaseBFFController<BizNewsService> {
     }
 
     @GetMapping("{id}")
-    public ResponseBody detail(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @PathVariable Long id) {
+    public ResponseResult detail(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @PathVariable Long id) {
         BizNewsInfoResponse bizNewsInfoResponse = bffService.detail(queryType, id);
         return super.handleResponseBody(bizNewsInfoResponse);
     }

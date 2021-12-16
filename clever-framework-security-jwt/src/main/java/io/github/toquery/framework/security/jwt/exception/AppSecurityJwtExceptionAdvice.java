@@ -5,7 +5,7 @@ package io.github.toquery.framework.security.jwt.exception;
  * @version 1
  */
 
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,23 +29,23 @@ public class AppSecurityJwtExceptionAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @org.springframework.web.bind.annotation.ResponseBody
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ResponseBody> handleExpiredJwtException(AccessDeniedException exception) {
+    public ResponseEntity<ResponseResult> handleExpiredJwtException(AccessDeniedException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseBody.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("访问被拒绝！").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseResult.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("访问被拒绝！").build());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @org.springframework.web.bind.annotation.ResponseBody
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<ResponseBody> handleExpiredJwtException(ExpiredJwtException exception) {
+    public ResponseEntity<ResponseResult> handleExpiredJwtException(ExpiredJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseBody.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("登录失效！").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseResult.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("登录失效！").build());
     }
 
     @org.springframework.web.bind.annotation.ResponseBody
     @ExceptionHandler(AppSecurityJwtException.class)
-    public ResponseEntity<ResponseBody> handleAuthenticationException(AppSecurityJwtException exception) {
+    public ResponseEntity<ResponseResult> handleAuthenticationException(AppSecurityJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseBody.builder().code(exception.getHttpStatus().value()).success(false).message(exception.getMessage()).build());
+        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseResult.builder().code(exception.getHttpStatus().value()).success(false).message(exception.getMessage()).build());
     }
 }

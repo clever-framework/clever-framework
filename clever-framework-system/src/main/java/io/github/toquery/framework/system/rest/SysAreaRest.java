@@ -6,7 +6,7 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysArea;
 import io.github.toquery.framework.system.service.ISysAreaService;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,17 +32,17 @@ public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea>
     private String[] sort = new String[]{"sortNum_desc"};
 
     @GetMapping
-    public ResponseBody pageResponseBody() {
+    public ResponseResult pageResponseBody() {
         return super.pageResponseBody(sort);
     }
 
     @GetMapping(value = "/list")
-    public ResponseBody listResponseBody() {
+    public ResponseResult listResponseBody() {
         return super.listResponseBody(sort);
     }
 
     @GetMapping("/tree")
-    public ResponseBody tree() throws Exception {
+    public ResponseResult tree() throws Exception {
         List<SysArea> sysMenuList = doaminService.find(null, sort);
         // 将lits数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
@@ -50,7 +50,7 @@ public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea>
     }
 
     @PutMapping
-    public ResponseBody updateResponseBody(@RequestBody SysArea sysArea) throws AppException {
+    public ResponseResult updateResponseBody(@RequestBody SysArea sysArea) throws AppException {
         return super.handleResponseBody(doaminService.update(sysArea, Sets.newHashSet("name", "code")));
     }
 
@@ -60,7 +60,7 @@ public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea>
     }
 
     @GetMapping("{id}")
-    public ResponseBody detailResponseBody(@PathVariable Long id) {
+    public ResponseResult detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 }

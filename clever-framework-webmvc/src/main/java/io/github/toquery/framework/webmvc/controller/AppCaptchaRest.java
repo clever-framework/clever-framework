@@ -1,7 +1,7 @@
 package io.github.toquery.framework.webmvc.controller;
 
 import io.github.toquery.framework.webmvc.domain.CaptchaValidRequest;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.service.CaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -26,8 +26,8 @@ public class AppCaptchaRest {
      * @return httpResponse
      */
     @GetMapping("/captcha")
-    public ResponseBody captcha() {
-        return ResponseBody.builder().content(captchaService.generateCaptcha()).build();
+    public ResponseResult captcha() {
+        return ResponseResult.builder().content(captchaService.generateCaptcha()).build();
     }
 
     /**
@@ -36,10 +36,10 @@ public class AppCaptchaRest {
      * @return httpResponse
      */
     @PostMapping("/captcha/valid")
-    public ResponseBody captcha(@Validated @RequestBody CaptchaValidRequest captchaValidReq) {
-        ResponseBody responseParam = ResponseBody.builder().success().build();
+    public ResponseResult captcha(@Validated @RequestBody CaptchaValidRequest captchaValidReq) {
+        ResponseResult responseParam = ResponseResult.builder().success().build();
         if (!captchaService.valid(captchaValidReq.getCaptchaValue(), captchaValidReq.getCaptchaToken())) {
-            responseParam = ResponseBody.builder().fail().message("验证码输入错误").build();
+            responseParam = ResponseResult.builder().fail().message("验证码输入错误").build();
         }
         return responseParam;
     }

@@ -1,7 +1,7 @@
 package io.github.toquery.framework.webmvc.error;
 
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
@@ -40,7 +40,7 @@ public class AppErrorController extends BasicErrorController {
     @Override
     protected Map<String, Object> getErrorAttributes(HttpServletRequest request, ErrorAttributeOptions options) {
         Map<String, Object> superErrorAttributes = super.getErrorAttributes(request, options);
-        ResponseBody responseParam = new ResponseBodyBuilder().fail().message(superErrorAttributes.getOrDefault("message", "系统错误！").toString()).build();
+        ResponseResult responseParam = new ResponseBodyBuilder().fail().message(superErrorAttributes.getOrDefault("message", "系统错误！").toString()).build();
         return JacksonUtils.object2HashMap(responseParam);
     }
 

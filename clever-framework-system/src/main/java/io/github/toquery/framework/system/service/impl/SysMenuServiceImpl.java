@@ -90,7 +90,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
     }
 
     @Override
-    public void scan() {
+    public void scanAndInsertMenus(boolean generateView) {
         // 1. 找到所有使用注解的方法
         Map<String, Object> beansWithAnnotationMap = applicationContext.getBeansWithAnnotation(Controller.class);
 
@@ -125,8 +125,15 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
                         Set<String> codes = Sets.newHashSet();
                         String[] splitCodes = code.split(":");
                         for (int i = 0; i < splitCodes.length; i++) {
-                            codes.add(String.join(":", Arrays.asList(splitCodes).subList(0, i + 1)));
+                            List<String> menuCodes = Arrays.asList(splitCodes).subList(0, i + 1);
+                            String menuCodesStr = String.join(":", menuCodes);
+                            // view 视图 , 只有在 xxx:xxx 才会增加视图菜单
+                            if (generateView && menuCodes.size() == 2) {
+                                codes.add(menuCodesStr + ":view");
+                            }
+                            codes.add(menuCodesStr);
                         }
+
                         return codes.stream();
                     } else {
                         return Stream.of(code);

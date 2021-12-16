@@ -17,4 +17,6 @@ public class AppSystemProperties {
 
     private boolean generateMenu = true;
 
+    private boolean generateView = true;
+
 }

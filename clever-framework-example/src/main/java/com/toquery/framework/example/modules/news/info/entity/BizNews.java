@@ -2,6 +2,8 @@ package com.toquery.framework.example.modules.news.info.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.toquery.framework.example.modules.news.info.constant.BizNewsShowStatus;
 import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
@@ -23,6 +25,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,6 +35,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author toquery

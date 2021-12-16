@@ -5,7 +5,7 @@ import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsPa
 import com.toquery.framework.example.modules.news.category.service.BizNewsCategoryDomainService;
 import com.toquery.framework.example.modules.news.info.service.BizNewsDomainService;
 import io.github.toquery.framework.crud.service.impl.AppBFFServiceImpl;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class BizNewsCategoryService extends AppBFFServiceImpl{
         return QUERY_EXPRESSIONS;
     }
 
-    public ResponseBody page(BizNewsPageRequest bizNewsPageRequest) {
+    public ResponseResult page(BizNewsPageRequest bizNewsPageRequest) {
        // bizNewsCategoryDomainService.queryByPage(),
         return null;
     }

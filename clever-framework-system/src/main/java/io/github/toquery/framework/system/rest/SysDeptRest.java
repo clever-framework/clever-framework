@@ -7,7 +7,7 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysDept;
 import io.github.toquery.framework.system.service.ISysDeptService;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,21 +42,21 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping
-    public ResponseBody pageResponseBody() {
+    public ResponseResult pageResponseBody() {
         return super.pageResponseBody(SORT);
     }
 
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("/list")
-    public ResponseBody listResponseBody() {
+    public ResponseResult listResponseBody() {
         return super.listResponseBody(SORT);
     }
 
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("/tree")
-    public ResponseBody tree(@RequestParam(required = false, defaultValue = "根节点") String rootName) throws Exception {
+    public ResponseResult tree(@RequestParam(required = false, defaultValue = "根节点") String rootName) throws Exception {
         List<SysDept> sysDeptList = Lists.newArrayList(new SysDept(0L, rootName));
         List<SysDept> childrenList = doaminService.find(super.getFilterParam(), SORT);
         sysDeptList.addAll(childrenList);
@@ -68,14 +68,14 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @PreAuthorize("hasAnyAuthority('system:dept:add')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
-    public ResponseBody saveResponseBody(@Validated @RequestBody SysDept sysDept) {
+    public ResponseResult saveResponseBody(@Validated @RequestBody SysDept sysDept) {
         return super.handleResponseBody(doaminService.saveDept(sysDept));
     }
 
     @PreAuthorize("hasAnyAuthority('system:dept:modify')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
-    public ResponseBody updateResponseBody(@RequestBody SysDept sysDept) {
+    public ResponseResult updateResponseBody(@RequestBody SysDept sysDept) {
         return this.handleResponseBody(super.doaminService.updateDept(sysDept));
     }
 
@@ -89,7 +89,7 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("{id}")
-    public ResponseBody detailResponseBody(@PathVariable Long id) {
+    public ResponseResult detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 }

@@ -3,9 +3,7 @@ package io.github.toquery.framework.webmvc.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.hateoas.PagedModel;
 
 /**
  * @author toquery
@@ -28,19 +26,19 @@ public class ResponsePage {
     public ResponsePage() {
     }
 
-    public ResponsePage(ResponsePageBuilder builder) {
+    public ResponsePage(ResponseResultBuilder builder) {
         this.pageSize = builder.getPageSize();
         this.current = builder.getCurrent();
         this.totalElements = builder.getTotalElements();
         this.totalPages = builder.getTotalPages();
     }
 
-    public static ResponsePageBuilder builder() {
-        return new ResponsePageBuilder();
+    public static ResponseResultBuilder builder() {
+        return new ResponseResultBuilder();
     }
 
-    public ResponsePageBuilder newBuilder() {
-        return new ResponsePageBuilder(this);
+    public ResponseResultBuilder newBuilder() {
+        return new ResponseResultBuilder(this);
     }
 
 

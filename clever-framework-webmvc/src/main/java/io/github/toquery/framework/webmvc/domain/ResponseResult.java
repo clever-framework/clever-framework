@@ -10,10 +10,10 @@ import java.util.HashMap;
 /**
  * 响应参数购将，根据相应的类型，将数据填充到content
  *
- * @author toquery
+ * @author toquery 结果
  * @version 1
  */
-public class ResponseBody extends HashMap<String, Object> { //implements InitializingBean {
+public class ResponseResult extends HashMap<String, Object> { //implements InitializingBean {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,10 +23,10 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
     private static final String CONTENT_PARAM_VALUE = "content";
     private static final String PAGE_PARAM_VALUE = "page";
 
-    public ResponseBody() {
+    public ResponseResult() {
     }
 
-    public ResponseBody(ResponseBodyBuilder builder) {
+    public ResponseResult(ResponseBodyBuilder builder) {
         this.code(builder.getCode());
         this.message(builder.getMessage());
         this.content(builder.getContent());
@@ -45,12 +45,12 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
         return new ResponseBodyBuilder(this);
     }
 
-    private ResponseBody success(boolean success){
+    private ResponseResult success(boolean success){
         this.put(SUCCESS_PARAM, success);
         return this;
     }
 
-    private ResponseBody content(Object content) {
+    private ResponseResult content(Object content) {
         this.put(CONTENT_PARAM_VALUE, content);
         return this;
     }
@@ -61,7 +61,7 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
      * @param code
      * @return
      */
-    private ResponseBody code(Object code) {
+    private ResponseResult code(Object code) {
         this.put(CODE_PARAM, code);
         return this;
     }
@@ -72,12 +72,12 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
      * @param value
      * @return
      */
-    private ResponseBody message(String value) {
+    private ResponseResult message(String value) {
         this.put(MESSAGE_PARAM, value);
         return this;
     }
 
-    private ResponseBody page(ResponsePage responsePage) {
+    private ResponseResult page(ResponsePage responsePage) {
         this.put(PAGE_PARAM_VALUE, responsePage);
         return this;
     }
@@ -88,14 +88,14 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    private ResponseBody page(org.springframework.data.domain.Page<?> page) {
-        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
+    private ResponseResult page(org.springframework.data.domain.Page<?> page) {
+        this.put(PAGE_PARAM_VALUE, new ResponseResultBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page == null ? null : page.getContent());
         return this;
     }
 
-    private ResponseBody page(PagedModel<?> pagedResources) {
-        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(pagedResources).build());
+    private ResponseResult page(PagedModel<?> pagedResources) {
+        this.put(PAGE_PARAM_VALUE, new ResponseResultBuilder(pagedResources).build());
         this.put(CONTENT_PARAM_VALUE, pagedResources.getContent());
         return this;
     }
@@ -106,8 +106,8 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    private ResponseBody page(com.github.pagehelper.Page<?> page) {
-        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
+    private ResponseResult page(com.github.pagehelper.Page<?> page) {
+        this.put(PAGE_PARAM_VALUE, new ResponseResultBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page);
         return this;
     }
@@ -119,7 +119,7 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
      * @param value 参数信息的value
      * @return 响应数据
      */
-    private ResponseBody param(String key, Object value) {
+    private ResponseResult param(String key, Object value) {
         this.put(key, value);
         return this;
     }
@@ -129,7 +129,7 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
      *
      * @return ResponseEntity实体对象
      */
-    public ResponseEntity<ResponseBody> getResponseEntity() {
+    public ResponseEntity<ResponseResult> getResponseEntity() {
         return getResponseEntity(HttpStatus.OK);
     }
 
@@ -139,7 +139,7 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
      * @param httpStatus 状态码
      * @return 包含状态码的response实体
      */
-    public ResponseEntity<ResponseBody> getResponseEntity(HttpStatus httpStatus) {
+    public ResponseEntity<ResponseResult> getResponseEntity(HttpStatus httpStatus) {
         return getResponseEntity(httpStatus, null);
     }
 
@@ -150,7 +150,7 @@ public class ResponseBody extends HashMap<String, Object> { //implements Initial
      * @param contentType 内容类型
      * @return 包含状态码的response实体
      */
-    public ResponseEntity<ResponseBody> getResponseEntity(HttpStatus httpStatus, MediaType contentType) {
+    public ResponseEntity<ResponseResult> getResponseEntity(HttpStatus httpStatus, MediaType contentType) {
         if (httpStatus == null) {
             httpStatus = HttpStatus.OK;
         }

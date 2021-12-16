@@ -7,7 +7,7 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -41,21 +41,21 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @GetMapping
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBody pageResponseBody() {
+    public ResponseResult pageResponseBody() {
         return super.pageResponseBody(sort);
     }
 
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBody listResponseBody() {
+    public ResponseResult listResponseBody() {
         return super.listResponseBody(sort);
     }
 
     @GetMapping("/tree")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBody tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
+    public ResponseResult tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
         List<SysMenu> sysMenuList = Lists.newArrayList(new SysMenu(0L, rootName, "root"));
         List<SysMenu> childrenList = doaminService.find(super.getFilterParam(), sort);
         sysMenuList.addAll(childrenList);
@@ -67,22 +67,22 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseBody saveResponseBody(@Validated @RequestBody SysMenu sysMenu) {
+    public ResponseResult saveResponseBody(@Validated @RequestBody SysMenu sysMenu) {
         return super.handleResponseBody(doaminService.saveMenu(sysMenu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping("/scan")
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseBody scan() {
-        doaminService.scan();
+    public ResponseResult scan() {
+        doaminService.scanAndInsertMenus(false);
         return new ResponseBodyBuilder().message("添加完成").build();
     }
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('system:menu:modify')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBody updateResponseBody(@RequestBody SysMenu menu) {
+    public ResponseResult updateResponseBody(@RequestBody SysMenu menu) {
         return this.handleResponseBody(super.doaminService.updateMenu(menu));
     }
 
@@ -95,7 +95,7 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
-    public ResponseBody detailResponseBody(@PathVariable Long id) {
+    public ResponseResult detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 }

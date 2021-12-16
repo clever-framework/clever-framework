@@ -6,7 +6,7 @@ import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.service.ISysRoleService;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -37,28 +37,28 @@ public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole>
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping
     @PreAuthorize("hasAnyAuthority('system:role:query')")
-    public ResponseBody pageResponseBody() {
+    public ResponseResult pageResponseBody() {
         return super.pageResponseBody();
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping(value = "/list")
     @PreAuthorize("hasAnyAuthority('system:role:query')")
-    public ResponseBody listResponseBody() {
+    public ResponseResult listResponseBody() {
         return super.listResponseBody();
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:role:add')")
-    public ResponseBody saveSysRoleCheck(@Validated @RequestBody SysRole sysRole) throws AppException {
+    public ResponseResult saveSysRoleCheck(@Validated @RequestBody SysRole sysRole) throws AppException {
         return super.handleResponseBody(doaminService.saveSysRoleCheck(sysRole));
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
     @PreAuthorize("hasAnyAuthority('system:role:modify')")
-    public ResponseBody updateResponseBody(@RequestBody SysRole sysRole) throws AppException {
+    public ResponseResult updateResponseBody(@RequestBody SysRole sysRole) throws AppException {
         return super.handleResponseBody(doaminService.updateSysRoleCheck(sysRole));
     }
 
@@ -72,7 +72,7 @@ public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole>
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('system:role:query')")
-    public ResponseBody detailResponseBody(@PathVariable Long id) {
+    public ResponseResult detailResponseBody(@PathVariable Long id) {
         return new ResponseBodyBuilder().content(super.doaminService.getWithMenusById(id)).build();
     }
 }

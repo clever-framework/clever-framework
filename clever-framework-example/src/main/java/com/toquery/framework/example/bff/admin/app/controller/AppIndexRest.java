@@ -5,7 +5,7 @@ import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import com.toquery.framework.example.modules.news.info.service.BizNewsDomainService;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.webmvc.domain.ResponsePage;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +31,8 @@ public class AppIndexRest extends AppBaseCrudController<BizNewsDomainService, Bi
 
 
     @RequestMapping("/response")
-    public ResponseBody response() {
-        return ResponseBody.builder().page(this.page()).content(Lists.newArrayList()).build();
+    public ResponseResult response() {
+        return ResponseResult.builder().page(this.page()).content(Lists.newArrayList()).build();
     }
 
 }

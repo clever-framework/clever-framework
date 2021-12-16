@@ -7,7 +7,7 @@ import io.github.toquery.framework.core.security.userdetails.AppUserDetailServic
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.service.ISysLogService;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -42,8 +42,8 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
     private static final String[] PAGE_SORT = new String[]{"createDateTime_desc"};
 
     @GetMapping
-    public ResponseBody query(@RequestParam(value = "filter_createDateTimeGT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataGT,
-                              @RequestParam(value = "filter_createDateTimeLT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataLT) {
+    public ResponseResult query(@RequestParam(value = "filter_createDateTimeGT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataGT,
+                                @RequestParam(value = "filter_createDateTimeLT", required = false) @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN, iso = DateTimeFormat.ISO.DATE_TIME) @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN) LocalDateTime createDataLT) {
         Map<String, Object> filterParam = super.getFilterParam();
         if (createDataGT != null && createDataLT != null) {
             filterParam.put("createDateTimeGT", createDataGT);
@@ -61,7 +61,7 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
     }
 
     @GetMapping("{id}")
-    public ResponseBody detailResponseBody(@PathVariable Long id) {
+    public ResponseResult detailResponseBody(@PathVariable Long id) {
         SysLog sysLog = super.getById(id);
         Long userId = sysLog.getUserId();
         userId = userId == null ? sysLog.getCreateUserId() : userId;
@@ -69,7 +69,7 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
     }
 
     @PostMapping
-    public ResponseBody saveResponseBody(@Validated @RequestBody SysLog sysLog) {
+    public ResponseResult saveResponseBody(@Validated @RequestBody SysLog sysLog) {
         return super.saveResponseBody(sysLog);
     }
 

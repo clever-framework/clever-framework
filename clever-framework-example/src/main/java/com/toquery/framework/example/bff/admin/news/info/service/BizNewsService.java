@@ -14,7 +14,7 @@ import com.toquery.framework.example.bff.admin.news.info.model.response.BizNewsL
 import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import com.toquery.framework.example.modules.news.info.service.BizNewsDomainService;
 import io.github.toquery.framework.crud.service.impl.AppBFFServiceImpl;
-import io.github.toquery.framework.webmvc.domain.ResponseBody;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.springframework.data.domain.Page;
@@ -192,22 +192,22 @@ public class BizNewsService extends AppBFFServiceImpl {
         return BizNewsMapper.INSTANCE.bizNews2Info(bizNews);
     }
 
-    public ResponseBody pageMultiType(BizNewsPageRequest bizNewsPageRequest) {
-        ResponseBody responseParam = null;
+    public ResponseResult pageMultiType(BizNewsPageRequest bizNewsPageRequest) {
+        ResponseResult responseParam = null;
         switch (bizNewsPageRequest.getQueryType()) {
             case APP: {
                 org.springframework.data.domain.Page<BizNews> bizNewsPage = bizNewsDomainService.page(bizNewsPageRequest.getCurrent(), bizNewsPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizNewsPage).build();
+                responseParam = ResponseResult.builder().page(bizNewsPage).build();
                 break;
             }
             case JPA: {
                 org.springframework.data.domain.Page<BizNews> bizNewsPage = this.queryJpaByPage(bizNewsPageRequest.getCurrent(), bizNewsPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizNewsPage).build();
+                responseParam = ResponseResult.builder().page(bizNewsPage).build();
                 break;
             }
             case MYBATIS: {
                 com.github.pagehelper.Page<BizNews> bizNewsPage = this.queryMyBatisByPage(bizNewsPageRequest.getCurrent(), bizNewsPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizNewsPage).build();
+                responseParam = ResponseResult.builder().page(bizNewsPage).build();
                 break;
             }
         }
