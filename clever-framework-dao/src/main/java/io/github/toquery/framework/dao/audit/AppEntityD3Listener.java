@@ -55,7 +55,7 @@ public class AppEntityD3Listener {
 
     @PostLoad
     public void onPostLoad(AppBaseEntity appBaseEntity) {
-        log.debug("Spring DDD Model: AppEntityD3Listener ---- @PostLoad");
+        log.debug("Spring DDD Model: AppEntityD3Listener -- {} -- @PostLoad", appBaseEntity.getClass().getSimpleName());
         appAuditorHandles.stream().filter(AppAuditorHandler::enable).forEach(item -> item.onPostLoad(appBaseEntity));
     }
 
