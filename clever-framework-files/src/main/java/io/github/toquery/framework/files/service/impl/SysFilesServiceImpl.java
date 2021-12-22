@@ -95,7 +95,7 @@ public class SysFilesServiceImpl extends AppBaseServiceImpl<SysFiles, SysFilesRe
         Map<String, Object> map = new HashMap<>();
         map.put("id",id);
         map.put("extension",extension);
-        List<SysFiles> sysFilesList = this.find(map);
+        List<SysFiles> sysFilesList = this.list(map);
         if (sysFilesList == null || sysFilesList.isEmpty()) {
             throw new AppException("未找到 " + id + "." + extension + " 文件");
         }

@@ -57,7 +57,7 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     public ResponseResult tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
         List<SysMenu> sysMenuList = Lists.newArrayList(new SysMenu(0L, rootName, "root"));
-        List<SysMenu> childrenList = doaminService.find(super.getFilterParam(), sort);
+        List<SysMenu> childrenList = doaminService.list(super.getFilterParam(), sort);
         sysMenuList.addAll(childrenList);
         // 将list数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);

@@ -97,12 +97,12 @@ public class BizNewsServiceCurdTest extends BaseSpringTest {
         List<BizNews> updateList = bizNewsDomainService.update(saveAll, Sets.newHashSet("name"));
         log.info("修改的数据 updateList ：\n{}", JacksonUtils.object2String(updateList));
 
-        List<BizNews> findAll = bizNewsDomainService.find();
+        List<BizNews> findAll = bizNewsDomainService.list();
         log.info("查询的数据 findAll ：\n{}", JacksonUtils.object2String(findAll));
 
         Map<String, Object> filterParams = Maps.newHashMap();
         filterParams.put("name", "saveAll-test-update");
-        List<BizNews> findByFilter = bizNewsDomainService.find(filterParams);
+        List<BizNews> findByFilter = bizNewsDomainService.list(filterParams);
         log.info("查询的数据 findByFilter: {}", JacksonUtils.object2String(filterParams));
         log.info("查询的数据 findByFilter: {}", JacksonUtils.object2String(findByFilter));
 
@@ -123,9 +123,9 @@ public class BizNewsServiceCurdTest extends BaseSpringTest {
         Map<String, Object> map = Maps.newHashMap();
         map.put("name", "delete-param-test");
 
-        log.info("删除前查询到数据为 {}", JacksonUtils.object2String(bizNewsDomainService.find(map)));
+        log.info("删除前查询到数据为 {}", JacksonUtils.object2String(bizNewsDomainService.list(map)));
         bizNewsDomainService.delete(map);
-        log.info("删除后查询到数据为 {}", JacksonUtils.object2String(bizNewsDomainService.find(map)));
+        log.info("删除后查询到数据为 {}", JacksonUtils.object2String(bizNewsDomainService.list(map)));
 
     }
 

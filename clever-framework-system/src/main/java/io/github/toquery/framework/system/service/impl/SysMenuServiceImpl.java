@@ -113,7 +113,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
                         )).collect(Collectors.toSet());
 
         // 2. 获取数据库中的所有菜单
-        List<SysMenu> dbSysMenus = super.find();
+        List<SysMenu> dbSysMenus = super.list();
 
         // 数据库中的code
         Map<String, SysMenu> dbSysMenuMap = dbSysMenus.stream().collect(Collectors.toMap(SysMenu::getMenuCode, sysMenu -> sysMenu, (sysMenu1, sysMenu2) -> sysMenu1));
@@ -297,7 +297,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
     public List<SysMenu> findByMenuCode(String menuCode) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("menuCode", menuCode);
-        return this.find(params);
+        return this.list(params);
     }
 
 
@@ -305,7 +305,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
     public List<SysMenu> findByParentId(Long parentId) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("parentId", parentId);
-        return this.find(params);
+        return this.list(params);
     }
 
 
@@ -313,13 +313,13 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
     public List<SysMenu> findByParentIds(Set<Long> parentIds) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("parentIdIN", parentIds);
-        return this.find(params);
+        return this.list(params);
     }
 
     public List<SysMenu> findAllChildren(Long parentId) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("parentIdsLIKE", parentId);
-        return super.find(params);
+        return super.list(params);
     }
 
     /**
@@ -327,7 +327,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
      */
     @Override
     public void deleteMenu(Set<Long> ids) {
-        List<SysMenu> sysMenuList = super.findByIds(ids);
+        List<SysMenu> sysMenuList = super.listByIds(ids);
 
         List<SysMenu> parentSysMenuList = this.findByParentIds(sysMenuList.stream().map(SysMenu::getParentId).collect(Collectors.toSet()));
 

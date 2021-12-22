@@ -50,48 +50,48 @@ public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysR
     public List<SysRoleMenu> findByRoleId(Long roleId) {
         Map<String, Object> param = new HashMap<>();
         param.put("roleId", roleId);
-        return super.find(param);
+        return super.list(param);
     }
 
     @Override
     public List<SysRoleMenu> findByRoleIds(Set<Long> sysRoleIds) {
         Map<String, Object> param = new HashMap<>();
         param.put("roleIds", sysRoleIds);
-        return super.find(param);
+        return super.list(param);
     }
 
     @Override
     public List<SysRoleMenu> findByMenuId(Long menuId) {
         Map<String, Object> param = new HashMap<>();
         param.put("menuId", menuId);
-        return super.find(param);
+        return super.list(param);
     }
 
     @Override
     public List<SysRoleMenu> findByMenuIds(Set<Long> sysMenuIds) {
         Map<String, Object> param = new HashMap<>();
         param.put("menuIds", sysMenuIds);
-        return super.find(param);
+        return super.list(param);
     }
 
     @Override
     public List<SysMenu> findSysMenuByRoleId(Long sysRoleId) {
         List<SysRoleMenu> sysRoleMenus = this.findByRoleId(sysRoleId);
-        return sysMenuService.findByIds(sysRoleMenus.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toSet()));
+        return sysMenuService.listByIds(sysRoleMenus.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toSet()));
     }
 
 
     @Override
     public List<SysMenu> findSysMenuByRoleIds(Set<Long> sysRoleIds) {
         List<Long> sysRoleMenuIds = this.findByRoleIds(sysRoleIds).stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
-        return sysMenuService.findByIds(sysRoleMenuIds);
+        return sysMenuService.listByIds(sysRoleMenuIds);
     }
 
     @Override
     public List<SysRoleMenu> findWithSysMenuByRoleIds(Set<Long> sysRoleIds) {
         List<SysRoleMenu> sysRoleMenus = this.findByRoleIds(sysRoleIds);
         Map<Long,List<SysRoleMenu>> roleMenuMap = sysRoleMenus.stream().collect(Collectors.groupingBy(SysRoleMenu::getRoleId));
-        List<SysMenu> sysMenus = sysMenuService.findByIds(sysRoleMenus.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toSet()));
+        List<SysMenu> sysMenus = sysMenuService.listByIds(sysRoleMenus.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toSet()));
         return sysRoleMenus;
     }
 

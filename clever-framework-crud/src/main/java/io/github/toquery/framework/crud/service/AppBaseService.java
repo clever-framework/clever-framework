@@ -58,12 +58,14 @@ public interface AppBaseService<E> {
     boolean exists(Map<String, Object> searchParams);
 
     boolean exists(Map<String, String> queryExpressions, Map<String, Object> searchParams);
+
     /**
      * 根据id查询实体对象
      */
     E getById(Long id);
 
     E update(E entity);
+
     /**
      * 更新实体对象指定字段内容<br>
      * 更新机制为：根据更新字段设置更新字段的内容，但是生成update语句和更新全部字段的SQL语句相同
@@ -75,6 +77,7 @@ public interface AppBaseService<E> {
 
 
     List<E> update(List<E> entityList);
+
     /**
      * 批量更新实体对象内容<br>
      * 更新机制为：根据更新字段设置更新字段的内容，但是生成update语句和更新全部字段的SQL语句相同
@@ -92,6 +95,7 @@ public interface AppBaseService<E> {
      * @return
      */
     long count(Map<String, Object> searchParams);
+
     /**
      * 查询满足条件的记录数
      *
@@ -99,6 +103,7 @@ public interface AppBaseService<E> {
      * @return
      */
     public long count(Map<String, String> queryExpressions, Map<String, Object> searchParams);
+
     /**
      * 不带排序的分页查询
      *
@@ -112,7 +117,7 @@ public interface AppBaseService<E> {
      *
      * @param current  分页号，由0开始
      * @param pageSize 每页数据的大小
-     * @param sorts        排序条件
+     * @param sorts    排序条件
      */
     Page<E> page(int current, int pageSize, String[] sorts);
 
@@ -139,23 +144,22 @@ public interface AppBaseService<E> {
     Page<E> page(Map<String, Object> searchParams, int current, int pageSize, String[] sorts);
 
 
+    /**
+     * 查询所有实体
+     */
+    List<E> list();
 
     /**
      * 查询所有实体
      */
-    List<E> find();
-
-    /**
-     * 查询所有实体
-     */
-    List<E> find(String[] sorts);
+    List<E> list(String[] sorts);
 
     /**
      * 查询满足条件的所有实体。在分布式服务中慎用此方法，查询效率比分页查询效率要低。
      *
      * @param searchParams 查询条件
      */
-    List<E> find(Map<String, Object> searchParams);
+    List<E> list(Map<String, Object> searchParams);
 
     /**
      * 查询满足条件的所有实体。在分布式服务中慎用此方法，查询效率比分页查询效率要低。
@@ -163,12 +167,12 @@ public interface AppBaseService<E> {
      * @param searchParams 查询条件
      * @param sorts        排序条件
      */
-    List<E> find(Map<String, Object> searchParams, String[] sorts);
+    List<E> list(Map<String, Object> searchParams, String[] sorts);
 
-    public List<E> find(Map<String, String> queryExpressions, Map<String, Object> searchParams, String[] sorts);
+    public List<E> list(Map<String, String> queryExpressions, Map<String, Object> searchParams, String[] sorts);
 
     /**
      * 查询所有实体
      */
-    List<E> findByIds(Collection<Long> ids);
+    List<E> listByIds(Collection<Long> ids);
 }

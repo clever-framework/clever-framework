@@ -146,7 +146,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
     @Transactional
     public void delete(Map<String, Object> params, Predicate.BooleanOperator connector) {
         if (isLogicDel()) {
-            List<E> entityList = this.find(params);
+            List<E> entityList = this.list(params);
             entityList.forEach(entity -> {
                 ((AppEntityLogicDel) entity).setDeleted(true);
             });
@@ -444,34 +444,34 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
 
 
     @Override
-    public List<E> find() {
+    public List<E> list() {
         return this.repository.findAll();
     }
 
     /**
      * 查询所有实体
      */
-    public List<E> find(String[] sorts) {
+    public List<E> list(String[] sorts) {
         return this.repository.findAll(this.getSort(sorts));
     }
 
     @Override
-    public List<E> find(Map<String, Object> searchParams) {
-        return find(searchParams, null);
+    public List<E> list(Map<String, Object> searchParams) {
+        return list(searchParams, null);
     }
 
-    public List<E> find(Map<String, Object> searchParams, String[] sorts) {
-        return this.find(this.getQueryExpressions(), searchParams, sorts);
+    public List<E> list(Map<String, Object> searchParams, String[] sorts) {
+        return this.list(this.getQueryExpressions(), searchParams, sorts);
     }
 
     @Override
-    public List<E> find(Map<String, String> queryExpressions, Map<String, Object> searchParams, String[] sorts) {
+    public List<E> list(Map<String, String> queryExpressions, Map<String, Object> searchParams, String[] sorts) {
         Specification<E> specification = getQuerySpecification(queryExpressions, searchParams);
         return this.repository.findAll(specification, getSort(sorts));
     }
 
     @Override
-    public List<E> findByIds(Collection<Long> ids) {
+    public List<E> listByIds(Collection<Long> ids) {
         if (ids == null || ids.size() <= 0) {
             return Lists.newArrayList();
         }

@@ -130,7 +130,7 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
 
     protected List<E> list(Map<String, Object> filterParam, String[] sorts) {
         //执行分页查询
-        return doaminService.find(filterParam, sorts);
+        return doaminService.list(filterParam, sorts);
     }
 
     public E saveEntity(E entity) {

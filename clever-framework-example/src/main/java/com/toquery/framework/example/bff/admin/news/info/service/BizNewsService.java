@@ -218,7 +218,7 @@ public class BizNewsService extends AppBFFServiceImpl {
         List<BizNewsListResponse> bizNewsListResponses = null;
         switch (bizNewsListRequest.getQueryType()) {
             case APP: {
-                List<BizNews> bizNewsList = bizNewsDomainService.find();
+                List<BizNews> bizNewsList = bizNewsDomainService.list();
                 bizNewsListResponses = BizNewsMapper.INSTANCE.bizNews2List(bizNewsList);
                 break;
             }

@@ -129,7 +129,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
     public void deleteSysUserCheck(Set<Long> ids) throws AppException {
         Map<String, Object> filter = new HashMap<>();
         filter.put("idIN", ids);
-        Optional<SysUser> sysUser = super.find(filter).stream().filter(item -> "admin".equalsIgnoreCase(item.getUsername()) || "root".equalsIgnoreCase(item.getUsername())).findAny();
+        Optional<SysUser> sysUser = super.list(filter).stream().filter(item -> "admin".equalsIgnoreCase(item.getUsername()) || "root".equalsIgnoreCase(item.getUsername())).findAny();
         if (sysUser.isPresent()) {
             throw new AppException("删除失败，无法删除 admin root 用户！");
         }

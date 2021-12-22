@@ -58,7 +58,7 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @GetMapping("/tree")
     public ResponseResult tree(@RequestParam(required = false, defaultValue = "根节点") String rootName) throws Exception {
         List<SysDept> sysDeptList = Lists.newArrayList(new SysDept(0L, rootName));
-        List<SysDept> childrenList = doaminService.find(super.getFilterParam(), SORT);
+        List<SysDept> childrenList = doaminService.list(super.getFilterParam(), SORT);
         sysDeptList.addAll(childrenList);
         // 将lits数据转为tree
         sysDeptList = AppTreeUtil.getTreeData(sysDeptList);

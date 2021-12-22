@@ -37,14 +37,14 @@ public class SysDictItemServiceImpl extends AppBaseServiceImpl<SysDictItem, SysD
     public List<SysDictItem> findByDictId(Long dictId) {
         Map<String, Object> param = new HashMap<>();
         param.put("dictId", dictId);
-        return super.find(param);
+        return super.list(param);
     }
 
     @Override
     public List<SysDictItem> findByDictIds(Set<Long> dictIds) {
         Map<String, Object> param = new HashMap<>();
         param.put("dictIds", dictIds);
-        return super.find(param);
+        return super.list(param);
     }
 
     @Override

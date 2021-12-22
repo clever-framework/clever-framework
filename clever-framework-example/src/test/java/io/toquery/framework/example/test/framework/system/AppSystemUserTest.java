@@ -39,7 +39,7 @@ public class AppSystemUserTest extends BaseSpringMvcTest {
 
         SysUser sysUser = (SysUser)userDetailsService.loadUserByUsername("admin");
 
-        List<SysRole> sysRoleList = sysRoleService.find();
+        List<SysRole> sysRoleList = sysRoleService.list();
 
         Set<SysRole> set = Sets.newHashSet(sysRoleList.get(0));
 

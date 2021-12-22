@@ -41,12 +41,12 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
     public List<SysRole> findByRoleName(String roleName) {
         Map<String, Object> filter = new HashMap<>();
         filter.put("roleName", roleName);
-        return super.find(filter);
+        return super.list(filter);
     }
 
     @Override
     public List<SysRole> findWithMenuByIds(Set<Long> sysRoleIds) {
-        List<SysRole> sysRoles = super.findByIds(sysRoleIds);
+        List<SysRole> sysRoles = super.listByIds(sysRoleIds);
         List<SysMenu> sysMenus = sysRoleMenuService.findSysMenuByRoleIds(sysRoleIds);
         return null;
     }

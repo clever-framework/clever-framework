@@ -58,7 +58,7 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPerm
             Stream<SysUserPermissionEnum> sysUserPermissionEnumStream = Arrays.stream(sysUserPermissionEnums);
             if (sysUserPermissionEnumStream.anyMatch(item -> item == SysUserPermissionEnum.AREA)) {
                 Set<Long> sysAreaIds = sysUserPermissions.stream().map(SysUserPermission::getAreaId).collect(Collectors.toSet());
-                Map<Long, SysArea> sysAreaMap = sysAreaService.findByIds(sysAreaIds).stream().collect(Collectors.toMap(SysArea::getId, item -> item, (n, o) -> n));
+                Map<Long, SysArea> sysAreaMap = sysAreaService.listByIds(sysAreaIds).stream().collect(Collectors.toMap(SysArea::getId, item -> item, (n, o) -> n));
             }
             if (sysUserPermissionEnumStream.anyMatch(item -> item == SysUserPermissionEnum.ROLE)) {
                 Set<Long> sysRoleIds = sysUserPermissions.stream().map(SysUserPermission::getRoleId).collect(Collectors.toSet());
@@ -93,10 +93,10 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPerm
     public Page<SysUserPermission> queryWithRoleAndArea(Map<String, Object> filterParam, int current, int requestPageSize) {
         Page<SysUserPermission> permissionPage = super.page(filterParam, current, requestPageSize);
         Set<Long> roleIds = permissionPage.getContent().stream().map(SysUserPermission::getRoleId).collect(Collectors.toSet());
-        Map<Long, SysRole> roleMap = sysRoleService.findByIds(roleIds).stream().collect(Collectors.toMap(SysRole::getId, item -> item, (n, o) -> n));
+        Map<Long, SysRole> roleMap = sysRoleService.listByIds(roleIds).stream().collect(Collectors.toMap(SysRole::getId, item -> item, (n, o) -> n));
 
         Set<Long> areaIds = permissionPage.getContent().stream().map(SysUserPermission::getAreaId).collect(Collectors.toSet());
-        Map<Long, SysArea> areaMap = sysAreaService.findByIds(areaIds).stream().collect(Collectors.toMap(SysArea::getId, item -> item, (n, o) -> n));
+        Map<Long, SysArea> areaMap = sysAreaService.listByIds(areaIds).stream().collect(Collectors.toMap(SysArea::getId, item -> item, (n, o) -> n));
 
         permissionPage.forEach(sysUserPermission -> {
             sysUserPermission.setRole(roleMap.get(sysUserPermission.getRoleId()));

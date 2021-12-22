@@ -43,7 +43,7 @@ public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea>
 
     @GetMapping("/tree")
     public ResponseResult tree() throws Exception {
-        List<SysArea> sysMenuList = doaminService.find(null, sort);
+        List<SysArea> sysMenuList = doaminService.list(null, sort);
         // 将lits数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
         return new ResponseBodyBuilder().content(sysMenuList).build();

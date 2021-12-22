@@ -43,7 +43,7 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<SysConfig, SysConfi
     public List<SysConfig> reSave(Long bizId, String configGroup, List<SysConfig> sysConfigList) {
         Map<String, Object> params = Maps.newHashMap();
 
-        List<SysConfig> dbSysConfig = this.find(params);
+        List<SysConfig> dbSysConfig = this.list(params);
         this.deleteByIds(dbSysConfig.stream().map(SysConfig::getId).collect(Collectors.toSet()));
         return this.save(sysConfigList);
     }
@@ -52,7 +52,7 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<SysConfig, SysConfi
     public List<SysConfig> findByConfigName(String configName) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("configName", configName);
-        return super.find(params);
+        return super.list(params);
     }
 
     @Override

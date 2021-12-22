@@ -176,7 +176,7 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
     public List<SysDept> findByParentId(Long parentId) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("parentId", parentId);
-        return this.find(params);
+        return this.list(params);
     }
 
 
@@ -184,13 +184,13 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
     public List<SysDept> findByParentIds(Set<Long> parentIds) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("parentIdIN", parentIds);
-        return this.find(params);
+        return this.list(params);
     }
 
     public List<SysDept> findAllChildren(Long parentId) {
         Map<String, Object> params = Maps.newHashMap();
         params.put("parentIdLike", parentId);
-        return super.find(params);
+        return super.list(params);
     }
 
     /**
@@ -198,7 +198,7 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
      */
     @Override
     public void deleteDept(Set<Long> ids) {
-        List<SysDept> sysDeptList = super.findByIds(ids);
+        List<SysDept> sysDeptList = super.listByIds(ids);
 
         List<SysDept> parentSysDeptList = this.findByParentIds(sysDeptList.stream().map(SysDept::getParentId).collect(Collectors.toSet()));
 

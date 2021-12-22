@@ -40,7 +40,7 @@ public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepos
     public List<SysDict> findByCode(String dictCode) {
         Map<String, Object> param = new HashMap<>();
         param.put("dictCode", dictCode);
-        return super.find(param);
+        return super.list(param);
     }
 
 
