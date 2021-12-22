@@ -79,7 +79,7 @@ public interface BizNewsCategoryMapper {
      * @param bizNewsCategoryList 实体对象
      * @return 响应对象
      */
-    List<BizNewsCategoryPageResponse> bizNewsCategory2Pages(List<BizNewsCategory> bizNewsCategoryList);
+    List<BizNewsCategoryPageResponse> bizNewsCategory2Page(List<BizNewsCategory> bizNewsCategoryList);
 
     /**
      * 实体对象转为响应list对象

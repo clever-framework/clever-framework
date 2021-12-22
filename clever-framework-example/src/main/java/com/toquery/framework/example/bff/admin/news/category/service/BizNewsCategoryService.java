@@ -28,9 +28,7 @@ import java.util.Set;
  */
 @Service
 @AllArgsConstructor
-public class BizNewsCategoryService extends AppBFFServiceImpl {
-
-    private BizNewsCategoryDao bizNewsCategoryDao;
+public class BizNewsCategoryService extends AppBFFServiceImpl<BizNewsCategory, BizNewsCategoryDao> {
 
     private BizNewsCategoryMapper bizNewsCategoryMapper;
 
@@ -48,7 +46,7 @@ public class BizNewsCategoryService extends AppBFFServiceImpl {
 
     public Page<BizNewsCategoryPageResponse> page(BizNewsPageRequest pageRequest) {
         Page<BizNewsCategory> bizNewsCategoryPage = bizNewsCategoryDomainService.page(pageRequest.getCurrent(), pageRequest.getPageSize());
-        List<BizNewsCategoryPageResponse> pageResponses = bizNewsCategoryMapper.bizNewsCategory2Pages(bizNewsCategoryPage.toList());
+        List<BizNewsCategoryPageResponse> pageResponses = bizNewsCategoryMapper.bizNewsCategory2Page(bizNewsCategoryPage.toList());
         return new PageImpl<>(pageResponses, bizNewsCategoryPage.getPageable(), bizNewsCategoryPage.getTotalElements());
     }
 

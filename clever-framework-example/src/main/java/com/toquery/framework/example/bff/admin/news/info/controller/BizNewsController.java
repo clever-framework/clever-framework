@@ -1,5 +1,6 @@
 package com.toquery.framework.example.bff.admin.news.info.controller;
 
+import com.toquery.framework.example.bff.admin.news.info.dao.BizNewsDao;
 import com.toquery.framework.example.bff.admin.news.info.model.constant.QueryType;
 import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsAddRequest;
 import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsListRequest;
@@ -37,7 +38,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/admin/biz-news")
-public class BizNewsController extends AppBaseBFFController<BizNewsService> {
+public class BizNewsController extends AppBaseBFFController<BizNews, BizNewsService, BizNewsDao> {
 
     public static final String MODEL_NAME = "新闻管理";
 

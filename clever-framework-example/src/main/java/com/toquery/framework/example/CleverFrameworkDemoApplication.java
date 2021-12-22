@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
 /**
  * @author toquery
@@ -24,7 +25,7 @@ import org.springframework.cache.annotation.EnableCaching;
 //@AppDictScan(basePackage = "com.toquery.framework.demo.constant")
 @EntityScan
 @EnableAppJpaRepositories
-@SpringBootApplication //(scanBasePackages = "com.toquery.framework.demo")
+@SpringBootApplication(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class) //(scanBasePackages = "com.toquery.framework.demo")
 public class CleverFrameworkDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(CleverFrameworkDemoApplication.class, args);

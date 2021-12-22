@@ -15,8 +15,10 @@ import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import com.toquery.framework.example.modules.news.info.service.BizNewsDomainService;
 import io.github.toquery.framework.crud.service.impl.AppBFFServiceImpl;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import lombok.AllArgsConstructor;
 import org.hibernate.Filter;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,19 +35,14 @@ import java.util.Set;
  *
  */
 @Service
-public class BizNewsService extends AppBFFServiceImpl {
-
-    private BizNewsDao bizNewsDao;
+@AllArgsConstructor
+public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
 
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
     private BizNewsDomainService bizNewsDomainService;
-
-    public BizNewsService(BizNewsDao bizNewsDao, BizNewsDomainService bizNewsDomainService) {
-        this.bizNewsDao = bizNewsDao;
-        this.bizNewsDomainService = bizNewsDomainService;
-    }
 
 
     public static final Map<String, String> QUERY_EXPRESSIONS = new HashMap<String, String>(BizNewsDomainService.QUERY_EXPRESSIONS) {
@@ -72,7 +69,7 @@ public class BizNewsService extends AppBFFServiceImpl {
         Filter filter = entityManager.unwrap(Session.class).enableFilter("gtNum");
         filter.setParameter("showNum", 100);
         filter.setParameter("likeNum", 100);
-        List<BizNews> lists = bizNewsDao.findAll();
+        List<BizNews> lists = repository.findAll();
         entityManager.unwrap(Session.class).disableFilter("gtNum");
         return lists;
     }
@@ -88,69 +85,69 @@ public class BizNewsService extends AppBFFServiceImpl {
     public Page<BizNews> findByName(String name, Integer page, Integer size) {
         Sort sort = Sort.by(Sort.Direction.ASC, "title");
         PageRequest pageRequest = PageRequest.of(page, size, sort);
-        return bizNewsDao.findAll(pageRequest);
+        return repository.findAll(pageRequest);
     }
 
 
     public Page<BizNews> queryJpaByPage(int current, int pageSize) {
-        return bizNewsDao.findAll(PageRequest.of(current, pageSize));
+        return repository.findAll(PageRequest.of(current, pageSize));
     }
 
 
     public com.github.pagehelper.Page<BizNews> queryMyBatisByPage(int current, int pageSize) {
         com.github.pagehelper.Page<BizNews> bizNewsPage = PageHelper.startPage(current, pageSize);
-        bizNewsDao.findMyBatisByTitle(null);
+        repository.findMyBatisByTitle(null);
         return bizNewsPage;
     }
 
 
     public List<BizNews> findJpa() {
-        return bizNewsDao.findAll();
+        return repository.findAll();
     }
 
 
     public List<BizNews> findMyBatis() {
-        return bizNewsDao.findMyBatisByTitle(null);
+        return repository.findMyBatisByTitle(null);
     }
 
 
     public BizNews saveJpa(BizNews bizNews) {
-        return bizNewsDao.save(bizNews);
+        return repository.save(bizNews);
     }
 
 
     public BizNews saveMyBatis(BizNews bizNews) {
-        bizNewsDao.saveMyBatis(bizNews);
+        repository.saveMyBatis(bizNews);
         return bizNewsDomainService.getById(bizNews.getId());
     }
 
 
     public BizNews updateJpa(BizNews bizNews) {
-        return bizNewsDao.saveAndFlush(bizNews);
+        return repository.saveAndFlush(bizNews);
     }
 
 
     public BizNews updateMyBatis(BizNews bizNews) {
-        return bizNewsDao.updateMyBatis(bizNews);
+        return repository.updateMyBatis(bizNews);
     }
 
 
     public void deleteJpa(Set<Long> ids) {
-        bizNewsDao.deleteJpaIds(ids);
+        repository.deleteJpaIds(ids);
     }
 
 
     public void deleteMyBatis(Set<Long> ids) {
-        bizNewsDao.deleteMyBatis(ids);
+        repository.deleteMyBatis(ids);
     }
 
 
     public BizNews detailJpa(Long id) {
-        return bizNewsDao.findJpaById(id);
+        return repository.findJpaById(id);
     }
 
     public BizNews detailMyBatis(Long id) {
-        return bizNewsDao.findMyBatisById(id);
+        return repository.findMyBatisById(id);
     }
 
     public BizNewsInfoResponse save(QueryType queryType, BizNewsAddRequest request) {
