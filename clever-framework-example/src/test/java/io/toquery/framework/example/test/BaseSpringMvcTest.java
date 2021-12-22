@@ -2,7 +2,7 @@ package io.toquery.framework.example.test;
 
 import com.toquery.framework.example.CleverFrameworkDemoApplication;
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
-import io.github.toquery.framework.data.rest.annotation.EnableAppRepositoryRest;
+//import io.github.toquery.framework.data.rest.annotation.EnableAppRepositoryRest;
 import io.toquery.framework.test.AppTestSpringBase;
 import io.toquery.framework.test.AppTestSpringMvcBase;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @Slf4j
 @ActiveProfiles("local")
 @RunWith(SpringJUnit4ClassRunner.class)
-@EnableAppRepositoryRest
+//@EnableAppRepositoryRest
 @EnableAppJpaRepositories(basePackages = "com.toquery.framework.example.dao")
 @SpringBootTest(classes = CleverFrameworkDemoApplication.class)
 @AutoConfigureMockMvc

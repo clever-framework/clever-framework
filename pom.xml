@@ -85,12 +85,12 @@
         <module>clever-framework-files</module>
         <module>clever-framework-log</module>
         <module>clever-framework-system</module>
-        <module>clever-framework-swagger</module>
         <module>clever-framework-minio</module>
-        <module>clever-framework-data-rest</module>
         <module>clever-framework-cache</module>
         <module>clever-framework-grpc</module>
         <!--
+        <module>clever-framework-data-rest</module>
+        <module>clever-framework-swagger</module>
         <module>clever-framework-dependencies</module>
         -->
     </modules>

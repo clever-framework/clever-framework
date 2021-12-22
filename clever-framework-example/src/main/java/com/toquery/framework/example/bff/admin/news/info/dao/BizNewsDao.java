@@ -8,8 +8,6 @@ import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,8 +16,8 @@ import java.util.List;
  *
  */
 @SuppressWarnings("MybatisMapperMethodInspection")
-@RestResource(path = "rest-resource")
-@RepositoryRestResource(path = "example-biz-news-spring")
+//@RestResource(path = "rest-resource")
+//@RepositoryRestResource(path = "example-biz-news-spring")
 public interface BizNewsDao extends AppJpaBaseRepository<BizNews> {
 
     /**
