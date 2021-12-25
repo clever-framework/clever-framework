@@ -64,7 +64,7 @@
         <grpc.version>1.42.1</grpc.version>
         <io-protostuff.version>1.7.4</io-protostuff.version>
 
-        <hutool.version>5.7.16</hutool.version>
+        <hutool.version>5.7.18</hutool.version>
 
         <mybatis-spring-boot-starter.version>2.2.0</mybatis-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.4.1</pagehelper-spring-boot-starter.version>
