@@ -66,7 +66,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
 
 
 
-    @PostMapping(value = "${app.jwt.path.token:/user/token}")
+    @PostMapping(value = "${app.jwt.path.token:/user/login}")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody Map<String,String> loginMap) throws AppException {
         String userName = this.getRequestValue(loginMap, appSecurityJwtProperties.getParam().getUsername(), "未获取到登录用户名");
         String password = this.getRequestValue(loginMap, appSecurityJwtProperties.getParam().getPassword(), "未获取到登录密码");

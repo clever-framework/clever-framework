@@ -23,7 +23,7 @@
       "name": "app.jwt.path.token",
       "type": "java.lang.String",
       "description": "JWT认证获取token的url.",
-      "defaultValue": "/user/token"
+      "defaultValue": "/user/login"
     },
     {
       "name": "app.jwt.path.info",

@@ -37,42 +37,43 @@ public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole>
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping
     @PreAuthorize("hasAnyAuthority('system:role:query')")
-    public ResponseResult pageResponseBody() {
-        return super.pageResponseBody();
+    public ResponseResult pageResponseResult() {
+        return super.pageResponseResult();
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping(value = "/list")
     @PreAuthorize("hasAnyAuthority('system:role:query')")
-    public ResponseResult listResponseBody() {
-        return super.listResponseBody();
+    public ResponseResult listResponseResult() {
+        return super.listResponseResult();
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:role:add')")
     public ResponseResult saveSysRoleCheck(@Validated @RequestBody SysRole sysRole) throws AppException {
-        return super.handleResponseBody(doaminService.saveSysRoleCheck(sysRole));
+        return super.handleResponseBody(domainService.saveSysRoleCheck(sysRole));
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
     @PreAuthorize("hasAnyAuthority('system:role:modify')")
-    public ResponseResult updateResponseBody(@RequestBody SysRole sysRole) throws AppException {
-        return super.handleResponseBody(doaminService.updateSysRoleCheck(sysRole));
+    public ResponseResult updateResponseResult(@RequestBody SysRole sysRole) throws AppException {
+        return super.handleResponseBody(domainService.updateSysRoleCheck(sysRole));
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('system:role:delete')")
-    public void deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
-        doaminService.deleteSysRoleCheck(ids);
+    public ResponseResult deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
+        domainService.deleteSysRoleCheck(ids);
+        return ResponseResult.builder().success().build();
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('system:role:query')")
     public ResponseResult detailResponseBody(@PathVariable Long id) {
-        return new ResponseBodyBuilder().content(super.doaminService.getWithMenusById(id)).build();
+        return new ResponseBodyBuilder().content(super.domainService.getWithMenusById(id)).build();
     }
 }

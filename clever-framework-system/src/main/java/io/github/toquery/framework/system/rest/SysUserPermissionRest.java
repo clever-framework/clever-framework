@@ -31,40 +31,41 @@ public class SysUserPermissionRest extends AppBaseCrudController<ISysUserPermiss
 
 
     @GetMapping
-    public ResponseResult pageResponseBody() {
-        Page<SysUserPermission> sysUserPermissionPage = super.doaminService.queryWithRoleAndArea(super.getFilterParam(), super.getRequestCurrent(), super.getRequestPageSize());
+    public ResponseResult pageResponseResult() {
+        Page<SysUserPermission> sysUserPermissionPage = super.domainService.queryWithRoleAndArea(super.getFilterParam(), super.getRequestCurrent(), super.getRequestPageSize());
         return new ResponseBodyBuilder().page(sysUserPermissionPage).build();
     }
 
     @GetMapping("/list")
-    public ResponseResult listResponseBody() {
-        return super.listResponseBody();
+    public ResponseResult listResponseResult() {
+        return super.listResponseResult();
     }
 
     @PostMapping
     public ResponseResult saveSysUserCheck(@Validated @RequestBody SysUserPermission sysUserPermission) throws AppException {
-        return super.handleResponseBody(super.doaminService.saveUserPermissionCheck(sysUserPermission));
+        return super.handleResponseBody(super.domainService.saveUserPermissionCheck(sysUserPermission));
     }
 
     @PostMapping("/authorize")
     public ResponseResult authorize(@RequestParam Long userId, @Validated @RequestBody List<SysUserPermission> sysUserPermissions) throws AppException {
-        super.doaminService.authorize(userId, sysUserPermissions);
+        super.domainService.authorize(userId, sysUserPermissions);
         return new ResponseBodyBuilder().success().build();
     }
 
     @PutMapping
-    public ResponseResult updateResponseBody(@RequestBody SysUserPermission sysUserPermission) throws AppException {
-        return this.handleResponseBody(super.doaminService.updateUserPermissionCheck(sysUserPermission));
+    public ResponseResult updateResponseResult(@RequestBody SysUserPermission sysUserPermission) throws AppException {
+        return this.handleResponseBody(super.domainService.updateUserPermissionCheck(sysUserPermission));
     }
 
 
     @DeleteMapping
-    public void deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
-        doaminService.deleteByIds(ids);
+    public ResponseResult deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
+        domainService.deleteByIds(ids);
+        return ResponseResult.builder().success().build();
     }
 
     @GetMapping("{id}")
     public ResponseResult detailResponseBody(@PathVariable Long id) {
-        return this.handleResponseBody(super.doaminService.detailWithRoleAndArea(id));
+        return this.handleResponseBody(super.domainService.detailWithRoleAndArea(id));
     }
 }

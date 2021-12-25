@@ -25,7 +25,8 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 //@AppDictScan(basePackage = "com.toquery.framework.demo.constant")
 @EntityScan
 @EnableAppJpaRepositories
-@SpringBootApplication(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class) //(scanBasePackages = "com.toquery.framework.demo")
+@SpringBootApplication(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
+//(scanBasePackages = "com.toquery.framework.demo")
 public class CleverFrameworkDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(CleverFrameworkDemoApplication.class, args);

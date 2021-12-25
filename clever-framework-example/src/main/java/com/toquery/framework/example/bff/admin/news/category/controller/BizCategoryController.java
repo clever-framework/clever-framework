@@ -14,6 +14,11 @@ import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseBFFController;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,6 +52,15 @@ public class BizCategoryController extends AppBaseBFFController<BizNewsCategory,
         super(bffService);
     }
 
+    @Operation(summary = "分页查询新闻栏目", description = "分页查询新闻栏目", tags = { "biz" })
+    @ApiResponse(description = "分页查询新闻栏目",
+            content = {
+                    @Content(mediaType = "application/json",
+                            array =
+                            @ArraySchema(schema = @Schema(implementation = BizNewsCategoryPageResponse.class))
+                    )
+            }
+    )
     @AppLogMethod(value = BizNewsCategory.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping
     public ResponseResult page(BizNewsPageRequest pageRequest) {

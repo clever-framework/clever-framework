@@ -1,5 +1,6 @@
 package com.toquery.framework.example.bff.admin.news.info.model.mapper;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsAddRequest;
 import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsImportRequest;
 import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsPageRequest;
@@ -13,6 +14,7 @@ import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

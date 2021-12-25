@@ -4,7 +4,6 @@ import com.google.common.base.Strings;
 import io.github.toquery.framework.core.security.AppSecurityIgnoringHandlerAdapter;
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -67,11 +66,8 @@ public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
 
             try {
                 username = jwtTokenHandler.getUsernameFromToken(token);
-            } catch (IllegalArgumentException e) {
-                log.error("an error occured during getting username from token");
-                e.printStackTrace();
-            } catch (ExpiredJwtException e) {
-                log.warn("the token is expired and not valid anymore");
+            } catch (Exception e) {
+                log.error("{} an error occured during getting username from token", e.getClass().getName());
                 e.printStackTrace();
             }
 

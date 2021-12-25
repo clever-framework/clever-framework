@@ -56,8 +56,8 @@
         <jjwt.version>0.9.1</jjwt.version>
         <datanucleus.version>5.2.1</datanucleus.version>
 
-        <swagger.version>2.1.10</swagger.version>
-        <swagger-ui.version>4.1.2</swagger-ui.version>
+        <springdoc.version>1.6.2</springdoc.version>
+        <swagger.version>2.1.11</swagger.version>
 
         <minio.version>8.3.4</minio.version>
 
@@ -275,13 +275,20 @@
 
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-core</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
+
             <dependency>
-                <groupId>org.webjars</groupId>
-                <artifactId>swagger-ui</artifactId>
-                <version>${swagger-ui.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
 
             <dependency>

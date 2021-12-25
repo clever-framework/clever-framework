@@ -43,15 +43,15 @@ public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFil
     public ResponseResult uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "DATABASE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
         ResponseBodyBuilder responseParam = ResponseResult.builder();
         if (fileStoreType == AppFileStoreTypeEnum.DATABASE) {
-            SysFiles sysFiles = doaminService.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            SysFiles sysFiles = domainService.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
             responseParam.content(sysFiles);
         } else if (fileStoreType == AppFileStoreTypeEnum.DB) {
-            SysFiles sysFiles = doaminService.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            SysFiles sysFiles = domainService.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));
             responseParam.content(sysFiles);
         } else if (fileStoreType == AppFileStoreTypeEnum.FILE) {
-            String filePath = doaminService.storeFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
+            String filePath = domainService.storeFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             SysFiles sysFiles = new SysFiles();
             sysFiles.setFullDownloadPath(filePath);
             responseParam.content(sysFiles);
@@ -65,7 +65,7 @@ public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFil
     public ResponseEntity downloadFile(@PathVariable("id") Long id, @PathVariable String extension) {
         ResponseEntity responseEntity = null;
         try {
-            SysFiles sysFiles = doaminService.getByIdAndExtension(id, extension);
+            SysFiles sysFiles = domainService.getByIdAndExtension(id, extension);
             responseEntity = AppDownloadFileUtil.download(appFilesProperties.getPath().getStore() + sysFiles.getStoragePath(), sysFiles.getStorageName(), sysFiles.getOriginName(), sysFiles.getMimeType());
         } catch (Exception e) {
             e.printStackTrace();

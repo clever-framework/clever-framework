@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -68,14 +69,36 @@ public class JacksonUtils {
      * object 转为 map
      */
     public static Map<String, Object> object2HashMap(Object object) {
+        return object2HashMap(objectMapper, object);
+    }
+
+    public static Map<String, Object> object2HashMap(ObjectMapper objectMapper, Object object) {
         return objectMapper.convertValue(object, TYPE_REFERENCE_HASHMAP);
     }
+
+    /**
+     * object 转为 map
+     */
+    public static Map<String, Object> object2HashMap2(Object object) {
+        return object2HashMap2(objectMapper, object);
+    }
+
+    public static Map<String, Object> object2HashMap2(ObjectMapper objectMapper, Object object) {
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        return objectMapper.convertValue(object, typeFactory.constructMapType(Map.class, String.class, Object.class));
+    }
+
+
 
 
     /**
      * string 转为 map
      */
     public static Map<String, Object> string2HashMap(String jsonString) throws IOException {
+        return string2HashMap(objectMapper, jsonString);
+    }
+
+    public static Map<String, Object> string2HashMap(ObjectMapper objectMapper, String jsonString) throws IOException {
         return objectMapper.readValue(jsonString, TYPE_REFERENCE_HASHMAP);
     }
 
@@ -84,10 +107,18 @@ public class JacksonUtils {
      * map 转为 string
      */
     public static String map2String(Map<String, Object> attribute) throws JsonProcessingException {
+        return map2String(objectMapper, attribute);
+    }
+
+    public static String map2String(ObjectMapper objectMapper, Map<String, Object> attribute) throws JsonProcessingException {
         return objectMapper.writeValueAsString(attribute);
     }
 
     public static String object2String(Object object) {
+        return object2String(objectMapper, object);
+    }
+
+    public static String object2String(ObjectMapper objectMapper, Object object) {
         if (object == null) {
             return null;
         }

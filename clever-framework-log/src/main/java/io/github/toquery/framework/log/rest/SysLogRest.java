@@ -69,8 +69,8 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
     }
 
     @PostMapping
-    public ResponseResult saveResponseBody(@Validated @RequestBody SysLog sysLog) {
-        return super.saveResponseBody(sysLog);
+    public ResponseResult saveResponseResult(@Validated @RequestBody SysLog sysLog) {
+        return super.saveResponseResult(sysLog);
     }
 
 

@@ -40,7 +40,7 @@ public class AppSecurityJwtProperties {
     @Getter
     @Setter
     public static class AppJwtPathProperties {
-        private String token = "/user/token";
+        private String token = "/user/login";
         private String info = "/user/info";
         private String refresh = "/user/refresh";
         private String register = "/user/register";

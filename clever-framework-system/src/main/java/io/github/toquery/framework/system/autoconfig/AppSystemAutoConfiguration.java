@@ -1,5 +1,6 @@
 package io.github.toquery.framework.system.autoconfig;
 
+import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import io.github.toquery.framework.system.rest.SysAreaRest;
@@ -28,6 +29,7 @@ import io.github.toquery.framework.system.service.impl.SysRoleServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysUserPermissionServiceImpl;
 import io.github.toquery.framework.system.service.impl.SysUserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.ApplicationRunner;
@@ -37,6 +39,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * 相关业务bean 不支持通过new的方式创建，只能扫描包方式创建
@@ -56,7 +59,10 @@ import org.springframework.context.annotation.Role;
 public class AppSystemAutoConfiguration {
 
     @Autowired
-    private AppSystemProperties appSystemProperties;
+    private AppProperties appProperties;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public AppSystemAutoConfiguration() {

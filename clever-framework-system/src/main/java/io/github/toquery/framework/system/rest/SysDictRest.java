@@ -38,56 +38,57 @@ public class SysDictRest extends AppBaseCrudController<ISysDictService, SysDict>
     @AppLogMethod(value = SysDict.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:query')")
     @GetMapping
-    public ResponseResult pageResponseBody() {
-        return super.pageResponseBody(SORT);
+    public ResponseResult pageResponseResult() {
+        return super.pageResponseResult(SORT);
     }
 
     @AppLogMethod(value = SysDict.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:query')")
     @GetMapping(value = "/list")
-    public ResponseResult listResponseBody() {
-        return super.listResponseBody(SORT);
+    public ResponseResult listResponseResult() {
+        return super.listResponseResult(SORT);
     }
 
     @AppLogMethod(value = SysDict.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:query')")
     @GetMapping(value = "/codes/{dictCode}")
     public ResponseResult code(@PathVariable String dictCode) {
-        return this.handleResponseBody(super.doaminService.findDictItemByDictCode(dictCode));
+        return this.handleResponseBody(super.domainService.findDictItemByDictCode(dictCode));
     }
 
     @AppLogMethod(value = SysDict.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:query')")
     @GetMapping(value = "/codes/{dictCode}/{itemValue}")
     public ResponseResult item(@PathVariable String dictCode, @PathVariable String itemValue) {
-        return this.handleResponseBody(super.doaminService.item(dictCode, itemValue));
+        return this.handleResponseBody(super.domainService.item(dictCode, itemValue));
     }
 
     @AppLogMethod(value = SysDict.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:add')")
     @PostMapping
     public ResponseResult saveSysDictCheck(@RequestBody SysDict sysDict) throws AppException {
-        return super.handleResponseBody(doaminService.saveSysDictCheck(sysDict));
+        return super.handleResponseBody(domainService.saveSysDictCheck(sysDict));
     }
 
     @AppLogMethod(value = SysDict.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:modify')")
     @PutMapping
     public ResponseResult updateSysDictCheck(@RequestBody SysDict sysDict) throws AppException {
-        return super.handleResponseBody(doaminService.updateSysDictCheck(sysDict));
+        return super.handleResponseBody(domainService.updateSysDictCheck(sysDict));
     }
 
     @AppLogMethod(value = SysDict.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:delete')")
     @DeleteMapping
-    public void deleteSysDictCheck(@RequestParam Set<Long> ids) throws AppException {
-        doaminService.deleteSysDictCheck(ids);
+    public ResponseResult deleteSysDictCheck(@RequestParam Set<Long> ids) throws AppException {
+        domainService.deleteSysDictCheck(ids);
+        return ResponseResult.builder().success().build();
     }
 
     @AppLogMethod(value = SysDict.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:query')")
     @GetMapping("{id}")
     public ResponseResult detailResponseBody(@PathVariable Long id) {
-        return this.handleResponseBody(super.doaminService.getWithItemById(id));
+        return this.handleResponseBody(super.domainService.getWithItemById(id));
     }
 }

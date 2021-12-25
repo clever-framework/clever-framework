@@ -13,6 +13,8 @@ app:
       - /favicon.ico
 #      - /**
       - /index.html
+      - /swagger-ui/**
+      - /v3/api-docs/**
       - /static/**
       - /error
       - /h2-console/**

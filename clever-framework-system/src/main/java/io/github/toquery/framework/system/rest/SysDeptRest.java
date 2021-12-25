@@ -42,15 +42,15 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping
-    public ResponseResult pageResponseBody() {
-        return super.pageResponseBody(SORT);
+    public ResponseResult pageResponseResult() {
+        return super.pageResponseResult(SORT);
     }
 
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("/list")
-    public ResponseResult listResponseBody() {
-        return super.listResponseBody(SORT);
+    public ResponseResult listResponseResult() {
+        return super.listResponseResult(SORT);
     }
 
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
@@ -58,7 +58,7 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @GetMapping("/tree")
     public ResponseResult tree(@RequestParam(required = false, defaultValue = "根节点") String rootName) throws Exception {
         List<SysDept> sysDeptList = Lists.newArrayList(new SysDept(0L, rootName));
-        List<SysDept> childrenList = doaminService.list(super.getFilterParam(), SORT);
+        List<SysDept> childrenList = domainService.list(super.getFilterParam(), SORT);
         sysDeptList.addAll(childrenList);
         // 将lits数据转为tree
         sysDeptList = AppTreeUtil.getTreeData(sysDeptList);
@@ -68,22 +68,23 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @PreAuthorize("hasAnyAuthority('system:dept:add')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
-    public ResponseResult saveResponseBody(@Validated @RequestBody SysDept sysDept) {
-        return super.handleResponseBody(doaminService.saveDept(sysDept));
+    public ResponseResult saveResponseResult(@Validated @RequestBody SysDept sysDept) {
+        return super.handleResponseBody(domainService.saveDept(sysDept));
     }
 
     @PreAuthorize("hasAnyAuthority('system:dept:modify')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
-    public ResponseResult updateResponseBody(@RequestBody SysDept sysDept) {
-        return this.handleResponseBody(super.doaminService.updateDept(sysDept));
+    public ResponseResult updateResponseResult(@RequestBody SysDept sysDept) {
+        return this.handleResponseBody(super.domainService.updateDept(sysDept));
     }
 
     @PreAuthorize("hasAnyAuthority('system:dept:delete')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
-    public void delete(@RequestParam Set<Long> ids) {
-        doaminService.deleteDept(ids);
+    public ResponseResult deleteResponseResult(@RequestParam Set<Long> ids) {
+        domainService.deleteDept(ids);
+        return ResponseResult.builder().success().build();
     }
 
     @AppLogMethod(value = SysDept.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)

@@ -16,9 +16,8 @@ import java.util.Set;
  * @version 1
  */
 public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppBaseWebMvcController {
-
     @Autowired
-    protected DS doaminService;
+    protected DS domainService;
 
     /**
      * 获取查询参数
@@ -64,19 +63,19 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
     }
 
 
-    public ResponseResult pageResponseBody() {
+    public ResponseResult pageResponseResult() {
         return new ResponseBodyBuilder().page(this.page()).build();
     }
 
-    public ResponseResult pageResponseBody(Map<String, Object> filterParam) {
+    public ResponseResult pageResponseResult(Map<String, Object> filterParam) {
         return new ResponseBodyBuilder().page(this.page(filterParam)).build();
     }
 
-    public ResponseResult pageResponseBody(String[] sorts) {
+    public ResponseResult pageResponseResult(String[] sorts) {
         return new ResponseBodyBuilder().page(this.page(sorts)).build();
     }
 
-    protected ResponseResult pageResponseBody(Map<String, Object> filterParam, String[] sorts) {
+    protected ResponseResult pageResponseResult(Map<String, Object> filterParam, String[] sorts) {
         return new ResponseBodyBuilder().page(this.page(filterParam, sorts)).build();
     }
 
@@ -100,20 +99,20 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
         return this.list(filterParam, sorts);
     }
 
-    public ResponseResult listResponseBody() {
+    public ResponseResult listResponseResult() {
         return this.handleResponseBody(this.list());
     }
 
 
-    public ResponseResult listResponseBody(Map<String, Object> filterParam) {
+    public ResponseResult listResponseResult(Map<String, Object> filterParam) {
         return this.handleResponseBody(this.list(filterParam));
     }
 
-    public ResponseResult listResponseBody(String[] sorts) {
+    public ResponseResult listResponseResult(String[] sorts) {
         return this.handleResponseBody(this.list(sorts));
     }
 
-    public ResponseResult listResponseBody(Map<String, Object> filterParam, String[] sorts) {
+    public ResponseResult listResponseResult(Map<String, Object> filterParam, String[] sorts) {
         return this.handleResponseBody(this.list(filterParam, sorts));
     }
 
@@ -125,37 +124,38 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
      */
     protected Page<E> page(Map<String, Object> filterParam, String[] sorts) {
         //执行分页查询
-        return doaminService.page(filterParam, super.getRequestCurrent(), super.getRequestPageSize(), sorts);
+        return domainService.page(filterParam, super.getRequestCurrent(), super.getRequestPageSize(), sorts);
     }
 
     protected List<E> list(Map<String, Object> filterParam, String[] sorts) {
         //执行分页查询
-        return doaminService.list(filterParam, sorts);
+        return domainService.list(filterParam, sorts);
     }
 
     public E saveEntity(E entity) {
-        return doaminService.save(entity);
+        return domainService.save(entity);
     }
 
-    public ResponseResult saveResponseBody(E entity) {
+    public ResponseResult saveResponseResult(E entity) {
         return this.handleResponseBody(this.saveEntity(entity));
     }
 
-    public ResponseResult updateResponseBody(E entity) {
-        return this.handleResponseBody(doaminService.update(entity));
+    public ResponseResult updateResponseResult(E entity) {
+        return this.handleResponseBody(domainService.update(entity));
     }
 
-    public ResponseResult updateResponseBody(E entity, Set<String> updateEntityFields) {
-        return this.handleResponseBody(doaminService.update(entity, updateEntityFields));
+    public ResponseResult updateResponseResult(E entity, Set<String> updateEntityFields) {
+        return this.handleResponseBody(domainService.update(entity, updateEntityFields));
     }
 
-    public void delete(Set<Long> ids) {
-        doaminService.deleteByIds(ids);
+    public ResponseResult deleteResponseResult(Set<Long> ids) {
+        domainService.deleteByIds(ids);
+        return ResponseResult.builder().success().build();
     }
 
 
     public E getById(Long id) {
-        return doaminService.getById(id);
+        return domainService.getById(id);
     }
 
     public ResponseResult detailResponseBody(Long id) {

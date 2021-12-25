@@ -32,31 +32,32 @@ public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea>
     private String[] sort = new String[]{"sortNum_desc"};
 
     @GetMapping
-    public ResponseResult pageResponseBody() {
-        return super.pageResponseBody(sort);
+    public ResponseResult pageResponseResult() {
+        return super.pageResponseResult(sort);
     }
 
     @GetMapping(value = "/list")
-    public ResponseResult listResponseBody() {
-        return super.listResponseBody(sort);
+    public ResponseResult listResponseResult() {
+        return super.listResponseResult(sort);
     }
 
     @GetMapping("/tree")
     public ResponseResult tree() throws Exception {
-        List<SysArea> sysMenuList = doaminService.list(null, sort);
-        // 将lits数据转为tree
+        List<SysArea> sysMenuList = domainService.list(null, sort);
+        // 将lists数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
         return new ResponseBodyBuilder().content(sysMenuList).build();
     }
 
     @PutMapping
-    public ResponseResult updateResponseBody(@RequestBody SysArea sysArea) throws AppException {
-        return super.handleResponseBody(doaminService.update(sysArea, Sets.newHashSet("name", "code")));
+    public ResponseResult updateResponseResult(@RequestBody SysArea sysArea) throws AppException {
+        return super.handleResponseBody(domainService.update(sysArea, Sets.newHashSet("name", "code")));
     }
 
     @DeleteMapping
-    public void deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
-        doaminService.deleteByIds(ids);
+    public ResponseResult deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
+        domainService.deleteByIds(ids);
+        return ResponseResult.builder().success().build();
     }
 
     @GetMapping("{id}")

@@ -48,4 +48,7 @@ public class BizNewsListResponse extends AppBaseEntity {
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private LocalDateTime localDateTime;
 
+    
+    private String content;
+
 }

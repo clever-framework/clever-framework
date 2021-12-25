@@ -127,6 +127,9 @@ public class BizNews extends AppBaseEntity implements AppEntityLogicDel {
     @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
 
+
+    private String content;
+
     /**
      * 是否删除：1已删除；0未删除
      */
