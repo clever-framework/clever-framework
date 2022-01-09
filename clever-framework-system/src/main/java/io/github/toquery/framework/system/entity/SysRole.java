@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Collection;
 @Setter
 @Table(name = "sys_role")
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysRole SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_role SET deleted = true WHERE id = ?")
 public class SysRole extends AppBaseEntity implements AppEntityLogicDel {
 
 
@@ -33,6 +34,11 @@ public class SysRole extends AppBaseEntity implements AppEntityLogicDel {
     @Length(min = 2, max = 50)
     @Column(name = "role_name", length = 50, unique = true)
     private String roleName;
+
+    @NotNull
+    @ColumnDefault("1")
+    @Column(name = "role_status")
+    private Integer roleStatus = 1;
 
     /**
      * 是否删除：1已删除；0未删除

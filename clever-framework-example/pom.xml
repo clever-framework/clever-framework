@@ -91,6 +91,13 @@
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-web</artifactId>
+            <exclusions>
+                <!--grpc冲突-->
+                <exclusion>
+                    <artifactId>error_prone_annotations</artifactId>
+                    <groupId>com.google.errorprone</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
        <!--
        <dependency>
@@ -186,6 +193,10 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-grpc</artifactId>
         </dependency>
     </dependencies>
 

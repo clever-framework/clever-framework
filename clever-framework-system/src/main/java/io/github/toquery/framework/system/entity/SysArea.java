@@ -29,7 +29,7 @@ import java.util.List;
 @Setter
 @Table(name = "sys_area")
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysArea SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_area SET deleted = true WHERE id = ?")
 public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, AppEntitySort, AppEntityLogicDel {
 
     /**

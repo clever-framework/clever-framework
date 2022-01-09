@@ -1,6 +1,8 @@
 package io.toquery.framework.example.test.java.lambda;
 
 import com.google.common.collect.Lists;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -15,6 +17,8 @@ import java.util.stream.Stream;
 @Slf4j
 public class TestPeekAndMapForEach {
     private List<String> data = Lists.newArrayList("aaa", "bbb", "ccc", "ddd", "eee", "fff");
+
+    private List<User> users = Lists.newArrayList(new User("aaa"), new User("bbb"), new User("ccc"), new User("ddd"), new User("eee"), new User("fff"));
 
     /**
      * java8流中所有的操作都是蓄而不发的，只有执行foreach，collect等终结操作时，流的操作才会执行。
@@ -126,4 +130,23 @@ public class TestPeekAndMapForEach {
         data.forEach(System.out::println);
     }
 
+    @Data
+    @AllArgsConstructor
+    static class User{
+        private String userName;
+    }
+
+    /**
+     *
+     */
+
+    @Test
+    public void testPeekObject() {
+        // peek 不会被调用
+        users.stream().peek(user -> {
+            user.setUserName(user.getUserName() + ":peek");
+            System.out.println(user.getUserName());
+        });
+        users.forEach(System.out::println);
+    }
 }

@@ -33,7 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "sys_menu")
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysMenu SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_menu SET deleted = true WHERE id = ?")
 public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntityTree<SysMenu>, AppEntitySort, AppEntityLogicDel {
 
     public SysMenu(Long id, String menuName, String menuCode) {
@@ -64,6 +64,11 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
     @Size(max = 50)
     @Column(name = "menu_code", length = 50)
     private String menuCode;
+
+    @NotNull
+    @ColumnDefault("1")
+    @Column(name = "menu_status")
+    private Integer menuStatus = 1;
 
 
     // 树状结构

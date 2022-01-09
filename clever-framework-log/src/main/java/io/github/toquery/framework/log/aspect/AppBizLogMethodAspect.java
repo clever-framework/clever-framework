@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
 import io.github.toquery.framework.log.entity.SysLog;
@@ -14,6 +15,9 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -93,6 +97,11 @@ public class AppBizLogMethodAspect {
         SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(appLogMethod.logType(), null, targetData,
                 Strings.isNullOrEmpty(modelName) ? appLogMethod.modelName() : modelName,
                 Strings.isNullOrEmpty(bizName) ? appLogMethod.bizName() : bizName);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() != null){
+            AppUserDetails appUserDetails = (AppUserDetails) authentication.getPrincipal();
+            sysLog.setUserId(appUserDetails.getId());
+        }
         sysLog = sysLogService.save(sysLog);
         log.debug("保存业务日志成功 AppBizLogMethodAspect -> doAfterReturning -> handleBizLog 操作类: {} 方法：{}", joinPoint.getTarget().getClass().toString(), joinPoint.getSignature().getName());
     }

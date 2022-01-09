@@ -36,7 +36,7 @@ import java.util.stream.Stream;
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
 @Table(name = "sys_user")
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysUser SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_user SET deleted = true WHERE id = ?")
 public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetails, AppEntityLogicDel {
 
 

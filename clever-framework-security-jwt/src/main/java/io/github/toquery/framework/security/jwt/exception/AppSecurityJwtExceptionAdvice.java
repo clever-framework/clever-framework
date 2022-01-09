@@ -26,12 +26,12 @@ public class AppSecurityJwtExceptionAdvice {
     }
 
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @org.springframework.web.bind.annotation.ResponseBody
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseResult> handleExpiredJwtException(AccessDeniedException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseResult.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("访问被拒绝！").build());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseResult.builder().code(HttpStatus.FORBIDDEN.value()).success(false).message("访问被拒绝！").build());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

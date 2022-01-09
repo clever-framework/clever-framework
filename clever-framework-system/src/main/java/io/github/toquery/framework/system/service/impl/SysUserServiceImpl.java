@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysUser;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -74,6 +76,12 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
         Set<SysMenu> sysMenus = sysUserPermissions.stream().flatMap(sysUserPermission -> sysUserPermission.getRole().getMenus().stream()).collect(Collectors.toSet());
         user.setAuthorities(sysMenus);
         return user;
+    }
+
+    @Override
+    public Map<Long, AppUserDetails> userDetailsMap(Set<Long> userIds) {
+        List<SysUser> sysUsers = this.listByIds(userIds);
+        return sysUsers.stream().collect(Collectors.toMap(SysUser::getId, Function.identity()));
     }
 
 

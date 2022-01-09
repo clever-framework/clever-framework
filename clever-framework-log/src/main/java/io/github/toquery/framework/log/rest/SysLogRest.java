@@ -49,15 +49,8 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
             filterParam.put("createDateTimeGT", createDataGT);
             filterParam.put("createDateTimeLT", createDataLT);
         }
-        Page<SysLog> page = super.page(filterParam, PAGE_SORT);
-        List<SysLog> sysLogList = page.getContent();
-        Stream<SysLog> sysLogStream = sysLogList.size() > 6 ? sysLogList.parallelStream() : sysLogList.stream();
-        List<SysLog> sysLogVoList = sysLogStream.map(item -> {
-            Long userId = item.getUserId();
-            userId = userId == null ? item.getCreateUserId() : userId;
-            return new SysLog(item, userDetailsService.getById(userId));
-        }).collect(Collectors.toList());
-        return new ResponseBodyBuilder().page(new PageImpl<>(sysLogVoList, page.getPageable(), page.getTotalElements())).build();
+        Page<SysLog> page = super.domainService.pageWithUser(filterParam, super.getRequestCurrent(), super.getRequestPageSize(), PAGE_SORT);
+        return new ResponseBodyBuilder().page(page).build();
     }
 
     @GetMapping("{id}")

@@ -20,6 +20,7 @@ import org.springframework.hateoas.PagedModel;
 public final class ResponseResultBuilder {
     private int pageSize;
     private int current;
+
     private Long totalElements;
     private int totalPages;
 

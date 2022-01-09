@@ -18,6 +18,7 @@ import org.springframework.util.ReflectionUtils;
 import javax.annotation.Resource;
 import javax.persistence.Transient;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,7 @@ public class AppBizLogAnnotationHandler {
         sysLog.setRawData(JacksonUtils.object2String(rawData));
         sysLog.setTargetData(JacksonUtils.object2String(targetData));
         sysLog.setLogType(logType);
+        sysLog.setOperateDateTime(LocalDateTime.now());
         return sysLog;
     }
 

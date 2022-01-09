@@ -3,6 +3,7 @@
 <mapper namespace="io.github.toquery.framework.log.repository.SysLogRepository">
     <insert id="insertSysLog">
         insert into sys_log(id,
+                            operate_date_time,
                             create_date_time,
                             create_user_id,
                             update_date_time,
@@ -15,6 +16,7 @@
                             target_data)
             value (
                    #{sysLog.id},
+                   #{sysLog.operateDateTime},
                    #{sysLog.createDateTime},
                    #{sysLog.createUserId},
                    #{sysLog.updateDateTime},

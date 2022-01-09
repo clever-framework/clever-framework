@@ -31,7 +31,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "sys_dict")
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysDict SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_dict SET deleted = true WHERE id = ?")
 public class SysDict extends AppBaseEntity implements AppEntitySort, AppEntityLogicDel {
 
     /**

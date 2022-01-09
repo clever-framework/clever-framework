@@ -41,6 +41,7 @@ public class SysLog extends AppBaseEntity {
         super.setCreateDateTime(sysLog.getCreateDateTime());
         super.setUpdateDateTime(sysLog.getUpdateDateTime());
 
+        this.operateDateTime = sysLog.getOperateDateTime();
         this.moduleName = sysLog.getModuleName();
         this.bizName = sysLog.getBizName();
         this.logType = sysLog.getLogType();
@@ -77,8 +78,8 @@ public class SysLog extends AppBaseEntity {
     /**
      * 操作时间
      */
-    @Column(name = "option_date_time")
-    private LocalDateTime optionDateTime;
+    @Column(name = "operate_date_time")
+    private LocalDateTime operateDateTime;
 
     /**
      * 原数据

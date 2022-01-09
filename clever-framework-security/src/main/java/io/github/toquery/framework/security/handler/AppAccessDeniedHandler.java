@@ -27,6 +27,6 @@ public class AppAccessDeniedHandler implements AccessDeniedHandler {
         ResponseResult responseParam = ResponseResult.builder().message(errorMsg).build();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("utf-8");
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, JacksonUtils.object2String(responseParam));
     }
 }

@@ -49,7 +49,7 @@ public class AppWebAutoConfiguration {
         module.addDeserializer(LocalDateTime.class, new LocalDatetimeFormatter.LocalDateTimeDeserializer());
         module.addSerializer(LocalDate.class, new LocalDateFormatter.LocalDateSerializer());
         module.addDeserializer(LocalDate.class, new LocalDateFormatter.LocalDateDeserializer());
-        module.addSerializer(Long.class, ToStringSerializer.instance);
+        // module.addSerializer(Long.class, ToStringSerializer.instance);
         return module;
     }
 }

@@ -5,29 +5,14 @@ import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import io.github.toquery.framework.system.rest.SysAreaRest;
 import io.github.toquery.framework.system.rest.SysConfigRest;
+import io.github.toquery.framework.system.rest.SysDeptRest;
 import io.github.toquery.framework.system.rest.SysDictRest;
 import io.github.toquery.framework.system.rest.SysMenuRest;
 import io.github.toquery.framework.system.rest.SysRoleRest;
 import io.github.toquery.framework.system.rest.SysUserRest;
 import io.github.toquery.framework.system.runner.AppSystemRunner;
-import io.github.toquery.framework.system.service.ISysAreaService;
-import io.github.toquery.framework.system.service.ISysConfigService;
-import io.github.toquery.framework.system.service.ISysDictItemService;
-import io.github.toquery.framework.system.service.ISysDictService;
-import io.github.toquery.framework.system.service.ISysMenuService;
-import io.github.toquery.framework.system.service.ISysRoleMenuService;
-import io.github.toquery.framework.system.service.ISysRoleService;
-import io.github.toquery.framework.system.service.ISysUserPermissionService;
-import io.github.toquery.framework.system.service.ISysUserService;
-import io.github.toquery.framework.system.service.impl.SysAreaServiceImpl;
-import io.github.toquery.framework.system.service.impl.SysConfigServiceImpl;
-import io.github.toquery.framework.system.service.impl.SysDictItemServiceImpl;
-import io.github.toquery.framework.system.service.impl.SysDictServiceImpl;
-import io.github.toquery.framework.system.service.impl.SysMenuServiceImpl;
-import io.github.toquery.framework.system.service.impl.SysRoleMenuServiceImpl;
-import io.github.toquery.framework.system.service.impl.SysRoleServiceImpl;
-import io.github.toquery.framework.system.service.impl.SysUserPermissionServiceImpl;
-import io.github.toquery.framework.system.service.impl.SysUserServiceImpl;
+import io.github.toquery.framework.system.service.*;
+import io.github.toquery.framework.system.service.impl.*;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +63,13 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public SysDeptRest getSysDeptRest() {
+        return new SysDeptRest();
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean
     public SysMenuRest getSysMenuRest() {
         return new SysMenuRest();
     }
@@ -110,6 +102,13 @@ public class AppSystemAutoConfiguration {
     @ConditionalOnMissingBean
     public ISysAreaService getISysAreaService() {
         return new SysAreaServiceImpl();
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysDeptService getISysDeptService() {
+        return new SysDeptServiceImpl();
     }
 
 

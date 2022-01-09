@@ -22,7 +22,7 @@ import java.util.List;
 @Setter
 @Table(name = "sys_user_permission")
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysUserPermission SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_user_permission SET deleted = true WHERE id = ?")
 public class SysUserPermission extends AppBaseEntity implements AppEntityLogicDel {
 
     @Column(name = "user_id")

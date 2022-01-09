@@ -30,7 +30,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE SysDept SET deleted = true WHERE id = ?")
+@SQLDelete(sql ="UPDATE sys_dept SET deleted = true WHERE id = ?")
 public class SysDept extends AppBaseEntity implements AppEntityTree<SysDept>, AppEntitySort, AppEntityLogicDel {
 
     public SysDept(Long id, String deptName) {
@@ -50,6 +50,11 @@ public class SysDept extends AppBaseEntity implements AppEntityTree<SysDept>, Ap
     @Size(max = 50)
     @Column(name = "dept_name", length = 50)
     private String deptName;
+
+    @NotNull
+    @ColumnDefault("1")
+    @Column(name = "dept_status")
+    private Integer deptStatus = 1;
 
     // 树状结构
     @Column(name = "dept_level")

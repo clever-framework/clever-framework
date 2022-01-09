@@ -1,6 +1,5 @@
 package io.github.toquery.framework.webmvc.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +17,6 @@ public class ResponsePage {
 
     private int current;
 
-    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     private Long totalElements;
 
     private int totalPages;
