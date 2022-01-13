@@ -103,6 +103,9 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
      * 用户角色
      */
     @Transient
+    private Collection<Long> roleIds;
+
+    @Transient
     private Collection<SysRole> roles;
 
     @Transient

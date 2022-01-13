@@ -33,6 +33,7 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
         Map<String, String> map = new HashMap<>();
         map.put("idIN", "id:IN");
         map.put("roleName", "roleName:EQ");
+        map.put("roleStatus", "roleStatus:EQ");
         map.put("roleNameLike", "roleName:LIKE");
         return map;
     }

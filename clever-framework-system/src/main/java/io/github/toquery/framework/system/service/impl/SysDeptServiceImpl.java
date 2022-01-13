@@ -30,6 +30,7 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
         {
             put("id", "id:EQ");
             put("idIN", "id:IN");
+            put("deptStatus", "deptStatus:EQ");
             put("deptName", "deptName:LIKE");
             put("parentId", "parentId:EQ");
             put("parentIdLike", "parentId:LIKE");

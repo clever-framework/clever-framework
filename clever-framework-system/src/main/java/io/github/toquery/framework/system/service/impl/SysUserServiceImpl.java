@@ -3,10 +3,10 @@ package io.github.toquery.framework.system.service.impl;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
+import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.repository.SysUserRepository;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepository> implements AppUserDetailService,ISysUserService {
+public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepository> implements ISysUserService {
 
     @Resource
     private PasswordEncoder passwordEncoder;
@@ -44,7 +44,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
         Map<String, String> map = new HashMap<>();
         map.put("idIN", "id:IN");
         map.put("email", "email:EQ");
-        map.put("status", "status:EQ");
+        map.put("userStatus", "userStatus:EQ");
         map.put("emailLike", "email:LIKE");
         map.put("username", "username:EQ");
         map.put("nickname", "nickname:EQ");
@@ -148,7 +148,9 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
     public SysUser getByIdWithRole(Long id) {
         SysUser sysUser = super.getById(id);
         List<SysUserPermission> sysUserPermissions = sysUserPermissionService.findByUserId(id);
-        sysUser.setRoles(sysUserPermissions.stream().map(SysUserPermission::getRole).collect(Collectors.toSet()));
+        Set<SysRole> roles = sysUserPermissions.stream().map(SysUserPermission::getRole).collect(Collectors.toSet());
+        sysUser.setRoles(roles);
+        sysUser.setRoleIds(roles.stream().map(SysRole::getId).collect(Collectors.toSet()));
         return sysUser;
     }
 }

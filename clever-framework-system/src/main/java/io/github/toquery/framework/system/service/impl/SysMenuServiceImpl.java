@@ -43,6 +43,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
         {
             put("id", "id:EQ");
             put("idIN", "id:IN");
+            put("menuStatus", "menuStatus:EQ");
             put("menuName", "menuName:LIKE");
             put("menuCode", "menuCode:LIKE");
             put("parentId", "parentId:EQ");

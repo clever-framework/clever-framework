@@ -3,7 +3,6 @@ package io.github.toquery.framework.system.service;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysDept;
-import io.github.toquery.framework.system.entity.SysDept;
 
 import java.util.List;
 import java.util.Set;
@@ -16,15 +15,15 @@ public interface ISysDeptService extends AppBaseService<SysDept> {
 
     public static final String ROOT_ID = "0";
 
-    public static final Set<String> UPDATE_FIELD = Sets.newHashSet("menuName", "menuCode", "sortNum", "parentId", "parentIds", "treePath", "hasChildren");
+    public static final Set<String> UPDATE_FIELD = Sets.newHashSet("deptName", "deptCode", "sortNum", "parentId", "parentIds", "treePath", "hasChildren");
 
     /**
      * 自定义保存，变更上级的 hasChildren
      *
-     * @param sysMenu SysDept
+     * @param sysDept SysDept
      * @return SysDept
      */
-    SysDept saveDept(SysDept sysMenu);
+    SysDept saveDept(SysDept sysDept);
 
     /**
      * 自定义修改，变更上级的 hasChildren

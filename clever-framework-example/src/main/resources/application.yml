@@ -1,9 +1,6 @@
 # spring 配置项目
 # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties
 
-server:
-  port: 8888
-
 app:
   oss:
     minio:
@@ -24,7 +21,8 @@ app:
 #      - /app/minio/upload
   jwt:
     secret: 123456
-
+  web-mvc:
+    auto-wrap-response: true
 spring:
   profiles:
     active: local

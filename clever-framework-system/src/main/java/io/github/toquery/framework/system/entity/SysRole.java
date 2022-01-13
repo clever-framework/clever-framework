@@ -1,6 +1,8 @@
 package io.github.toquery.framework.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
 import lombok.Getter;
@@ -27,7 +29,7 @@ import java.util.Collection;
 @Table(name = "sys_role")
 @Where(clause = "deleted = false")
 @SQLDelete(sql ="UPDATE sys_role SET deleted = true WHERE id = ?")
-public class SysRole extends AppBaseEntity implements AppEntityLogicDel {
+public class SysRole extends AppBaseEntity implements AppEntityLogicDel, AppEntitySort {
 
 
     @NotBlank
@@ -40,6 +42,9 @@ public class SysRole extends AppBaseEntity implements AppEntityLogicDel {
     @Column(name = "role_status")
     private Integer roleStatus = 1;
 
+    @Column(name = "sort_num")
+    private Integer sortNum = 0;
+
     /**
      * 是否删除：1已删除；0未删除
      */
@@ -48,6 +53,7 @@ public class SysRole extends AppBaseEntity implements AppEntityLogicDel {
     private boolean deleted = false;
 
     @Transient
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Collection<Long> menuIds;
 
     @Transient

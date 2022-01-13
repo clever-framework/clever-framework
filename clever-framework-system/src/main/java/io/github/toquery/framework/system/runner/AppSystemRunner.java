@@ -28,6 +28,6 @@ public class AppSystemRunner implements ApplicationRunner {
             log.info("将不会自动生成菜单 generateMenu is false");
             return;
         }
-        sysMenuService.scanAndInsertMenus(appSystemProperties.isGenerateView());
+        sysMenuService.scanAndInsertMenus(generateMenu);
     }
 }
