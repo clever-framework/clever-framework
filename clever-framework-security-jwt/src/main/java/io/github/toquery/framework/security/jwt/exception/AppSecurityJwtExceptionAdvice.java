@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -27,7 +28,7 @@ public class AppSecurityJwtExceptionAdvice {
 
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @org.springframework.web.bind.annotation.ResponseBody
+    @ResponseBody
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseResult> handleExpiredJwtException(AccessDeniedException exception) {
         exception.printStackTrace();
@@ -35,14 +36,16 @@ public class AppSecurityJwtExceptionAdvice {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @org.springframework.web.bind.annotation.ResponseBody
+    @ResponseBody
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ResponseResult> handleExpiredJwtException(ExpiredJwtException exception) {
         exception.printStackTrace();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseResult.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("登录失效！").build());
     }
 
-    @org.springframework.web.bind.annotation.ResponseBody
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
     @ExceptionHandler(AppSecurityJwtException.class)
     public ResponseEntity<ResponseResult> handleAuthenticationException(AppSecurityJwtException exception) {
         exception.printStackTrace();

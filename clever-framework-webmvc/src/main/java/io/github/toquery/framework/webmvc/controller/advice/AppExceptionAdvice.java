@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.validation.ConstraintViolationException;
 
@@ -29,18 +30,17 @@ public class AppExceptionAdvice {
     }
 
 
-    /*
     @ResponseStatus(code=HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value=NoHandlerFoundException.class)
-    public ResponseEntity<ResponseParam> badRequest(NoHandlerFoundException exception) {
+    @ExceptionHandler(value= NoHandlerFoundException.class)
+    public ResponseEntity<ResponseResult> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseParam.builder().build().message("请求地址错误！"));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseResult.builder().message("请求地址错误！").build());
     }
-    */
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseResult> handleAppException(Exception exception) {
+    public ResponseEntity<ResponseResult> handleException(Exception exception) {
         exception.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }

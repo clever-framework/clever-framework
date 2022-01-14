@@ -16,13 +16,15 @@ app:
       - /error
       - /h2-console/**
       - /app/ueditor
+      - /admin/test/**
 #      - /app/files
 #      - /app/files/**
 #      - /app/minio/upload
   jwt:
     secret: 123456
   web-mvc:
-    auto-wrap-response: true
+    autoWrapResponse: true
+
 spring:
   profiles:
     active: local

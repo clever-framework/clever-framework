@@ -27,11 +27,11 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
     }
 
     public ResponseResult(ResponseBodyBuilder builder) {
-        this.code(builder.getCode());
-        this.message(builder.getMessage());
-        this.content(builder.getContent());
-        this.success(builder.getSuccess());
-        this.page(builder.getPage());
+        this.setCode(builder.getCode());
+        this.setMessage(builder.getMessage());
+        this.setContent(builder.getContent());
+        this.setSuccess(builder.getSuccess());
+        this.setPage(builder.getPage());
         if (builder.getParam() != null) {
             builder.getParam().forEach(this::param);
         }
@@ -45,14 +45,16 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
         return new ResponseBodyBuilder(this);
     }
 
-    private ResponseResult success(boolean success){
+    public void setSuccess(boolean success) {
         this.put(SUCCESS_PARAM, success);
-        return this;
     }
 
-    private ResponseResult content(Object content) {
+    public void setContent(Object content) {
         this.put(CONTENT_PARAM_VALUE, content);
-        return this;
+    }
+
+    public Object getContent() {
+        return this.get(CONTENT_PARAM_VALUE);
     }
 
     /**
@@ -61,9 +63,16 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      * @param code
      * @return
      */
-    private ResponseResult code(Object code) {
+    public void setCode(Integer code) {
         this.put(CODE_PARAM, code);
-        return this;
+    }
+
+    public Integer getCode() {
+        Object value = this.get(CODE_PARAM);
+        if (value == null) {
+            return null;
+        }
+        return (Integer) value;
     }
 
     /**
@@ -72,14 +81,28 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      * @param value
      * @return
      */
-    private ResponseResult message(String value) {
+    public void setMessage(String value) {
         this.put(MESSAGE_PARAM, value);
-        return this;
     }
 
-    private ResponseResult page(ResponsePage responsePage) {
+    public String getMessage() {
+        Object value = this.get(MESSAGE_PARAM);
+        if (value == null) {
+            return null;
+        }
+        return (String) value;
+    }
+
+    public void setPage(ResponsePage responsePage) {
         this.put(PAGE_PARAM_VALUE, responsePage);
-        return this;
+    }
+
+    public ResponsePage getPage() {
+        Object value = this.get(PAGE_PARAM_VALUE);
+        if (value == null) {
+            return null;
+        }
+        return (ResponsePage) value;
     }
 
     /**
@@ -88,7 +111,7 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    private ResponseResult page(org.springframework.data.domain.Page<?> page) {
+    public ResponseResult page(org.springframework.data.domain.Page<?> page) {
         this.put(PAGE_PARAM_VALUE, new ResponseResultBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page == null ? null : page.getContent());
         return this;

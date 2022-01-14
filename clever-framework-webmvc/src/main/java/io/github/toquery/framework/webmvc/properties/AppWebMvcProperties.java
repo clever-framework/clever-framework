@@ -24,16 +24,16 @@ public class AppWebMvcProperties {
 
     public static final String PREFIX = "app.web-mvc";
 
-    /**
-     * 是否自动包裹响应结果
-     */
-    private boolean autoWrapResponse = true;
 
     private AppWebMvcCaptchaProperties captcha = new AppWebMvcCaptchaProperties();
 
     private AppWebParamProperties param = new AppWebParamProperties();
 
     private AppWebParamDefaultProperties defaultValue = new AppWebParamDefaultProperties();
+
+    private AppWebMvcWrapProperties wrap = new AppWebMvcWrapProperties();
+
+    private AppWebMvcSecretProperties secret = new AppWebMvcSecretProperties();
 
     @Getter
     @Setter

@@ -1,11 +1,13 @@
 package io.github.toquery.framework.webmvc.autoconfig;
 
-import io.github.toquery.framework.webmvc.advice.AppResponseBodyAdvice;
+import io.github.toquery.framework.webmvc.advice.AppResponseWrapAdvice;
 import io.github.toquery.framework.webmvc.config.AppWebMvcConfig;
 import io.github.toquery.framework.webmvc.controller.AppCaptchaRest;
 import io.github.toquery.framework.webmvc.controller.AppDictRest;
 import io.github.toquery.framework.webmvc.controller.advice.AppExceptionAdvice;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
+import io.github.toquery.framework.webmvc.secret.advice.AppRequestSecretAdvice;
+import io.github.toquery.framework.webmvc.secret.advice.AppResponseSecretAdvice;
 import io.github.toquery.framework.webmvc.service.CaptchaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -15,7 +17,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
  * @author toquery
@@ -35,31 +36,44 @@ public class AppWebMvcAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingClass
-    public CaptchaService getCaptchaService(){
+    public CaptchaService getCaptchaService() {
         return new CaptchaService();
     }
 
     @Bean
     @ConditionalOnMissingClass
-    public AppCaptchaRest getAppCaptchaRest(){
+    public AppCaptchaRest getAppCaptchaRest() {
         return new AppCaptchaRest();
     }
 
     @Bean
-    public AppDictRest getAppDictRest(){
+    public AppDictRest getAppDictRest() {
         return new AppDictRest();
     }
 
     @Bean
-    public AppExceptionAdvice getAppExceptionAdvice(){
+    public AppExceptionAdvice getAppExceptionAdvice() {
         return new AppExceptionAdvice();
     }
 
     @Bean
     @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX, name = "autoWrapResponse", havingValue = "true", matchIfMissing = true)
-    public AppResponseBodyAdvice getAppResponseBodyAdvice(){
-        return new AppResponseBodyAdvice();
+    public AppResponseWrapAdvice getAppResponseWrapAdvice() {
+        return new AppResponseWrapAdvice();
     }
+
+
+//    @Bean
+    //@ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.request", name = "enable", havingValue = "true")
+//    public AppRequestSecretAdvice getAppRequestSecretAdvice() {
+//        return new AppRequestSecretAdvice();
+//    }
+
+//    @Bean
+//    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.response", name = "enable", havingValue = "true")
+//    public AppResponseSecretAdvice getAppResponseSecretAdvice() {
+//        return new AppResponseSecretAdvice();
+//    }
 
     /*
     @Bean
