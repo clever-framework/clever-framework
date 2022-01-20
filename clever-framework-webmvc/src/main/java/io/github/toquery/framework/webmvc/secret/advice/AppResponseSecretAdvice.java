@@ -8,6 +8,7 @@ import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcSecretProperties;
 import io.github.toquery.framework.webmvc.utils.AppSecretAdviceUtils;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
@@ -48,6 +49,7 @@ public class AppResponseSecretAdvice implements ResponseBodyAdvice<Object> {
         return AppSecretAdviceUtils.responseNeedEncrypt(response, currentClass, methodParameter);
     }
 
+    @SneakyThrows
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter parameter, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         log.debug("AppResponseSecretAdvice beforeBodyWrite body:{} returnType:{} selectedContentType:{} selectedConverterType:{} request:{} response:{}", body, parameter, selectedContentType, selectedConverterType, request, response);
@@ -61,15 +63,21 @@ public class AppResponseSecretAdvice implements ResponseBodyAdvice<Object> {
             return null;
         }
 
+        //  text/* 格式处理
+        if (selectedContentType.isCompatibleWith(new MediaType("text", "*"))) {
+            log.warn("AppResponseSecretAdvice beforeBodyWrite body is text/* 将忽略加密");
+            return body;
+        }
+
         AppWebMvcSecretProperties.AppWebMvcSecretItem responseSecretItem = appWebMvcProperties.getSecret().getResponse();
 
-        String content = null;
+        Object content = null;
         //
         if (body instanceof ResponseResult) {
             ResponseResult responseResult = ((ResponseResult) body);
             Object contentObject = responseResult.getContent();
             try {
-                content = this.getContentAnEncode(contentObject, responseSecretItem.getKey(), responseSecretItem.getIv());
+                content = this.getContentAnEncode(contentObject, responseSecretItem.getKey(), responseSecretItem.getIv(), response);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
                 responseResult.setMessage(e.getMessage());
@@ -80,17 +88,15 @@ public class AppResponseSecretAdvice implements ResponseBodyAdvice<Object> {
 
         // 加密
         try {
-            content = this.getContentAnEncode(body, responseSecretItem.getKey(), responseSecretItem.getIv());
+            content = this.getContentAnEncode(body, responseSecretItem.getKey(), responseSecretItem.getIv(), response);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        // 设置响应头，让前端解密
-        HttpHeaders httpHeaders = response.getHeaders();
-        httpHeaders.set("X-App-Response-Secret", "true");
+
         return content;
     }
 
-    private String getContentAnEncode(Object contentObject, String key, String iv) throws JsonProcessingException {
+    private String getContentAnEncode(Object contentObject, String key, String iv, ServerHttpResponse response) throws JsonProcessingException {
         String content = null;
         if (contentObject != null) {
             if (contentObject instanceof String) {
@@ -102,6 +108,9 @@ public class AppResponseSecretAdvice implements ResponseBodyAdvice<Object> {
                 content = AesCbcUtil.encode(content, key, iv);
             }
         }
+        // 设置响应头，让前端解密
+        HttpHeaders httpHeaders = response.getHeaders();
+        httpHeaders.set("X-App-Response-Secret", "true");
         return content;
     }
 

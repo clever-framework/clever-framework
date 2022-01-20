@@ -1,5 +1,6 @@
 package com.toquery.framework.example.bff.admin.app.controller;
 
+import com.toquery.framework.example.bff.admin.app.model.TestResponseWrap;
 import io.github.toquery.framework.webmvc.annotation.ResponseIgnoreWrap;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.secret.annotation.ResponseIgnoreSecret;
@@ -26,8 +27,8 @@ public class AppTestWrapController {
 
     @ResponseBody
     @GetMapping("/wrap")
-    public String wrap() {
-        return "将包裹响应";
+    public TestResponseWrap wrap() {
+        return new TestResponseWrap("将包裹响应");
     }
 
     @GetMapping("/wrap-void")
@@ -37,8 +38,8 @@ public class AppTestWrapController {
 
     @ResponseIgnoreWrap
     @GetMapping("/wrap-ignore")
-    public String wrapIgnore() {
-        return "将不包裹响应，直接返回String";
+    public TestResponseWrap wrapIgnore() {
+        return new TestResponseWrap("将不包裹响应，直接返回String");
     }
 
 }

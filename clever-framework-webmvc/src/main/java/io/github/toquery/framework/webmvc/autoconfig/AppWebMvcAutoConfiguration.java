@@ -63,17 +63,17 @@ public class AppWebMvcAutoConfiguration {
     }
 
 
-//    @Bean
-    //@ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.request", name = "enable", havingValue = "true")
-//    public AppRequestSecretAdvice getAppRequestSecretAdvice() {
-//        return new AppRequestSecretAdvice();
-//    }
+    @Bean
+//    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.request", name = "enable", havingValue = "true")
+    public AppRequestSecretAdvice getAppRequestSecretAdvice() {
+        return new AppRequestSecretAdvice();
+    }
 
-//    @Bean
+    @Bean
 //    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.response", name = "enable", havingValue = "true")
-//    public AppResponseSecretAdvice getAppResponseSecretAdvice() {
-//        return new AppResponseSecretAdvice();
-//    }
+    public AppResponseSecretAdvice getAppResponseSecretAdvice() {
+        return new AppResponseSecretAdvice();
+    }
 
     /*
     @Bean

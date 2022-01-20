@@ -112,9 +112,12 @@ public class AppResponseWrapAdvice implements ResponseBodyAdvice<Object> {
             } else {
                 ResponseResult responseResult = ResponseResult.builder().content(body).build();
                 if (selectedContentType.isCompatibleWith(new MediaType("text", "*"))) {
-                    HttpHeaders httpHeaders = response.getHeaders();
-                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                    result = objectMapper.writeValueAsString(responseResult);
+//                    HttpHeaders httpHeaders = response.getHeaders();
+//                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//                    result = objectMapper.writeValueAsString(responseResult);
+
+                    log.warn("App 响应 Wrap 对象为 text/* 类型，不进行处理");
+                    result = body;
                 } else {
                     result = responseResult;
                 }
