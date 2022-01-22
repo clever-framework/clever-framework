@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.2</version>
+        <version>2.6.3</version>
         <relativePath/>
     </parent>
 
@@ -64,7 +64,7 @@
         <grpc.version>1.43.2</grpc.version>
         <io-protostuff.version>1.7.4</io-protostuff.version>
 
-        <hutool.version>5.7.19</hutool.version>
+        <hutool.version>5.7.20</hutool.version>
 
         <mybatis-spring-boot-starter.version>2.2.1</mybatis-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.4.1</pagehelper-spring-boot-starter.version>
