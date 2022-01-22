@@ -13,6 +13,7 @@ import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -39,6 +40,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/user")
+@Timed(value = "system-user", description = "系统-用户")
 public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser> {
 
     public static final String MODEL_NAME = "系统管理";

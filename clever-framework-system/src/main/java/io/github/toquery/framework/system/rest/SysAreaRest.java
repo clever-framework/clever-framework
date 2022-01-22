@@ -8,6 +8,7 @@ import io.github.toquery.framework.system.entity.SysArea;
 import io.github.toquery.framework.system.service.ISysAreaService;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/area")
+@Timed(value = "system-area", description = "系统-区域")
 public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea> {
 
 

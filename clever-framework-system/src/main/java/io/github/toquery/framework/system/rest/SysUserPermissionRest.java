@@ -6,6 +6,7 @@ import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.service.ISysUserPermissionService;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +28,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/user/permission")
+@Timed(value = "system-permission", description = "系统-权限")
 public class SysUserPermissionRest extends AppBaseCrudController<ISysUserPermissionService, SysUserPermission> {
 
 

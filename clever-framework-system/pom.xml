@@ -54,12 +54,17 @@
             <artifactId>swagger-annotations</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 </project>

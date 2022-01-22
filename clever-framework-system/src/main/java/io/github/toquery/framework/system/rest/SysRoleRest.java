@@ -8,6 +8,7 @@ import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.service.ISysRoleService;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +29,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/role")
+@Timed(value = "system-role", description = "系统-角色")
 public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole> {
 
     public static final String MODEL_NAME = "系统管理";

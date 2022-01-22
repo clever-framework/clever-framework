@@ -7,6 +7,7 @@ import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysDict;
 import io.github.toquery.framework.system.service.ISysDictService;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/dict")
+@Timed(value = "system-dict", description = "系统-字典")
 public class SysDictRest extends AppBaseCrudController<ISysDictService, SysDict> {
 
 

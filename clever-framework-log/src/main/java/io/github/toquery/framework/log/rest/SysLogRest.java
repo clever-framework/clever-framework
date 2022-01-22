@@ -7,10 +7,10 @@ import io.github.toquery.framework.core.security.userdetails.AppUserDetailServic
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.service.ISysLogService;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author toquery
@@ -34,6 +31,7 @@ import java.util.stream.Stream;
  */
 @RestController
 @RequestMapping("/sys/log")
+@Timed(value = "system-log", description = "系统-日志")
 public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
 
     @Resource

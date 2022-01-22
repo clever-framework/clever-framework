@@ -16,6 +16,7 @@ import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
     private AppUserDetailService appUserDetailsService;
 
 
-
+    @Timed(value = "system-login", description = "系统-登录")
     @PostMapping(value = "${app.jwt.path.token:/user/login}")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody Map<String,String> loginMap) throws AppException {
         String userName = this.getRequestValue(loginMap, appSecurityJwtProperties.getParam().getUsername(), "未获取到登录用户名");
@@ -126,6 +127,8 @@ public class JwtAuthenticationRest extends AppBaseWebController {
 
     }
 
+
+    @Timed(value = "system-token-refresh", description = "系统-token刷新")
     @GetMapping(value = "${app.jwt.path.refresh:/user/refresh}")
     public ResponseEntity<?> refreshAndGetAuthenticationToken() {
         String token = jwtTokenHandler.getJwtToken();
@@ -141,6 +144,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
     }
 
 
+    @Timed(value = "system-user-info", description = "系统-用户信息")
     @RequestMapping(value = "${app.jwt.path.info:/user/info}")
     public ResponseEntity<ResponseResult> getAuthenticatedUser(@RequestParam(required = false) Long roleId,
                                                                @RequestParam(required = false) String roleModel) throws AppSecurityJwtException {
@@ -162,6 +166,8 @@ public class JwtAuthenticationRest extends AppBaseWebController {
         return ResponseEntity.ok(ResponseResult.builder().content(user).build());
     }
 
+
+    @Timed(value = "system-user-password", description = "系统-用户修改密码")
     @RequestMapping(value = "${app.jwt.path.password:/user/password}")
     public ResponseEntity<ResponseResult> changePassword(@Validated @RequestBody AppUserChangePassword changePassword) throws AppException {
         if (!changePassword.getRawPassword().equals(changePassword.getRawPasswordConfirm())) {
@@ -182,6 +188,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
     private PasswordEncoder passwordEncoder;
 
 
+    @Timed(value = "system-user-register", description = "系统-用户注册")
     @PostMapping(value = "${app.jwt.path.register:/user/register}")
     public ResponseEntity<ResponseResult> register(@RequestBody SysUser user) throws AppException {
         String encodePassword = passwordEncoder.encode(user.getPassword());
@@ -190,6 +197,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
         return ResponseEntity.ok(ResponseResult.builder().content(user).build());
     }
 
+    @Timed(value = "system-logout", description = "系统-退出")
     @RequestMapping(value = "${app.jwt.path.logout:/user/logout}")
     public ResponseEntity<ResponseResult> userLogout() {
         return ResponseEntity.ok(ResponseResult.builder().content("user logout").build());

@@ -9,6 +9,7 @@ import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,6 +35,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/menu")
+@Timed(value = "system-menu", description = "系统-菜单")
 public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu> {
 
     public static final String MODEL_NAME = "系统管理";

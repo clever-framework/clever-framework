@@ -6,6 +6,7 @@ import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.system.entity.SysConfig;
 import io.github.toquery.framework.system.service.ISysConfigService;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +27,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/config")
+@Timed(value = "system-config", description = "系统-配置")
 public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysConfig> {
     private final String[] SORT = new String[]{"sortNum_desc"};
 

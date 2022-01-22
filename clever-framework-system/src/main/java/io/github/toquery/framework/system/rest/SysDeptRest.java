@@ -10,6 +10,7 @@ import io.github.toquery.framework.system.service.ISysDeptService;
 import io.github.toquery.framework.webmvc.domain.ResponseResult;
 import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
 
+import io.micrometer.core.annotation.Timed;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +32,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/dept")
+@Timed(value = "system-dept", description = "系统-部门")
 public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept> {
 
     private static final String[] SORT = new String[]{"parentIds_asc", "sortNum_desc"};

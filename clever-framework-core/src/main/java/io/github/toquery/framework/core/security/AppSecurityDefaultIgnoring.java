@@ -10,6 +10,6 @@ import java.util.Set;
 public class AppSecurityDefaultIgnoring implements AppSecurityIgnoring{
     @Override
     public Set<String> ignoring() {
-        return Sets.newHashSet();
+        return Sets.newHashSet("/actuator/*");
     }
 }
