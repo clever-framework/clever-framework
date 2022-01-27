@@ -1,6 +1,7 @@
 package io.github.toquery.framework.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.dao.audit.AppEntityD3Listener;
@@ -154,6 +155,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     /**
      * 所有的实体调用save方法都是新的插入，而不是修改
      */
+    @JsonIgnore
     @Override
     public boolean isNew() {
         return this.getId() == null || this.getId() == 0L;
