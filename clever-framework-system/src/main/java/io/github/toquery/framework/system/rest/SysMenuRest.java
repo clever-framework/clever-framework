@@ -7,8 +7,8 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -55,21 +55,21 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @GetMapping
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseResult pageResponseResult() {
+    public ResponseBody pageResponseResult() {
         return super.pageResponseResult(SORT);
     }
 
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseResult listResponseResult() {
+    public ResponseBody listResponseResult() {
         return super.listResponseResult(SORT);
     }
 
     @GetMapping("/tree")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseResult tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
+    public ResponseBody tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
         List<SysMenu> sysMenuList = Lists.newArrayList(new SysMenu(0L, rootName, "root"));
         List<SysMenu> childrenList = domainService.list(super.getFilterParam(), SORT);
         sysMenuList.addAll(childrenList);
@@ -81,14 +81,14 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseResult saveResponseResult(@Validated @RequestBody SysMenu sysMenu) {
+    public ResponseBody saveResponseResult(@Validated @RequestBody SysMenu sysMenu) {
         return super.handleResponseBody(domainService.saveMenu(sysMenu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping("/scan")
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseResult scan() {
+    public ResponseBody scan() {
         domainService.scanAndInsertMenus(false);
         return new ResponseBodyBuilder().message("添加完成").build();
     }
@@ -96,21 +96,21 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @PutMapping
     @PreAuthorize("hasAnyAuthority('system:menu:modify')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseResult updateResponseResult(@RequestBody SysMenu menu) {
+    public ResponseBody updateResponseResult(@RequestBody SysMenu menu) {
         return this.handleResponseBody(super.domainService.updateMenu(menu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('system:menu:delete')")
-    public ResponseResult deleteResponseResult(@RequestParam Set<Long> ids) {
+    public ResponseBody deleteResponseResult(@RequestParam Set<Long> ids) {
         domainService.deleteMenu(ids);
-        return ResponseResult.builder().success().build();
+        return ResponseBody.builder().success().build();
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
-    public ResponseResult detailResponseBody(@PathVariable Long id) {
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 }

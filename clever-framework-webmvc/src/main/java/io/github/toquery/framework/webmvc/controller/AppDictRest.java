@@ -6,8 +6,8 @@ import com.google.common.collect.Sets;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.web.dict.annotation.AppDict;
 import io.github.toquery.framework.web.dict.AppDictRuntime;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -68,7 +68,7 @@ public class AppDictRest extends AppBaseWebController implements ApplicationList
     }
 
     @RequestMapping({"{code}"})
-    public ResponseResult runtimeDictionary(@PathVariable String code, @RequestParam(required = false) Set<String> excludes, @RequestParam(required = false, defaultValue = "true") Boolean wrapped) {
+    public ResponseBody runtimeDictionary(@PathVariable String code, @RequestParam(required = false) Set<String> excludes, @RequestParam(required = false, defaultValue = "true") Boolean wrapped) {
         if (!runtimeDictMap.containsKey(code)) {
             return new ResponseBodyBuilder().fail().message("没有指定的字典项").build();
         }

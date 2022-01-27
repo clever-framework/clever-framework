@@ -5,7 +5,7 @@ import com.toquery.framework.example.bff.admin.app.model.TestResponseWrap;
 import io.github.toquery.framework.common.util.AesCbcUtil;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.webmvc.annotation.ResponseIgnoreWrap;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.github.toquery.framework.web.domain.ResponseBody;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcSecretProperties;
 import io.github.toquery.framework.webmvc.secret.annotation.ResponseIgnoreSecret;
@@ -32,16 +32,16 @@ public class AppTestSecretBodyController {
 
     @ResponseIgnoreSecret
     @GetMapping("/secret-encode")
-    public ResponseResult secretEncode(@RequestParam String requestBody) {
+    public ResponseBody secretEncode(@RequestParam String requestBody) {
         AppWebMvcSecretProperties.AppWebMvcSecretItem secret = appWebMvcProperties.getSecret().getResponse();
-        return ResponseResult.builder().content(AesCbcUtil.encode(requestBody, secret.getKey(), secret.getIv())).build();
+        return ResponseBody.builder().content(AesCbcUtil.encode(requestBody, secret.getKey(), secret.getIv())).build();
     }
 
     @ResponseIgnoreSecret
     @GetMapping("/secret-decode")
-    public ResponseResult secretDecode(@RequestParam String requestBody) {
+    public ResponseBody secretDecode(@RequestParam String requestBody) {
         AppWebMvcSecretProperties.AppWebMvcSecretItem secret = appWebMvcProperties.getSecret().getResponse();
-        return ResponseResult.builder().content(AesCbcUtil.decode(requestBody, secret.getKey(), secret.getIv())).build();
+        return ResponseBody.builder().content(AesCbcUtil.decode(requestBody, secret.getKey(), secret.getIv())).build();
     }
 
     @ResponseSecret
@@ -60,8 +60,8 @@ public class AppTestSecretBodyController {
 
     @ResponseSecret
     @GetMapping("/secret-string")
-    public ResponseResult secretString() {
-        return ResponseResult.builder().content("内容将加密处理").build();
+    public ResponseBody secretString() {
+        return ResponseBody.builder().content("内容将加密处理").build();
     }
 
     @ResponseSecret
@@ -80,8 +80,8 @@ public class AppTestSecretBodyController {
 
     @ResponseSecret
     @GetMapping("/secret-list")
-    public ResponseResult secretList() {
-        return ResponseResult.builder().content(this.secretListWrap()).build();
+    public ResponseBody secretList() {
+        return ResponseBody.builder().content(this.secretListWrap()).build();
     }
 
     @ResponseSecret

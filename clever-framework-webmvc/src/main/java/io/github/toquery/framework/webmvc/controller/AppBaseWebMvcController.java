@@ -2,8 +2,8 @@ package io.github.toquery.framework.webmvc.controller;
 
 import com.google.common.base.Strings;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,16 +53,16 @@ public abstract class AppBaseWebMvcController extends AppBaseWebController {
 
 
 
-    protected ResponseResult handleResponseBody(Object object) {
+    protected ResponseBody handleResponseBody(Object object) {
         return new ResponseBodyBuilder().content(object).build();
     }
 
-    protected ResponseEntity<?> responseEntity(ResponseResult responseParam, HttpStatus httpStatus) {
+    protected ResponseEntity<?> responseEntity(ResponseBody responseParam, HttpStatus httpStatus) {
         return new ResponseEntity<>(responseParam, httpStatus);
     }
 
     protected ResponseEntity<?> responseEntity(String message, HttpStatus httpStatus) {
-        ResponseResult responseParam = new ResponseBodyBuilder().message(message).build();
+        ResponseBody responseParam = new ResponseBodyBuilder().message(message).build();
         return this.responseEntity(responseParam, httpStatus);
     }
 

@@ -29,3 +29,14 @@ app:
       port: 9000
       path:
         domain: http://127.0.0.1:9000
+
+  datasource:
+    enable: true
+    type: com.mysql.cj.jdbc.Driver
+    multiple:
+      slave:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        # serverTimezone=Asia/Shanghai 必须在URL追加时区设置
+        url: jdbc:mysql://${DB_MYSQL_HOST}:3306/clever_framework_slave?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: ${DB_MYSQL_USER}
+        password: ${DB_MYSQL_PASSWORD}

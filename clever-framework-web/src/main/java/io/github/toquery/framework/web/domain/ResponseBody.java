@@ -1,4 +1,4 @@
-package io.github.toquery.framework.webmvc.domain;
+package io.github.toquery.framework.web.domain;
 
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author toquery 结果
  * @version 1
  */
-public class ResponseResult extends HashMap<String, Object> { //implements InitializingBean {
+public class ResponseBody<T> extends HashMap<String, Object> { //implements InitializingBean {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,13 +23,14 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
     private static final String CONTENT_PARAM_VALUE = "content";
     private static final String PAGE_PARAM_VALUE = "page";
 
-    public ResponseResult() {
+    public ResponseBody() {
     }
 
-    public ResponseResult(ResponseBodyBuilder builder) {
+    @SuppressWarnings("unchecked")
+    public ResponseBody(ResponseBodyBuilder builder) {
         this.setCode(builder.getCode());
         this.setMessage(builder.getMessage());
-        this.setContent(builder.getContent());
+        this.setContent((T) builder.getContent());
         this.setSuccess(builder.getSuccess());
         this.setPage(builder.getPage());
         if (builder.getParam() != null) {
@@ -49,12 +50,13 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
         this.put(SUCCESS_PARAM, success);
     }
 
-    public void setContent(Object content) {
+    public void setContent(T content) {
         this.put(CONTENT_PARAM_VALUE, content);
     }
 
-    public Object getContent() {
-        return this.get(CONTENT_PARAM_VALUE);
+    @SuppressWarnings("unchecked")
+    public T getContent() {
+        return (T) this.get(CONTENT_PARAM_VALUE);
     }
 
     /**
@@ -111,14 +113,14 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    public ResponseResult page(org.springframework.data.domain.Page<?> page) {
-        this.put(PAGE_PARAM_VALUE, new ResponseResultBuilder(page).build());
+    public ResponseBody page(org.springframework.data.domain.Page<?> page) {
+        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page == null ? null : page.getContent());
         return this;
     }
 
-    private ResponseResult page(PagedModel<?> pagedResources) {
-        this.put(PAGE_PARAM_VALUE, new ResponseResultBuilder(pagedResources).build());
+    private ResponseBody page(PagedModel<?> pagedResources) {
+        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(pagedResources).build());
         this.put(CONTENT_PARAM_VALUE, pagedResources.getContent());
         return this;
     }
@@ -129,8 +131,8 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    private ResponseResult page(com.github.pagehelper.Page<?> page) {
-        this.put(PAGE_PARAM_VALUE, new ResponseResultBuilder(page).build());
+    private ResponseBody page(com.github.pagehelper.Page<?> page) {
+        this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page);
         return this;
     }
@@ -142,7 +144,7 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      * @param value 参数信息的value
      * @return 响应数据
      */
-    private ResponseResult param(String key, Object value) {
+    private ResponseBody param(String key, Object value) {
         this.put(key, value);
         return this;
     }
@@ -152,7 +154,7 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      *
      * @return ResponseEntity实体对象
      */
-    public ResponseEntity<ResponseResult> getResponseEntity() {
+    public ResponseEntity<ResponseBody> getResponseEntity() {
         return getResponseEntity(HttpStatus.OK);
     }
 
@@ -162,7 +164,7 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      * @param httpStatus 状态码
      * @return 包含状态码的response实体
      */
-    public ResponseEntity<ResponseResult> getResponseEntity(HttpStatus httpStatus) {
+    public ResponseEntity<ResponseBody> getResponseEntity(HttpStatus httpStatus) {
         return getResponseEntity(httpStatus, null);
     }
 
@@ -173,7 +175,7 @@ public class ResponseResult extends HashMap<String, Object> { //implements Initi
      * @param contentType 内容类型
      * @return 包含状态码的response实体
      */
-    public ResponseEntity<ResponseResult> getResponseEntity(HttpStatus httpStatus, MediaType contentType) {
+    public ResponseEntity<ResponseBody> getResponseEntity(HttpStatus httpStatus, MediaType contentType) {
         if (httpStatus == null) {
             httpStatus = HttpStatus.OK;
         }

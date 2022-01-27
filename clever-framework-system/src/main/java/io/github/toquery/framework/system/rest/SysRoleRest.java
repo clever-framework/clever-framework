@@ -6,8 +6,8 @@ import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.service.ISysRoleService;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
 import io.micrometer.core.annotation.Timed;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -39,43 +39,43 @@ public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole>
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping
     @PreAuthorize("hasAnyAuthority('system:role:query')")
-    public ResponseResult pageResponseResult() {
+    public ResponseBody pageResponseResult() {
         return super.pageResponseResult();
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping(value = "/list")
     @PreAuthorize("hasAnyAuthority('system:role:query')")
-    public ResponseResult listResponseResult() {
+    public ResponseBody listResponseResult() {
         return super.listResponseResult();
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:role:add')")
-    public ResponseResult saveSysRoleCheck(@Validated @RequestBody SysRole sysRole) throws AppException {
+    public ResponseBody saveSysRoleCheck(@Validated @RequestBody SysRole sysRole) throws AppException {
         return super.handleResponseBody(domainService.saveSysRoleCheck(sysRole));
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
     @PreAuthorize("hasAnyAuthority('system:role:modify')")
-    public ResponseResult updateResponseResult(@RequestBody SysRole sysRole) throws AppException {
+    public ResponseBody updateResponseResult(@RequestBody SysRole sysRole) throws AppException {
         return super.handleResponseBody(domainService.updateSysRoleCheck(sysRole));
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('system:role:delete')")
-    public ResponseResult deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBody deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
         domainService.deleteSysRoleCheck(ids);
-        return ResponseResult.builder().success().build();
+        return ResponseBody.builder().success().build();
     }
 
     @AppLogMethod(value = SysRole.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('system:role:query')")
-    public ResponseResult detailResponseBody(@PathVariable Long id) {
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
         return new ResponseBodyBuilder().content(super.domainService.getWithMenusById(id)).build();
     }
 }

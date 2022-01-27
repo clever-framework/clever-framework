@@ -16,6 +16,7 @@ import io.github.toquery.framework.grpc.server.processor.GRpcServiceProcessor;
 import io.github.toquery.framework.grpc.server.run.GRpcServerApplicationRunner;
 import io.grpc.ProxyDetector;
 import io.grpc.internal.GrpcUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,11 +28,16 @@ import org.springframework.context.annotation.Import;
 /**
  * @since 2019/1/15
  */
+@Slf4j
 @Configuration
 @EnableConfigurationProperties({AppGRpcProperties.class, AppGRpcProperties.Client.class, AppGRpcProperties.Server.class})
 @ConditionalOnProperty(prefix = "app.grpc", name = "enabled", havingValue = "true", matchIfMissing = true)
 @Import({GRpcAutoConfiguration.GrpcClientAutoConfiguration.class, GRpcAutoConfiguration.GrpcServerAutoConfiguration.class})
 public class GRpcAutoConfiguration {
+
+    public GRpcAutoConfiguration() {
+        log.debug("GRpcAutoConfiguration is init.");
+    }
 
     /**
      * @param objectMapper jackson操作工具类

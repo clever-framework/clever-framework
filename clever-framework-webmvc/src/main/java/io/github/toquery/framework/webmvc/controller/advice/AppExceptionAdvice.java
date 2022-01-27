@@ -1,8 +1,8 @@
 package io.github.toquery.framework.webmvc.controller.advice;
 
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,15 +32,15 @@ public class AppExceptionAdvice {
 
     @ResponseStatus(code=HttpStatus.NOT_FOUND)
     @ExceptionHandler(value= NoHandlerFoundException.class)
-    public ResponseEntity<ResponseResult> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
+    public ResponseEntity<ResponseBody> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseResult.builder().message("请求地址错误！").build());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseBody.builder().message("请求地址错误！").build());
     }
 
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseResult> handleException(Exception exception) {
+    public ResponseEntity<ResponseBody> handleException(Exception exception) {
         exception.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
@@ -48,7 +48,7 @@ public class AppExceptionAdvice {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(AppException.class)
-    public ResponseEntity<ResponseResult> handleAppException(AppException exception) {
+    public ResponseEntity<ResponseBody> handleAppException(AppException exception) {
         exception.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
@@ -65,7 +65,7 @@ public class AppExceptionAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseResult> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ResponseBody> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         exception.printStackTrace();
         FieldError fieldError = exception.getBindingResult().getFieldError();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(fieldError.getField() + fieldError.getDefaultMessage()).build());
@@ -73,7 +73,7 @@ public class AppExceptionAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ResponseResult> handleConstraintViolationException(ConstraintViolationException exception) {
+    public ResponseEntity<ResponseBody> handleConstraintViolationException(ConstraintViolationException exception) {
         exception.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(exception.getConstraintViolations().iterator().next().getMessage()).build());
     }

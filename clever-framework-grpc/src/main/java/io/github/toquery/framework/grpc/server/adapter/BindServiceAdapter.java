@@ -4,7 +4,7 @@ import io.github.toquery.framework.common.util.ReflectUtils;
 import io.github.toquery.framework.grpc.core.exception.GRpcMethodNoMatchException;
 import io.github.toquery.framework.grpc.core.factory.MarshallerFactory;
 import io.github.toquery.framework.grpc.core.model.MethodCallProperty;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.github.toquery.framework.web.domain.ResponseBody;
 import io.grpc.*;
 import io.grpc.stub.ServerCalls;
 import io.grpc.stub.StreamObserver;
@@ -95,11 +95,11 @@ public class BindServiceAdapter implements BindableService {
         } catch (Exception exception) {
             if(exception instanceof InvocationTargetException){
                 InvocationTargetException invocationTargetException = (InvocationTargetException)exception;
-                responseObserver.onNext(ResponseResult.builder().fail().message(invocationTargetException.getMessage()).build());
+                responseObserver.onNext(ResponseBody.builder().fail().message(invocationTargetException.getMessage()).build());
                 responseObserver.onCompleted();
                 return;
             }
-            responseObserver.onNext(ResponseResult.builder().fail().message(exception.getMessage()).build());
+            responseObserver.onNext(ResponseBody.builder().fail().message(exception.getMessage()).build());
             responseObserver.onCompleted();
         }
     }
@@ -125,7 +125,7 @@ public class BindServiceAdapter implements BindableService {
                     try {
                         return (StreamObserver<Object>) method.invoke(target, responseObserver);
                     } catch (Exception exception) {
-                        ResponseResult messageBody = ResponseResult.builder().fail().message(exception.getMessage()).build();
+                        ResponseBody messageBody = ResponseBody.builder().fail().message(exception.getMessage()).build();
                         return new StreamObserver<Object>() {
                             @Override
                             public void onNext(Object value) {
@@ -148,7 +148,7 @@ public class BindServiceAdapter implements BindableService {
                     try {
                         return (StreamObserver<Object>) method.invoke(target, responseObserver);
                     } catch (Exception exception) {
-                        ResponseResult messageBody = ResponseResult.builder().fail().message(exception.getMessage()).build();
+                        ResponseBody messageBody = ResponseBody.builder().fail().message(exception.getMessage()).build();
                         return new StreamObserver<Object>() {
                             @Override
                             public void onNext(Object value) {

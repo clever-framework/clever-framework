@@ -4,8 +4,8 @@ import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysUserPermission;
 import io.github.toquery.framework.system.service.ISysUserPermissionService;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
 import io.micrometer.core.annotation.Timed;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -33,41 +33,41 @@ public class SysUserPermissionRest extends AppBaseCrudController<ISysUserPermiss
 
 
     @GetMapping
-    public ResponseResult pageResponseResult() {
+    public ResponseBody pageResponseResult() {
         Page<SysUserPermission> sysUserPermissionPage = super.domainService.queryWithRoleAndArea(super.getFilterParam(), super.getRequestCurrent(), super.getRequestPageSize());
         return new ResponseBodyBuilder().page(sysUserPermissionPage).build();
     }
 
     @GetMapping("/list")
-    public ResponseResult listResponseResult() {
+    public ResponseBody listResponseResult() {
         return super.listResponseResult();
     }
 
     @PostMapping
-    public ResponseResult saveSysUserCheck(@Validated @RequestBody SysUserPermission sysUserPermission) throws AppException {
+    public ResponseBody saveSysUserCheck(@Validated @RequestBody SysUserPermission sysUserPermission) throws AppException {
         return super.handleResponseBody(super.domainService.saveUserPermissionCheck(sysUserPermission));
     }
 
     @PostMapping("/authorize")
-    public ResponseResult authorize(@RequestParam Long userId, @Validated @RequestBody List<SysUserPermission> sysUserPermissions) throws AppException {
+    public ResponseBody authorize(@RequestParam Long userId, @Validated @RequestBody List<SysUserPermission> sysUserPermissions) throws AppException {
         super.domainService.authorize(userId, sysUserPermissions);
         return new ResponseBodyBuilder().success().build();
     }
 
     @PutMapping
-    public ResponseResult updateResponseResult(@RequestBody SysUserPermission sysUserPermission) throws AppException {
+    public ResponseBody updateResponseResult(@RequestBody SysUserPermission sysUserPermission) throws AppException {
         return this.handleResponseBody(super.domainService.updateUserPermissionCheck(sysUserPermission));
     }
 
 
     @DeleteMapping
-    public ResponseResult deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBody deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
         domainService.deleteByIds(ids);
-        return ResponseResult.builder().success().build();
+        return ResponseBody.builder().success().build();
     }
 
     @GetMapping("{id}")
-    public ResponseResult detailResponseBody(@PathVariable Long id) {
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
         return this.handleResponseBody(super.domainService.detailWithRoleAndArea(id));
     }
 }

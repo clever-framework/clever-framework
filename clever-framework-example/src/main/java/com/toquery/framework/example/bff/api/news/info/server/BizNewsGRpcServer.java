@@ -4,9 +4,10 @@ import com.toquery.framework.example.bff.api.news.info.model.request.BizNewsPage
 import com.toquery.framework.example.bff.api.news.info.service.BizNewsGRpcService;
 import io.github.toquery.framework.grpc.core.annotation.GRpcMethod;
 import io.github.toquery.framework.grpc.server.annotation.GRpcServer;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.github.toquery.framework.web.domain.ResponseBody;
 import io.grpc.stub.StreamObserver;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.Resource;
 
 /**
  *
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @GRpcServer("/news")
 public class BizNewsGRpcServer {
 
-    @Autowired
+    @Resource
     private BizNewsGRpcService bizNewsGRpcService;
 
 
@@ -25,8 +26,8 @@ public class BizNewsGRpcServer {
      * @param response 响应
      */
     @GRpcMethod("/page")
-    public void page(BizNewsPageRequest request, StreamObserver<ResponseResult> response) {
-        response.onNext(ResponseResult.builder().success().content(bizNewsGRpcService.page(request)).build());
+    public void page(BizNewsPageRequest request, StreamObserver<ResponseBody<?>> response) {
+        response.onNext(ResponseBody.builder().success().content(bizNewsGRpcService.page(request)).build());
         response.onCompleted();
     }
 }

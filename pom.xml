@@ -67,6 +67,8 @@
         <hutool.version>5.7.20</hutool.version>
 
         <mybatis-spring-boot-starter.version>2.2.1</mybatis-spring-boot-starter.version>
+
+        <pagehelper.version>5.3.0</pagehelper.version>
         <pagehelper-spring-boot-starter.version>1.4.1</pagehelper-spring-boot-starter.version>
     </properties>
 
@@ -88,6 +90,7 @@
         <module>clever-framework-minio</module>
         <module>clever-framework-cache</module>
         <module>clever-framework-grpc</module>
+        <module>clever-framework-datasource</module>
         <!--
         <module>clever-framework-data-rest</module>
         <module>clever-framework-swagger</module>
@@ -153,6 +156,11 @@
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-web</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-datasource</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
@@ -297,6 +305,11 @@
                 <version>${mybatis-spring-boot-starter.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>

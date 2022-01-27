@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.common.util.AesCbcUtil;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.github.toquery.framework.web.domain.ResponseBody;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcSecretProperties;
 import io.github.toquery.framework.webmvc.utils.AppSecretAdviceUtils;
@@ -73,8 +73,8 @@ public class AppResponseSecretAdvice implements ResponseBodyAdvice<Object> {
 
         Object content = null;
         //
-        if (body instanceof ResponseResult) {
-            ResponseResult responseResult = ((ResponseResult) body);
+        if (body instanceof ResponseBody) {
+            ResponseBody responseResult = ((ResponseBody) body);
             Object contentObject = responseResult.getContent();
             try {
                 content = this.getContentAnEncode(contentObject, responseSecretItem.getKey(), responseSecretItem.getIv(), response);

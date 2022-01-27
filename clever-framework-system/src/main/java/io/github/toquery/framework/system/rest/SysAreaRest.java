@@ -6,8 +6,8 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysArea;
 import io.github.toquery.framework.system.service.ISysAreaService;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
 import io.micrometer.core.annotation.Timed;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,17 +34,17 @@ public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea>
     private String[] sort = new String[]{"sortNum_desc"};
 
     @GetMapping
-    public ResponseResult pageResponseResult() {
+    public ResponseBody<?> pageResponseResult() {
         return super.pageResponseResult(sort);
     }
 
     @GetMapping(value = "/list")
-    public ResponseResult listResponseResult() {
+    public ResponseBody<?> listResponseResult() {
         return super.listResponseResult(sort);
     }
 
     @GetMapping("/tree")
-    public ResponseResult tree() throws Exception {
+    public ResponseBody<?> tree() throws Exception {
         List<SysArea> sysMenuList = domainService.list(null, sort);
         // 将lists数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
@@ -52,18 +52,18 @@ public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea>
     }
 
     @PutMapping
-    public ResponseResult updateResponseResult(@RequestBody SysArea sysArea) throws AppException {
+    public ResponseBody<?> updateResponseResult(@RequestBody SysArea sysArea) throws AppException {
         return super.handleResponseBody(domainService.update(sysArea, Sets.newHashSet("name", "code")));
     }
 
     @DeleteMapping
-    public ResponseResult deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBody<?> deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
         domainService.deleteByIds(ids);
-        return ResponseResult.builder().success().build();
+        return ResponseBody.builder().success().build();
     }
 
     @GetMapping("{id}")
-    public ResponseResult detailResponseBody(@PathVariable Long id) {
+    public ResponseBody<?> detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 }

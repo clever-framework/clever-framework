@@ -6,17 +6,29 @@ management:
       enabled: true
       probes:
         enabled: true
+      show-details: always
     info:
       enabled: true
+
   endpoints:
     web:
       exposure:
         include: "*" # health,info,prometheus
+
   health:
     livenessState: # 开启 /actuator/health/liveness
       enabled: true
     readinessState: # 开启 /actuator/health/readiness
       enabled: true
+
+  metrics:
+    enable:
+      jvm: true
+    use-global-registry: false
+
+    tags:
+      region: us-east-1
+      stack: prod
 
 server:
   shutdown: graceful # 优雅停机
@@ -41,6 +53,7 @@ app:
       - /h2-console/**
       - /app/ueditor
       - /admin/test/**
+      - /admin/biz-author
 #      - /app/files
 #      - /app/files/**
 #      - /app/minio/upload
@@ -48,7 +61,12 @@ app:
     secret: 123456
   web-mvc:
     autoWrapResponse: true
-
+  grpc:
+    enabled: true
+    client:
+      services:
+        clever-framework-example:
+          host: loaclhost
 spring:
   profiles:
     active: local
@@ -110,6 +128,7 @@ spring:
         use_sql_comments: false
         format_sql: true
         enable_lazy_load_no_trans: true
+        generate_statistics: true # metrics
 
   data:
     rest:

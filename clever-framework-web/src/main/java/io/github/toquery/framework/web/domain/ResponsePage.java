@@ -1,4 +1,4 @@
-package io.github.toquery.framework.webmvc.domain;
+package io.github.toquery.framework.web.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,19 +24,19 @@ public class ResponsePage {
     public ResponsePage() {
     }
 
-    public ResponsePage(ResponseResultBuilder builder) {
+    public ResponsePage(ResponsePageBuilder builder) {
         this.pageSize = builder.getPageSize();
         this.current = builder.getCurrent();
         this.totalElements = builder.getTotalElements();
         this.totalPages = builder.getTotalPages();
     }
 
-    public static ResponseResultBuilder builder() {
-        return new ResponseResultBuilder();
+    public static ResponsePageBuilder builder() {
+        return new ResponsePageBuilder();
     }
 
-    public ResponseResultBuilder newBuilder() {
-        return new ResponseResultBuilder(this);
+    public ResponsePageBuilder newBuilder() {
+        return new ResponsePageBuilder(this);
     }
 
 

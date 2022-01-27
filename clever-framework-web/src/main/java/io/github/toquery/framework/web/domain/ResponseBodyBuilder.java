@@ -1,4 +1,4 @@
-package io.github.toquery.framework.webmvc.domain;
+package io.github.toquery.framework.web.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public final class ResponseBodyBuilder {
 
     }
 
-    public ResponseBodyBuilder(ResponseResult responseParam) {
+    public ResponseBodyBuilder(ResponseBody responseParam) {
     }
 
     public boolean getSuccess() {
@@ -59,19 +59,19 @@ public final class ResponseBodyBuilder {
     }
 
     public ResponseBodyBuilder page(com.github.pagehelper.Page<?> page) {
-        this.page =  new ResponseResultBuilder().page(page).build();
+        this.page =  new ResponsePageBuilder().page(page).build();
         this.content = page == null ? null : page.getResult();
         return this;
     }
 
     public ResponseBodyBuilder page(org.springframework.data.domain.Page<?> page) {
-        this.page = new ResponseResultBuilder().page(page).build();
+        this.page = new ResponsePageBuilder().page(page).build();
         this.content = page == null ? null : page.getContent();
         return this;
     }
 
     public ResponseBodyBuilder page(PagedModel.PageMetadata pageMetadata) {
-        this.page =  new ResponseResultBuilder().page(pageMetadata).build();
+        this.page =  new ResponsePageBuilder().page(pageMetadata).build();
         return this;
     }
 
@@ -88,8 +88,8 @@ public final class ResponseBodyBuilder {
         return this;
     }
 
-    public ResponseResult build() {
-        return new ResponseResult(this);
+    public ResponseBody build() {
+        return new ResponseBody(this);
     }
 
     public ResponseBodyBuilder fail() {

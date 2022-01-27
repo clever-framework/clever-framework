@@ -11,8 +11,8 @@ import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.service.ISysUserService;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
 import io.micrometer.core.annotation.Timed;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,14 +58,14 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping
-    public ResponseResult pageResponseResult() {
+    public ResponseBody pageResponseResult() {
         return super.pageResponseResult();
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("/list")
-    public ResponseResult listResponseResult() {
+    public ResponseBody listResponseResult() {
         return super.listResponseResult();
     }
 
@@ -74,7 +73,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("/exist")
-    public ResponseResult exist(SysUser sysUser) {
+    public ResponseBody exist(SysUser sysUser) {
         Map<String, Object> map = JacksonUtils.object2HashMap2(objectMapper, sysUser);
         List<SysUser> sysUserList = domainService.list(map);
         return new ResponseBodyBuilder().content(!sysUserList.isEmpty()).build();
@@ -84,7 +83,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     @AppLogMethod(value = SysUser.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:add')")
     @PostMapping
-    public ResponseResult saveSysUserCheck(@Validated @RequestBody SysUser sysUser) throws AppException {
+    public ResponseBody saveSysUserCheck(@Validated @RequestBody SysUser sysUser) throws AppException {
         String encodePassword = passwordEncoder.encode(sysUser.getPassword());
         sysUser.setPassword(encodePassword);
         return super.handleResponseBody(domainService.saveSysUserCheck(sysUser));
@@ -93,7 +92,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     @AppLogMethod(value = SysUser.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:modify')")
     @PutMapping
-    public ResponseResult update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
+    public ResponseBody update(@RequestBody SysUser sysUser, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
@@ -103,7 +102,7 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     @AppLogMethod(value = SysUser.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:modify')")
     @PutMapping("/reset-password")
-    public ResponseResult restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
+    public ResponseBody restPassword(@RequestBody SysUser sysUser, @RequestParam String rawPassword, @RequestParam(required = false, defaultValue = "000") String rootPwd) throws AppException {
         if (("admin".equalsIgnoreCase(sysUser.getUsername()) || "root".equalsIgnoreCase(sysUser.getUsername())) && !appProperties.getRootPassword().equalsIgnoreCase(rootPwd)) {
             throw new AppException("禁止修改 admin root 用户！");
         }
@@ -118,15 +117,15 @@ public class SysUserRest extends AppBaseCrudController<ISysUserService, SysUser>
     @AppLogMethod(value = SysUser.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:delete')")
     @DeleteMapping
-    public ResponseResult deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBody deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
         domainService.deleteSysUserCheck(ids);
-        return ResponseResult.builder().success().build();
+        return ResponseBody.builder().success().build();
     }
 
     @AppLogMethod(value = SysUser.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("{id}")
-    public ResponseResult detailResponseBody(@PathVariable Long id) {
+    public ResponseBody detailResponseBody(@PathVariable Long id) {
         return this.handleResponseBody(super.domainService.getByIdWithRole(id));
     }
 }

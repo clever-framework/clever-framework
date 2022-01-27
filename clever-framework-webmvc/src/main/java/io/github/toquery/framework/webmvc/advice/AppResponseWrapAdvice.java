@@ -2,19 +2,17 @@ package io.github.toquery.framework.webmvc.advice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.toquery.framework.webmvc.annotation.ResponseIgnoreWrap;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.github.toquery.framework.web.domain.ResponseBody;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcWrapProperties;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -62,9 +60,9 @@ public class AppResponseWrapAdvice implements ResponseBodyAdvice<Object> {
 
         // 只处理 restcontroller 或 responsebody 的方法、类
         RestController restControllerAnnotation = currentClass.getAnnotation(RestController.class);
-        ResponseBody responseBodyAnnotation = currentClass.getAnnotation(ResponseBody.class);
+        org.springframework.web.bind.annotation.ResponseBody responseBodyAnnotation = currentClass.getAnnotation(org.springframework.web.bind.annotation.ResponseBody.class);
         //方法注解
-        ResponseBody responseBodyMethodAnnotation = returnType.getMethodAnnotation(ResponseBody.class);
+        org.springframework.web.bind.annotation.ResponseBody responseBodyMethodAnnotation = returnType.getMethodAnnotation(org.springframework.web.bind.annotation.ResponseBody.class);
 
         if (restControllerAnnotation == null && responseBodyAnnotation == null && responseBodyMethodAnnotation == null) {
             log.debug("App 响应 Wrap 只处理 RestController 或 ResponseBody 的方法、类");
@@ -104,13 +102,13 @@ public class AppResponseWrapAdvice implements ResponseBodyAdvice<Object> {
 
         if (body == null) {
             if ("void".equalsIgnoreCase(methodReturnTypeName) && wrap.isVoidObject()) {
-                result = ResponseResult.builder().build();
+                result = ResponseBody.builder().build();
             }
         } else {
-            if (body instanceof ResponseResult) {
+            if (body instanceof ResponseBody) {
                 result = body;
             } else {
-                ResponseResult responseResult = ResponseResult.builder().content(body).build();
+                ResponseBody responseResult = ResponseBody.builder().content(body).build();
                 if (selectedContentType.isCompatibleWith(new MediaType("text", "*"))) {
 //                    HttpHeaders httpHeaders = response.getHeaders();
 //                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);

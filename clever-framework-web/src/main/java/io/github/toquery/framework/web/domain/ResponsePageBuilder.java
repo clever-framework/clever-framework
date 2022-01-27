@@ -1,4 +1,4 @@
-package io.github.toquery.framework.webmvc.domain;
+package io.github.toquery.framework.web.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,28 +17,28 @@ import org.springframework.hateoas.PagedModel;
 @Getter
 @Setter
 @AllArgsConstructor
-public final class ResponseResultBuilder {
+public final class ResponsePageBuilder {
     private int pageSize;
     private int current;
 
     private Long totalElements;
     private int totalPages;
 
-    public ResponseResultBuilder() {
+    public ResponsePageBuilder() {
     }
 
-    public ResponseResultBuilder(ResponsePage responsePage) {
+    public ResponsePageBuilder(ResponsePage responsePage) {
         this.pageSize = responsePage.getPageSize();
         this.current = responsePage.getPageSize();
         this.totalElements = responsePage.getTotalElements();
         this.totalPages = responsePage.getTotalPages();
     }
 
-    public ResponseResultBuilder(PagedModel<?> pagedResources) {
+    public ResponsePageBuilder(PagedModel<?> pagedResources) {
         this(pagedResources.getMetadata());
     }
 
-    public ResponseResultBuilder(PagedModel.PageMetadata pageMetadata) {
+    public ResponsePageBuilder(PagedModel.PageMetadata pageMetadata) {
         if (pageMetadata != null) {
             this.current = (int) pageMetadata.getNumber() + 1;
             this.pageSize = (int) pageMetadata.getSize();
@@ -52,7 +52,7 @@ public final class ResponseResultBuilder {
      *
      * @param page Page helper 对象
      */
-    public ResponseResultBuilder(com.github.pagehelper.Page<?> page) {
+    public ResponsePageBuilder(com.github.pagehelper.Page<?> page) {
         if (page != null) {
             this.current = page.getPageNum() + 1;
             this.pageSize = page.getPageSize();
@@ -61,7 +61,7 @@ public final class ResponseResultBuilder {
         }
     }
 
-    public ResponseResultBuilder(org.springframework.data.domain.Page<?> page) {
+    public ResponsePageBuilder(org.springframework.data.domain.Page<?> page) {
         if (page != null) {
             this.current = page.getNumber() + 1;
             this.pageSize = page.getSize();
@@ -71,12 +71,12 @@ public final class ResponseResultBuilder {
     }
 
 
-    public ResponseResultBuilder page(PagedModel<?> pagedResources) {
+    public ResponsePageBuilder page(PagedModel<?> pagedResources) {
         return this.page(pagedResources.getMetadata());
     }
 
 
-    public ResponseResultBuilder page(PagedModel.PageMetadata pageMetadata) {
+    public ResponsePageBuilder page(PagedModel.PageMetadata pageMetadata) {
         if (pageMetadata != null) {
             this.current = (int) pageMetadata.getNumber() + 1;
             this.pageSize = (int) pageMetadata.getSize();
@@ -91,7 +91,7 @@ public final class ResponseResultBuilder {
      *
      * @param page Page helper 对象
      */
-    public ResponseResultBuilder page(com.github.pagehelper.Page<?> page) {
+    public ResponsePageBuilder page(com.github.pagehelper.Page<?> page) {
         if (page != null) {
             this.current = page.getPageNum() + 1;
             this.pageSize = page.getPageSize();
@@ -101,7 +101,7 @@ public final class ResponseResultBuilder {
         return this;
     }
 
-    public ResponseResultBuilder page(org.springframework.data.domain.Page<?> page) {
+    public ResponsePageBuilder page(org.springframework.data.domain.Page<?> page) {
         if (page != null) {
             this.current = page.getNumber() + 1;
             this.pageSize = page.getSize();
@@ -111,22 +111,22 @@ public final class ResponseResultBuilder {
         return this;
     }
 
-    public ResponseResultBuilder pageSize(int pageSize) {
+    public ResponsePageBuilder pageSize(int pageSize) {
         this.pageSize = pageSize;
         return this;
     }
 
-    public ResponseResultBuilder current(int pageNum) {
+    public ResponsePageBuilder current(int pageNum) {
         this.current = pageNum;
         return this;
     }
 
-    public ResponseResultBuilder totalElements(Long totalElements) {
+    public ResponsePageBuilder totalElements(Long totalElements) {
         this.totalElements = totalElements;
         return this;
     }
 
-    public ResponseResultBuilder totalPages(int totalPages) {
+    public ResponsePageBuilder totalPages(int totalPages) {
         this.totalPages = totalPages;
         return this;
     }

@@ -2,8 +2,8 @@ package io.github.toquery.framework.crud.controller;
 
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
-import io.github.toquery.framework.webmvc.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -63,19 +63,19 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
     }
 
 
-    public ResponseResult pageResponseResult() {
+    public ResponseBody pageResponseResult() {
         return new ResponseBodyBuilder().page(this.page()).build();
     }
 
-    public ResponseResult pageResponseResult(Map<String, Object> filterParam) {
+    public ResponseBody pageResponseResult(Map<String, Object> filterParam) {
         return new ResponseBodyBuilder().page(this.page(filterParam)).build();
     }
 
-    public ResponseResult pageResponseResult(String[] sorts) {
+    public ResponseBody pageResponseResult(String[] sorts) {
         return new ResponseBodyBuilder().page(this.page(sorts)).build();
     }
 
-    protected ResponseResult pageResponseResult(Map<String, Object> filterParam, String[] sorts) {
+    protected ResponseBody pageResponseResult(Map<String, Object> filterParam, String[] sorts) {
         return new ResponseBodyBuilder().page(this.page(filterParam, sorts)).build();
     }
 
@@ -99,20 +99,20 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
         return this.list(filterParam, sorts);
     }
 
-    public ResponseResult listResponseResult() {
+    public ResponseBody listResponseResult() {
         return this.handleResponseBody(this.list());
     }
 
 
-    public ResponseResult listResponseResult(Map<String, Object> filterParam) {
+    public ResponseBody listResponseResult(Map<String, Object> filterParam) {
         return this.handleResponseBody(this.list(filterParam));
     }
 
-    public ResponseResult listResponseResult(String[] sorts) {
+    public ResponseBody listResponseResult(String[] sorts) {
         return this.handleResponseBody(this.list(sorts));
     }
 
-    public ResponseResult listResponseResult(Map<String, Object> filterParam, String[] sorts) {
+    public ResponseBody listResponseResult(Map<String, Object> filterParam, String[] sorts) {
         return this.handleResponseBody(this.list(filterParam, sorts));
     }
 
@@ -136,21 +136,21 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
         return domainService.save(entity);
     }
 
-    public ResponseResult saveResponseResult(E entity) {
+    public ResponseBody saveResponseResult(E entity) {
         return this.handleResponseBody(this.saveEntity(entity));
     }
 
-    public ResponseResult updateResponseResult(E entity) {
+    public ResponseBody updateResponseResult(E entity) {
         return this.handleResponseBody(domainService.update(entity));
     }
 
-    public ResponseResult updateResponseResult(E entity, Set<String> updateEntityFields) {
+    public ResponseBody updateResponseResult(E entity, Set<String> updateEntityFields) {
         return this.handleResponseBody(domainService.update(entity, updateEntityFields));
     }
 
-    public ResponseResult deleteResponseResult(Set<Long> ids) {
+    public ResponseBody deleteResponseResult(Set<Long> ids) {
         domainService.deleteByIds(ids);
-        return ResponseResult.builder().success().build();
+        return ResponseBody.builder().success().build();
     }
 
 
@@ -158,7 +158,7 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
         return domainService.getById(id);
     }
 
-    public ResponseResult detailResponseBody(Long id) {
+    public ResponseBody detailResponseBody(Long id) {
         return this.handleResponseBody(this.getById(id));
     }
 

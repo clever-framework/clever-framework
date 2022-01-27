@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.handler;
 
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.webmvc.domain.ResponseResult;
+import io.github.toquery.framework.web.domain.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,7 +22,7 @@ public class AppAuthenticationFailureHandler implements AuthenticationFailureHan
         response.setCharacterEncoding("utf-8");
 
         if (exception instanceof BadCredentialsException || exception instanceof UsernameNotFoundException) {
-            ResponseResult responseParam = ResponseResult.builder().message("用户信息错误").build();
+            ResponseBody responseParam = ResponseBody.builder().message("用户信息错误").build();
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));
         }
     }
