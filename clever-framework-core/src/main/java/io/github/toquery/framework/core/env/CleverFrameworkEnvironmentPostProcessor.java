@@ -20,7 +20,7 @@ import java.util.Map;
 public class CleverFrameworkEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
     public CleverFrameworkEnvironmentPostProcessor() {
-        log.debug("初始化 App Core 模块");
+        log.debug("自动装配 App Core Environment Post Processor 模块");
     }
 
     @Override

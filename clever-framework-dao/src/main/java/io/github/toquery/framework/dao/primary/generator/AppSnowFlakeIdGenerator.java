@@ -20,7 +20,7 @@ public class AppSnowFlakeIdGenerator implements IdentifierGenerator {
 
     @Override
     public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) throws MappingException {
-        log.debug("AppSnowFlakeIdGenerator configure entity_name {}", params.get("entity_name"));
+        log.debug("AppSnowFlakeIdGenerator configure entity {}", params.get("entity_name"));
     }
 
     @Override

@@ -1,14 +1,15 @@
+
 package io.github.toquery.framework.datasource.jpa;
 
 import io.github.toquery.framework.datasource.config.DynamicDataSourceRouter;
+import io.github.toquery.framework.datasource.properties.AppDataSourceProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -17,35 +18,32 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Configuration
 @EnableConfigurationProperties(JpaProperties.class)
 @EnableJpaRepositories(value = "com.imooc.dao.repository",
-        entityManagerFactoryRef = "entityManagerFactory",
-        transactionManagerRef = "transactionManager")
+        entityManagerFactoryRef = "entityManagerFactoryBean",
+        transactionManagerRef = "ordersTransactionManager")
 public class JpaEntityManager {
 
     @Autowired
     private JpaProperties jpaProperties;
 
-    @Resource(name = "masterDataSource")
-    private DataSource masterDataSource;
+    @Resource
+    private AppDataSourceProperties appDataSourceProperties;
 
-    @Resource(name = "slaveDataSource")
-    private DataSource slaveDataSource;
+    public JpaEntityManager() {
+        log.debug("JpaEntityManager init");
+    }
 
-//    @Primary
+    //    @Primary
     @Bean(name = "routingDataSource")
     public AbstractRoutingDataSource routingDataSource() {
         DynamicDataSourceRouter proxy = new DynamicDataSourceRouter();
-        Map<Object, Object> targetDataSources = new HashMap<>(2);
-        targetDataSources.put("slaveDataSource", slaveDataSource);
-
-        proxy.setDefaultTargetDataSource(masterDataSource);
+        Map<String, DataSourceProperties> multiple = appDataSourceProperties.getMultiple();
+        Map<Object, Object> targetDataSources = new HashMap<>(multiple);
         proxy.setTargetDataSources(targetDataSources);
         return proxy;
     }
@@ -69,16 +67,21 @@ public class JpaEntityManager {
                 .build();
     }
 
-    @Primary
-    @Bean(name = "entityManagerFactory")
-    public EntityManagerFactory entityManagerFactory(EntityManagerFactoryBuilder builder) {
-        return this.entityManagerFactoryBean(builder).getObject();
-    }
+//    @Primary
+//    @Bean(name = "entityManagerFactory")
+//    public EntityManagerFactory entityManagerFactory(EntityManagerFactoryBuilder builder) {
+//        return this.entityManagerFactoryBean(builder).getObject();
+//    }
 
-    @Primary
-    @Bean(name = "transactionManager")
-    public PlatformTransactionManager transactionManager(EntityManagerFactoryBuilder builder) {
-        return new JpaTransactionManager(entityManagerFactory(builder));
+//    @Primary
+//    @Bean(name = "transactionManager")
+//    public PlatformTransactionManager transactionManager(EntityManagerFactoryBuilder builder) {
+//        return new JpaTransactionManager(entityManagerFactory(builder));
+//    }
+
+    @Bean
+    public PlatformTransactionManager ordersTransactionManager(EntityManagerFactory entityManagerFactoryRead) {
+        return new JpaTransactionManager(entityManagerFactoryRead);
     }
 
 

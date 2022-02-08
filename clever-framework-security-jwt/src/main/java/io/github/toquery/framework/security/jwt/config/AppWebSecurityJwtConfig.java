@@ -5,6 +5,7 @@ import io.github.toquery.framework.core.security.AppSecurityConfigurer;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.jwt.JwtUnauthorizedEntryPoint;
 import io.github.toquery.framework.security.jwt.filter.JwtTokenAuthorizationFilter;
+import io.github.toquery.framework.security.jwt.interceptor.JwtTokenAuthorizationInterceptor;
 import io.github.toquery.framework.security.jwt.properties.AppSecurityJwtProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -37,9 +38,14 @@ public class AppWebSecurityJwtConfig implements AppSecurityConfigurer, AppSecuri
     private AppSecurityJwtProperties appSecurityJwtProperties;
 
     @Bean
-    public OncePerRequestFilter getFilter() {
+    public OncePerRequestFilter jwtTokenAuthorizationFilter() {
         return new JwtTokenAuthorizationFilter();
     }
+
+//    @Bean
+//    public JwtTokenAuthorizationInterceptor getJwtTokenAuthorizationInterceptor() {
+//        return new JwtTokenAuthorizationInterceptor();
+//    }
 
 
     @Override
@@ -61,7 +67,7 @@ public class AppWebSecurityJwtConfig implements AppSecurityConfigurer, AppSecuri
         // .anyRequest().authenticated() // Can't configure anyRequest after itself
         ;
 
-        httpSecurity.addFilterBefore(getFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtTokenAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
         httpSecurity.headers().frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.

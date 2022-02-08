@@ -15,6 +15,7 @@ import com.toquery.framework.example.modules.author.info.entity.BizAuthor;
 import com.toquery.framework.example.modules.author.info.service.BizAuthorDomainService;
 import io.github.toquery.framework.crud.service.impl.AppBFFServiceImpl;
 //import io.github.toquery.framework.datasource.DataSource;
+import io.github.toquery.framework.datasource.DataSourceSwitch;
 import io.github.toquery.framework.web.domain.ResponseBody;
 import lombok.AllArgsConstructor;
 import org.hibernate.Filter;
@@ -35,7 +36,7 @@ import java.util.Set;
 /**
  *
  */
-//@DataSource(value = "slave")
+@DataSourceSwitch(value = "default")
 @Service
 @AllArgsConstructor
 public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao> {
@@ -267,6 +268,7 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
         return BizAuthorMapper.INSTANCE.bizAuthor2Info(bizAuthor);
     }
 
+    @DataSourceSwitch(value = "default")
     public Page<BizAuthor> page(BizAuthorPageRequest bizAuthorPageRequest) {
         Map<String, Object> params = BizAuthorMapper.INSTANCE.page2Map(bizAuthorPageRequest);
         return bizAuthorDomainService.page(params, bizAuthorPageRequest.getCurrent(), bizAuthorPageRequest.getPageSize());

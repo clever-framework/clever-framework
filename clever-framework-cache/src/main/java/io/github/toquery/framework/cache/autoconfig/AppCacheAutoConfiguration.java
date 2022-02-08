@@ -21,7 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class AppCacheAutoConfiguration {
 
     public AppCacheAutoConfiguration() {
-        log.info("初始化 App Cache 自动配置");
+        log.info("自动装配 App Cache 自动配置");
     }
 
     @Bean

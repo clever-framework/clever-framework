@@ -66,6 +66,8 @@
 
         <hutool.version>5.7.20</hutool.version>
 
+        <mybatis.version>3.5.9</mybatis.version>
+        <mybatis-spring.version>2.0.6</mybatis-spring.version>
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
 
         <pagehelper.version>5.3.0</pagehelper.version>
@@ -297,6 +299,18 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${springdoc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
             </dependency>
 
             <dependency>

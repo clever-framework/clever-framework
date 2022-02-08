@@ -13,7 +13,7 @@ public class AppMinioProperties {
 
     public static final String PREFIX = "app.oss.minio";
 
-    private boolean enable = true;
+    private boolean enabled = true;
 
     private String endpoint;
     private int port = 0;

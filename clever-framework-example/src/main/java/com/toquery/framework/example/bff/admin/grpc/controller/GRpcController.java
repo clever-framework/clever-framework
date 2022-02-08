@@ -8,6 +8,7 @@ import com.toquery.framework.example.sdk.news.info.BizNewInfoClient;
 import com.toquery.framework.example.sdk.news.info.model.request.BizNewsPageRequest;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import io.github.toquery.framework.web.domain.ResponseBody;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,13 +30,14 @@ import java.util.Set;
 @RequestMapping("/admin/grpc")
 public class GRpcController {
 
-    @Resource
-    private BizNewInfoClient bizNewInfoClient;
+//    @Resource
+//    private BizNewInfoClient bizNewInfoClient;
 
 
     @GetMapping
     public ResponseBody page(BizNewsPageRequest bizNewsPageRequest) {
-        return bizNewInfoClient.page(bizNewsPageRequest);
+//        return bizNewInfoClient.page(bizNewsPageRequest);
+        return null;
     }
 
 

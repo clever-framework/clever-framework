@@ -21,14 +21,14 @@ import org.springframework.context.annotation.DependsOn;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(AppMinioProperties.class)
-@ConditionalOnProperty(prefix = AppMinioProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = AppMinioProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AppMinioAutoConfiguration {
 
     @Autowired
     private AppMinioProperties appMinioProperties;
 
     public AppMinioAutoConfiguration() {
-        log.info("开始自动装配 App Minio 自动化配置");
+        log.info("自动装配 App Minio 自动化配置");
     }
 
     @Bean("minioClient")

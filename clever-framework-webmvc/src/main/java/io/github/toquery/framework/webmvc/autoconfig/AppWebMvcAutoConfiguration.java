@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Import;
  * @version 1
  */
 @Slf4j
-@Configuration
+//@Configuration
 @ConditionalOnWebApplication
 @Import(AppWebMvcConfig.class)
 //@ComponentScan(basePackages = "io.github.toquery.framework.webmvc")
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Import;
 public class AppWebMvcAutoConfiguration {
 
     public AppWebMvcAutoConfiguration() {
-        log.info("初始化 App Web Mvc 自动化配置");
+        log.info("自动装配 App Web Mvc 自动化配置");
     }
 
     @Bean
@@ -64,13 +64,13 @@ public class AppWebMvcAutoConfiguration {
 
 
     @Bean
-//    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.request", name = "enable", havingValue = "true")
+//    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.request", name = "enabled", havingValue = "true")
     public AppRequestSecretAdvice getAppRequestSecretAdvice() {
         return new AppRequestSecretAdvice();
     }
 
     @Bean
-//    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.response", name = "enable", havingValue = "true")
+//    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX + ".secret.response", name = "enabled", havingValue = "true")
     public AppResponseSecretAdvice getAppResponseSecretAdvice() {
         return new AppResponseSecretAdvice();
     }

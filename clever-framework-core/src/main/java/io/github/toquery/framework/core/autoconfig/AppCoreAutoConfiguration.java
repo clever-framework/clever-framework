@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Configuration;
  * @version 1
  */
 @Slf4j
-@Configuration
+//@Configuration
 @EnableConfigurationProperties(AppProperties.class)
-@ConditionalOnProperty(prefix = AppProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = AppProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AppCoreAutoConfiguration {
 
     public AppCoreAutoConfiguration() {

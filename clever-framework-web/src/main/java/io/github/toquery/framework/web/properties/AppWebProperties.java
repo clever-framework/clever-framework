@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class AppWebProperties {
     public static final String PREFIX = "app.web";
 
-    private boolean enable = true;
+    private boolean enabled = true;
 
     private CorsConfiguration cors = new CorsConfiguration();
 }

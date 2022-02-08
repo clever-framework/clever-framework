@@ -20,7 +20,7 @@ public class AppProperties {
 
     public static final String PREFIX = "app";
 
-    private boolean enable = true;
+    private boolean enabled = true;
 
     /**
      * 后台修改 admin root （用户，角色） 等关键数据的效验

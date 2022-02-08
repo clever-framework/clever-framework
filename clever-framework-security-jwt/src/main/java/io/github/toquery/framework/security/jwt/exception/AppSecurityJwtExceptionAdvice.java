@@ -29,25 +29,25 @@ public class AppSecurityJwtExceptionAdvice {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @org.springframework.web.bind.annotation.ResponseBody
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ResponseBody> handleExpiredJwtException(AccessDeniedException exception) {
+    public ResponseEntity<?> handleExpiredJwtException(AccessDeniedException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseBody.builder().code(HttpStatus.FORBIDDEN.value()).success(false).message("访问被拒绝！").build());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseBody.builder().code(HttpStatus.FORBIDDEN.value()).fail("访问被拒绝！").build());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @org.springframework.web.bind.annotation.ResponseBody
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<ResponseBody> handleExpiredJwtException(ExpiredJwtException exception) {
+    public ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseBody.builder().code(HttpStatus.UNAUTHORIZED.value()).success(false).message("登录失效！").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseBody.builder().code(HttpStatus.UNAUTHORIZED.value()).fail("登录失效！").build());
     }
 
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @org.springframework.web.bind.annotation.ResponseBody
     @ExceptionHandler(AppSecurityJwtException.class)
-    public ResponseEntity<ResponseBody> handleAuthenticationException(AppSecurityJwtException exception) {
+    public ResponseEntity<?> handleAuthenticationException(AppSecurityJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseBody.builder().code(exception.getHttpStatus().value()).success(false).message(exception.getMessage()).build());
+        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseBody.builder().code(exception.getHttpStatus().value()).fail(exception.getMessage()).build());
     }
 }

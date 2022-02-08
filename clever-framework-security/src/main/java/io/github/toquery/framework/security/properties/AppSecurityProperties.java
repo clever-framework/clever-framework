@@ -20,7 +20,7 @@ public class AppSecurityProperties {
 
     public static final String PREFIX = "app.security";
 
-    private boolean enable = true;
+    private boolean enabled = true;
 
     /**
      * 配置白名单

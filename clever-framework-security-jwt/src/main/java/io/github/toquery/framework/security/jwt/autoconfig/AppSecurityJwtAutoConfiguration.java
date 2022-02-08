@@ -21,11 +21,11 @@ import javax.annotation.Resource;
 //@AutoConfigureAfter({AppSystemAutoConfiguration.class,  AppSecurityAutoConfiguration.class, AppBizLogAutoConfiguration.class})
 @EnableConfigurationProperties(AppSecurityJwtProperties.class)
 @ComponentScan(basePackages = "io.github.toquery.framework.security.jwt")
-@ConditionalOnProperty(prefix = AppSecurityJwtProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = AppSecurityJwtProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AppSecurityJwtAutoConfiguration {
 
     public AppSecurityJwtAutoConfiguration() {
-        log.info("初始化 App Security Jwt 自动化配置");
+        log.info("自动装配 App Security Jwt 自动化配置");
     }
 
     @Bean

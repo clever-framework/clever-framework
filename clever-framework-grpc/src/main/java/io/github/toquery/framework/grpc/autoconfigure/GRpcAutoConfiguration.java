@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Import;
 public class GRpcAutoConfiguration {
 
     public GRpcAutoConfiguration() {
-        log.debug("GRpcAutoConfiguration is init.");
+        log.debug("初始化 App GRpc 自动装配");
     }
 
     /**

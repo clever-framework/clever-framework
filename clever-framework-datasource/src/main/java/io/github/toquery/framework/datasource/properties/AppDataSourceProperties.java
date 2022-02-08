@@ -11,11 +11,16 @@ import java.util.Map;
  * @version 1
  */
 @Data
-@ConfigurationProperties(prefix = AppDataSourcesProperties.PREFIX)
-public class AppDataSourcesProperties {
+@ConfigurationProperties(prefix = AppDataSourceProperties.PREFIX)
+public class AppDataSourceProperties {
 
     public static final String PREFIX = "app.datasource";
 
+    private boolean enabled = true;
+
     private Map<String, DataSourceProperties> multiple;
 
+    public AppDataSourceProperties() {
+        System.out.println("AppDataSourceProperties");
+    }
 }

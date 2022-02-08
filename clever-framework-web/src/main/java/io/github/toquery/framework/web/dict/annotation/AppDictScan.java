@@ -71,13 +71,13 @@ public @interface AppDictScan {
 
 
     /**
-     * Whether enable lazy initialization of mapper bean.
+     * Whether enabled lazy initialization of mapper bean.
      *
      * <p>
      * Default is {@code false}.
      * </p>
      *
-     * @return set {@code true} to enable lazy initialization
+     * @return set {@code true} to enabled lazy initialization
      * @since 2.0.2
      */
     boolean lazyInitialization() default false;

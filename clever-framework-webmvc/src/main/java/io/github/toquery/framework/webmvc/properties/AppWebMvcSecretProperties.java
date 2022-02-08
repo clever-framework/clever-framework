@@ -36,7 +36,7 @@ public class AppWebMvcSecretProperties {
         /**
          * 加密
          */
-        private boolean enable = false;
+        private boolean enabled = false;
 
         /**
          * 密钥长度不得小于24

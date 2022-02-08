@@ -26,12 +26,12 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties(AppLogProperties.class)
 @EntityScan(basePackages = "io.github.toquery.framework.log.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.log")
-@ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AppBizLogAutoConfiguration {
 
 
     public AppBizLogAutoConfiguration() {
-        log.info("开始自动装配 App Log 自动化配置");
+        log.info("自动装配 App Log 自动化配置");
     }
 
     @Bean

@@ -12,7 +12,7 @@ public class DataSourceContextHolder {
 
     public static String getDataSource() {
         String lookUpKey = holder.get();
-        return lookUpKey == null ? "slave" : lookUpKey;
+        return lookUpKey == null ? "default" : lookUpKey;
     }
 
     public static void clear() {

@@ -13,7 +13,7 @@ public class AppSystemProperties {
 
     public static final String PREFIX = "app.system";
 
-    private boolean enable = true;
+    private boolean enabled = true;
 
     private boolean generateMenu = true;
 

@@ -82,7 +82,7 @@ public class AppResponseWrapAdvice implements ResponseBodyAdvice<Object> {
             // 如果类注解或方法注解是忽略注解，则不进行处理
             return false;
         }
-        return wrap.isEnable();
+        return wrap.isEnabled();
     }
 
     @SneakyThrows

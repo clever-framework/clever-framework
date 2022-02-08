@@ -93,13 +93,21 @@ public final class ResponseBodyBuilder {
     }
 
     public ResponseBodyBuilder fail() {
-        this.message = "处理失败";
+        return this.fail("处理失败");
+    }
+
+    public ResponseBodyBuilder fail(String message) {
+        this.message = message;
         this.success = false;
         return this;
     }
 
     public ResponseBodyBuilder success() {
-        this.message = "成功";
+        return this.success("成功");
+    }
+
+    public ResponseBodyBuilder success(String message) {
+        this.message = message;
         this.success = true;
         return this;
     }

@@ -45,10 +45,15 @@ import javax.persistence.Table;
 @SQLDelete(sql = "UPDATE biz_author SET deleted = true WHERE id = ?")
 
 @FilterDef(
-        name = "gtNum",
+        name = "authorNameEq",
         parameters = {
-                @ParamDef(name = "showNum", type = "int"),
-                @ParamDef(name = "likeNum", type = "int")
+                @ParamDef(name = "authorName", type = "String"),
+        }
+)
+@FilterDef(
+        name = "authorNameLike",
+        parameters = {
+                @ParamDef(name = "authorName", type = "String"),
         }
 )
 @Filters(value = {

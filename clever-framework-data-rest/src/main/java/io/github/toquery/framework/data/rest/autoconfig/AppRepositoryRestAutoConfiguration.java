@@ -22,11 +22,11 @@ import org.springframework.data.rest.core.mapping.RepositoryResourceMappings;
 @Slf4j
 @EnableAppRepositoryRest
 @EnableConfigurationProperties(AppDataRestProperties.class)
-@ConditionalOnProperty(prefix = AppDataRestProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = AppDataRestProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AppRepositoryRestAutoConfiguration {
 
     public AppRepositoryRestAutoConfiguration() {
-        log.info("初始化 Data Rest 自动化配置");
+        log.info("自动装配 Data Rest 自动化配置");
     }
 
 

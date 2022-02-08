@@ -40,7 +40,7 @@ server:
 app:
   oss:
     minio:
-      enable: false
+      enabled: false
   security:
     ignoring:
       - /favicon.ico
@@ -62,11 +62,13 @@ app:
   web-mvc:
     autoWrapResponse: true
   grpc:
-    enabled: true
+    enabled: false
     client:
       services:
         clever-framework-example:
           host: loaclhost
+  datasource:
+    enabled: false
 spring:
   profiles:
     active: local
@@ -91,8 +93,8 @@ spring:
   # todo 这个配置是干什么的
   main:
     allow-bean-definition-overriding: true
-    lazy-initialization: true # 延迟初始化
-  #    allow-circular-references: true # 允许循环引用
+#    lazy-initialization: true # 延迟初始化
+#    allow-circular-references: true # 允许循环引用
   servlet:
     multipart:
       max-file-size: 10MB
@@ -128,7 +130,7 @@ spring:
         use_sql_comments: false
         format_sql: true
         enable_lazy_load_no_trans: true
-        generate_statistics: true # metrics
+#        generate_statistics: true # metrics
 
   data:
     rest:

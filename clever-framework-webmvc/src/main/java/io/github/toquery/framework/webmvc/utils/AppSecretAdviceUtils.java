@@ -63,7 +63,7 @@ public class AppSecretAdviceUtils {
 
 
 
-        if (appWebMvcSecretItem.isEnable()) { // 开启了加密
+        if (appWebMvcSecretItem.isEnabled()) { // 开启了加密
             //如果类与方法均不存在注解，排除,
             return ignoreSecretClassAnnotation == null && ignoreSecretMethodAnnotation == null;
         } else { // 关闭了加密
@@ -104,7 +104,7 @@ public class AppSecretAdviceUtils {
         //方法注解
         ResponseIgnoreSecret ignoreSecretMethodAnnotation = methodParameter.getMethodAnnotation(ResponseIgnoreSecret.class);
 
-        if (appWebMvcSecretItem.isEnable()) { // 开启了加密
+        if (appWebMvcSecretItem.isEnabled()) { // 开启了加密
             //如果类与方法均不存在注解，排除,
             return ignoreSecretClassAnnotation == null && ignoreSecretMethodAnnotation == null;
         } else { // 关闭了加密

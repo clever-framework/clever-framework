@@ -12,15 +12,15 @@ import javax.sql.DataSource;
 
 @Slf4j
 //@Configuration
-@ConditionalOnBean(DataSource.class)
+//@ConditionalOnBean(DataSource.class)
 @Import(HibernateListenerConfigurer.class)
 @EnableConfigurationProperties(AppDaoProperties.class)
-@AutoConfigureAfter(DataSourceAutoConfiguration.class)
+//@AutoConfigureAfter(DataSourceAutoConfiguration.class)
 // @EnableJpaRepositories(basePackages = {"io.github.toquery.framework"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppDaoAutoConfiguration {
 
     public AppDaoAutoConfiguration() {
-        log.info("初始化 App Dao 模块 {}", this.getClass().getSimpleName());
+        log.info("自动装配 App Dao 模块 {}", this.getClass().getSimpleName());
     }
 
 

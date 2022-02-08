@@ -1,3 +1,4 @@
+/*
 package io.github.toquery.framework.datasource;
 
 import io.github.toquery.framework.datasource.properties.AppDataSourcesProperties;
@@ -23,9 +24,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-/**
- *
- */
+
 @Slf4j
 public class AppDataSourceRegister implements EnvironmentAware, ImportBeanDefinitionRegistrar {
 
@@ -43,12 +42,14 @@ public class AppDataSourceRegister implements EnvironmentAware, ImportBeanDefini
         binder = Binder.get(this.env);
     }
 
-    /**
+    */
+/**
      * ImportBeanDefinitionRegistrar
      *
      * @param annotationMetadata     annotationMetadata
      * @param beanDefinitionRegistry beanDefinitionRegistry
-     */
+     *//*
+
     @Override
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
         // get all datasource
@@ -106,3 +107,4 @@ public class AppDataSourceRegister implements EnvironmentAware, ImportBeanDefini
         log.info("Registration dataSource completed !");
     }
 }
+*/

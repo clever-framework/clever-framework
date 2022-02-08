@@ -30,7 +30,7 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
         this.repositoryMetadata = repositoryMetadata;
         this.projectionFactory = projectionFactory;
 
-        log.info("初始化 MyBatis 数据查询 {} 的领域类 {}", repositoryMetadata.getRepositoryInterface().getName(), repositoryMetadata.getDomainType());
+        log.debug("初始化 MyBatis 数据查询 {} 的领域类 {}", repositoryMetadata.getRepositoryInterface().getName(), repositoryMetadata.getDomainType());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class MybatisRepositoryQuery implements RepositoryQuery {
             log.error("{} 对应的 Mapper 为 null ", repositoryMetadata.getRepositoryInterface().getName());
             throw new RuntimeException("处理 MyBatis Mapper 为空");
         }
-        log.info("执行 {}#{} 参数为 {} ", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), Arrays.toString(parameters));
+        log.debug("执行 {}#{} 参数为 {} ", repositoryMetadata.getRepositoryInterface().getName(), method.getName(), Arrays.toString(parameters));
         Object result = null;
         try {
             result = method.invoke(mapper, parameters);

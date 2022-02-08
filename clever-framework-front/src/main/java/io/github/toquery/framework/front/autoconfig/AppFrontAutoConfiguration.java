@@ -19,11 +19,11 @@ import org.springframework.context.annotation.Import;
 //@Import({AppFrontConfigurer.class})
 @Import({AppFrontConfigurer.class, AppFrontSecurityConfig.class})
 @EnableConfigurationProperties({AppFrontProperties.class})
-@ConditionalOnProperty(prefix = AppFrontProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = AppFrontProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AppFrontAutoConfiguration {
 
     public AppFrontAutoConfiguration() {
-        log.info("初始化 App Front 自动配置");
+        log.info("自动装配 App Front 自动配置");
     }
 
     @Bean

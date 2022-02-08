@@ -15,7 +15,7 @@ public class AppFrontProperties {
 
     public static final String PREFIX = "app.front";
 
-    private boolean enable = true;
+    private boolean enabled = true;
 
     private int timeToLiveInDays = 1461;
 

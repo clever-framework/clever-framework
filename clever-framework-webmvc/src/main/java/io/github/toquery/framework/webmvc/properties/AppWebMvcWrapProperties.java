@@ -15,7 +15,7 @@ public class AppWebMvcWrapProperties {
     /**
      * 是否自动包裹响应结果
      */
-    private boolean enable = true;
+    private boolean enabled = true;
 
     /**
      * 是否包裹 void 类型

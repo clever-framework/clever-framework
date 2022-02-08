@@ -7,6 +7,8 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 public class DynamicDataSourceRouter extends AbstractRoutingDataSource {
     @Override
     protected Object determineCurrentLookupKey() {
-        return DataSourceContextHolder.getDataSource();
+        String datSourceKey = DataSourceContextHolder.getDataSource();
+        log.debug("当前数据源：{}", datSourceKey);
+        return datSourceKey;
     }
 }

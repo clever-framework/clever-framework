@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class AppSecurityAutoConfiguration {
 
     public AppSecurityAutoConfiguration() {
-        log.info("开始自动装配 App Security 自动化配置");
+        log.info("自动装配 App Security 自动化配置");
     }
 
     @Bean

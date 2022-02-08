@@ -19,7 +19,7 @@ public class AppLogProperties {
 
     public static final String PREFIX = "app.log";
 
-    private boolean enable = true;
+    private boolean enabled = true;
 
     private AppLogEnableModel enableModel = AppLogEnableModel.BASE;
 

@@ -34,7 +34,7 @@ public class AppExceptionAdvice {
     @ExceptionHandler(value= NoHandlerFoundException.class)
     public ResponseEntity<ResponseBody> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseBody.builder().message("请求地址错误！").build());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseBody.builder().fail("请求地址错误！").build());
     }
 
 

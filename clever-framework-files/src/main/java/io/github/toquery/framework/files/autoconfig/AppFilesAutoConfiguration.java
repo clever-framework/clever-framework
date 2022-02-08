@@ -23,10 +23,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "io.github.toquery.framework.files")
 @EntityScan(basePackages = "io.github.toquery.framework.files.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.files")
-@ConditionalOnProperty(prefix = AppFilesProperties.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = AppFilesProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 //@EnableJpaRepositories(basePackages = {"io.github.toquery.framework.files"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppFilesAutoConfiguration {
     public AppFilesAutoConfiguration() {
-        log.info("初始化 App Files 自动配置");
+        log.info("自动装配 App Files 自动配置");
     }
 }

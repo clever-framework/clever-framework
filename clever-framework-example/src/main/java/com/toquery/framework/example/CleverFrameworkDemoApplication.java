@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
 /**
@@ -20,7 +21,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 //@EntityScan // (basePackages = {"io.github.toquery.framework.security.domain", "com.toquery.framework.demo.entity"})
 //@EnableAppJpaRepositories //(basePackages = {"io.github.toquery.framework.security", "com.toquery.framework.demo"})
 //@EnableAppRepositoryRest
-//@GRpcServerScan(basePackages = "com.toquery.framework.example.bff.api.*")
+//@GRpcServerScan(basePackages = "com.toquery.framework.example.grpc.server")
 @MapperScan("com.toquery.framework.example.dao")
 @AppDictScan
 @EnableCaching
@@ -28,6 +29,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 @EntityScan
 @EnableAppJpaRepositories
 @SpringBootApplication(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
+//@EnableAspectJAutoProxy(proxyTargetClass = true)
 //(scanBasePackages = "com.toquery.framework.demo")
 public class CleverFrameworkDemoApplication {
     public static void main(String[] args) {
