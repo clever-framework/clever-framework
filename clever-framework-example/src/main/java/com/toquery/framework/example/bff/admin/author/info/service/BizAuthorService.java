@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ import java.util.Set;
 /**
  *
  */
-@DataSourceSwitch(value = "default")
+@DataSourceSwitch(value = "test")
 @Service
 @AllArgsConstructor
 public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao> {
@@ -268,7 +269,8 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
         return BizAuthorMapper.INSTANCE.bizAuthor2Info(bizAuthor);
     }
 
-    @DataSourceSwitch(value = "default")
+    @DataSourceSwitch(value = "test")
+    @Transactional
     public Page<BizAuthor> page(BizAuthorPageRequest bizAuthorPageRequest) {
         Map<String, Object> params = BizAuthorMapper.INSTANCE.page2Map(bizAuthorPageRequest);
         return bizAuthorDomainService.page(params, bizAuthorPageRequest.getCurrent(), bizAuthorPageRequest.getPageSize());

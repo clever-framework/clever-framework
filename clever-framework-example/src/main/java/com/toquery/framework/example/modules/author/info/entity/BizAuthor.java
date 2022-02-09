@@ -68,6 +68,9 @@ import javax.persistence.Table;
 @Table(name = "biz_author")
 public class BizAuthor extends AppBaseEntity implements AppEntityLogicDel {
 
+    public BizAuthor(String authorName) {
+        this.authorName = authorName;
+    }
 
     @AppLogField("标题")
     @Column

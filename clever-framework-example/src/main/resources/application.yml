@@ -54,6 +54,7 @@ app:
       - /app/ueditor
       - /admin/test/**
       - /admin/biz-author
+      - /admin/biz-news
 #      - /app/files
 #      - /app/files/**
 #      - /app/minio/upload

@@ -1,11 +1,10 @@
-package io.toquery.framework.example.test.framework.curd;
+package io.toquery.framework.example.test.framework.datasource;
 
 
+import com.toquery.framework.example.bff.admin.author.info.service.BizAuthorService;
 import com.toquery.framework.example.bff.admin.news.info.model.constant.QueryType;
-import com.toquery.framework.example.bff.admin.news.info.service.BizNewsService;
-import com.toquery.framework.example.modules.news.info.constant.BizNewsShowStatus;
-import com.toquery.framework.example.modules.news.info.entity.BizNews;
-import com.toquery.framework.example.modules.news.info.service.BizNewsDomainService;
+import com.toquery.framework.example.modules.author.info.entity.BizAuthor;
+import com.toquery.framework.example.modules.author.info.service.BizAuthorDomainService;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.toquery.framework.example.test.BaseSpringTest;
 import lombok.extern.slf4j.Slf4j;
@@ -31,38 +30,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 //@DataJpaTest
 //@BootstrapWith
-//@WebMvcTest(BizNewsRest.class)
+//@WebMvcTest(BizAuthorRest.class)
 @AutoConfigureMockMvc
-public class BizNewsRestCurdTest extends BaseSpringTest {
+public class BizAuthorRestCurdTest extends BaseSpringTest {
 
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private BizNewsService bizNewsService;
+    private BizAuthorService bizAuthorService;
 
     @MockBean
-    private BizNewsDomainService bizNewsDomainService;
+    private BizAuthorDomainService bizAuthorDomainService;
 
     @Test
     public void query() throws Exception {
 
-        // List<BizNews> newsList = bizNewsService.findJpa();
+        List<BizAuthor> newsList = bizAuthorService.findJpa();
 
-        mvc.perform(get("/admin/biz-news")
+        mvc.perform(get("/admin/biz-author")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.APP.name()))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/admin/biz-news")
+        mvc.perform(get("/admin/biz-author")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.JPA.name()))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/admin/biz-news")
+        mvc.perform(get("/admin/biz-author")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.MYBATIS.name()))
                 .andDo(print())
@@ -72,19 +71,19 @@ public class BizNewsRestCurdTest extends BaseSpringTest {
 
     @Test
     public void list() throws Exception {
-        mvc.perform(get("/admin/biz-news/list")
+        mvc.perform(get("/admin/biz-author/list")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.APP.name()))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/admin/biz-news/list")
+        mvc.perform(get("/admin/biz-author/list")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.JPA.name()))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        mvc.perform(get("/admin/biz-news/list")
+        mvc.perform(get("/admin/biz-author/list")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.MYBATIS.name()))
                 .andDo(print())
@@ -94,31 +93,30 @@ public class BizNewsRestCurdTest extends BaseSpringTest {
 
     @Test
     public void save() throws Exception {
-        BizNews bizNews = new BizNews();
-        bizNews.setTitle("test-rest-save");
-        bizNews.setShowStatus(BizNewsShowStatus.SHOW);
+        BizAuthor bizNews = new BizAuthor();
+        bizNews.setAuthorName("test-rest-save");
 
-        mvc.perform(post("/admin/biz-news")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+        mvc.perform(post("/admin/biz-author")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.APP.name())
                         .content(JacksonUtils.object2String(bizNews))
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        mvc.perform(post("/admin/biz-news")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+        mvc.perform(post("/admin/biz-author")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.JPA.name())
                         .content(JacksonUtils.object2String(bizNews))
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        mvc.perform(post("/admin/biz-news")
-                        .header(HttpHeaders.AUTHORIZATION, token)
+        mvc.perform(post("/admin/biz-author")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
                         .param("queryType", QueryType.MYBATIS.name())
                         .content(JacksonUtils.object2String(bizNews))
                 )

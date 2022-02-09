@@ -32,7 +32,7 @@ app:
 
   datasource:
     multiple:
-      default:
+      test:
         driver-class-name: com.mysql.cj.jdbc.Driver
         # serverTimezone=Asia/Shanghai 必须在URL追加时区设置
         url: jdbc:mysql://${DB_MYSQL_HOST}:3306/clever_framework_slave?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai

@@ -1,8 +1,8 @@
 package io.github.toquery.framework.datasource.autoconfig;
 
 import io.github.toquery.framework.datasource.aop.DynamicDataSourceAspect;
+import io.github.toquery.framework.datasource.jpa.DynamicDataSourceRouterConfiguration;
 import io.github.toquery.framework.datasource.jpa.HibernateDefaultJpaConfiguration;
-import io.github.toquery.framework.datasource.jpa.JpaEntityManager;
 import io.github.toquery.framework.datasource.properties.AppDataSourceProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Role;
 //@Configuration
 @Import({
         HibernateDefaultJpaConfiguration.class,
-         JpaEntityManager.class
+        DynamicDataSourceRouterConfiguration.class
 })
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @EnableConfigurationProperties(AppDataSourceProperties.class)

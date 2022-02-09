@@ -69,7 +69,7 @@ public class HibernateDefaultJpaConfiguration extends JpaBaseConfiguration {
         this.hibernatePropertiesCustomizers = determineHibernatePropertiesCustomizers(
                 physicalNamingStrategy.getIfAvailable(), implicitNamingStrategy.getIfAvailable(), beanFactory,
                 hibernatePropertiesCustomizers.orderedStream().collect(Collectors.toList()));
-        log.debug("JpaEntityManager init");
+        log.debug("HibernateDefaultJpaConfiguration init");
     }
 
     private List<HibernatePropertiesCustomizer> determineHibernatePropertiesCustomizers(

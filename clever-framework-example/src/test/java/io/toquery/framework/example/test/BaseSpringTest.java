@@ -1,6 +1,7 @@
 package io.toquery.framework.example.test;
 
 import com.toquery.framework.example.CleverFrameworkDemoApplication;
+import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.toquery.framework.test.AppTestSpringBase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -36,6 +38,12 @@ public class BaseSpringTest extends AppTestSpringBase {
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @Resource
+    private JwtTokenHandler jwtTokenHandler;
+
+    protected String token;
+
+
     @Before
     public void before() {
         String username = "admin";
@@ -43,5 +51,7 @@ public class BaseSpringTest extends AppTestSpringBase {
         log.info("用户名： {} 原密码：{} ,加密后密码：{}", username, username, encode);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, username));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        token = "Bearer " + jwtTokenHandler.generateToken((UserDetails) authentication.getPrincipal());
     }
 }

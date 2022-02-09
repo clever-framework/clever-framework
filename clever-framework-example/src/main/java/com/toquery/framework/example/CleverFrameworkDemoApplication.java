@@ -2,14 +2,12 @@ package com.toquery.framework.example;
 
 
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
-import io.github.toquery.framework.grpc.server.annotation.GRpcServerScan;
 import io.github.toquery.framework.web.dict.annotation.AppDictScan;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 
 /**
@@ -27,6 +25,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 @EnableCaching
 //@AppDictScan(basePackage = "com.toquery.framework.demo.constant")
 @EntityScan
+//@EnableTransactionManagement
 @EnableAppJpaRepositories
 @SpringBootApplication(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
 //@EnableAspectJAutoProxy(proxyTargetClass = true)

@@ -60,7 +60,7 @@ public class BizAuthorController extends AppBaseBFFController<BizAuthor, BizAuth
     }
 
     @GetMapping("/list")
-    public ResponseBody<?> list(@RequestParam BizAuthorListRequest bizAuthorListRequest) {
+    public ResponseBody<?> list(BizAuthorListRequest bizAuthorListRequest) {
         List<BizAuthorListResponse> listResponses = bffService.list(bizAuthorListRequest);
         return super.handleResponseBody(listResponses);
     }

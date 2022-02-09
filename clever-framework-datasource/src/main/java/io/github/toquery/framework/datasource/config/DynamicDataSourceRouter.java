@@ -5,6 +5,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 @Slf4j
 public class DynamicDataSourceRouter extends AbstractRoutingDataSource {
+
     @Override
     protected Object determineCurrentLookupKey() {
         String datSourceKey = DataSourceContextHolder.getDataSource();

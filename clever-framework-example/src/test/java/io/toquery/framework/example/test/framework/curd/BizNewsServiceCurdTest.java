@@ -81,7 +81,7 @@ public class BizNewsServiceCurdTest extends BaseSpringTest {
         log.info("插入的数据 updateEntity ：\n{}", JacksonUtils.object2String(updateEntity));
 
         save.setTitle("save-test-update");
-        BizNews update = bizNewsDomainService.update(save, Sets.newHashSet("name"));
+        BizNews update = bizNewsDomainService.update(save, Sets.newHashSet("title"));
         log.info("修改的数据 update ：\n{}", JacksonUtils.object2String(update));
 
         BizNews getOne = bizNewsDomainService.getById(save.getId());
@@ -94,7 +94,7 @@ public class BizNewsServiceCurdTest extends BaseSpringTest {
 //        log.info("查询的数据 getByName ：\n{}", JacksonUtils.object2String(getByName));
 
         saveAll.forEach(item -> item.setTitle("saveAll-test-update"));
-        List<BizNews> updateList = bizNewsDomainService.update(saveAll, Sets.newHashSet("name"));
+        List<BizNews> updateList = bizNewsDomainService.update(saveAll, Sets.newHashSet("title"));
         log.info("修改的数据 updateList ：\n{}", JacksonUtils.object2String(updateList));
 
         List<BizNews> findAll = bizNewsDomainService.list();

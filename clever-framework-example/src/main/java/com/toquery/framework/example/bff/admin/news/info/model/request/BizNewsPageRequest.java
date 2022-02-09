@@ -28,9 +28,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class BizNewsPageRequest extends AppBaseEntity {
 
-    private Integer current;
+    private Integer current = 1;
 
-    private Integer pageSize;
+    private Integer pageSize = 10;
 
     @UpperCase
     private QueryType queryType;
