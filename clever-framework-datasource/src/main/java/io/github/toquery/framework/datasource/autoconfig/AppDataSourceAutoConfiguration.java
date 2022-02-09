@@ -1,6 +1,7 @@
 package io.github.toquery.framework.datasource.autoconfig;
 
 import io.github.toquery.framework.datasource.aop.DynamicDataSourceAspect;
+import io.github.toquery.framework.datasource.jpa.HibernateDefaultJpaConfiguration;
 import io.github.toquery.framework.datasource.jpa.JpaEntityManager;
 import io.github.toquery.framework.datasource.properties.AppDataSourceProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,10 @@ import org.springframework.context.annotation.Role;
  */
 @Slf4j
 //@Configuration
-@Import(JpaEntityManager.class)
+@Import({
+        HibernateDefaultJpaConfiguration.class,
+         JpaEntityManager.class
+})
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @EnableConfigurationProperties(AppDataSourceProperties.class)
 @ConditionalOnProperty(prefix = AppDataSourceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)

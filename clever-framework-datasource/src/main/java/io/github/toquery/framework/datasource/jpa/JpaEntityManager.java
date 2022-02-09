@@ -1,17 +1,19 @@
 
 package io.github.toquery.framework.datasource.jpa;
 
+import io.github.toquery.framework.dao.jpa.AppJpaRepositoryFactoryBean;
 import io.github.toquery.framework.datasource.config.DynamicDataSourceRouter;
 import io.github.toquery.framework.datasource.properties.AppDataSourceProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -22,14 +24,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@EnableConfigurationProperties(JpaProperties.class)
-@EnableJpaRepositories(value = "com.imooc.dao.repository",
+@Configuration
+@EnableConfigurationProperties({JpaProperties.class})
+@EnableJpaRepositories(
+        value = "com.toquery.framework.example.modules.author.info.repository",
         entityManagerFactoryRef = "entityManagerFactoryBean",
-        transactionManagerRef = "ordersTransactionManager")
+        transactionManagerRef = "testTransactionManager",
+        repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class
+)
 public class JpaEntityManager {
 
-    @Autowired
+    @Resource
     private JpaProperties jpaProperties;
+
 
     @Resource
     private AppDataSourceProperties appDataSourceProperties;
@@ -38,17 +45,29 @@ public class JpaEntityManager {
         log.debug("JpaEntityManager init");
     }
 
+
     //    @Primary
     @Bean(name = "routingDataSource")
-    public AbstractRoutingDataSource routingDataSource() {
+    public DynamicDataSourceRouter routingDataSource() {
         DynamicDataSourceRouter proxy = new DynamicDataSourceRouter();
         Map<String, DataSourceProperties> multiple = appDataSourceProperties.getMultiple();
-        Map<Object, Object> targetDataSources = new HashMap<>(multiple);
+        Map<Object, Object> targetDataSources = new HashMap<>(multiple.size());
+        multiple.forEach((k, dataSourceProperties) -> {
+            DataSourceBuilder<?> factory = DataSourceBuilder.create()
+                    .type(dataSourceProperties.getType())
+                    .driverClassName(dataSourceProperties.getDriverClassName())
+                    .url(dataSourceProperties.getUrl())
+                    .username(dataSourceProperties.getUsername())
+                    .password(dataSourceProperties.getPassword());
+            targetDataSources.put(k, factory.build());
+        });
         proxy.setTargetDataSources(targetDataSources);
         return proxy;
     }
 
+
     //@Primary
+//    @DependsOn("routingDataSource")
     @Bean(name = "entityManagerFactoryBean")
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder) {
         // 不明白为什么这里获取不到 application.yml 里的配置
@@ -57,31 +76,20 @@ public class JpaEntityManager {
         properties.put("hibernate.physical_naming_strategy",
                 "org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy");
 
-        properties.put("hibernate.hbm2ddl.auto", "true");
+//        properties.put("hibernate.hbm2ddl.auto", "true");
 //        properties.put("hibernate.dialect", "");
         return builder
                 .dataSource(routingDataSource())//关键：注入routingDataSource
                 .properties(properties)
-                .packages("com.imooc.entity")
+                .packages("com.toquery.framework.example.modules.author.info.entity")
                 .persistenceUnit("myPersistenceUnit")
                 .build();
     }
 
-//    @Primary
-//    @Bean(name = "entityManagerFactory")
-//    public EntityManagerFactory entityManagerFactory(EntityManagerFactoryBuilder builder) {
-//        return this.entityManagerFactoryBean(builder).getObject();
-//    }
-
-//    @Primary
-//    @Bean(name = "transactionManager")
-//    public PlatformTransactionManager transactionManager(EntityManagerFactoryBuilder builder) {
-//        return new JpaTransactionManager(entityManagerFactory(builder));
-//    }
 
     @Bean
-    public PlatformTransactionManager ordersTransactionManager(EntityManagerFactory entityManagerFactoryRead) {
-        return new JpaTransactionManager(entityManagerFactoryRead);
+    public PlatformTransactionManager testTransactionManager(EntityManagerFactory entityManagerFactoryBean) {
+        return new JpaTransactionManager(entityManagerFactoryBean);
     }
 
 

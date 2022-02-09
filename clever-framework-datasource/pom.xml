@@ -35,7 +35,7 @@
 
         <dependency>
             <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-core</artifactId>
+            <artifactId>clever-framework-dao</artifactId>
         </dependency>
 
         <dependency>

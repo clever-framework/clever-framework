@@ -68,7 +68,9 @@ app:
         clever-framework-example:
           host: loaclhost
   datasource:
-    enabled: false
+    enabled: true
+
+
 spring:
   profiles:
     active: local
