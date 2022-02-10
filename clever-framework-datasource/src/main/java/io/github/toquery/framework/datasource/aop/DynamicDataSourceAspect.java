@@ -3,6 +3,7 @@ package io.github.toquery.framework.datasource.aop;
 import io.github.toquery.framework.datasource.DataSourceSwitch;
 import io.github.toquery.framework.datasource.config.DataSourceContextHolder;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,22 +21,24 @@ public class DynamicDataSourceAspect {
         log.debug("DynamicDataSourceAspect init ...");
     }
 
-    @Pointcut(value = "@annotation(dataSource))", argNames = "dataSource")
-    private void dataSourceAnnotation(DataSourceSwitch dataSource) {
+    @Pointcut("@annotation(io.github.toquery.framework.datasource.DataSourceSwitch)")
+    public void dataSourceSwitchPointCut() {
+    }
+//    @Pointcut(value = "@within(dataSource) || @annotation(dataSource))", argNames = "dataSource")
+//    public void dataSourceAnnotation(DataSourceSwitch dataSource) {
+//    }
+
+    @Before(value = "dataSourceSwitchPointCut() && @annotation(dataSource)", argNames = "joinPoint,dataSource")
+    public void before(JoinPoint joinPoint, DataSourceSwitch dataSource) throws Throwable {
+        log.info("switch to datasource ...");
     }
 
-    @Before(value = "dataSourceAnnotation(dataSource)", argNames = "dataSource")
-    public void around(DataSourceSwitch dataSource) throws Throwable {
-        DataSourceContextHolder.setDataSource(dataSource.value());
-        log.info("switch to {} datasource ...", dataSource.value());
-    }
-
-    @Around(value = "dataSourceAnnotation(dataSource)", argNames = "point,dataSource")
+    // @Around(value = "dataSourceAnnotation(dataSource)", argNames = "point,dataSource")
     public Object around(ProceedingJoinPoint point, DataSourceSwitch dataSource) throws Throwable {
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
 
-        DataSourceSwitch classDataSourceSwitch = signature.getClass().getAnnotation(DataSourceSwitch.class);
+        DataSourceSwitch classDataSourceSwitch = point.getTarget().getClass().getAnnotation(DataSourceSwitch.class);
         DataSourceSwitch methodDataSourceSwitch = method.getAnnotation(DataSourceSwitch.class);
         // 优先使用方法注解，再使用类注解
         if (methodDataSourceSwitch != null) {

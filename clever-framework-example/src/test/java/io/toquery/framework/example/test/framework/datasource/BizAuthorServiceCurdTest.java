@@ -64,6 +64,11 @@ public class BizAuthorServiceCurdTest extends BaseSpringTest {
 
     @Test
     public void curd() {
+        BizAuthor bizAuthor = new BizAuthor("saveMyBatis-test");
+//        bizAuthor.setId(124L);
+        bizAuthor = bizAuthorService.saveMyBatis(bizAuthor);
+        log.info("插入的数据 saveMyBatis ：\n{}", JacksonUtils.object2String(bizAuthor));
+
         BizAuthor save = bizAuthorDomainService.save(new BizAuthor("save-test"));
         log.info("插入的数据 save ：\n{}", JacksonUtils.object2String(save));
 
@@ -72,6 +77,7 @@ public class BizAuthorServiceCurdTest extends BaseSpringTest {
                 new BizAuthor("saveAll-test")
         ));
         log.info("插入的数据 saveBatch ：\n{}", JacksonUtils.object2String(saveAll));
+
 
         BizAuthor updateEntity = bizAuthorService.update(save.getId(), "update-entity");
         log.info("插入的数据 updateEntity ：\n{}", JacksonUtils.object2String(updateEntity));

@@ -13,6 +13,7 @@ import com.toquery.framework.example.modules.author.info.entity.BizAuthor;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseBFFController;
+import io.github.toquery.framework.datasource.DataSourceSwitch;
 import io.github.toquery.framework.web.domain.ResponseBody;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import org.springframework.data.domain.Page;
@@ -66,6 +67,7 @@ public class BizAuthorController extends AppBaseBFFController<BizAuthor, BizAuth
     }
 
 
+    @DataSourceSwitch("test")
     @AppLogMethod(value = BizAuthor.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     public ResponseBody<?> save(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @Validated @RequestBody BizAuthorAddRequest request) {

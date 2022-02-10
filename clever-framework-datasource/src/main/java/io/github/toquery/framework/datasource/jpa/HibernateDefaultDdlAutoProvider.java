@@ -29,7 +29,7 @@ import java.util.stream.StreamSupport;
  *
  * @author Stephane Nicoll
  */
-class HibernateDefaultDdlAutoProvider implements SchemaManagementProvider {
+public class HibernateDefaultDdlAutoProvider implements SchemaManagementProvider {
 
 	private final Iterable<SchemaManagementProvider> providers;
 

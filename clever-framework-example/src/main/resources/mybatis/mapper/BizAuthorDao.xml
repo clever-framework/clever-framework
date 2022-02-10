@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorDao">
     <insert id="saveMyBatis" parameterType="com.toquery.framework.example.modules.author.info.entity.BizAuthor">
-        insert into biz_author(id, author_name, create_date_time, update_date_time)
-            value (#{id}, #{authorName}, #{createDateTime}, #{updateDateTime})
+        insert into biz_author(id, author_name,  create_user_id, create_date_time, update_user_id, update_date_time)
+            value (#{id}, #{authorName}, #{createUserId}, #{createDateTime},  #{updateUserId}, #{updateDateTime})
     </insert>
 
     <select id="findMyBatisByTitle" resultType="com.toquery.framework.example.modules.author.info.entity.BizAuthor">

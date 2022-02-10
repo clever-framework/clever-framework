@@ -129,7 +129,8 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     }
 
     public void preInsert() {
-        this.preInsert(new SnowFlake().nextId(), this.getUserId());
+        Long newId =  (this.getId() == null || this.getId() <= 0L) ? new SnowFlake().nextId() : this.getId();
+        this.preInsert(newId, this.getUserId());
     }
 
 

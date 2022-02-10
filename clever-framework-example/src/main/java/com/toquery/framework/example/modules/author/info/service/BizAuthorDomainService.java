@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @DataSourceSwitch("test")
 @Service
-@Transactional("testTransactionManager")
+//@Transactional("testTransactionManager")
 public class BizAuthorDomainService extends AppBaseServiceImpl<BizAuthor, BizAuthorRepository> {
 
 

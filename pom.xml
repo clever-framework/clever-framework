@@ -93,6 +93,7 @@
         <module>clever-framework-cache</module>
         <module>clever-framework-grpc</module>
         <module>clever-framework-datasource</module>
+        <module>clever-framework-mybatis</module>
         <!--
         <module>clever-framework-data-rest</module>
         <module>clever-framework-swagger</module>
@@ -163,6 +164,11 @@
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-datasource</artifactId>
+                <version>${clever-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.toquery</groupId>
+                <artifactId>clever-framework-mybatis</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
             <dependency>
