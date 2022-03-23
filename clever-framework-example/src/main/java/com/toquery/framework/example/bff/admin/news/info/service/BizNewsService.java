@@ -1,5 +1,8 @@
 package com.toquery.framework.example.bff.admin.news.info.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Sets;
 import com.toquery.framework.example.bff.admin.news.info.dao.BizNewsDao;
@@ -14,7 +17,7 @@ import com.toquery.framework.example.bff.admin.news.info.model.response.BizNewsL
 import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import com.toquery.framework.example.modules.news.info.service.BizNewsDomainService;
 import io.github.toquery.framework.crud.service.impl.AppBFFServiceImpl;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import lombok.AllArgsConstructor;
 import org.hibernate.Filter;
 import org.hibernate.Session;
@@ -100,6 +103,12 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
         return bizNewsPage;
     }
 
+    public com.baomidou.mybatisplus.extension.plugins.pagination.Page<BizNews> queryMyBatisPlusByPage(int current, int pageSize) {
+        Wrapper<BizNews> queryWrapper = new LambdaQueryWrapper<>();
+        // return repository.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<BizNews>(current, pageSize), queryWrapper);
+        return null;
+    }
+
 
     public List<BizNews> findJpa() {
         return repository.findAll();
@@ -108,6 +117,11 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
 
     public List<BizNews> findMyBatis() {
         return repository.findMyBatisByTitle(null);
+    }
+
+    private List<BizNews> findMyBatisPlus() {
+//        return repository.selectList(null);
+        return null;
     }
 
 
@@ -122,6 +136,12 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
     }
 
 
+    private BizNews saveMyBatisPlus(BizNews bizNews) {
+//        repository.insert(bizNews);
+        return bizNewsDomainService.getById(bizNews.getId());
+    }
+
+
     public BizNews updateJpa(BizNews bizNews) {
         return repository.saveAndFlush(bizNews);
     }
@@ -129,6 +149,13 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
 
     public BizNews updateMyBatis(BizNews bizNews) {
         return repository.updateMyBatis(bizNews);
+    }
+
+    private BizNews updateMyBatisPlus(BizNews bizNews) {
+        LambdaUpdateWrapper<BizNews> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(BizNews::getTitle, bizNews.getTitle() + "-LambdaUpdateWrapper");
+//        repository.update(bizNews, updateWrapper);
+        return bizNewsDomainService.getById(bizNews.getId());
     }
 
 
@@ -141,13 +168,21 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
         repository.deleteMyBatis(ids);
     }
 
+    private void deleteMyBatisPlus(Set<Long> ids) {
+//        ids.forEach(id -> repository.removeById(id));
+    }
+
 
     public BizNews detailJpa(Long id) {
         return repository.findJpaById(id);
     }
 
     public BizNews detailMyBatis(Long id) {
-        return repository.findMyBatisById(id);
+        return repository.getMyBatisById(id);
+    }
+
+    private BizNews detailMyBatisPlus(Long id) {
+        return repository.getMyBatisById(id);
     }
 
     public BizNewsInfoResponse save(QueryType queryType, BizNewsAddRequest request) {
@@ -165,10 +200,15 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
                 bizNews = this.saveMyBatis(BizNewsMapper.INSTANCE.add2BizNews(request));
                 break;
             }
+            case MYBATIS_PLUS: {
+                bizNews = this.saveMyBatisPlus(BizNewsMapper.INSTANCE.add2BizNews(request));
+                break;
+            }
         }
 
         return BizNewsMapper.INSTANCE.bizNews2Info(bizNews);
     }
+
 
     public BizNewsInfoResponse update(QueryType queryType, BizNewsUpdateRequest request) {
         BizNews bizNews = null;
@@ -185,26 +225,36 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
                 bizNews = this.updateMyBatis(BizNewsMapper.INSTANCE.update2BizNews(request));
                 break;
             }
+            case MYBATIS_PLUS: {
+                bizNews = this.updateMyBatisPlus(BizNewsMapper.INSTANCE.update2BizNews(request));
+                break;
+            }
         }
         return BizNewsMapper.INSTANCE.bizNews2Info(bizNews);
     }
 
-    public ResponseBody pageMultiType(BizNewsPageRequest bizNewsPageRequest) {
-        ResponseBody responseParam = null;
+
+    public ResponseBodyWrap<?> pageMultiType(BizNewsPageRequest bizNewsPageRequest) {
+        ResponseBodyWrap<?> responseParam = null;
         switch (bizNewsPageRequest.getQueryType()) {
             case APP: {
                 org.springframework.data.domain.Page<BizNews> bizNewsPage = bizNewsDomainService.page(bizNewsPageRequest.getCurrent(), bizNewsPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizNewsPage).build();
+                responseParam = ResponseBodyWrap.builder().page(bizNewsPage).build();
                 break;
             }
             case JPA: {
                 org.springframework.data.domain.Page<BizNews> bizNewsPage = this.queryJpaByPage(bizNewsPageRequest.getCurrent(), bizNewsPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizNewsPage).build();
+                responseParam = ResponseBodyWrap.builder().page(bizNewsPage).build();
                 break;
             }
             case MYBATIS: {
                 com.github.pagehelper.Page<BizNews> bizNewsPage = this.queryMyBatisByPage(bizNewsPageRequest.getCurrent(), bizNewsPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizNewsPage).build();
+                responseParam = ResponseBodyWrap.builder().page(bizNewsPage).build();
+                break;
+            }
+            case MYBATIS_PLUS: {
+                com.baomidou.mybatisplus.extension.plugins.pagination.Page<BizNews> bizNewsPage = this.queryMyBatisPlusByPage(bizNewsPageRequest.getCurrent(), bizNewsPageRequest.getPageSize());
+                responseParam = ResponseBodyWrap.builder().page(bizNewsPage).build();
                 break;
             }
         }
@@ -234,9 +284,15 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
                 bizNewsListResponses = BizNewsMapper.INSTANCE.bizNews2List(bizNewsList);
                 break;
             }
+            case MYBATIS_PLUS: {
+                List<BizNews> bizNewsList = this.findMyBatisPlus();
+                bizNewsListResponses = BizNewsMapper.INSTANCE.bizNews2List(bizNewsList);
+                break;
+            }
         }
         return bizNewsListResponses;
     }
+
 
     public void delete(QueryType queryType, Set<Long> ids) {
         switch (queryType) {
@@ -252,8 +308,13 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
                 this.deleteMyBatis(ids);
                 break;
             }
+            case MYBATIS_PLUS: {
+                this.deleteMyBatisPlus(ids);
+                break;
+            }
         }
     }
+
 
     public BizNewsInfoResponse detail(QueryType queryType, Long id) {
         BizNews bizNews = null;
@@ -270,9 +331,14 @@ public class BizNewsService extends AppBFFServiceImpl<BizNews, BizNewsDao> {
                 bizNews = this.detailMyBatis(id);
                 break;
             }
+            case MYBATIS_PLUS: {
+                bizNews = this.detailMyBatisPlus(id);
+                break;
+            }
         }
         return BizNewsMapper.INSTANCE.bizNews2Info(bizNews);
     }
+
 
     public Page<BizNews> page(BizNewsPageRequest bizNewsPageRequest) {
         Map<String, Object> params = BizNewsMapper.INSTANCE.page2Map(bizNewsPageRequest);

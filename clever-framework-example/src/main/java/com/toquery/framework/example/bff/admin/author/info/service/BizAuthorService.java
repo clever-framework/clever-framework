@@ -14,9 +14,7 @@ import com.toquery.framework.example.bff.admin.author.info.model.response.BizAut
 import com.toquery.framework.example.modules.author.info.entity.BizAuthor;
 import com.toquery.framework.example.modules.author.info.service.BizAuthorDomainService;
 import io.github.toquery.framework.crud.service.impl.AppBFFServiceImpl;
-//import io.github.toquery.framework.datasource.DataSource;
-import io.github.toquery.framework.datasource.DataSourceSwitch;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import lombok.AllArgsConstructor;
 import org.hibernate.Filter;
 import org.hibernate.Session;
@@ -37,7 +35,6 @@ import java.util.Set;
 /**
  *
  */
-@DataSourceSwitch(value = "test")
 @Service
 @AllArgsConstructor
 public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao> {
@@ -184,22 +181,22 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
         return BizAuthorMapper.INSTANCE.bizAuthor2Info(bizAuthor);
     }
 
-    public ResponseBody<?> pageMultiType(BizAuthorPageRequest bizAuthorPageRequest) {
-        ResponseBody<?> responseParam = null;
+    public ResponseBodyWrap<?> pageMultiType(BizAuthorPageRequest bizAuthorPageRequest) {
+        ResponseBodyWrap<?> responseParam = null;
         switch (bizAuthorPageRequest.getQueryType()) {
             case APP: {
                 Page<BizAuthor> bizAuthorPage = bizAuthorDomainService.page(bizAuthorPageRequest.getCurrent(), bizAuthorPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizAuthorPage).build();
+                responseParam = ResponseBodyWrap.builder().page(bizAuthorPage).build();
                 break;
             }
             case JPA: {
                 Page<BizAuthor> bizAuthorPage = this.queryJpaByPage(bizAuthorPageRequest.getCurrent(), bizAuthorPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizAuthorPage).build();
+                responseParam = ResponseBodyWrap.builder().page(bizAuthorPage).build();
                 break;
             }
             case MYBATIS: {
                 com.github.pagehelper.Page<BizAuthor> bizAuthorPage = this.queryMyBatisByPage(bizAuthorPageRequest.getCurrent(), bizAuthorPageRequest.getPageSize());
-                responseParam = ResponseBody.builder().page(bizAuthorPage).build();
+                responseParam = ResponseBodyWrap.builder().page(bizAuthorPage).build();
                 break;
             }
         }
@@ -269,7 +266,6 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
         return BizAuthorMapper.INSTANCE.bizAuthor2Info(bizAuthor);
     }
 
-    @DataSourceSwitch(value = "test")
     @Transactional
     public Page<BizAuthor> page(BizAuthorPageRequest bizAuthorPageRequest) {
         Map<String, Object> params = BizAuthorMapper.INSTANCE.page2Map(bizAuthorPageRequest);

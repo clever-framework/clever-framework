@@ -1,4 +1,4 @@
-package io.github.toquery.framework.mybatis.properties;
+package io.github.toquery.framework.dao.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

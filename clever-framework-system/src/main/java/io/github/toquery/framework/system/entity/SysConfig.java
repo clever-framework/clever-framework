@@ -32,12 +32,8 @@ import java.util.List;
 @Table(name = "sys_config")
 public class SysConfig extends AppBaseEntity implements AppEntitySort, AppEntityLogicDel {
 
-//    @AppLogField("业务ID")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING)
-//    @Column(name = "biz_id", length = 50)
-//    private Long bizId;
 
-    @Column(name = "config_name", length = 50)
+    @Column(name = "config_name", unique = true, length = 50)
     private String configName;
 
     @Lob

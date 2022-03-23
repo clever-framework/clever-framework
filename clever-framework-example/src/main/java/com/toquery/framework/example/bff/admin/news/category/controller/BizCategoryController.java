@@ -13,7 +13,7 @@ import com.toquery.framework.example.modules.news.category.entity.BizNewsCategor
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseBFFController;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,32 +63,32 @@ public class BizCategoryController extends AppBaseBFFController<BizNewsCategory,
     )
     @AppLogMethod(value = BizNewsCategory.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping
-    public ResponseBody page(BizNewsPageRequest pageRequest) {
+    public ResponseBodyWrap page(BizNewsPageRequest pageRequest) {
         Page<BizNewsCategoryPageResponse> pageResponse = super.bffService.page(pageRequest);
-        return ResponseBody.builder().page(pageResponse).build();
+        return ResponseBodyWrap.builder().page(pageResponse).build();
     }
 
     @AppLogMethod(value = BizNewsCategory.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping("/list")
-    public ResponseBody list(@RequestParam BizNewsListRequest listRequest) {
+    public ResponseBodyWrap list(@RequestParam BizNewsListRequest listRequest) {
         List<BizNewsCategoryListResponse> listResponse = super.bffService.list(listRequest);
-        return ResponseBody.builder().content(listResponse).build();
+        return ResponseBodyWrap.builder().content(listResponse).build();
     }
 
 
     @AppLogMethod(value = BizNewsCategory.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
-    public ResponseBody save(@Validated @RequestBody BizNewsCategoryAddRequest addRequest) {
+    public ResponseBodyWrap save(@Validated @RequestBody BizNewsCategoryAddRequest addRequest) {
         BizNewsCategoryInfoResponse infoResponse = super.bffService.save(addRequest);
-        return ResponseBody.builder().content(infoResponse).build();
+        return ResponseBodyWrap.builder().content(infoResponse).build();
 
     }
 
     @AppLogMethod(value = BizNewsCategory.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
-    public ResponseBody update(@RequestBody BizNewsCategoryUpdateRequest updateRequest) {
+    public ResponseBodyWrap update(@RequestBody BizNewsCategoryUpdateRequest updateRequest) {
         BizNewsCategoryInfoResponse infoResponse = super.bffService.update(updateRequest);
-        return ResponseBody.builder().content(infoResponse).build();
+        return ResponseBodyWrap.builder().content(infoResponse).build();
     }
 
 
@@ -100,8 +100,8 @@ public class BizCategoryController extends AppBaseBFFController<BizNewsCategory,
 
     @AppLogMethod(value = BizNewsCategory.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @GetMapping("{id}")
-    public ResponseBody get(@PathVariable Long id) {
+    public ResponseBodyWrap get(@PathVariable Long id) {
         BizNewsCategoryInfoResponse infoResponse = super.bffService.get(id);
-        return ResponseBody.builder().content(infoResponse).build();
+        return ResponseBodyWrap.builder().content(infoResponse).build();
     }
 }

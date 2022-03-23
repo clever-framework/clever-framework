@@ -4,7 +4,7 @@ import com.toquery.framework.example.sdk.news.info.model.request.BizNewsPageRequ
 import com.toquery.framework.example.sdk.news.info.model.response.BizNewsPageResponse;
 import io.github.toquery.framework.grpc.client.annotation.GRpcClient;
 import io.github.toquery.framework.grpc.core.annotation.GRpcMethod;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 
 import java.util.List;
 
@@ -18,6 +18,6 @@ public interface BizNewInfoClient {
      * 分页查询
      */
     @GRpcMethod("/page")
-    ResponseBody<List<BizNewsPageResponse>> page(BizNewsPageRequest request);
+    ResponseBodyWrap<List<BizNewsPageResponse>> page(BizNewsPageRequest request);
 
 }

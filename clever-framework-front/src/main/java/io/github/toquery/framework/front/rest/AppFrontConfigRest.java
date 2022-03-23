@@ -2,7 +2,7 @@ package io.github.toquery.framework.front.rest;
 
 import com.google.common.collect.Maps;
 import io.github.toquery.framework.core.properties.AppProperties;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +18,14 @@ public class AppFrontConfigRest {
     private AppProperties appProperties;
 
     @GetMapping("/config")
-    public ResponseBody frontConfig() {
+    public ResponseBodyWrap frontConfig() {
         return this.frontConfigRoleModel();
     }
 
     @GetMapping("/config/role-model")
-    public ResponseBody frontConfigRoleModel() {
+    public ResponseBodyWrap frontConfigRoleModel() {
         Map<String, Object> map = Maps.newHashMap();
         map.put("roleModel", appProperties.getRoleModel());
-        return ResponseBody.builder().content(map).build();
+        return ResponseBodyWrap.builder().content(map).build();
     }
 }

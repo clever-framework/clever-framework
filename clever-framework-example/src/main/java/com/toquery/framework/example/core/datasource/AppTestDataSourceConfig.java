@@ -1,3 +1,4 @@
+/*
 
 package com.toquery.framework.example.core.datasource;
 
@@ -63,3 +64,4 @@ public class AppTestDataSourceConfig {
 //    }
 
 }
+*/

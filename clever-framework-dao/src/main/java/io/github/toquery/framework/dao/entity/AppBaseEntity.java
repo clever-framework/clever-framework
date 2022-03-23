@@ -67,7 +67,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
 
 
 //    @RevisionTimestamp
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 //    @Column(name = "revision_time", updatable = false, nullable = false)
 //    private long revisionDatetime;

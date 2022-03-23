@@ -2,13 +2,17 @@ package io.github.toquery.framework.system.rest;
 
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
+import io.github.toquery.framework.core.log.AppLogType;
+import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysArea;
+import io.github.toquery.framework.system.entity.SysConfig;
 import io.github.toquery.framework.system.service.ISysAreaService;
-import io.github.toquery.framework.web.domain.ResponseBody;
-import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
+import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import io.micrometer.core.annotation.Timed;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,43 +31,60 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/sys/area")
-@Timed(value = "system-area", description = "系统-区域")
+@Timed(value = "system-area", description = "系统-行政区")
 public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea> {
 
 
-    private String[] sort = new String[]{"sortNum_desc"};
+    private static final String[] sort = new String[]{"sortNum_desc"};
 
+    public static final String MODEL_NAME = "系统管理";
+
+    public static final String BIZ_NAME = "行政区管理";
+
+
+    @AppLogMethod(value = SysArea.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:area:query')")
     @GetMapping
-    public ResponseBody<?> pageResponseResult() {
+    public ResponseBodyWrap<?> pageResponseResult() {
         return super.pageResponseResult(sort);
     }
 
+    @AppLogMethod(value = SysArea.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:area:query')")
     @GetMapping(value = "/list")
-    public ResponseBody<?> listResponseResult() {
+    public ResponseBodyWrap<?> listResponseResult() {
         return super.listResponseResult(sort);
     }
 
+    @AppLogMethod(value = SysArea.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:area:query')")
     @GetMapping("/tree")
-    public ResponseBody<?> tree() throws Exception {
+    public ResponseBodyWrap<?> tree() throws Exception {
         List<SysArea> sysMenuList = domainService.list(null, sort);
         // 将lists数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
-        return new ResponseBodyBuilder().content(sysMenuList).build();
+        return new ResponseBodyWrapBuilder().content(sysMenuList).build();
     }
 
+    @AppLogMethod(value = SysArea.class, logType = AppLogType.MODIFY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:area:modify')")
     @PutMapping
-    public ResponseBody<?> updateResponseResult(@RequestBody SysArea sysArea) throws AppException {
+    public ResponseBodyWrap<?> updateResponseResult(@RequestBody SysArea sysArea) throws AppException {
         return super.handleResponseBody(domainService.update(sysArea, Sets.newHashSet("name", "code")));
     }
 
+    @AppLogMethod(value = SysArea.class, logType = AppLogType.DELETE, modelName =  MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:area:delete')")
     @DeleteMapping
-    public ResponseBody<?> deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBodyWrap<?> deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
         domainService.deleteByIds(ids);
-        return ResponseBody.builder().success().build();
+        return ResponseBodyWrap.builder().success().build();
     }
 
+    @AppLogMethod(value = SysArea.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
+    @PreAuthorize("hasAnyAuthority('system:area:query')")
     @GetMapping("{id}")
-    public ResponseBody<?> detailResponseBody(@PathVariable Long id) {
+    public ResponseBodyWrap<?> detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 }

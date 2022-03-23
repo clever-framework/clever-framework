@@ -1,20 +1,12 @@
 package io.github.toquery.framework.system.autoconfig;
 
-import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
-import io.github.toquery.framework.system.rest.SysAreaRest;
-import io.github.toquery.framework.system.rest.SysConfigRest;
-import io.github.toquery.framework.system.rest.SysDeptRest;
-import io.github.toquery.framework.system.rest.SysDictRest;
-import io.github.toquery.framework.system.rest.SysMenuRest;
-import io.github.toquery.framework.system.rest.SysRoleRest;
-import io.github.toquery.framework.system.rest.SysUserRest;
+import io.github.toquery.framework.system.rest.*;
 import io.github.toquery.framework.system.runner.AppSystemRunner;
 import io.github.toquery.framework.system.service.*;
 import io.github.toquery.framework.system.service.impl.*;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.ApplicationRunner;
@@ -23,6 +15,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -44,9 +37,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AppSystemAutoConfiguration {
 
     @Autowired
-    private AppProperties appProperties;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
 
@@ -57,115 +47,144 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SysConfigRest getSysConfigRest() {
+    public SysConfigRest sysConfigRest() {
         return new SysConfigRest();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysDeptRest getSysDeptRest() {
+    public SysDeptRest sysDeptRest() {
         return new SysDeptRest();
     }
 
 
     @Bean
     @ConditionalOnMissingBean
-    public SysMenuRest getSysMenuRest() {
+    public SysMenuRest sysMenuRest() {
         return new SysMenuRest();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysAreaRest getSysAreaRest() {
+    public SysAreaRest sysAreaRest() {
         return new SysAreaRest();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysRoleRest getSysRoleRest() {
+    public SysRoleRest sysRoleRest() {
         return new SysRoleRest();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysUserRest getSysUserRest() {
+    public SysUserRest sysUserRest() {
         return new SysUserRest();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysDictRest getSysDictRest() {
+    public SysDictRest sysDictRest() {
         return new SysDictRest();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysAreaService getISysAreaService() {
+    public SysDictItemRest sysDictItemRest() {
+        return new SysDictItemRest();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SysPostRest sysPostRest() {
+        return new SysPostRest();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SysWorkRest sysWorkRest() {
+        return new SysWorkRest();
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysAreaService sysAreaService() {
         return new SysAreaServiceImpl();
     }
 
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysDeptService getISysDeptService() {
+    public ISysDeptService sysDeptService() {
         return new SysDeptServiceImpl();
     }
 
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysConfigService getSysConfigService() {
+    public ISysConfigService sysConfigService() {
         return new SysConfigServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysDictService getISysDictService() {
+    public ISysDictService sysDictService() {
         return new SysDictServiceImpl();
     }
 
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysDictItemService getISysDictItemService() {
+    public ISysDictItemService sysDictItemService() {
         return new SysDictItemServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysMenuService getSysMenuService() {
+    public ISysMenuService sysMenuService() {
         return new SysMenuServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysRoleService getSysRoleService() {
+    public ISysRoleService sysRoleService() {
         return new SysRoleServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysUserService getSysUserService() {
-        return new SysUserServiceImpl();
+    public ISysUserService sysUserService(ISysUserPermissionService sysUserPermissionService) {
+        return new SysUserServiceImpl(passwordEncoder, sysUserPermissionService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysRoleMenuService getSysRoleMenuService() {
+    public ISysRoleMenuService sysRoleMenuService() {
         return new SysRoleMenuServiceImpl();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysUserPermissionService getSysUserPermissionServiceImpl() {
-        return new SysUserPermissionServiceImpl();
+    public ISysUserPermissionService sysUserPermissionService(@Lazy ISysUserService sysUserService, @Lazy ISysRoleService sysRoleService, @Lazy ISysAreaService sysAreaService) {
+        return new SysUserPermissionServiceImpl(sysUserService, sysRoleService, sysAreaService);
     }
 
     @Bean
     @ConditionalOnMissingBean
+    public ISysPostService sysPostService() {
+        return new SysPostServiceImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysWorkService sysWorkService(@Lazy ISysUserService sysUserService, @Lazy ISysDeptService sysDeptService, @Lazy ISysPostService sysPostService) {
+        return new SysWorkServiceImpl(sysUserService, sysDeptService, sysPostService);
+    }
+
+    @Bean
     public ApplicationRunner getAppSystemRunner() {
         return new AppSystemRunner();
-
     }
 
 }

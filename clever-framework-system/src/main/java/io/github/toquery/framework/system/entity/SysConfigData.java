@@ -19,13 +19,13 @@ import javax.persistence.Transient;
  * @author toquery
  * @version 1
  */
-@Entity
+//@Entity
 @Getter
 @Setter
 @AppLogEntity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "sys_config_data")
+//@Table(name = "sys_config_data")
 public class SysConfigData extends AppBaseEntity {
 
 //    @ManyToOne

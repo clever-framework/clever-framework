@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -37,6 +38,7 @@ public class SysDictItem extends AppBaseEntity implements AppEntitySort, AppEnti
     /**
      * 字典id
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "dict_id")
     private Long dictId;
 

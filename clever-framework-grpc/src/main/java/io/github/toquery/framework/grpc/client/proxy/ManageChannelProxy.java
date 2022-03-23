@@ -6,7 +6,7 @@ import io.github.toquery.framework.grpc.core.annotation.GRpcMethod;
 import io.github.toquery.framework.grpc.core.factory.MarshallerFactory;
 import io.github.toquery.framework.grpc.core.model.MethodCallProperty;
 import com.google.common.util.concurrent.ListenableFuture;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.grpc.*;
 import io.grpc.stub.ClientCalls;
 import io.grpc.stub.StreamObserver;
@@ -86,7 +86,7 @@ public class ManageChannelProxy implements InvocationHandler {
                     return ClientCalls.blockingUnaryCall(clientCall, ReflectUtils.safeElement(args, 0));
                 } catch (Exception exception) {
                     exception.printStackTrace();
-                    return ResponseBody.builder().fail().message(exception.getMessage()).build();
+                    return ResponseBodyWrap.builder().fail().message(exception.getMessage()).build();
                 }
 
             case BIDI_STREAMING://双向流，相当于asyncBidiStreamingCall

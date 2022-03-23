@@ -1,8 +1,8 @@
 package io.github.toquery.framework.webmvc.controller.advice;
 
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.web.domain.ResponseBody;
-import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
+import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,25 +32,25 @@ public class AppExceptionAdvice {
 
     @ResponseStatus(code=HttpStatus.NOT_FOUND)
     @ExceptionHandler(value= NoHandlerFoundException.class)
-    public ResponseEntity<ResponseBody> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
+    public ResponseEntity<ResponseBodyWrap> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseBody.builder().fail("请求地址错误！").build());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseBodyWrap.builder().fail("请求地址错误！").build());
     }
 
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseBody> handleException(Exception exception) {
+    public ResponseEntity<ResponseBodyWrap> handleException(Exception exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
 
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(AppException.class)
-    public ResponseEntity<ResponseBody> handleAppException(AppException exception) {
+    public ResponseEntity<ResponseBodyWrap> handleAppException(AppException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
 
     /*
@@ -65,16 +65,16 @@ public class AppExceptionAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseBody> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ResponseBodyWrap> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         exception.printStackTrace();
         FieldError fieldError = exception.getBindingResult().getFieldError();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(fieldError.getField() + fieldError.getDefaultMessage()).build());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(fieldError.getField() + fieldError.getDefaultMessage()).build());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ResponseBody> handleConstraintViolationException(ConstraintViolationException exception) {
+    public ResponseEntity<ResponseBodyWrap> handleConstraintViolationException(ConstraintViolationException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(exception.getConstraintViolations().iterator().next().getMessage()).build());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(exception.getConstraintViolations().iterator().next().getMessage()).build());
     }
 }

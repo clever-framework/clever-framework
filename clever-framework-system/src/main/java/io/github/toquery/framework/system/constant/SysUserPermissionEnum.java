@@ -1,5 +1,5 @@
 package io.github.toquery.framework.system.constant;
 
 public enum SysUserPermissionEnum {
-    ROLE, AREA, MENU,
+    USER, ROLE, AREA, ROLE_MENU,
 }

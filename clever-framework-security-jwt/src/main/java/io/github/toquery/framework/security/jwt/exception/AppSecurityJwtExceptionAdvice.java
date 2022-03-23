@@ -5,7 +5,7 @@ package io.github.toquery.framework.security.jwt.exception;
  * @version 1
  */
 
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class AppSecurityJwtExceptionAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleExpiredJwtException(AccessDeniedException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseBody.builder().code(HttpStatus.FORBIDDEN.value()).fail("访问被拒绝！").build());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseBodyWrap.builder().code(HttpStatus.FORBIDDEN.value()).fail("访问被拒绝！").build());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -39,7 +39,7 @@ public class AppSecurityJwtExceptionAdvice {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<?> handleExpiredJwtException(ExpiredJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseBody.builder().code(HttpStatus.UNAUTHORIZED.value()).fail("登录失效！").build());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseBodyWrap.builder().code(HttpStatus.UNAUTHORIZED.value()).fail("登录失效！").build());
     }
 
 
@@ -48,6 +48,6 @@ public class AppSecurityJwtExceptionAdvice {
     @ExceptionHandler(AppSecurityJwtException.class)
     public ResponseEntity<?> handleAuthenticationException(AppSecurityJwtException exception) {
         exception.printStackTrace();
-        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseBody.builder().code(exception.getHttpStatus().value()).fail(exception.getMessage()).build());
+        return ResponseEntity.status(exception.getHttpStatus()).body(ResponseBodyWrap.builder().code(exception.getHttpStatus().value()).fail(exception.getMessage()).build());
     }
 }

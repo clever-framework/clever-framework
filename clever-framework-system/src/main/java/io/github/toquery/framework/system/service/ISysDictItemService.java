@@ -22,4 +22,10 @@ public interface ISysDictItemService extends AppBaseService<SysDictItem> {
     void deleteByDictIds(Set<Long> dictIds);
 
     List<SysDictItem> reSave(Long dictId, List<SysDictItem> dictItems);
+
+
+    SysDictItem saveSysDictCheck(SysDictItem sysDictItem);
+
+    SysDictItem updateSysDictItemCheck(SysDictItem sysDictItem);
+
 }

@@ -1,5 +1,7 @@
 package io.github.toquery.framework.grpc.client.annotation;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,6 +13,7 @@ import java.lang.annotation.Target;
  *
  * @since 2019/1/11
  */
+@Component
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface GRpcClient {

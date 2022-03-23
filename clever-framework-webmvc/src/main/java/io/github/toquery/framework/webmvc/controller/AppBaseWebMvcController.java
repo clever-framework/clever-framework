@@ -2,8 +2,8 @@ package io.github.toquery.framework.webmvc.controller;
 
 import com.google.common.base.Strings;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
-import io.github.toquery.framework.web.domain.ResponseBody;
-import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
+import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,27 +51,26 @@ public abstract class AppBaseWebMvcController extends AppBaseWebController {
         return Strings.isNullOrEmpty(current) ? appWebMvcProperties.getDefaultValue().getCurrent() : Integer.parseInt(current) - 1;
     }
 
-
-
-    protected ResponseBody handleResponseBody(Object object) {
-        return new ResponseBodyBuilder().content(object).build();
+    protected ResponseBodyWrap<?> handleResponseBody(Object object) {
+        return new ResponseBodyWrapBuilder().content(object).build();
     }
 
-    protected ResponseEntity<?> responseEntity(ResponseBody responseParam, HttpStatus httpStatus) {
-        return new ResponseEntity<>(responseParam, httpStatus);
-    }
-
-    protected ResponseEntity<?> responseEntity(String message, HttpStatus httpStatus) {
-        ResponseBody responseParam = new ResponseBodyBuilder().message(message).build();
-        return this.responseEntity(responseParam, httpStatus);
+    protected ResponseEntity<?> notFound() {
+        return this.notFound("未找到");
     }
 
     protected ResponseEntity<?> notFound(String message) {
         return this.responseEntity(message, HttpStatus.NOT_FOUND);
     }
 
-    protected ResponseEntity<?> notFound() {
-        return this.notFound("未找到");
+    protected ResponseEntity<?> responseEntity(String message, HttpStatus httpStatus) {
+        ResponseBodyWrap<?> responseParam = new ResponseBodyWrapBuilder().message(message).build();
+        return this.responseEntity(responseParam, httpStatus);
     }
+
+    protected ResponseEntity<?> responseEntity(ResponseBodyWrap<?> responseParam, HttpStatus httpStatus) {
+        return new ResponseEntity<>(responseParam, httpStatus);
+    }
+
 
 }

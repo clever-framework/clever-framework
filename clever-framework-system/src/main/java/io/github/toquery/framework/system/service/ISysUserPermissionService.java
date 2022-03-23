@@ -5,6 +5,7 @@ import io.github.toquery.framework.system.constant.SysUserPermissionEnum;
 import io.github.toquery.framework.system.entity.SysUserPermission;
 import org.springframework.data.domain.Page;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,13 @@ public interface ISysUserPermissionService extends AppBaseService<SysUserPermiss
      */
     List<SysUserPermission> findByUserId(Long userId);
 
+    List<SysUserPermission> findWithFullByUserId(Long userId);
+
     List<SysUserPermission> findByUserId(Long userId, SysUserPermissionEnum... sysUserPermissionEnums);
+
+    List<SysUserPermission> findByUserIds(Collection<Long> userIds);
+
+    List<SysUserPermission> findByUserIds(Collection<Long> userIds, SysUserPermissionEnum... sysUserPermissionEnums);
 
     /**
      * 通过用户id，判断是否存在记录
@@ -64,4 +71,5 @@ public interface ISysUserPermissionService extends AppBaseService<SysUserPermiss
     SysUserPermission detailWithRoleAndArea(Long id);
 
     void authorize(Long userId, List<SysUserPermission> sysUserPermissions);
+
 }

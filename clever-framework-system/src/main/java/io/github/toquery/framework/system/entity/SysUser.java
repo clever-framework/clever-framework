@@ -102,6 +102,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     /**
      * 用户角色
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Transient
     private Collection<Long> roleIds;
 

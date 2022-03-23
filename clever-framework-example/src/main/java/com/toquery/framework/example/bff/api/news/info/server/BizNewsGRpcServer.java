@@ -4,7 +4,7 @@ import com.toquery.framework.example.bff.api.news.info.model.request.BizNewsPage
 import com.toquery.framework.example.bff.api.news.info.service.BizNewsGRpcService;
 import io.github.toquery.framework.grpc.core.annotation.GRpcMethod;
 import io.github.toquery.framework.grpc.server.annotation.GRpcServer;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.grpc.stub.StreamObserver;
 
 import javax.annotation.Resource;
@@ -26,8 +26,8 @@ public class BizNewsGRpcServer {
      * @param response 响应
      */
     @GRpcMethod("/page")
-    public void page(BizNewsPageRequest request, StreamObserver<ResponseBody<?>> response) {
-        response.onNext(ResponseBody.builder().success().content(bizNewsGRpcService.page(request)).build());
+    public void page(BizNewsPageRequest request, StreamObserver<ResponseBodyWrap<?>> response) {
+        response.onNext(ResponseBodyWrap.builder().success().content(bizNewsGRpcService.page(request)).build());
         response.onCompleted();
     }
 }

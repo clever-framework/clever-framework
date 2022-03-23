@@ -55,12 +55,12 @@ public class SysUserPermission extends AppBaseEntity implements AppEntityLogicDe
     private SysArea area;
 
 
-    @Transient
-    private List<SysUser> users;
-
-    @Transient
-    private List<SysRole> roles;
-
-    @Transient
-    private List<SysArea> areas;
+//    @Transient
+//    private List<SysUser> users;
+//
+//    @Transient
+//    private List<SysRole> roles;
+//
+//    @Transient
+//    private List<SysArea> areas;
 }

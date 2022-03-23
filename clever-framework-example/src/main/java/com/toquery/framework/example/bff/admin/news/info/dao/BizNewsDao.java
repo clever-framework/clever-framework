@@ -1,5 +1,6 @@
 package com.toquery.framework.example.bff.admin.news.info.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import io.github.toquery.framework.dao.annotation.JpaParam;
 import io.github.toquery.framework.dao.annotation.MybatisParam;
@@ -47,7 +48,7 @@ public interface BizNewsDao extends AppJpaBaseRepository<BizNews> {
 
     @Mapper
     @MybatisQuery
-    BizNews findMyBatisById(@MybatisParam("ids") Long id);
+    BizNews getMyBatisById(@MybatisParam("id") Long id);
 
     @Mapper
     @MybatisQuery

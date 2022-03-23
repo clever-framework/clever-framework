@@ -7,8 +7,8 @@ import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.service.ISysMenuService;
-import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -55,62 +55,62 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @GetMapping
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBody pageResponseResult() {
+    public ResponseBodyWrap pageResponseResult() {
         return super.pageResponseResult(SORT);
     }
 
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBody listResponseResult() {
+    public ResponseBodyWrap listResponseResult() {
         return super.listResponseResult(SORT);
     }
 
     @GetMapping("/tree")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBody tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
+    public ResponseBodyWrap tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
         List<SysMenu> sysMenuList = Lists.newArrayList(new SysMenu(0L, rootName, "root"));
         List<SysMenu> childrenList = domainService.list(super.getFilterParam(), SORT);
         sysMenuList.addAll(childrenList);
         // 将list数据转为tree
         sysMenuList = AppTreeUtil.getTreeData(sysMenuList);
-        return new ResponseBodyBuilder().content(sysMenuList).build();
+        return new ResponseBodyWrapBuilder().content(sysMenuList).build();
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseBody saveResponseResult(@Validated @RequestBody SysMenu sysMenu) {
+    public ResponseBodyWrap saveResponseResult(@Validated @RequestBody SysMenu sysMenu) {
         return super.handleResponseBody(domainService.saveMenu(sysMenu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping("/scan")
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseBody scan() {
+    public ResponseBodyWrap scan() {
         domainService.scanAndInsertMenus(false);
-        return new ResponseBodyBuilder().message("添加完成").build();
+        return new ResponseBodyWrapBuilder().message("添加完成").build();
     }
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('system:menu:modify')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBody updateResponseResult(@RequestBody SysMenu menu) {
+    public ResponseBodyWrap updateResponseResult(@RequestBody SysMenu menu) {
         return this.handleResponseBody(super.domainService.updateMenu(menu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('system:menu:delete')")
-    public ResponseBody deleteResponseResult(@RequestParam Set<Long> ids) {
+    public ResponseBodyWrap deleteResponseResult(@RequestParam Set<Long> ids) {
         domainService.deleteMenu(ids);
-        return ResponseBody.builder().success().build();
+        return ResponseBodyWrap.builder().success().build();
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
-    public ResponseBody detailResponseBody(@PathVariable Long id) {
+    public ResponseBodyWrap detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 }

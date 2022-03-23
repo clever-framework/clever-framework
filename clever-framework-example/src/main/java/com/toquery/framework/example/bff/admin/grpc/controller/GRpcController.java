@@ -7,8 +7,7 @@ import com.toquery.framework.example.bff.admin.news.info.model.request.BizNewsUp
 import com.toquery.framework.example.sdk.news.info.BizNewInfoClient;
 import com.toquery.framework.example.sdk.news.info.model.request.BizNewsPageRequest;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
-import io.github.toquery.framework.web.domain.ResponseBody;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,25 +34,25 @@ public class GRpcController {
 
 
     @GetMapping
-    public ResponseBody page(BizNewsPageRequest bizNewsPageRequest) {
+    public ResponseBodyWrap<?> page(BizNewsPageRequest bizNewsPageRequest) {
 //        return bizNewInfoClient.page(bizNewsPageRequest);
         return null;
     }
 
 
     @GetMapping("/list")
-    public ResponseBody list(@RequestParam BizNewsListRequest bizNewsListRequest) {
+    public ResponseBodyWrap list(@RequestParam BizNewsListRequest bizNewsListRequest) {
         return null;
     }
 
 
     @PostMapping
-    public ResponseBody save(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @Validated @RequestBody BizNewsAddRequest request) {
+    public ResponseBodyWrap save(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @Validated @RequestBody BizNewsAddRequest request) {
         return null;
     }
 
     @PutMapping
-    public ResponseBody update(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestBody BizNewsUpdateRequest request) {
+    public ResponseBodyWrap update(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestBody BizNewsUpdateRequest request) {
         return null;
     }
 
@@ -63,7 +62,7 @@ public class GRpcController {
     }
 
     @GetMapping("{id}")
-    public ResponseBody detail(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @PathVariable Long id) {
+    public ResponseBodyWrap detail(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @PathVariable Long id) {
         return null;
     }
 }

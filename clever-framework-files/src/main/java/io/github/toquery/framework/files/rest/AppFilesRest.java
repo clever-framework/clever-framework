@@ -7,8 +7,8 @@ import io.github.toquery.framework.files.entity.SysFiles;
 import io.github.toquery.framework.files.properties.AppFilesProperties;
 import io.github.toquery.framework.files.service.ISysFilesService;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
-import io.github.toquery.framework.web.domain.ResponseBody;
-import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
+import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +40,8 @@ public class AppFilesRest extends AppBaseCrudController<ISysFilesService, SysFil
     private AppFilesProperties appFilesProperties;
 
     @PostMapping("${app.files.path.upload:/app/files/upload}")
-    public ResponseBody uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "DATABASE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
-        ResponseBodyBuilder responseParam = ResponseBody.builder();
+    public ResponseBodyWrap uploadFile(@RequestParam(value = "fileStoreType", defaultValue = "DATABASE", required = false) @UpperCase AppFileStoreTypeEnum fileStoreType, MultipartRequest multipartRequest) throws IOException {
+        ResponseBodyWrapBuilder responseParam = ResponseBodyWrap.builder();
         if (fileStoreType == AppFileStoreTypeEnum.DATABASE) {
             SysFiles sysFiles = domainService.saveFiles(multipartRequest.getFile(appFilesProperties.getUploadParam()));
             sysFiles.setFullDownloadPath(this.formatDownloadPath(sysFiles));

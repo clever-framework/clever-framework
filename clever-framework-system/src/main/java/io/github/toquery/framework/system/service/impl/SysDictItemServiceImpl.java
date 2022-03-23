@@ -100,4 +100,14 @@ public class SysDictItemServiceImpl extends AppBaseServiceImpl<SysDictItem, SysD
 
         return Lists.newArrayList(Iterables.concat(updates, saves));
     }
+
+    @Override
+    public SysDictItem saveSysDictCheck(SysDictItem sysDictItem) {
+        return super.save(sysDictItem);
+    }
+
+    @Override
+    public SysDictItem updateSysDictItemCheck(SysDictItem sysDictItem) {
+        return super.update(sysDictItem, Sets.newHashSet("itemText", "itemValue", "itemDesc", "sortNum", "disable"));
+    }
 }

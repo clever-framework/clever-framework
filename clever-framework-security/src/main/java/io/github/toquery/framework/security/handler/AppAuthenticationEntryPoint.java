@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.handler;
 
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -23,7 +23,7 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
         String errorMsg = "请求访问 " + httpServletRequest.getRequestURI() + " 接口,没有访问权限";
         log.error(errorMsg);
         authenticationException.printStackTrace();
-        ResponseBody responseParam = ResponseBody.builder().message(errorMsg).build();
+        ResponseBodyWrap responseParam = ResponseBodyWrap.builder().message(errorMsg).build();
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.setCharacterEncoding("utf-8");
         httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));

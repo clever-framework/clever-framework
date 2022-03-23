@@ -111,6 +111,16 @@ public final class ResponsePageBuilder {
         return this;
     }
 
+    public ResponsePageBuilder page(com.baomidou.mybatisplus.extension.plugins.pagination.Page<?> page) {
+        if (page != null) {
+            this.current = (int) page.getCurrent();
+            this.pageSize = (int) page.getSize();
+            this.totalElements = page.getTotal();
+            this.totalPages = (int) page.getPages();
+        }
+        return this;
+    }
+
     public ResponsePageBuilder pageSize(int pageSize) {
         this.pageSize = pageSize;
         return this;

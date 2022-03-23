@@ -3,6 +3,7 @@ package io.github.toquery.framework.core.properties;
 import io.github.toquery.framework.core.constant.AppEnumRoleModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @author toquery
  * @version 1
  */
+@Slf4j
 @Setter
 @Getter
 //@Configuration
@@ -36,4 +38,9 @@ public class AppProperties {
 //    private AppCommonProperties common = new AppCommonProperties();
 
     // private AppJpaProperties jpa = new AppJpaProperties();
+
+
+    public AppProperties() {
+        log.info("AppProperties init");
+    }
 }

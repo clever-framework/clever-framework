@@ -9,12 +9,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * @author toquery
  * @version 1
  */
 @Slf4j
+@Lazy(value = false)
 //@Configuration
 @EnableConfigurationProperties(AppProperties.class)
 @ConditionalOnProperty(prefix = AppProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)

@@ -1,17 +1,15 @@
-package io.github.toquery.framework.system.domain;
+package io.github.toquery.framework.dao.entity;
 
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.system.entity.SysUser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.envers.Audited;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import java.util.Date;
 
 /**
  * @author toquery
@@ -28,8 +26,8 @@ import java.util.Date;
 public class AppBaseAuditedEntity extends AppBaseEntity {
 
     @Transient
-    private SysUser createUser;
+    private UserDetails createUser;
 
     @Transient
-    private SysUser updateUser;
+    private UserDetails updateUser;
 }

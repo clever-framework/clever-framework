@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author toquery 结果
  * @version 1
  */
-public class ResponseBody<T> extends HashMap<String, Object> { //implements InitializingBean {
+public class ResponseBodyWrap<T> extends HashMap<String, Object> { //implements InitializingBean {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,11 +23,11 @@ public class ResponseBody<T> extends HashMap<String, Object> { //implements Init
     private static final String CONTENT_PARAM_VALUE = "content";
     private static final String PAGE_PARAM_VALUE = "page";
 
-    public ResponseBody() {
+    public ResponseBodyWrap() {
     }
 
     @SuppressWarnings("unchecked")
-    public ResponseBody(ResponseBodyBuilder builder) {
+    public ResponseBodyWrap(ResponseBodyWrapBuilder builder) {
         this.setCode(builder.getCode());
         this.setMessage(builder.getMessage());
         this.setContent((T) builder.getContent());
@@ -38,13 +38,10 @@ public class ResponseBody<T> extends HashMap<String, Object> { //implements Init
         }
     }
 
-    public static ResponseBodyBuilder builder() {
-        return new ResponseBodyBuilder();
+    public static ResponseBodyWrapBuilder builder() {
+        return new ResponseBodyWrapBuilder();
     }
 
-    public ResponseBodyBuilder newBuilder() {
-        return new ResponseBodyBuilder(this);
-    }
 
     public void setSuccess(boolean success) {
         this.put(SUCCESS_PARAM, success);
@@ -113,13 +110,13 @@ public class ResponseBody<T> extends HashMap<String, Object> { //implements Init
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    public ResponseBody page(org.springframework.data.domain.Page<?> page) {
+    public ResponseBodyWrap<T> page(org.springframework.data.domain.Page<?> page) {
         this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page == null ? null : page.getContent());
         return this;
     }
 
-    private ResponseBody page(PagedModel<?> pagedResources) {
+    private ResponseBodyWrap<T> page(PagedModel<?> pagedResources) {
         this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(pagedResources).build());
         this.put(CONTENT_PARAM_VALUE, pagedResources.getContent());
         return this;
@@ -131,7 +128,7 @@ public class ResponseBody<T> extends HashMap<String, Object> { //implements Init
      * @param page 分页信息
      * @return 包含分页相关的参数
      */
-    private ResponseBody page(com.github.pagehelper.Page<?> page) {
+    private ResponseBodyWrap<T> page(com.github.pagehelper.Page<?> page) {
         this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page);
         return this;
@@ -144,7 +141,7 @@ public class ResponseBody<T> extends HashMap<String, Object> { //implements Init
      * @param value 参数信息的value
      * @return 响应数据
      */
-    private ResponseBody param(String key, Object value) {
+    private ResponseBodyWrap<T> param(String key, Object value) {
         this.put(key, value);
         return this;
     }
@@ -154,7 +151,7 @@ public class ResponseBody<T> extends HashMap<String, Object> { //implements Init
      *
      * @return ResponseEntity实体对象
      */
-    public ResponseEntity<ResponseBody> getResponseEntity() {
+    public ResponseEntity<ResponseBodyWrap<T>> getResponseEntity() {
         return getResponseEntity(HttpStatus.OK);
     }
 
@@ -164,7 +161,7 @@ public class ResponseBody<T> extends HashMap<String, Object> { //implements Init
      * @param httpStatus 状态码
      * @return 包含状态码的response实体
      */
-    public ResponseEntity<ResponseBody> getResponseEntity(HttpStatus httpStatus) {
+    public ResponseEntity<ResponseBodyWrap<T>> getResponseEntity(HttpStatus httpStatus) {
         return getResponseEntity(httpStatus, null);
     }
 
@@ -175,7 +172,7 @@ public class ResponseBody<T> extends HashMap<String, Object> { //implements Init
      * @param contentType 内容类型
      * @return 包含状态码的response实体
      */
-    public ResponseEntity<ResponseBody> getResponseEntity(HttpStatus httpStatus, MediaType contentType) {
+    public ResponseEntity<ResponseBodyWrap<T>> getResponseEntity(HttpStatus httpStatus, MediaType contentType) {
         if (httpStatus == null) {
             httpStatus = HttpStatus.OK;
         }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Setter
 @Getter
-public final class ResponseBodyBuilder {
+public final class ResponseBodyWrapBuilder {
 
     private boolean success = true;
 
@@ -23,11 +23,8 @@ public final class ResponseBodyBuilder {
 
     private Map<String, Object> param;
 
-    public ResponseBodyBuilder() {
+    public ResponseBodyWrapBuilder() {
 
-    }
-
-    public ResponseBodyBuilder(ResponseBody responseParam) {
     }
 
     public boolean getSuccess() {
@@ -38,49 +35,55 @@ public final class ResponseBodyBuilder {
         this.success = success;
     }
 
-    public ResponseBodyBuilder success(boolean success) {
+    public ResponseBodyWrapBuilder success(boolean success) {
         this.success = success;
         return this;
     }
 
-    public ResponseBodyBuilder code(int code) {
+    public ResponseBodyWrapBuilder code(int code) {
         this.code = code;
         return this;
     }
 
-    public ResponseBodyBuilder message(String message) {
+    public ResponseBodyWrapBuilder message(String message) {
         this.message = message;
         return this;
     }
 
-    public ResponseBodyBuilder page(ResponsePage page) {
+    public ResponseBodyWrapBuilder page(ResponsePage page) {
         this.page = page;
         return this;
     }
 
-    public ResponseBodyBuilder page(com.github.pagehelper.Page<?> page) {
+    public ResponseBodyWrapBuilder page(com.github.pagehelper.Page<?> page) {
         this.page =  new ResponsePageBuilder().page(page).build();
         this.content = page == null ? null : page.getResult();
         return this;
     }
 
-    public ResponseBodyBuilder page(org.springframework.data.domain.Page<?> page) {
+    public ResponseBodyWrapBuilder page(org.springframework.data.domain.Page<?> page) {
         this.page = new ResponsePageBuilder().page(page).build();
         this.content = page == null ? null : page.getContent();
         return this;
     }
 
-    public ResponseBodyBuilder page(PagedModel.PageMetadata pageMetadata) {
+    public ResponseBodyWrapBuilder page(com.baomidou.mybatisplus.extension.plugins.pagination.Page<?> page) {
+        this.page = new ResponsePageBuilder().page(page).build();
+        this.content = page == null ? null : page.getRecords();
+        return this;
+    }
+
+    public ResponseBodyWrapBuilder page(PagedModel.PageMetadata pageMetadata) {
         this.page =  new ResponsePageBuilder().page(pageMetadata).build();
         return this;
     }
 
-    public ResponseBodyBuilder content(Object content) {
+    public ResponseBodyWrapBuilder content(Object content) {
         this.content = content;
         return this;
     }
 
-    public ResponseBodyBuilder param(String key, Object param) {
+    public ResponseBodyWrapBuilder param(String key, Object param) {
         if (this.param == null) {
             this.param = new HashMap<>();
         }
@@ -88,25 +91,25 @@ public final class ResponseBodyBuilder {
         return this;
     }
 
-    public ResponseBody build() {
-        return new ResponseBody(this);
+    public ResponseBodyWrap<?> build() {
+        return new ResponseBodyWrap<>(this);
     }
 
-    public ResponseBodyBuilder fail() {
+    public ResponseBodyWrapBuilder fail() {
         return this.fail("处理失败");
     }
 
-    public ResponseBodyBuilder fail(String message) {
+    public ResponseBodyWrapBuilder fail(String message) {
         this.message = message;
         this.success = false;
         return this;
     }
 
-    public ResponseBodyBuilder success() {
+    public ResponseBodyWrapBuilder success() {
         return this.success("成功");
     }
 
-    public ResponseBodyBuilder success(String message) {
+    public ResponseBodyWrapBuilder success(String message) {
         this.message = message;
         this.success = true;
         return this;

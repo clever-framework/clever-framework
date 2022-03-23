@@ -2,8 +2,8 @@ package io.github.toquery.framework.crud.controller;
 
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
-import io.github.toquery.framework.web.domain.ResponseBody;
-import io.github.toquery.framework.web.domain.ResponseBodyBuilder;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
+import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -63,20 +63,20 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
     }
 
 
-    public ResponseBody pageResponseResult() {
-        return new ResponseBodyBuilder().page(this.page()).build();
+    public ResponseBodyWrap<?> pageResponseResult() {
+        return new ResponseBodyWrapBuilder().page(this.page()).build();
     }
 
-    public ResponseBody pageResponseResult(Map<String, Object> filterParam) {
-        return new ResponseBodyBuilder().page(this.page(filterParam)).build();
+    public ResponseBodyWrap<?> pageResponseResult(Map<String, Object> filterParam) {
+        return new ResponseBodyWrapBuilder().page(this.page(filterParam)).build();
     }
 
-    public ResponseBody pageResponseResult(String[] sorts) {
-        return new ResponseBodyBuilder().page(this.page(sorts)).build();
+    public ResponseBodyWrap<?> pageResponseResult(String[] sorts) {
+        return new ResponseBodyWrapBuilder().page(this.page(sorts)).build();
     }
 
-    protected ResponseBody pageResponseResult(Map<String, Object> filterParam, String[] sorts) {
-        return new ResponseBodyBuilder().page(this.page(filterParam, sorts)).build();
+    protected ResponseBodyWrap<?> pageResponseResult(Map<String, Object> filterParam, String[] sorts) {
+        return new ResponseBodyWrapBuilder().page(this.page(filterParam, sorts)).build();
     }
 
 
@@ -99,20 +99,20 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
         return this.list(filterParam, sorts);
     }
 
-    public ResponseBody listResponseResult() {
+    public ResponseBodyWrap<?> listResponseResult() {
         return this.handleResponseBody(this.list());
     }
 
 
-    public ResponseBody listResponseResult(Map<String, Object> filterParam) {
+    public ResponseBodyWrap<?> listResponseResult(Map<String, Object> filterParam) {
         return this.handleResponseBody(this.list(filterParam));
     }
 
-    public ResponseBody listResponseResult(String[] sorts) {
+    public ResponseBodyWrap<?> listResponseResult(String[] sorts) {
         return this.handleResponseBody(this.list(sorts));
     }
 
-    public ResponseBody listResponseResult(Map<String, Object> filterParam, String[] sorts) {
+    public ResponseBodyWrap<?> listResponseResult(Map<String, Object> filterParam, String[] sorts) {
         return this.handleResponseBody(this.list(filterParam, sorts));
     }
 
@@ -136,21 +136,21 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
         return domainService.save(entity);
     }
 
-    public ResponseBody saveResponseResult(E entity) {
+    public ResponseBodyWrap<?> saveResponseResult(E entity) {
         return this.handleResponseBody(this.saveEntity(entity));
     }
 
-    public ResponseBody updateResponseResult(E entity) {
+    public ResponseBodyWrap<?> updateResponseResult(E entity) {
         return this.handleResponseBody(domainService.update(entity));
     }
 
-    public ResponseBody updateResponseResult(E entity, Set<String> updateEntityFields) {
+    public ResponseBodyWrap<?> updateResponseResult(E entity, Set<String> updateEntityFields) {
         return this.handleResponseBody(domainService.update(entity, updateEntityFields));
     }
 
-    public ResponseBody deleteResponseResult(Set<Long> ids) {
+    public ResponseBodyWrap<?> deleteResponseResult(Set<Long> ids) {
         domainService.deleteByIds(ids);
-        return ResponseBody.builder().success().build();
+        return ResponseBodyWrap.builder().success().build();
     }
 
 
@@ -158,7 +158,7 @@ public class AppBaseCrudController<DS extends AppBaseService<E>, E> extends AppB
         return domainService.getById(id);
     }
 
-    public ResponseBody detailResponseBody(Long id) {
+    public ResponseBodyWrap<?> detailResponseBody(Long id) {
         return this.handleResponseBody(this.getById(id));
     }
 

@@ -55,21 +55,22 @@ app:
       - /admin/test/**
       - /admin/biz-author
       - /admin/biz-news
+      - /admin/biz-news/**
 #      - /app/files
 #      - /app/files/**
 #      - /app/minio/upload
   jwt:
     secret: 123456
   web-mvc:
-    autoWrapResponse: true
+    autoWrapResponse: false
   grpc:
-    enabled: false
+    enabled: true
     client:
       services:
         clever-framework-example:
           host: loaclhost
   datasource:
-    enabled: true
+    enabled: false
 
 
 spring:
@@ -96,7 +97,7 @@ spring:
   # todo 这个配置是干什么的
   main:
     allow-bean-definition-overriding: true
-#    lazy-initialization: true # 延迟初始化
+    lazy-initialization: true # 延迟初始化
 #    allow-circular-references: true # 允许循环引用
   servlet:
     multipart:

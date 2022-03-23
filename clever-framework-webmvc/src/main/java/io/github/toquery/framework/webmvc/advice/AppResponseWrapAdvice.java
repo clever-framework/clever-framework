@@ -2,7 +2,7 @@ package io.github.toquery.framework.webmvc.advice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.toquery.framework.webmvc.annotation.ResponseIgnoreWrap;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcProperties;
 import io.github.toquery.framework.webmvc.properties.AppWebMvcWrapProperties;
 import lombok.SneakyThrows;
@@ -102,13 +102,13 @@ public class AppResponseWrapAdvice implements ResponseBodyAdvice<Object> {
 
         if (body == null) {
             if ("void".equalsIgnoreCase(methodReturnTypeName) && wrap.isVoidObject()) {
-                result = ResponseBody.builder().build();
+                result = ResponseBodyWrap.builder().build();
             }
         } else {
-            if (body instanceof ResponseBody) {
+            if (body instanceof ResponseBodyWrap) {
                 result = body;
             } else {
-                ResponseBody responseResult = ResponseBody.builder().content(body).build();
+                ResponseBodyWrap responseResult = ResponseBodyWrap.builder().content(body).build();
                 if (selectedContentType.isCompatibleWith(new MediaType("text", "*"))) {
 //                    HttpHeaders httpHeaders = response.getHeaders();
 //                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);

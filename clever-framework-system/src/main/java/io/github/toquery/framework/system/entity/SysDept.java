@@ -1,5 +1,6 @@
 package io.github.toquery.framework.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
@@ -60,6 +61,7 @@ public class SysDept extends AppBaseEntity implements AppEntityTree<SysDept>, Ap
     @Column(name = "dept_level")
     private int deptLevel = 0;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "parent_id")
     private Long parentId;
 

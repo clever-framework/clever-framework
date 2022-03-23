@@ -5,7 +5,7 @@ import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import com.toquery.framework.example.modules.news.info.service.BizNewsDomainService;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.web.domain.ResponsePage;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,8 +25,8 @@ public class AppTestController extends AppBaseCrudController<BizNewsDomainServic
 
 
     @GetMapping("/response")
-    public ResponseBody response() {
-        return ResponseBody.builder().page(this.page()).content(Lists.newArrayList()).build();
+    public ResponseBodyWrap response() {
+        return ResponseBodyWrap.builder().page(this.page()).content(Lists.newArrayList()).build();
     }
 
 

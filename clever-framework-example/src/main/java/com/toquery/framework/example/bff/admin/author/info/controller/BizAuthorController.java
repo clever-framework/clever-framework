@@ -13,8 +13,7 @@ import com.toquery.framework.example.modules.author.info.entity.BizAuthor;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.crud.controller.AppBaseBFFController;
-import io.github.toquery.framework.datasource.DataSourceSwitch;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.webmvc.annotation.UpperCase;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -50,34 +49,33 @@ public class BizAuthorController extends AppBaseBFFController<BizAuthor, BizAuth
     }
 
     @GetMapping
-    public ResponseBody<?> page(BizAuthorPageRequest bizAuthorPageRequest) {
+    public ResponseBodyWrap<?> page(BizAuthorPageRequest bizAuthorPageRequest) {
         Page<BizAuthor> bizAuthorPage = bffService.page(bizAuthorPageRequest);
-        return ResponseBody.builder().page(bizAuthorPage).build();
+        return ResponseBodyWrap.builder().page(bizAuthorPage).build();
     }
 
     @GetMapping("/multi")
-    public ResponseBody<?> pageMultiType(BizAuthorPageRequest bizAuthorPageRequest) {
+    public ResponseBodyWrap<?> pageMultiType(BizAuthorPageRequest bizAuthorPageRequest) {
         return bffService.pageMultiType(bizAuthorPageRequest);
     }
 
     @GetMapping("/list")
-    public ResponseBody<?> list(BizAuthorListRequest bizAuthorListRequest) {
+    public ResponseBodyWrap<?> list(BizAuthorListRequest bizAuthorListRequest) {
         List<BizAuthorListResponse> listResponses = bffService.list(bizAuthorListRequest);
         return super.handleResponseBody(listResponses);
     }
 
 
-    @DataSourceSwitch("test")
     @AppLogMethod(value = BizAuthor.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
-    public ResponseBody<?> save(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @Validated @RequestBody BizAuthorAddRequest request) {
+    public ResponseBodyWrap<?> save(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @Validated @RequestBody BizAuthorAddRequest request) {
         BizAuthorInfoResponse bizAuthorInfoResponse = bffService.save(queryType, request);
         return super.handleResponseBody(bizAuthorInfoResponse);
     }
 
     @AppLogMethod(value = BizAuthor.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
-    public ResponseBody<?> update(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestBody BizAuthorUpdateRequest request) {
+    public ResponseBodyWrap<?> update(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestBody BizAuthorUpdateRequest request) {
 
         BizAuthorInfoResponse bizAuthorInfoResponse = bffService.update(queryType, request);
         return super.handleResponseBody(bizAuthorInfoResponse);
@@ -91,7 +89,7 @@ public class BizAuthorController extends AppBaseBFFController<BizAuthor, BizAuth
     }
 
     @GetMapping("{id}")
-    public ResponseBody<?> detail(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @PathVariable Long id) {
+    public ResponseBodyWrap<?> detail(@RequestParam(defaultValue = "APP") @UpperCase QueryType queryType, @PathVariable Long id) {
         BizAuthorInfoResponse bizAuthorInfoResponse = bffService.detail(queryType, id);
         return super.handleResponseBody(bizAuthorInfoResponse);
     }

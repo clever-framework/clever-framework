@@ -15,7 +15,7 @@
         </if>
     </select>
 
-    <select id="findMyBatisById">
+    <select id="getMyBatisById">
         select *
         from biz_news
         where id = #{id}

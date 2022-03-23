@@ -1,7 +1,7 @@
-package io.github.toquery.framework.mybatis.autoconfig;
+package io.github.toquery.framework.dao.autoconfig;
 
-import io.github.toquery.framework.mybatis.interceptor.AppAuditInterceptor;
-import io.github.toquery.framework.mybatis.properties.AppMybatisProperties;
+import io.github.toquery.framework.dao.interceptor.AppEntityAuditInterceptor;
+import io.github.toquery.framework.dao.properties.AppMybatisProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -35,7 +35,7 @@ public class AppMybatisAutoConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        AppAuditInterceptor interceptor = new AppAuditInterceptor();
+        AppEntityAuditInterceptor interceptor = new AppEntityAuditInterceptor();
         for (SqlSessionFactory sqlSessionFactory : sqlSessionFactoryList) {
             org.apache.ibatis.session.Configuration configuration = sqlSessionFactory.getConfiguration();
             if (!containsInterceptor(configuration, interceptor)) {

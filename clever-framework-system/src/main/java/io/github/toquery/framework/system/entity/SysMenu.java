@@ -1,5 +1,6 @@
 package io.github.toquery.framework.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
@@ -75,6 +76,7 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
     @Column(name = "menu_level")
     private int menuLevel = 0;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "parent_id")
     private Long parentId;
 

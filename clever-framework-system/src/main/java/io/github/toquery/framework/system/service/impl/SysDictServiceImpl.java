@@ -74,9 +74,13 @@ public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepos
         if (sysDicts != null && sysDicts.size() > 1 && sysDicts.stream().noneMatch(dbSysDict -> dbSysDict.getId().equals(sysDictId))) {
             throw new AppException("已存在字典项" + sysDict.getDictCode());
         }
-        List<SysDictItem> sysDictItems = sysDictItemService.reSave(sysDict.getId(), sysDict.getDictItems());
+
         sysDict = super.update(sysDict, Sets.newHashSet("dictName", "dictCode", "description", "sortNum"));
-        sysDict.setDictItems(sysDictItems);
+
+        if (sysDict.getDictItems() != null && sysDict.getDictItems().size() > 0) {
+            List<SysDictItem> sysDictItems = sysDictItemService.reSave(sysDict.getId(), sysDict.getDictItems());
+            sysDict.setDictItems(sysDictItems);
+        }
         return sysDict;
     }
 

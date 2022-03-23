@@ -4,9 +4,11 @@ import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysUser;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,6 +18,9 @@ import java.util.Set;
 public interface ISysUserService extends AppUserDetailService, UserDetailsService, AppBaseService<SysUser> {
 
     List<SysUser> findByIds(Set<Long> ids);
+
+
+    Page<SysUser> pageWithRole(Map<String, Object> filterParam, int requestCurrent, int requestPageSize);
 
     /**
      * 保存用户，并效验
@@ -44,4 +49,5 @@ public interface ISysUserService extends AppUserDetailService, UserDetailsServic
     void deleteSysUserCheck(Set<Long> ids) throws AppException;
 
     SysUser getByIdWithRole(Long id);
+
 }

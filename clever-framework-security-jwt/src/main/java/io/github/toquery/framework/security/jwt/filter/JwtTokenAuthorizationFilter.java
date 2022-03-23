@@ -5,7 +5,10 @@ import io.github.toquery.framework.core.security.AppSecurityIgnoringHandlerAdapt
 import io.github.toquery.framework.security.jwt.handler.JwtTokenHandler;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,7 +46,7 @@ public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     private AppSecurityProperties appSecurityProperties;
 
-    @Autowired
+//    @Autowired
     private AppSecurityIgnoringHandlerAdapter appSecurityIgnoringHandler;
 
     private final PathMatcher matcher = new AntPathMatcher();

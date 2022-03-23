@@ -2,7 +2,7 @@ package com.toquery.framework.example.bff.admin.app.controller;
 
 import com.toquery.framework.example.bff.admin.app.model.TestResponseWrap;
 import io.github.toquery.framework.webmvc.annotation.ResponseIgnoreWrap;
-import io.github.toquery.framework.web.domain.ResponseBody;
+import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.webmvc.secret.annotation.ResponseIgnoreSecret;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class AppTestWrapController {
 
     @GetMapping("/responseEntity")
     public ResponseEntity<?> responseEntity() {
-        return ResponseEntity.ok(ResponseBody.builder().content("ResponseEntity").build());
+        return ResponseEntity.ok(ResponseBodyWrap.builder().content("ResponseEntity").build());
     }
 
     @org.springframework.web.bind.annotation.ResponseBody

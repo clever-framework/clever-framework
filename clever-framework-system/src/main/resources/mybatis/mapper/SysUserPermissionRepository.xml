@@ -35,7 +35,7 @@
         </association>
     </resultMap>
 
-    <select id="findByUserId" resultMap="roleAndMenuAndAreaResultMap">
+    <select id="findWithFullByUserId" resultMap="roleAndMenuAndAreaResultMap">
         select
             sup.id as id,
             sa.area_name as areaName,
