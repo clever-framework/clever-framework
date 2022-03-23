@@ -1,10 +1,14 @@
 package com.toquery.framework.example.bff.admin.author.info.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Sets;
 import com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorDao;
+import com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorMapper;
 import com.toquery.framework.example.bff.admin.author.info.model.constant.QueryType;
-import com.toquery.framework.example.bff.admin.author.info.model.mapper.BizAuthorMapper;
+import com.toquery.framework.example.bff.admin.author.info.model.mapper.BizAuthorModelMapper;
 import com.toquery.framework.example.bff.admin.author.info.model.request.BizAuthorAddRequest;
 import com.toquery.framework.example.bff.admin.author.info.model.request.BizAuthorListRequest;
 import com.toquery.framework.example.bff.admin.author.info.model.request.BizAuthorPageRequest;
@@ -41,6 +45,9 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private BizAuthorMapper bizAuthorMapper;
 
     @Autowired
     private BizAuthorDomainService bizAuthorDomainService;
@@ -88,8 +95,13 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
 
     public com.github.pagehelper.Page<BizAuthor> queryMyBatisByPage(int current, int pageSize) {
         com.github.pagehelper.Page<BizAuthor> bizAuthorPage = PageHelper.startPage(current, pageSize);
-        repository.findByAuthorNameLike(null);
+        repository.listMyBatis();
         return bizAuthorPage;
+    }
+
+    public IPage<BizAuthor> queryMyBatisPlusByPage(int current, int pageSize) {
+        Wrapper<BizAuthor> queryWrapper = new LambdaQueryWrapper<>();
+        return bizAuthorMapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(current, pageSize), queryWrapper);
     }
 
 
@@ -99,7 +111,12 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
 
 
     public List<BizAuthor> findMyBatis() {
-        return repository.findMyBatisByAuthorName(null);
+        return repository.listMyBatis();
+    }
+
+    private List<BizAuthor> findMyBatisPlus() {
+        Wrapper<BizAuthor> queryWrapper = new LambdaQueryWrapper<>();
+        return bizAuthorMapper.selectList(queryWrapper);
     }
 
 
@@ -113,6 +130,11 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
         return bizAuthorDomainService.getById(bizAuthor.getId());
     }
 
+    public BizAuthor saveMyBatisPlus(BizAuthor bizAuthor) {
+        bizAuthorMapper.insert(bizAuthor);
+        return bizAuthorDomainService.getById(bizAuthor.getId());
+    }
+
 
     public BizAuthor updateJpa(BizAuthor bizAuthor) {
         return repository.saveAndFlush(bizAuthor);
@@ -123,6 +145,10 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
         return repository.updateMyBatis(bizAuthor);
     }
 
+    public BizAuthor updateMyBatisPlus(BizAuthor bizAuthor) {
+        bizAuthorMapper.updateById(bizAuthor);
+        return bizAuthor;
+    }
 
     public void deleteJpa(Set<Long> ids) {
         repository.deleteJpaIds(ids);
@@ -131,6 +157,10 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
 
     public void deleteMyBatis(Set<Long> ids) {
         repository.deleteMyBatis(ids);
+    }
+
+    public void deleteMyBatisPlus(Set<Long> ids) {
+        bizAuthorMapper.deleteBatchIds(ids);
     }
 
 
@@ -142,43 +172,56 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
         return repository.findMyBatisById(id);
     }
 
+    public BizAuthor detailMyBatisPlus(Long id) {
+        return bizAuthorMapper.selectById(id);
+    }
+
     public BizAuthorInfoResponse save(QueryType queryType, BizAuthorAddRequest request) {
         BizAuthor bizAuthor = null;
         switch (queryType) {
             case APP: {
-                bizAuthor = bizAuthorDomainService.save(BizAuthorMapper.INSTANCE.add2BizAuthor(request));
+                bizAuthor = bizAuthorDomainService.save(BizAuthorModelMapper.INSTANCE.add2BizAuthor(request));
                 break;
             }
             case JPA: {
-                bizAuthor = this.saveJpa(BizAuthorMapper.INSTANCE.add2BizAuthor(request));
+                bizAuthor = this.saveJpa(BizAuthorModelMapper.INSTANCE.add2BizAuthor(request));
                 break;
             }
             case MYBATIS: {
-                bizAuthor = this.saveMyBatis(BizAuthorMapper.INSTANCE.add2BizAuthor(request));
+                bizAuthor = this.saveMyBatis(BizAuthorModelMapper.INSTANCE.add2BizAuthor(request));
+                break;
+            }
+
+            case MYBATIS_PLUS: {
+                bizAuthor = this.saveMyBatisPlus(BizAuthorModelMapper.INSTANCE.add2BizAuthor(request));
                 break;
             }
         }
 
-        return BizAuthorMapper.INSTANCE.bizAuthor2Info(bizAuthor);
+        return BizAuthorModelMapper.INSTANCE.bizAuthor2Info(bizAuthor);
     }
 
     public BizAuthorInfoResponse update(QueryType queryType, BizAuthorUpdateRequest request) {
         BizAuthor bizAuthor = null;
         switch (queryType) {
             case APP: {
-                bizAuthor = bizAuthorDomainService.update(BizAuthorMapper.INSTANCE.update2BizAuthor(request));
+                bizAuthor = bizAuthorDomainService.update(BizAuthorModelMapper.INSTANCE.update2BizAuthor(request));
                 break;
             }
             case JPA: {
-                bizAuthor = this.updateJpa(BizAuthorMapper.INSTANCE.update2BizAuthor(request));
+                bizAuthor = this.updateJpa(BizAuthorModelMapper.INSTANCE.update2BizAuthor(request));
                 break;
             }
             case MYBATIS: {
-                bizAuthor = this.updateMyBatis(BizAuthorMapper.INSTANCE.update2BizAuthor(request));
+                bizAuthor = this.updateMyBatis(BizAuthorModelMapper.INSTANCE.update2BizAuthor(request));
+                break;
+            }
+            case MYBATIS_PLUS: {
+                bizAuthor = this.updateMyBatisPlus(BizAuthorModelMapper.INSTANCE.update2BizAuthor(request));
                 break;
             }
         }
-        return BizAuthorMapper.INSTANCE.bizAuthor2Info(bizAuthor);
+        return BizAuthorModelMapper.INSTANCE.bizAuthor2Info(bizAuthor);
     }
 
     public ResponseBodyWrap<?> pageMultiType(BizAuthorPageRequest bizAuthorPageRequest) {
@@ -199,6 +242,12 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
                 responseParam = ResponseBodyWrap.builder().page(bizAuthorPage).build();
                 break;
             }
+
+            case MYBATIS_PLUS: {
+                IPage<BizAuthor> bizAuthorPage = this.queryMyBatisPlusByPage(bizAuthorPageRequest.getCurrent(), bizAuthorPageRequest.getPageSize());
+                responseParam = ResponseBodyWrap.builder().page(bizAuthorPage).build();
+                break;
+            }
         }
         return responseParam;
     }
@@ -208,27 +257,33 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
         switch (bizAuthorListRequest.getQueryType()) {
             case APP: {
                 List<BizAuthor> bizAuthorList = bizAuthorDomainService.list();
-                bizAuthorListResponses = BizAuthorMapper.INSTANCE.bizAuthor2List(bizAuthorList);
+                bizAuthorListResponses = BizAuthorModelMapper.INSTANCE.bizAuthor2List(bizAuthorList);
                 break;
             }
             case JPA: {
                 List<BizAuthor> bizAuthorList = this.findJpa();
-                bizAuthorListResponses = BizAuthorMapper.INSTANCE.bizAuthor2List(bizAuthorList);
+                bizAuthorListResponses = BizAuthorModelMapper.INSTANCE.bizAuthor2List(bizAuthorList);
                 break;
             }
             case FILTER: {
                 List<BizAuthor> bizAuthorList = this.findFilter();
-                bizAuthorListResponses = BizAuthorMapper.INSTANCE.bizAuthor2List(bizAuthorList);
+                bizAuthorListResponses = BizAuthorModelMapper.INSTANCE.bizAuthor2List(bizAuthorList);
                 break;
             }
             case MYBATIS: {
                 List<BizAuthor> bizAuthorList = this.findMyBatis();
-                bizAuthorListResponses = BizAuthorMapper.INSTANCE.bizAuthor2List(bizAuthorList);
+                bizAuthorListResponses = BizAuthorModelMapper.INSTANCE.bizAuthor2List(bizAuthorList);
+                break;
+            }
+            case MYBATIS_PLUS: {
+                List<BizAuthor> bizAuthorList = this.findMyBatisPlus();
+                bizAuthorListResponses = BizAuthorModelMapper.INSTANCE.bizAuthor2List(bizAuthorList);
                 break;
             }
         }
         return bizAuthorListResponses;
     }
+
 
     public void delete(QueryType queryType, Set<Long> ids) {
         switch (queryType) {
@@ -242,6 +297,10 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
             }
             case MYBATIS: {
                 this.deleteMyBatis(ids);
+                break;
+            }
+            case MYBATIS_PLUS: {
+                this.deleteMyBatisPlus(ids);
                 break;
             }
         }
@@ -262,13 +321,18 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
                 bizAuthor = this.detailMyBatis(id);
                 break;
             }
+
+            case MYBATIS_PLUS: {
+                bizAuthor = this.detailMyBatisPlus(id);
+                break;
+            }
         }
-        return BizAuthorMapper.INSTANCE.bizAuthor2Info(bizAuthor);
+        return BizAuthorModelMapper.INSTANCE.bizAuthor2Info(bizAuthor);
     }
 
     @Transactional
     public Page<BizAuthor> page(BizAuthorPageRequest bizAuthorPageRequest) {
-        Map<String, Object> params = BizAuthorMapper.INSTANCE.page2Map(bizAuthorPageRequest);
+        Map<String, Object> params = BizAuthorModelMapper.INSTANCE.page2Map(bizAuthorPageRequest);
         return bizAuthorDomainService.page(params, bizAuthorPageRequest.getCurrent(), bizAuthorPageRequest.getPageSize());
     }
 }

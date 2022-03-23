@@ -20,7 +20,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 //@EnableAppJpaRepositories //(basePackages = {"io.github.toquery.framework.security", "com.toquery.framework.demo"})
 //@EnableAppRepositoryRest
 //@GRpcServerScan(basePackages = "com.toquery.framework.example.grpc.server")
-@MapperScan("com.toquery.framework.example.dao")
+@MapperScan("com.toquery.framework.example.**.dao")
 @AppDictScan
 @EnableCaching
 //@AppDictScan(basePackage = "com.toquery.framework.demo.constant")

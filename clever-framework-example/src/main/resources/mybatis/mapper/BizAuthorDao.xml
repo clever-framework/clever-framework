@@ -15,6 +15,11 @@
         </if>
     </select>
 
+    <select id="listMyBatis" resultType="com.toquery.framework.example.modules.author.info.entity.BizAuthor">
+        select id, author_name,  create_user_id, create_date_time, update_user_id, update_date_time
+        from biz_author
+    </select>
+
     <select id="findMyBatisById">
         select *
         from biz_author

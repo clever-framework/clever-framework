@@ -1,5 +1,6 @@
 package io.github.toquery.framework.web.domain;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.PagedModel;
@@ -56,7 +57,7 @@ public final class ResponseBodyWrapBuilder {
     }
 
     public ResponseBodyWrapBuilder page(com.github.pagehelper.Page<?> page) {
-        this.page =  new ResponsePageBuilder().page(page).build();
+        this.page = new ResponsePageBuilder().page(page).build();
         this.content = page == null ? null : page.getResult();
         return this;
     }
@@ -73,8 +74,14 @@ public final class ResponseBodyWrapBuilder {
         return this;
     }
 
+    public ResponseBodyWrapBuilder page(IPage<?> page) {
+        this.page = new ResponsePageBuilder().page(page).build();
+        this.content = page == null ? null : page.getRecords();
+        return this;
+    }
+
     public ResponseBodyWrapBuilder page(PagedModel.PageMetadata pageMetadata) {
-        this.page =  new ResponsePageBuilder().page(pageMetadata).build();
+        this.page = new ResponsePageBuilder().page(pageMetadata).build();
         return this;
     }
 

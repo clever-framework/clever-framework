@@ -46,7 +46,7 @@ public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     private AppSecurityProperties appSecurityProperties;
 
-//    @Autowired
+    @Autowired
     private AppSecurityIgnoringHandlerAdapter appSecurityIgnoringHandler;
 
     private final PathMatcher matcher = new AntPathMatcher();

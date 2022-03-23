@@ -9,7 +9,8 @@ public enum QueryType {
     APP("框架封装"),
     JPA("jpa"),
     JPA_ANNOTATION("jpa注解"),
-    MYBATIS("mybatis");
+    MYBATIS("mybatis"),
+    MYBATIS_PLUS("mybatis_plus");
 
     private final String remark;
 

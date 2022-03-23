@@ -1,5 +1,6 @@
 package io.github.toquery.framework.web.domain;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -112,6 +113,16 @@ public final class ResponsePageBuilder {
     }
 
     public ResponsePageBuilder page(com.baomidou.mybatisplus.extension.plugins.pagination.Page<?> page) {
+        if (page != null) {
+            this.current = (int) page.getCurrent();
+            this.pageSize = (int) page.getSize();
+            this.totalElements = page.getTotal();
+            this.totalPages = (int) page.getPages();
+        }
+        return this;
+    }
+
+    public ResponsePageBuilder page(IPage<?> page) {
         if (page != null) {
             this.current = (int) page.getCurrent();
             this.pageSize = (int) page.getSize();

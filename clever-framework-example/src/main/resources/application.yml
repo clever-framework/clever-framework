@@ -54,6 +54,7 @@ app:
       - /app/ueditor
       - /admin/test/**
       - /admin/biz-author
+      - /admin/biz-author/**
       - /admin/biz-news
       - /admin/biz-news/**
 #      - /app/files
@@ -97,7 +98,7 @@ spring:
   # todo 这个配置是干什么的
   main:
     allow-bean-definition-overriding: true
-    lazy-initialization: true # 延迟初始化
+#    lazy-initialization: true # 延迟初始化
 #    allow-circular-references: true # 允许循环引用
   servlet:
     multipart:

@@ -7,6 +7,7 @@ import io.github.toquery.framework.system.runner.AppSystemRunner;
 import io.github.toquery.framework.system.service.*;
 import io.github.toquery.framework.system.service.impl.*;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.ApplicationRunner;
@@ -29,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //@Configuration
 //@EnableAppRepositoryRest
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+@MapperScan("io.github.toquery.framework.system.repository")
 @EnableConfigurationProperties({AppSystemProperties.class})
 @EntityScan(basePackages = "io.github.toquery.framework.system.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system")

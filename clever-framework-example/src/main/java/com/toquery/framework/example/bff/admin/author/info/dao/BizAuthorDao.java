@@ -38,6 +38,9 @@ public interface BizAuthorDao extends AppJpaBaseRepository<BizAuthor> {
     @MybatisQuery
     List<BizAuthor> findMyBatisByAuthorName(@MybatisParam("authorName") String authorName);
 
+    @MybatisQuery
+    List<BizAuthor> listMyBatis();
+
     @Mapper
     @MybatisQuery
     void saveMyBatis(BizAuthor BizAuthor);

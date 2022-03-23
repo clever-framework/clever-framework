@@ -22,9 +22,9 @@ import java.util.List;
  * @version 1
  */
 @Mapper(componentModel = "spring")
-public interface BizAuthorMapper {
+public interface BizAuthorModelMapper {
 
-    BizAuthorMapper INSTANCE = Mappers.getMapper(BizAuthorMapper.class);
+    BizAuthorModelMapper INSTANCE = Mappers.getMapper(BizAuthorModelMapper.class);
 
     /**
      * 请求对象转为实体对象
