@@ -3,8 +3,6 @@ package com.toquery.framework.example.bff.admin.news.info.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import io.github.toquery.framework.dao.annotation.JpaParam;
-import io.github.toquery.framework.dao.annotation.MybatisParam;
-import io.github.toquery.framework.dao.annotation.MybatisQuery;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.jpa.repository.Modifying;
@@ -32,27 +30,11 @@ public interface BizNewsDao extends AppJpaBaseRepository<BizNews> {
      */
     List<BizNews> findByTitleLike(String title);
 
-    /**
-     * mybatis 方式查询
-     */
-    @Mapper
-    @MybatisQuery
-    List<BizNews> findMyBatisByTitle(@MybatisParam("title") String title);
-
-    @Mapper
-    @MybatisQuery
-    void saveMyBatis(BizNews bizNews);
 
     @Query("from BizNews where id = :id")
     BizNews findJpaById(@JpaParam("id") Long id);
 
-    @Mapper
-    @MybatisQuery
-    BizNews getMyBatisById(@MybatisParam("id") Long id);
 
-    @Mapper
-    @MybatisQuery
-    BizNews updateMyBatis(BizNews bizNews);
 
     @Modifying
     @Query("delete from BizNews where id = :id")
@@ -64,7 +46,5 @@ public interface BizNewsDao extends AppJpaBaseRepository<BizNews> {
 
     void deleteBizNewsById(@JpaParam("id") Long id);
 
-    @Mapper
-    @MybatisQuery
-    void deleteMyBatis(@MybatisParam("ids") Collection<Long> ids);
+
 }

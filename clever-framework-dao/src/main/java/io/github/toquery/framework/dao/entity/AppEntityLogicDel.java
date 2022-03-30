@@ -1,12 +1,14 @@
 package io.github.toquery.framework.dao.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
+
 /**
  * 是否是假删除 逻辑
  */
 public interface AppEntityLogicDel {
 
-    boolean getDeleted() ;
+    Boolean getDeleted() ;
 
-    void setDeleted(boolean deleted) ;
+    void setDeleted(Boolean deleted) ;
 
 }

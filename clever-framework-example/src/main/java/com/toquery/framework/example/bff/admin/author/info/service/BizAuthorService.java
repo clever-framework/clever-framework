@@ -3,7 +3,6 @@ package com.toquery.framework.example.bff.admin.author.info.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Sets;
 import com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorDao;
 import com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorMapper;
@@ -93,12 +92,6 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
     }
 
 
-    public com.github.pagehelper.Page<BizAuthor> queryMyBatisByPage(int current, int pageSize) {
-        com.github.pagehelper.Page<BizAuthor> bizAuthorPage = PageHelper.startPage(current, pageSize);
-        repository.listMyBatis();
-        return bizAuthorPage;
-    }
-
     public IPage<BizAuthor> queryMyBatisPlusByPage(int current, int pageSize) {
         Wrapper<BizAuthor> queryWrapper = new LambdaQueryWrapper<>();
         return bizAuthorMapper.selectPage(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(current, pageSize), queryWrapper);
@@ -111,7 +104,7 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
 
 
     public List<BizAuthor> findMyBatis() {
-        return repository.listMyBatis();
+        return bizAuthorMapper.listMyBatis();
     }
 
     private List<BizAuthor> findMyBatisPlus() {
@@ -126,7 +119,7 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
 
 
     public BizAuthor saveMyBatis(BizAuthor bizAuthor) {
-        repository.saveMyBatis(bizAuthor);
+        bizAuthorMapper.saveMyBatis(bizAuthor);
         return bizAuthorDomainService.getById(bizAuthor.getId());
     }
 
@@ -142,7 +135,7 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
 
 
     public BizAuthor updateMyBatis(BizAuthor bizAuthor) {
-        return repository.updateMyBatis(bizAuthor);
+        return bizAuthorMapper.updateMyBatis(bizAuthor);
     }
 
     public BizAuthor updateMyBatisPlus(BizAuthor bizAuthor) {
@@ -156,7 +149,7 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
 
 
     public void deleteMyBatis(Set<Long> ids) {
-        repository.deleteMyBatis(ids);
+        bizAuthorMapper.deleteMyBatis(ids);
     }
 
     public void deleteMyBatisPlus(Set<Long> ids) {
@@ -169,7 +162,7 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
     }
 
     public BizAuthor detailMyBatis(Long id) {
-        return repository.findMyBatisById(id);
+        return bizAuthorMapper.findMyBatisById(id);
     }
 
     public BizAuthor detailMyBatisPlus(Long id) {
@@ -238,9 +231,7 @@ public class BizAuthorService extends AppBFFServiceImpl<BizAuthor, BizAuthorDao>
                 break;
             }
             case MYBATIS: {
-                com.github.pagehelper.Page<BizAuthor> bizAuthorPage = this.queryMyBatisByPage(bizAuthorPageRequest.getCurrent(), bizAuthorPageRequest.getPageSize());
-                responseParam = ResponseBodyWrap.builder().page(bizAuthorPage).build();
-                break;
+
             }
 
             case MYBATIS_PLUS: {

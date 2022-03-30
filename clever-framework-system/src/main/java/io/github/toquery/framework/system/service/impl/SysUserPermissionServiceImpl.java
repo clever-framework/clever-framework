@@ -9,6 +9,7 @@ import io.github.toquery.framework.system.entity.SysArea;
 import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserPermission;
+import io.github.toquery.framework.system.mapper.SysUserPermissionMapper;
 import io.github.toquery.framework.system.repository.SysUserPermissionRepository;
 import io.github.toquery.framework.system.service.ISysAreaService;
 import io.github.toquery.framework.system.service.ISysRoleService;
@@ -37,10 +38,13 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPerm
 
     private final ISysAreaService sysAreaService;
 
-    public SysUserPermissionServiceImpl(ISysUserService sysUserService, ISysRoleService sysRoleService, ISysAreaService sysAreaService) {
+    private final SysUserPermissionMapper sysUserPermissionMapper;
+
+    public SysUserPermissionServiceImpl(ISysUserService sysUserService, ISysRoleService sysRoleService, ISysAreaService sysAreaService, SysUserPermissionMapper sysUserPermissionMapper) {
         this.sysUserService = sysUserService;
         this.sysRoleService = sysRoleService;
         this.sysAreaService = sysAreaService;
+        this.sysUserPermissionMapper = sysUserPermissionMapper;
     }
 
     @Override
@@ -66,7 +70,7 @@ public class SysUserPermissionServiceImpl extends AppBaseServiceImpl<SysUserPerm
 
     @Override
     public List<SysUserPermission> findWithFullByUserId(Long userId) {
-        return super.repository.findWithFullByUserId(userId);
+        return sysUserPermissionMapper.findWithFullByUserId(userId);
     }
 
 

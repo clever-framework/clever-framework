@@ -6,11 +6,13 @@ import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.dao.primary.snowflake.SnowFlake;
 import io.github.toquery.framework.log.entity.SysLog;
+import io.github.toquery.framework.log.repository.SysLogMapper;
 import io.github.toquery.framework.log.repository.SysLogRepository;
 import io.github.toquery.framework.log.service.ISysLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -26,6 +28,12 @@ import java.util.stream.Stream;
  * @version 1
  */
 public class SysLogServiceImpl extends AppBaseServiceImpl<SysLog, SysLogRepository> implements ISysLogService {
+
+//    @Resource
+//    private JdbcTemplate jdbcTemplate;
+
+    @Resource
+    private SysLogMapper sysLogMapper;
 
     @Resource
     private AppUserDetailService userDetailsService;
@@ -75,7 +83,7 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<SysLog, SysLogReposito
 
         sysLog.preInsert();
         sysLog.setId(new SnowFlake().nextId());
-        return repository.insertSysLog(sysLog);
+        return sysLogMapper.insertSysLog(sysLog);
     }
 
     @Override

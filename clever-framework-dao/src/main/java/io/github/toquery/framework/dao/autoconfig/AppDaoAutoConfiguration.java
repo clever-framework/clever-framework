@@ -1,6 +1,7 @@
 package io.github.toquery.framework.dao.autoconfig;
 
 import io.github.toquery.framework.dao.properties.AppDaoProperties;
+import io.github.toquery.framework.dao.properties.AppMybatisProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -14,7 +15,7 @@ import javax.sql.DataSource;
 //@Configuration
 //@ConditionalOnBean(DataSource.class)
 @Import(HibernateListenerConfigurer.class)
-@EnableConfigurationProperties(AppDaoProperties.class)
+@EnableConfigurationProperties({AppDaoProperties.class, AppMybatisProperties.class})
 //@AutoConfigureAfter(DataSourceAutoConfiguration.class)
 // @EnableJpaRepositories(basePackages = {"io.github.toquery.framework"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppDaoAutoConfiguration {

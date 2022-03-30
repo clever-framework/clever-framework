@@ -74,7 +74,7 @@ public class SysPost extends AppBaseEntity implements AppEntityTree<SysPost>, Ap
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     /**
      * 父级信息
@@ -87,11 +87,6 @@ public class SysPost extends AppBaseEntity implements AppEntityTree<SysPost>, Ap
      */
     @Transient
     private List<SysPost> children;
-
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
 
 
     public boolean isHasChildren() {

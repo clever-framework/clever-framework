@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.toquery.framework.dao.autoconfig.AppDaoAutoConfiguration,\
-io.github.toquery.framework.dao.autoconfig.AppMybatisAutoConfiguration
+io.github.toquery.framework.dao.autoconfig.AppDaoAutoConfiguration

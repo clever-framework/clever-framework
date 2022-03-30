@@ -85,7 +85,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
 
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     /*
     @JsonIgnoreProperties("users")
@@ -161,10 +161,6 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
          return this.getUserStatus()!= null && this.getUserStatus() == 1;
     }
 
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
 
     /**
      * Spring 用户属性

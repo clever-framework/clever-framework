@@ -127,13 +127,13 @@ public class ResponseBodyWrap<T> extends HashMap<String, Object> { //implements 
      *
      * @param page 分页信息
      * @return 包含分页相关的参数
-     */
+
     private ResponseBodyWrap<T> page(com.github.pagehelper.Page<?> page) {
         this.put(PAGE_PARAM_VALUE, new ResponsePageBuilder(page).build());
         this.put(CONTENT_PARAM_VALUE, page);
         return this;
     }
-
+     */
     /**
      * 添加参数信息，如果key和SUCCESS_PARAM或FAIL_PARAM_PARAM相同，则会替换相应的值
      *

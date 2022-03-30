@@ -1,6 +1,7 @@
 package io.github.toquery.framework.system.autoconfig;
 
 import io.github.toquery.framework.dao.EnableAppJpaRepositories;
+import io.github.toquery.framework.system.mapper.SysUserPermissionMapper;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import io.github.toquery.framework.system.rest.*;
 import io.github.toquery.framework.system.runner.AppSystemRunner;
@@ -30,7 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //@Configuration
 //@EnableAppRepositoryRest
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-@MapperScan("io.github.toquery.framework.system.repository")
+@MapperScan("io.github.toquery.framework.system.mapper")
 @EnableConfigurationProperties({AppSystemProperties.class})
 @EntityScan(basePackages = "io.github.toquery.framework.system.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system")
@@ -168,8 +169,8 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysUserPermissionService sysUserPermissionService(@Lazy ISysUserService sysUserService, @Lazy ISysRoleService sysRoleService, @Lazy ISysAreaService sysAreaService) {
-        return new SysUserPermissionServiceImpl(sysUserService, sysRoleService, sysAreaService);
+    public ISysUserPermissionService sysUserPermissionService(@Lazy ISysUserService sysUserService, @Lazy ISysRoleService sysRoleService, @Lazy ISysAreaService sysAreaService, @Lazy SysUserPermissionMapper sysUserPermissionMapper) {
+        return new SysUserPermissionServiceImpl(sysUserService, sysRoleService, sysAreaService, sysUserPermissionMapper);
     }
 
     @Bean

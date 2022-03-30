@@ -55,12 +55,12 @@ public final class ResponseBodyWrapBuilder {
         this.page = page;
         return this;
     }
-
+    /*
     public ResponseBodyWrapBuilder page(com.github.pagehelper.Page<?> page) {
         this.page = new ResponsePageBuilder().page(page).build();
         this.content = page == null ? null : page.getResult();
         return this;
-    }
+    }*/
 
     public ResponseBodyWrapBuilder page(org.springframework.data.domain.Page<?> page) {
         this.page = new ResponsePageBuilder().page(page).build();

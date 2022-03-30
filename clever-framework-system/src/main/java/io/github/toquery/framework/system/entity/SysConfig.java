@@ -58,12 +58,8 @@ public class SysConfig extends AppBaseEntity implements AppEntitySort, AppEntity
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
 
     /*
     @ElementCollection

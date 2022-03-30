@@ -4,6 +4,7 @@ package io.toquery.framework.example.test.framework.curd;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.toquery.framework.example.bff.admin.news.info.dao.BizNewsDao;
+import com.toquery.framework.example.bff.admin.news.info.dao.BizNewsMapper;
 import com.toquery.framework.example.modules.news.info.repository.BizNewsRepository;
 import com.toquery.framework.example.modules.news.info.entity.BizNews;
 import io.github.toquery.framework.common.util.JacksonUtils;
@@ -32,6 +33,9 @@ public class BizNewsDaoCurdTest extends BaseSpringTest {
     @Resource
     private BizNewsDao bizNewsDao;
 
+    @Resource
+    private BizNewsMapper bizNewsMapper;
+
     @Test
     public void testSingleCurd() {
 
@@ -47,15 +51,22 @@ public class BizNewsDaoCurdTest extends BaseSpringTest {
         Assert.assertNotNull(saveAndFlush);
         Assert.assertNotNull(saveAndFlush.getId());
 
-        BizNews bizNews = new BizNews("saveAndFlush-test", new Date());
-        bizNews.preInsert();
-        bizNews.setCreateDateTime(LocalDateTime.now());
-        bizNews.setUpdateDateTime(LocalDateTime.now());
+        BizNews bizNews = new BizNews("saveMyBatis-test", new Date());
 //        BizNews saveMyBatis =
-        bizNewsDao.saveMyBatis(bizNews);
+        bizNewsMapper.saveMyBatis(bizNews);
+
+
         log.info("插入的数据 saveMyBatis ：\n{}", JacksonUtils.object2String(bizNews));
         Assert.assertNotNull(bizNews);
         Assert.assertNotNull(bizNews.getId());
+
+        BizNews bizNewsMP = new BizNews("saveMyBatisPlus-test", new Date());
+        bizNewsMapper.insert(bizNewsMP);
+
+
+        log.info("插入的数据 saveMyBatisPlus ：\n{}", JacksonUtils.object2String(bizNewsMP));
+        Assert.assertNotNull(bizNewsMP);
+        Assert.assertNotNull(bizNewsMP.getId());
 
         List<BizNews> saveAll = bizNewsRepository.saveAll(Lists.newArrayList(
                 new BizNews("saveAll-test-1", new Date()),

@@ -76,7 +76,6 @@ public class BizNewsController extends AppBaseBFFController<BizNews, BizNewsServ
     @AppLogMethod(value = BizNews.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
     public ResponseBodyWrap<?> update(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestBody BizNewsUpdateRequest request) {
-
         BizNewsInfoResponse bizNewsInfoResponse = bffService.update(queryType, request);
         return super.handleResponseBody(bizNewsInfoResponse);
     }
@@ -86,8 +85,6 @@ public class BizNewsController extends AppBaseBFFController<BizNews, BizNewsServ
     @DeleteMapping
     public void delete(@UpperCase @RequestParam(defaultValue = "APP") QueryType queryType, @RequestParam Set<Long> ids) {
         bffService.delete(queryType, ids);
-
-
     }
 
     @GetMapping("{id}")

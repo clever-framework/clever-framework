@@ -65,13 +65,8 @@ public class SysDict extends AppBaseEntity implements AppEntitySort, AppEntityLo
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     @Transient
     private List<SysDictItem> dictItems;
-
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
 }

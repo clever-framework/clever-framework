@@ -52,7 +52,7 @@ public final class ResponsePageBuilder {
      * 将 Page helper 对象转化为Page对象
      *
      * @param page Page helper 对象
-     */
+
     public ResponsePageBuilder(com.github.pagehelper.Page<?> page) {
         if (page != null) {
             this.current = page.getPageNum() + 1;
@@ -61,6 +61,7 @@ public final class ResponsePageBuilder {
             this.totalPages = page.getPages();
         }
     }
+     */
 
     public ResponsePageBuilder(org.springframework.data.domain.Page<?> page) {
         if (page != null) {
@@ -91,7 +92,7 @@ public final class ResponsePageBuilder {
      * 将 Page helper 对象转化为Page对象
      *
      * @param page Page helper 对象
-     */
+
     public ResponsePageBuilder page(com.github.pagehelper.Page<?> page) {
         if (page != null) {
             this.current = page.getPageNum() + 1;
@@ -101,10 +102,11 @@ public final class ResponsePageBuilder {
         }
         return this;
     }
+     */
 
     public ResponsePageBuilder page(org.springframework.data.domain.Page<?> page) {
         if (page != null) {
-            this.current = page.getNumber() + 1;
+            this.current = page.getNumber();
             this.pageSize = page.getSize();
             this.totalElements = page.getTotalElements();
             this.totalPages = page.getTotalPages();

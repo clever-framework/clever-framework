@@ -1,6 +1,5 @@
 package io.github.toquery.framework.dao.jpa;
 
-import io.github.toquery.framework.dao.jpa.lookup.QueryLookupStrategyFactories;
 import io.github.toquery.framework.dao.repository.impl.AppJpaBaseRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
@@ -10,11 +9,8 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.RepositoryMetadata;
-import org.springframework.data.repository.query.QueryLookupStrategy;
-import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
 
 import javax.persistence.EntityManager;
-import java.util.Optional;
 
 /**
  * 自定义的JpaRepositoryFactory，用于生成JpaRepository
@@ -22,7 +18,7 @@ import java.util.Optional;
 @Slf4j
 public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
 
-    private EntityManager entityManager;
+    protected final EntityManager entityManager;
 
     protected final QueryExtractor extractor;
 
@@ -51,17 +47,4 @@ public class AppJpaRepositoryFactory extends JpaRepositoryFactory {
         //自定接口实现方法的基类
         return AppJpaBaseRepositoryImpl.class;
     }
-
-    /**
-     * 查找使用自定义注解，然后mybatis执行
-     */
-    @Override
-    protected Optional<QueryLookupStrategy> getQueryLookupStrategy(QueryLookupStrategy.Key key, QueryMethodEvaluationContextProvider evaluationContextProvider) {
-        QueryLookupStrategy queryLookupStrategy = QueryLookupStrategyFactories.create(entityManager, beanFactory, key, extractor, evaluationContextProvider);
-        log.info("获取到数据库查询策略");
-        return Optional.of(queryLookupStrategy);
-    }
-
-
-
 }

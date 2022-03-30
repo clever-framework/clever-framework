@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorDao">
+<mapper namespace="com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorMapper">
     <insert id="saveMyBatis" parameterType="com.toquery.framework.example.modules.author.info.entity.BizAuthor">
         insert into biz_author(id, author_name,  create_user_id, create_date_time, update_user_id, update_date_time)
             value (#{id}, #{authorName}, #{createUserId}, #{createDateTime},  #{updateUserId}, #{updateDateTime})
@@ -20,7 +20,7 @@
         from biz_author
     </select>
 
-    <select id="findMyBatisById">
+    <select id="findMyBatisById" resultType="com.toquery.framework.example.modules.author.info.entity.BizAuthor">
         select *
         from biz_author
         where id = #{id}

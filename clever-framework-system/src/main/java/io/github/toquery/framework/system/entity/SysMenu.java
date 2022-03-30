@@ -97,7 +97,7 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     @Transient
     private Collection<SysRole> roles;
@@ -116,11 +116,6 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
 
     public boolean isHasChildren() {
         return hasChildren;
-    }
-
-    @Override
-    public boolean getDeleted() {
-        return deleted;
     }
 
     public boolean getHasChildren() {

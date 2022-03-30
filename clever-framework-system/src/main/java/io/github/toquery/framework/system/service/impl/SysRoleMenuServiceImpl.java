@@ -3,11 +3,12 @@ package io.github.toquery.framework.system.service.impl;
 import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
+import io.github.toquery.framework.system.mapper.SysRoleMenuMapper;
 import io.github.toquery.framework.system.repository.SysRoleMenuRepository;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.system.service.ISysRoleMenuService;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +22,11 @@ import java.util.stream.Collectors;
  */
 public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysRoleMenuRepository> implements ISysRoleMenuService {
 
-    @Autowired
+    @Resource
     private ISysMenuService sysMenuService;
+
+    @Resource
+    private SysRoleMenuMapper sysRoleMenuMapper;
 
     @Override
     public Map<String, String> getQueryExpressions() {
@@ -129,6 +133,6 @@ public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysR
 
 
     public List<SysRoleMenu> findWithSysRoleMenuByRoleIds(Set<Long> sysRoleIds) {
-        return super.repository.findWithSysRoleMenuByRoleIds(sysRoleIds);
+        return sysRoleMenuMapper.findWithSysRoleMenuByRoleIds(sysRoleIds);
     }
 }

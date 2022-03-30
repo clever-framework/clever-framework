@@ -44,10 +44,10 @@ public class BizNewsCategory extends AppBaseEntity implements AppEntityLogicDel 
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     @Override
-    public boolean getDeleted() {
+    public Boolean getDeleted() {
         return deleted;
     }
 

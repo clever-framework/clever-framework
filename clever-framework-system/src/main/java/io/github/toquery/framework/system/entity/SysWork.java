@@ -52,7 +52,7 @@ public class SysWork extends AppBaseEntity implements AppEntityLogicDel {
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     @Transient
     private SysUser user;
@@ -73,7 +73,7 @@ public class SysWork extends AppBaseEntity implements AppEntityLogicDel {
 //    private String postName;
 
     @Override
-    public boolean getDeleted() {
+    public Boolean getDeleted() {
         return deleted;
     }
 }

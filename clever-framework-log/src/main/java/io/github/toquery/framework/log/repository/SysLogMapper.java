@@ -1,5 +1,6 @@
 package io.github.toquery.framework.log.repository;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
 import io.github.toquery.framework.log.entity.SysLog;
 import org.apache.ibatis.annotations.Param;
@@ -9,6 +10,8 @@ import org.apache.ibatis.annotations.Param;
  * @version 1
  */
 
-public interface SysLogRepository extends AppJpaBaseRepository<SysLog> {
+public interface SysLogMapper extends BaseMapper<SysLog> {
+
+    public int insertSysLog(@Param("sysLog") SysLog sysLog);
 
 }

@@ -50,7 +50,7 @@ public class SysRole extends AppBaseEntity implements AppEntityLogicDel, AppEnti
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     @Transient
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -62,9 +62,5 @@ public class SysRole extends AppBaseEntity implements AppEntityLogicDel, AppEnti
     @Transient
     private Collection<SysMenu> menus;
 
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
 
 }

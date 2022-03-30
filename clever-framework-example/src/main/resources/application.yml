@@ -142,12 +142,14 @@ spring:
       default-media-type: application/json
       return-body-on-create: true
       return-body-on-update: true
-
+    web:
+      pageable:
+        one-indexed-parameters: false # 参数从0开始
   hateoas:
     use-hal-as-default-json-media-type: true
 
 
-mybatis:
+mybatis-plus:
   mapper-locations: classpath*:mybatis/mapper/*.xml
   config-location: classpath:mybatis/config/mybatis-config.xml
 

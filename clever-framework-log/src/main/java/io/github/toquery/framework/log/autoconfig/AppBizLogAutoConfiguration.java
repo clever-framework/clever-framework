@@ -10,6 +10,7 @@ import io.github.toquery.framework.log.rest.SysLogRest;
 import io.github.toquery.framework.log.service.ISysLogService;
 import io.github.toquery.framework.log.service.impl.SysLogServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -24,6 +25,7 @@ import org.springframework.context.annotation.Import;
  */
 @Slf4j
 @EnableConfigurationProperties(AppLogProperties.class)
+@MapperScan("io.github.toquery.framework.log.repository")
 @EntityScan(basePackages = "io.github.toquery.framework.log.entity")
 @EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.log")
 @ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)

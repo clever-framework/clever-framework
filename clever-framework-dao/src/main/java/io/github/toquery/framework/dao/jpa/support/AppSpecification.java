@@ -47,14 +47,14 @@ public class AppSpecification<T> implements Specification<T> {
      */
     private static final long serialVersionUID = 1L;
 
-    private Class<T> entityClazz;
+    private final Class<T> entityClazz;
 
-    private LinkedHashMap<String, SearchFilter> filters;
+    private final LinkedHashMap<String, SearchFilter> filters;
 
     /**
      * 存储临时分组的map
      */
-    private Map<String, List<SearchFilter>> groupFilterMap = new LinkedHashMap<String, List<SearchFilter>>();
+    private final Map<String, List<SearchFilter>> groupFilterMap = new LinkedHashMap<String, List<SearchFilter>>();
     /**
      * 关联查询的map，暂时存储关联查询语句
      */

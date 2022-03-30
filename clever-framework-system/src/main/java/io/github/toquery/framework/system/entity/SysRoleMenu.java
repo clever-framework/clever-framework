@@ -44,7 +44,7 @@ public class SysRoleMenu extends AppBaseEntity implements AppEntityLogicDel {
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     @Transient
     private SysMenu menu;
@@ -57,10 +57,4 @@ public class SysRoleMenu extends AppBaseEntity implements AppEntityLogicDel {
 
     @Transient
     private List<SysRole> roles;
-
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
-
 }

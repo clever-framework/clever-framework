@@ -4,6 +4,7 @@ package io.toquery.framework.example.test.framework.datasource;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorDao;
+import com.toquery.framework.example.bff.admin.author.info.dao.BizAuthorMapper;
 import com.toquery.framework.example.modules.author.info.entity.BizAuthor;
 import com.toquery.framework.example.modules.author.info.repository.BizAuthorRepository;
 import io.github.toquery.framework.common.util.JacksonUtils;
@@ -31,6 +32,9 @@ public class BizAuthorDaoCurdTest extends BaseSpringTest {
     @Resource
     private BizAuthorDao bizAuthorDao;
 
+    @Resource
+    private BizAuthorMapper bizAuthorMapper;
+
     @Test
     public void testSingleCurd() {
 
@@ -51,7 +55,7 @@ public class BizAuthorDaoCurdTest extends BaseSpringTest {
         BizAuthor.setCreateDateTime(LocalDateTime.now());
         BizAuthor.setUpdateDateTime(LocalDateTime.now());
 //        BizAuthor saveMyBatis =
-        bizAuthorDao.saveMyBatis(BizAuthor);
+        bizAuthorMapper.saveMyBatis(BizAuthor);
         log.info("插入的数据 saveMyBatis ：\n{}", JacksonUtils.object2String(BizAuthor));
         Assert.assertNotNull(BizAuthor);
         Assert.assertNotNull(BizAuthor.getId());

@@ -1,5 +1,7 @@
 package io.github.toquery.framework.dao.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
@@ -22,7 +24,6 @@ import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -59,6 +60,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
 
     @Id
     @Column
+    @TableId
     // @RevisionNumber
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @GeneratedValue(generator = "generatedkey", strategy = GenerationType.AUTO)
@@ -75,6 +77,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
 
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @TableField(value = "create_user_id")
     @Column(name = "create_user_id", length = 32, updatable = false)
     private Long createUserId;
 
@@ -84,12 +87,14 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     //@Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
+    @TableField(value = "create_date_time")
     @Column(name = "create_date_time", updatable = false, nullable = false)
     private LocalDateTime createDateTime;
 
 
     @LastModifiedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @TableField(value = "update_user_id")
     @Column(name = "update_user_id", length = 32)
     private Long updateUserId;
 
@@ -97,6 +102,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     @LastModifiedDate
     @UpdateTimestamp
     //@Temporal(TemporalType.TIMESTAMP)
+    @TableField(value = "update_date_time")
     @Column(name = "update_date_time", nullable = false)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
@@ -129,7 +135,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     }
 
     public void preInsert() {
-        Long newId =  (this.getId() == null || this.getId() <= 0L) ? new SnowFlake().nextId() : this.getId();
+        Long newId = (this.getId() == null || this.getId() <= 0L) ? new SnowFlake().nextId() : this.getId();
         this.preInsert(newId, this.getUserId());
     }
 

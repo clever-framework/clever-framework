@@ -95,7 +95,7 @@ public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, Ap
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     @Transient
     private Collection<SysRole> roles;
@@ -135,14 +135,6 @@ public class SysArea extends AppBaseEntity implements AppEntityTree<SysArea>, Ap
     public boolean getHasChildren() {
         return hasChildren;
     }
-
-
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
-
-
 
     @Override
     public int compareTo(SysArea sysArea) {

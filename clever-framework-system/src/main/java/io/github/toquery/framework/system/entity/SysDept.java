@@ -82,7 +82,7 @@ public class SysDept extends AppBaseEntity implements AppEntityTree<SysDept>, Ap
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
     /**
      * 父级信息
@@ -95,11 +95,6 @@ public class SysDept extends AppBaseEntity implements AppEntityTree<SysDept>, Ap
      */
     @Transient
     private List<SysDept> children;
-
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
 
     public boolean isHasChildren() {
         return hasChildren;

@@ -78,10 +78,6 @@ public class SysDictItem extends AppBaseEntity implements AppEntitySort, AppEnti
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
+    private Boolean deleted = false;
 
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
 }

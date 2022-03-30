@@ -39,11 +39,7 @@ public class SysUserPermission extends AppBaseEntity implements AppEntityLogicDe
      */
     @ColumnDefault("false")
     @Column(name = "deleted")
-    private boolean deleted = false;
-
-    public boolean getDeleted() {
-        return deleted;
-    }
+    private Boolean deleted = false;
 
     @Transient
     private SysUser user;
