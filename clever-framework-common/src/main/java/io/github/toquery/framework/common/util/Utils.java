@@ -1,5 +1,6 @@
 package io.github.toquery.framework.common.util;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.google.common.base.Strings;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.util.DigestUtils;
@@ -77,38 +78,6 @@ public class Utils {
     }
 
     /**
-     * bean转map
-     *
-     * @param bean 原始bean
-     * @param <T>  泛型
-     * @return map
-     */
-    public static <T> Map<String, Object> beanToMap(T bean) {
-        Map<String, Object> map = new HashMap<>();
-        if (bean != null) {
-            BeanMap beanMap = BeanMap.create(bean);
-            for (Object key : beanMap.keySet()) {
-                map.put(key + "", beanMap.get(key));
-            }
-        }
-        return map;
-    }
-
-    /**
-     * 将map装换为javabean对象
-     *
-     * @param map  原始map
-     * @param bean 实例化空bean
-     * @param <T>  泛型
-     * @return 填充后的bean
-     */
-    public static <T> T mapToBean(Map<String, Object> map, T bean) {
-        BeanMap beanMap = BeanMap.create(bean);
-        beanMap.putAll(map);
-        return bean;
-    }
-
-    /**
      * 排序签名
      *
      * @param o      要签名的对象
@@ -117,7 +86,7 @@ public class Utils {
      * @return 加密后字符串
      */
     public static <T> String signWithSort(T o, String secret) {
-        Map<String, Object> map = beanToMap(o);
+        Map<String, Object> map = BeanUtil.beanToMap(o);
         String signStr = map.keySet().stream().sorted()
                 .map(key -> {
                     Object value = map.get(key);

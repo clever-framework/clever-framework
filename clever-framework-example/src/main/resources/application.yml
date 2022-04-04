@@ -144,7 +144,7 @@ spring:
       return-body-on-update: true
     web:
       pageable:
-        one-indexed-parameters: false # 参数从0开始
+        one-indexed-parameters: true # 参数从1开始
   hateoas:
     use-hal-as-default-json-media-type: true
 
