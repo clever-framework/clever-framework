@@ -59,7 +59,7 @@
         <springdoc.version>1.6.4</springdoc.version>
         <swagger.version>2.1.11</swagger.version>
 
-        <minio.version>8.3.7</minio.version>
+        <minio.version>8.3.8</minio.version>
 
         <grpc.version>1.44.0</grpc.version>
         <io-protostuff.version>1.7.4</io-protostuff.version>
