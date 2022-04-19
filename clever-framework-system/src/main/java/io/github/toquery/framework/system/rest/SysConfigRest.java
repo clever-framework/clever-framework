@@ -39,35 +39,35 @@ public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysC
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:query')")
     @GetMapping
-    public ResponseBodyWrap pageResponseResult() {
+    public ResponseBodyWrap<?> pageResponseResult() {
         return super.pageResponseResult(SORT);
     }
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:query')")
     @GetMapping("/list")
-    public ResponseBodyWrap listResponseResult() {
+    public ResponseBodyWrap<?> listResponseResult() {
         return super.listResponseResult(SORT);
     }
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.CREATE, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:add')")
     @PostMapping
-    public ResponseBodyWrap saveSysConfigCheck(@Validated @RequestBody SysConfig sysConfig) {
+    public ResponseBodyWrap<?> saveSysConfigCheck(@Validated @RequestBody SysConfig sysConfig) {
         return super.handleResponseBody(domainService.saveSysConfigCheck(sysConfig));
     }
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:modify')")
     @PutMapping
-    public ResponseBodyWrap updateSysConfigCheck(@RequestBody SysConfig sysConfig) {
+    public ResponseBodyWrap<?> updateSysConfigCheck(@RequestBody SysConfig sysConfig) {
         return super.handleResponseBody(domainService.updateSysConfigCheck(sysConfig));
     }
 
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.DELETE, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:delete')")
     @DeleteMapping
-    public ResponseBodyWrap deleteResponseResult(@RequestParam Set<Long> ids) {
+    public ResponseBodyWrap<?> deleteResponseResult(@RequestParam Set<Long> ids) {
         super.deleteResponseResult(ids);
         return ResponseBodyWrap.builder().success().build();
     }
@@ -75,12 +75,12 @@ public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysC
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.QUERY, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dept:query')")
     @GetMapping("{id}")
-    public ResponseBodyWrap detailResponseBody(@PathVariable Long id) {
+    public ResponseBodyWrap<?> detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 
     @GetMapping("value")
-    public ResponseBodyWrap value(@RequestParam String configName) {
+    public ResponseBodyWrap<?> value(@RequestParam String configName) {
         return super.handleResponseBody(domainService.value(configName));
     }
 }

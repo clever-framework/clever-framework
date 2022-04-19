@@ -114,6 +114,14 @@
         </dependency>
         <dependency>
             <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-grpc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
+            <artifactId>clever-framework-oauth-authorization</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-dao</artifactId>
         </dependency>
        <dependency>
@@ -202,10 +210,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-grpc</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
