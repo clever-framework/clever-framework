@@ -83,7 +83,6 @@
         <module>clever-framework-web</module>
         <module>clever-framework-webmvc</module>
         <module>clever-framework-crud</module>
-        <module>clever-framework-example</module>
         <module>clever-framework-test</module>
         <module>clever-framework-common</module>
         <module>clever-framework-security</module>
