@@ -49,7 +49,7 @@ public class SysLogRest extends AppBaseCrudController<ISysLogService, SysLog> {
             filterParam.put("createDateTimeGT", createDataGT);
             filterParam.put("createDateTimeLT", createDataLT);
         }
-        Page<SysLog> page = super.domainService.pageWithUser(filterParam, super.getRequestCurrent(), super.getRequestPageSize(), PAGE_SORT);
+        Page<SysLog> page = super.domainService.page(filterParam, super.getRequestCurrent(), super.getRequestPageSize(), PAGE_SORT);
         return new ResponseBodyWrapBuilder().page(page).build();
     }
 
