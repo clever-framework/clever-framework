@@ -2,28 +2,26 @@ package io.github.toquery.framework.security.config;
 
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.core.security.AppSecurityConfigurer;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
+import io.github.toquery.framework.security.AppAuthenticationFailureEntryPoint;
 import io.github.toquery.framework.security.handler.AppAccessDeniedHandler;
-import io.github.toquery.framework.security.handler.AppAuthenticationEntryPoint;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.web.SecurityFilterChain;
 
 import javax.annotation.Resource;
-import javax.servlet.Filter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,10 +31,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Resource
-    private List<AppSecurityConfigurer> serviceSecConfigs;
+public class AppWebSecurityConfig {
 
     @Resource
     private List<AppSecurityIgnoring> appSecurityIgnoringList;
@@ -48,88 +43,75 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("初始化 App Web Security 配置");
     }
 
-    public AppWebSecurityConfig(boolean disableDefaults) {
-        super(disableDefaults);
-        log.info("初始化 App Web Security 配置，disableDefaults = {} ", disableDefaults);
-    }
-
-    // TODO 这里版本冲突，新版 Spring 后无法注入 UserDetailsService
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-
-    /*
-    @Resource
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoderBean());
-    }
-    */
-
-
     @Bean
     @ConditionalOnMissingBean
-    public PasswordEncoder passwordEncoderBean() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
 
-    /**
-     * @param http
-     * @throws Exception
-     */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                // we don't need CSRF because our token is invulnerable
-                .csrf().disable()
-
-                // .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .authorizeRequests()
-
-                //
-                .antMatchers(this.getIgnoringArray()).permitAll()
-                .anyRequest().authenticated();
-
-        if (serviceSecConfigs != null && !serviceSecConfigs.isEmpty()) {
-            for (AppSecurityConfigurer serviceSecConfig : serviceSecConfigs) {
-                serviceSecConfig.configure(http);
-            }
-        }
-
-        // 添加自定义异常入口
-        http
-                .exceptionHandling()
-                .accessDeniedHandler(new AppAccessDeniedHandler())
-                .authenticationEntryPoint(new AppAuthenticationEntryPoint())
-        ;
-
-        if (getCustomizeFilter() != null) {
-            http.addFilterBefore(getCustomizeFilter(), UsernamePasswordAuthenticationFilter.class);
-        }
-
-        // disable page caching
-        http.headers().frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
-                .cacheControl();
+    @Bean
+    @ConditionalOnMissingBean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        // 修改前缀
+        authoritiesConverter.setAuthorityPrefix("");
+        converter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
+        return converter;
     }
 
     /**
-     * @param web
+     * 自定义认证过滤器
+     *
+     * @param http http
+     * @throws Exception 异常
      */
-    @Override
-    public void configure(WebSecurity web) {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        AppAuthenticationFailureEntryPoint appAuthenticationFailureEntryPoint = new AppAuthenticationFailureEntryPoint();
+        http
+                // 授权http请求
+                .authorizeHttpRequests((authorize) -> authorize
+                        // 获取框架配置和配置文件中的路径，并忽略认证
+                        .antMatchers(this.getIgnoringArray()).permitAll()
+                        .anyRequest().authenticated()
+                )
+                // csrf 忽略
+                .csrf((csrf) -> csrf.ignoringAntMatchers("/user/login"))
 
-        // AuthenticationTokenFilter will ignore the below paths
-        web.ignoring().antMatchers(this.getIgnoringArray());
+                // http Basic 认证处理
+                .httpBasic(httpBasicCustomizer -> {
+                    // 使用委派类
+//                    LinkedHashMap<RequestMatcher, AuthenticationEntryPoint> entryPoints = new LinkedHashMap<>();
+//                    entryPoints.put(new AntPathRequestMatcher("/user/login"), appAuthenticationFailureEntryPoint);
+//                    DelegatingAuthenticationEntryPoint delegatingAuthenticationEntryPoint = new DelegatingAuthenticationEntryPoint(entryPoints);
 
+                    httpBasicCustomizer.authenticationEntryPoint(appAuthenticationFailureEntryPoint);
+                })
 
-        if (serviceSecConfigs != null && !serviceSecConfigs.isEmpty()) {
-            for (AppSecurityConfigurer serviceSecConfig : serviceSecConfigs) {
-                serviceSecConfig.configure(web);
-            }
-        }
+                .oauth2ResourceServer((oauth2ResourceServerCustomizer) -> {
+                    oauth2ResourceServerCustomizer.jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
+                })
+
+                // session 管理， 关闭session
+                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                // 异常处理
+                .exceptionHandling((exceptions) -> exceptions
+                                .accessDeniedHandler(new AppAccessDeniedHandler())
+                                .authenticationEntryPoint(new AppAuthenticationFailureEntryPoint())
+//                                .authenticationEntryPoint(new JwtUnauthorizedEntryPoint())
+//                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+//                        .defaultAuthenticationEntryPointFor(new AppAuthenticationFailureEntryPoint(), new AntPathRequestMatcher("/**"))
+//                        .defaultAccessDeniedHandlerFor(new AppAccessDeniedHandler(), new AntPathRequestMatcher("/**"))
+                )
+
+                // TODO 这个配置是否需要？
+                .headers(headersCustomizer -> headersCustomizer.frameOptions().sameOrigin().cacheControl())
+
+        ;
+        return http.build();
     }
 
     /**
@@ -148,10 +130,4 @@ public class AppWebSecurityConfig extends WebSecurityConfigurerAdapter {
         return ignoringSet.toArray(ignoringArray);
     }
 
-    /**
-     * 加载自定义白名单
-     */
-    protected Filter getCustomizeFilter() {
-        return null;
-    }
 }

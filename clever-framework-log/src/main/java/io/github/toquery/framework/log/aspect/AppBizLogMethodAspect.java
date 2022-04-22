@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
+import io.github.toquery.framework.core.security.AppSecurityKey;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import io.github.toquery.framework.dao.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
@@ -18,6 +19,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -95,13 +97,22 @@ public class AppBizLogMethodAspect {
         Map<String, Object> targetData = appBaseEntity == null ? Maps.newHashMap() : appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity, null));
 
         SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(appLogMethod.logType(), null, targetData,
-                Strings.isNullOrEmpty(modelName) ? appLogMethod.modelName() : modelName,
-                Strings.isNullOrEmpty(bizName) ? appLogMethod.bizName() : bizName);
+                modelName, bizName);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() != null){
-            AppUserDetails appUserDetails = (AppUserDetails) authentication.getPrincipal();
-            sysLog.setUserId(appUserDetails.getId());
+
+        Long userId = 1L;
+        if (authentication == null) {
+            log.error("保存业务日志错误，无法获取用户信息");
+        } else if (authentication.getPrincipal() instanceof AppUserDetails) {
+            AppUserDetails sysUser = (AppUserDetails) authentication.getPrincipal();
+            log.debug("保存业务日志 AppUserDetails ，当前操作用户ID {} 用户名 {} ", sysUser.getId(), authentication.getName());
+            userId = sysUser.getId();
+        } else if (authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            userId = Long.parseLong(jwt.getClaims().get(AppSecurityKey.USERID).toString());
+            log.debug("保存业务日志 Jwt ，当前操作用户ID {} 用户名 {} ", userId , authentication.getName());
         }
+        sysLog.setUserId(userId);
         sysLog = sysLogService.save(sysLog);
         log.debug("保存业务日志成功 AppBizLogMethodAspect -> doAfterReturning -> handleBizLog 操作类: {} 方法：{}", joinPoint.getTarget().getClass().toString(), joinPoint.getSignature().getName());
     }

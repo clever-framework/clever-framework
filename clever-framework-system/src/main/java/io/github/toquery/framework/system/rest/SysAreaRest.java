@@ -76,7 +76,7 @@ public class SysAreaRest extends AppBaseCrudController<ISysAreaService, SysArea>
     @AppLogMethod(value = SysArea.class, logType = AppLogType.DELETE, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:area:delete')")
     @DeleteMapping
-    public ResponseBodyWrap<?> deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBodyWrap<?> deleteSysRoleCheck(@RequestBody Set<Long> ids) throws AppException {
         domainService.deleteByIds(ids);
         return ResponseBodyWrap.builder().success().build();
     }

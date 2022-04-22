@@ -65,7 +65,7 @@ public class SysDictItemRest extends AppBaseCrudController<ISysDictItemService, 
     @AppLogMethod(value = SysDictItem.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:dict:delete')")
     @DeleteMapping
-    public ResponseBodyWrap<?> deleteSysDictCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBodyWrap<?> deleteSysDictCheck(@RequestBody Set<Long> ids) throws AppException {
         domainService.deleteByIds(ids);
         return ResponseBodyWrap.builder().success().build();
     }

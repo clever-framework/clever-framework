@@ -67,7 +67,7 @@ public class SysConfigRest extends AppBaseCrudController<ISysConfigService, SysC
     @AppLogMethod(value = SysConfig.class, logType = AppLogType.DELETE, modelName =  MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:config:delete')")
     @DeleteMapping
-    public ResponseBodyWrap<?> deleteResponseResult(@RequestParam Set<Long> ids) {
+    public ResponseBodyWrap<?> deleteResponseResult(@RequestBody Set<Long> ids) {
         super.deleteResponseResult(ids);
         return ResponseBodyWrap.builder().success().build();
     }

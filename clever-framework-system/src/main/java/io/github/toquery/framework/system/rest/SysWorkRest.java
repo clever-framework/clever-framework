@@ -67,7 +67,7 @@ public class SysWorkRest extends AppBaseCrudController<ISysWorkService, SysWork>
     @AppLogMethod(value = SysWork.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:work:delete')")
     @DeleteMapping
-    public ResponseBodyWrap<?> deleteByIds(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBodyWrap<?> deleteByIds(@RequestBody Set<Long> ids) throws AppException {
         domainService.deleteByIds(ids);
         return ResponseBodyWrap.builder().success().build();
     }

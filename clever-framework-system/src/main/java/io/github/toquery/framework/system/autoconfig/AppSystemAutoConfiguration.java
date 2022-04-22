@@ -19,6 +19,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Role;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -39,14 +40,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //@EnableJpaRepositories(basePackages = {"io.github.toquery.framework.system.repository"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppSystemAutoConfiguration {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
 
     public AppSystemAutoConfiguration() {
         log.info("自动装配 App System 自动配置");
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -157,7 +160,7 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysUserService sysUserService(ISysUserPermissionService sysUserPermissionService) {
+    public ISysUserService sysUserService(PasswordEncoder passwordEncoder, ISysUserPermissionService sysUserPermissionService) {
         return new SysUserServiceImpl(passwordEncoder, sysUserPermissionService);
     }
 

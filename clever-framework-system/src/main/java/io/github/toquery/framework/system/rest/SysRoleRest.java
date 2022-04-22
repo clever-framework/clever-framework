@@ -67,7 +67,7 @@ public class SysRoleRest extends AppBaseCrudController<ISysRoleService, SysRole>
     @AppLogMethod(value = SysRole.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('system:role:delete')")
-    public ResponseBodyWrap deleteSysRoleCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBodyWrap deleteSysRoleCheck(@RequestBody Set<Long> ids) throws AppException {
         domainService.deleteSysRoleCheck(ids);
         return ResponseBodyWrap.builder().success().build();
     }

@@ -53,8 +53,8 @@ public class JacksonUtils {
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         //允许wrap/unwrap
-        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
 
         objectMapper.registerModule(new Jdk8Module());
         objectMapper.registerModule(new JavaTimeModule());

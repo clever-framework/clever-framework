@@ -1,9 +1,13 @@
-package io.github.toquery.framework.security.jwt.properties;
+package io.github.toquery.framework.security.properties;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 
 /**
  * @author toquery
@@ -16,6 +20,8 @@ public class AppSecurityJwtProperties {
     public static final String PREFIX = "app.jwt";
 
     private String secret = "clever";
+
+    private String issuer = "clever-framework";
 
     // 秒
     private Long expires = 60 * 60L;
@@ -36,6 +42,15 @@ public class AppSecurityJwtProperties {
     private AppJwtParamProperties param = new AppJwtParamProperties();
 
     private AppJwtPathProperties path = new AppJwtPathProperties();
+
+    private AppJwtKey key = new AppJwtKey();
+
+    @Getter
+    @Setter
+    public static class AppJwtKey {
+        private RSAPublicKey publicKey;
+        private RSAPrivateKey privateKey;
+    }
 
     @Getter
     @Setter

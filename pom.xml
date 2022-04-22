@@ -61,9 +61,6 @@
 
         <minio.version>8.3.8</minio.version>
 
-        <grpc.version>1.45.1</grpc.version>
-        <io-protostuff.version>1.8.0</io-protostuff.version>
-
         <hutool.version>5.7.22</hutool.version>
 
         <mybatis.version>3.5.9</mybatis.version>
@@ -71,7 +68,6 @@
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
 
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
-        <cf-mybatis-plus.version>3.5.1</cf-mybatis-plus.version>
 
         <pagehelper.version>5.3.0</pagehelper.version>
         <pagehelper-spring-boot-starter.version>1.4.1</pagehelper-spring-boot-starter.version>
@@ -86,16 +82,16 @@
         <module>clever-framework-test</module>
         <module>clever-framework-common</module>
         <module>clever-framework-security</module>
-        <module>clever-framework-security-jwt</module>
         <module>clever-framework-front</module>
         <module>clever-framework-files</module>
         <module>clever-framework-log</module>
         <module>clever-framework-system</module>
         <module>clever-framework-minio</module>
         <module>clever-framework-cache</module>
-        <module>clever-framework-grpc</module>
         <module>clever-framework-datasource</module>
         <!--
+        <module>clever-framework-security-jwt</module>
+        <module>clever-framework-grpc</module>
         <module>clever-framework-data-rest</module>
         <module>clever-framework-swagger</module>
         <module>clever-framework-dependencies</module>
@@ -198,11 +194,7 @@
                 <version>${clever-framework.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.github.toquery</groupId>
-                <artifactId>clever-framework-security-jwt</artifactId>
-                <version>${clever-framework.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-test</artifactId>
@@ -214,11 +206,13 @@
                 <version>${clever-framework.version}</version>
             </dependency>
 
+            <!--
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-grpc</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
+            -->
 
             <dependency>
                 <groupId>io.github.toquery</groupId>
@@ -232,16 +226,6 @@
                 <version>${jjwt.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-netty-shaded</artifactId>
-                <version>${grpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-stub</artifactId>
-                <version>${grpc.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>io.protostuff</groupId>
@@ -513,6 +497,7 @@
         <system>GitHub Issues</system>
         <url>https://github.com/ToQuery/clever-framework/issues</url>
     </issueManagement>
+
     <!--  <ciManagement>
           <system>Web site</system>
           <url>http://dot.cc</url>

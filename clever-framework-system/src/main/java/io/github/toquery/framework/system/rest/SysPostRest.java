@@ -6,8 +6,6 @@ import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.util.AppTreeUtil;
 import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysPost;
-import io.github.toquery.framework.system.entity.SysPost;
-import io.github.toquery.framework.system.service.ISysDeptService;
 import io.github.toquery.framework.system.service.ISysPostService;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
@@ -85,7 +83,7 @@ public class SysPostRest extends AppBaseCrudController<ISysPostService, SysPost>
     @PreAuthorize("hasAnyAuthority('system:post:delete')")
     @AppLogMethod(value = SysPost.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
-    public ResponseBodyWrap<?> deleteResponseResult(@RequestParam Set<Long> ids) {
+    public ResponseBodyWrap<?> deleteResponseResult(@RequestBody Set<Long> ids) {
         domainService.deleteByIds(ids);
         return ResponseBodyWrap.builder().success().build();
     }

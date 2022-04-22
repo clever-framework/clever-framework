@@ -24,7 +24,7 @@ public class AppAccessDeniedHandler implements AccessDeniedHandler {
         String errorMsg = "请求访问 " + request.getRequestURI() + " 接口,没有访问权限";
         log.error(errorMsg);
         accessDeniedException.printStackTrace();
-        ResponseBodyWrap responseParam = ResponseBodyWrap.builder().message(errorMsg).build();
+        ResponseBodyWrap<?> responseParam = ResponseBodyWrap.builder().message(errorMsg).build();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("utf-8");
         response.sendError(HttpServletResponse.SC_FORBIDDEN, JacksonUtils.object2String(responseParam));

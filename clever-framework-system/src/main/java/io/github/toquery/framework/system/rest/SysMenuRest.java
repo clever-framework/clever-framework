@@ -55,21 +55,21 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @GetMapping
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBodyWrap pageResponseResult() {
+    public ResponseBodyWrap<?> pageResponseResult() {
         return super.pageResponseResult(SORT);
     }
 
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBodyWrap listResponseResult() {
+    public ResponseBodyWrap<?> listResponseResult() {
         return super.listResponseResult(SORT);
     }
 
     @GetMapping("/tree")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBodyWrap tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
+    public ResponseBodyWrap<?> tree(@RequestParam(required = false, defaultValue = "根菜单") String rootName) throws Exception {
         List<SysMenu> sysMenuList = Lists.newArrayList(new SysMenu(0L, rootName, "root"));
         List<SysMenu> childrenList = domainService.list(super.getFilterParam(), SORT);
         sysMenuList.addAll(childrenList);
@@ -81,14 +81,14 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseBodyWrap saveResponseResult(@Validated @RequestBody SysMenu sysMenu) {
+    public ResponseBodyWrap<?> saveResponseResult(@Validated @RequestBody SysMenu sysMenu) {
         return super.handleResponseBody(domainService.saveMenu(sysMenu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping("/scan")
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
-    public ResponseBodyWrap scan() {
+    public ResponseBodyWrap<?> scan() {
         domainService.scanAndInsertMenus(false);
         return new ResponseBodyWrapBuilder().message("添加完成").build();
     }
@@ -96,21 +96,21 @@ public class SysMenuRest extends AppBaseCrudController<ISysMenuService, SysMenu>
     @PutMapping
     @PreAuthorize("hasAnyAuthority('system:menu:modify')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
-    public ResponseBodyWrap updateResponseResult(@RequestBody SysMenu menu) {
+    public ResponseBodyWrap<?> updateResponseResult(@RequestBody SysMenu menu) {
         return this.handleResponseBody(super.domainService.updateMenu(menu));
     }
 
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('system:menu:delete')")
-    public ResponseBodyWrap deleteResponseResult(@RequestParam Set<Long> ids) {
+    public ResponseBodyWrap<?> deleteResponseResult(@RequestBody Set<Long> ids) {
         domainService.deleteMenu(ids);
         return ResponseBodyWrap.builder().success().build();
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('system:menu:query')")
-    public ResponseBodyWrap detailResponseBody(@PathVariable Long id) {
+    public ResponseBodyWrap<?> detailResponseBody(@PathVariable Long id) {
         return super.detailResponseBody(id);
     }
 }

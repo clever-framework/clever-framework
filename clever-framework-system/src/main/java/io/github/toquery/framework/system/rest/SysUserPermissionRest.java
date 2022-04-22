@@ -61,7 +61,7 @@ public class SysUserPermissionRest extends AppBaseCrudController<ISysUserPermiss
 
 
     @DeleteMapping
-    public ResponseBodyWrap deleteSysUserCheck(@RequestParam Set<Long> ids) throws AppException {
+    public ResponseBodyWrap deleteSysUserCheck(@RequestBody Set<Long> ids) throws AppException {
         domainService.deleteByIds(ids);
         return ResponseBodyWrap.builder().success().build();
     }

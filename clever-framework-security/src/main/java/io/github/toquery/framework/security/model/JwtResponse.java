@@ -1,4 +1,5 @@
-package io.github.toquery.framework.security.jwt.domain;
+package io.github.toquery.framework.security.model;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

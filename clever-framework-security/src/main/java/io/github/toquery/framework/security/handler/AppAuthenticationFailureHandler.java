@@ -22,7 +22,7 @@ public class AppAuthenticationFailureHandler implements AuthenticationFailureHan
         response.setCharacterEncoding("utf-8");
 
         if (exception instanceof BadCredentialsException || exception instanceof UsernameNotFoundException) {
-            ResponseBodyWrap responseParam = ResponseBodyWrap.builder().message("用户信息错误").build();
+            ResponseBodyWrap<?> responseParam = ResponseBodyWrap.builder().message("用户信息错误").build();
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));
         }
     }

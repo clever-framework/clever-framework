@@ -84,7 +84,7 @@ public class SysDeptRest extends AppBaseCrudController<ISysDeptService, SysDept>
     @PreAuthorize("hasAnyAuthority('system:dept:delete')")
     @AppLogMethod(value = SysDept.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
-    public ResponseBodyWrap<?> deleteResponseResult(@RequestParam Set<Long> ids) {
+    public ResponseBodyWrap<?> deleteResponseResult(@RequestBody Set<Long> ids) {
         domainService.deleteDept(ids);
         return ResponseBodyWrap.builder().success().build();
     }
