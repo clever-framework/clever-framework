@@ -52,11 +52,18 @@ public class SysLog extends AppBaseEntity {
     }
 
     /**
-     * 模块名称
+     * 用户ID
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "user_id")
     private Long userId;
+
+
+    /**
+     * 用户名
+     */
+    @Column(name = "user_name")
+    private String userName;
 
     /**
      * 模块名称

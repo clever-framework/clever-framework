@@ -40,11 +40,11 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<SysLog, SysLogReposito
 
     private static final Map<String, String> expressions = new LinkedHashMap<String, String>() {
         {
-            put("moduleName", "moduleName:EQ");
             put("bizName", "bizName:EQ");
             put("logType", "logType:EQ");
-            put("moduleNameLIKE", "moduleName:LIKE");
+            put("moduleName", "moduleName:EQ");
             put("bizNameLIKE", "bizName:LIKE");
+            put("moduleNameLIKE", "moduleName:LIKE");
             put("createDateTimeGT", "createDateTime:GTDATE");
             put("createDateTimeLT", "createDateTime:LTDATE");
         }
@@ -56,7 +56,7 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<SysLog, SysLogReposito
     }
 
 
-    public int insertSysLog(Long userId, String moduleName, String bizName, AppLogType logType, String rawData, String targetData) {
+    public int insertSysLog(Long userId, String userName, String moduleName, String bizName, AppLogType logType, String rawData, String targetData) {
         SysLog sysLog = new SysLog();
 
         sysLog.setModuleName(moduleName);
@@ -64,6 +64,7 @@ public class SysLogServiceImpl extends AppBaseServiceImpl<SysLog, SysLogReposito
         sysLog.setRawData(rawData);
         sysLog.setTargetData(targetData);
         sysLog.setUserId(userId);
+        sysLog.setUserName(userName);
         sysLog.setOperateDateTime(LocalDateTime.now());
 
         if (logType == null) {

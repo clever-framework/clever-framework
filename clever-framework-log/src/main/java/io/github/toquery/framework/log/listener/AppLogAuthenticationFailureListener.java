@@ -21,7 +21,7 @@ public class AppLogAuthenticationFailureListener implements ApplicationListener<
         String username = event.getAuthentication().getName();
         String message = event.getException().getMessage();
         log.info("用户 {} 登录失败 {}", username, message);
-        sysLogService.insertSysLog(null, "系统", "登录失败", null, username + " " + message, null);
+        sysLogService.insertSysLog(null, username,"系统", "登录失败", null, username + " " + message, null);
     }
 
 }

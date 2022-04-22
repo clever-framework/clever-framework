@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface ISysLogService extends AppBaseService<SysLog> {
 
-    public int insertSysLog(Long userId, String moduleName, String bizName, AppLogType logType, String rawData, String targetData);
+    public int insertSysLog(Long userId, String userName, String moduleName, String bizName, AppLogType logType, String rawData, String targetData);
 
     /**
      * 查询日志

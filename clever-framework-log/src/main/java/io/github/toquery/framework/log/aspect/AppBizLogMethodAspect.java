@@ -101,18 +101,22 @@ public class AppBizLogMethodAspect {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Long userId = 1L;
+        String userName = null;
         if (authentication == null) {
             log.error("保存业务日志错误，无法获取用户信息");
         } else if (authentication.getPrincipal() instanceof AppUserDetails) {
             AppUserDetails sysUser = (AppUserDetails) authentication.getPrincipal();
             log.debug("保存业务日志 AppUserDetails ，当前操作用户ID {} 用户名 {} ", sysUser.getId(), authentication.getName());
             userId = sysUser.getId();
+            userName = authentication.getName();
         } else if (authentication.getPrincipal() instanceof Jwt) {
             Jwt jwt = (Jwt) authentication.getPrincipal();
             userId = Long.parseLong(jwt.getClaims().get(AppSecurityKey.USERID).toString());
+            userName = authentication.getName();
             log.debug("保存业务日志 Jwt ，当前操作用户ID {} 用户名 {} ", userId , authentication.getName());
         }
         sysLog.setUserId(userId);
+        sysLog.setUserName(userName);
         sysLog = sysLogService.save(sysLog);
         log.debug("保存业务日志成功 AppBizLogMethodAspect -> doAfterReturning -> handleBizLog 操作类: {} 方法：{}", joinPoint.getTarget().getClass().toString(), joinPoint.getSignature().getName());
     }
@@ -131,6 +135,6 @@ public class AppBizLogMethodAspect {
         }
         Optional<AppBaseEntity> appBaseEntityOptional = Stream.of(argObjects).filter(item -> item instanceof AppBaseEntity).map(item -> (AppBaseEntity) item).findAny();
         // 如果接受参数为单个实体，则去获取单个实体
-        return appBaseEntityOptional.orElseGet(null);
+        return appBaseEntityOptional.orElse(null);
     }
 }
