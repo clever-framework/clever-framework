@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -43,8 +44,8 @@ public class SysUserOnline extends AppBaseEntity {
     @Column(name = "nick_name", length = 50, nullable = false)
     private String nickname;
 
-    @Length(min = 1, max = 50)
-    @Column(name = "token", length = 50, nullable = false)
+    @Lob
+    @Column(columnDefinition = "text", name = "token")
     private String token;
 
     @NotBlank

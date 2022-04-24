@@ -111,7 +111,7 @@ public class AppSecurityAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
+//    @ConditionalOnMissingBean
     public ISysUserOnlineService sysUserOnlineService(JwtEncoder encoder,
                                                       AppSecurityJwtProperties appSecurityJwtProperties) {
         return new SysyUserOnlineJwtServiceImpl(encoder, appSecurityJwtProperties);

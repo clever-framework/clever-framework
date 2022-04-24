@@ -75,7 +75,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
      */
     @Timed(value = "system-login", description = "系统-登录")
     @PostMapping(value = "${app.jwt.path.token:/user/login}")
-    public ResponseEntity<?> createAuthenticationToken(Authentication authentication, @RequestParam(required = false) String device) throws AppException {
+    public ResponseEntity<?> createAuthenticationToken(Authentication authentication, @RequestParam(required = false, defaultValue = "admin") String device) throws AppException {
         SysUser sysUser = (SysUser) authentication.getPrincipal();
         if (sysUser == null || sysUser.getId() == null) {
             return ResponseEntity.badRequest().body(ResponseBodyWrap.builder().fail().message("用户不存在").build());
