@@ -9,7 +9,6 @@ import io.github.toquery.framework.system.service.*;
 import io.github.toquery.framework.system.service.impl.*;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -90,6 +89,12 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public SysUserOnlineRest sysUserOnlineRest() {
+        return new SysUserOnlineRest();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
     public SysDictRest sysDictRest() {
         return new SysDictRest();
     }
@@ -162,6 +167,12 @@ public class AppSystemAutoConfiguration {
     @ConditionalOnMissingBean
     public ISysUserService sysUserService(PasswordEncoder passwordEncoder, ISysUserPermissionService sysUserPermissionService) {
         return new SysUserServiceImpl(passwordEncoder, sysUserPermissionService);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysUserOnlineService sysUserOnlineService(PasswordEncoder passwordEncoder, ISysUserPermissionService sysUserPermissionService) {
+        return new SysUserOnlineServiceImpl();
     }
 
     @Bean

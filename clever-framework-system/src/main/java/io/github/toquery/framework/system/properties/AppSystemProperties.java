@@ -15,8 +15,16 @@ public class AppSystemProperties {
 
     private boolean enabled = true;
 
+    /**
+     * 是否根据代码权限自动写入菜单表
+     */
     private boolean generateMenu = true;
 
     private boolean generateView = true;
+
+    /**
+     * 是否允许注册新用户
+     */
+    private boolean allowRegistration = true;
 
 }

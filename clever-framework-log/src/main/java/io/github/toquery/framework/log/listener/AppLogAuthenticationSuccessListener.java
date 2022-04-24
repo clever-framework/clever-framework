@@ -22,7 +22,11 @@ public class AppLogAuthenticationSuccessListener implements ApplicationListener<
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
         Authentication authentication = event.getAuthentication();
         log.info("用户 {} 成功登录", authentication.getName());
-        sysLogService.insertSysLog(((AppUserDetails) authentication.getPrincipal()).getId(), authentication.getName(), "系统", "登录成功", null, authentication.getName() + " " + "登录成功", null);
+        try {
+            sysLogService.insertSysLog(((AppUserDetails) authentication.getPrincipal()).getId(), authentication.getName(), "系统", "登录成功", null, authentication.getName() + " " + "登录成功", null);
+        }catch (Exception e){
+            log.error("登录成功监听异常", e);
+        }
     }
 
 

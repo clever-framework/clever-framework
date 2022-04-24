@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
+import io.github.toquery.framework.security.SysyUserOnlineJwtServiceImpl;
 import io.github.toquery.framework.security.auditor.AppAuditorAwareImpl;
 import io.github.toquery.framework.security.config.AppWebSecurityConfig;
 import io.github.toquery.framework.security.config.AppWebSecurityJwtConfig;
@@ -18,6 +19,8 @@ import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.github.toquery.framework.security.rest.JwtAuthenticationRest;
 import io.github.toquery.framework.system.autoconfig.AppSystemAutoConfiguration;
+import io.github.toquery.framework.system.service.ISysUserOnlineService;
+import io.github.toquery.framework.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -99,9 +102,19 @@ public class AppSecurityAutoConfiguration {
     public JwtAuthenticationRest getJwtAuthenticationRest(JwtEncoder jwtEncoder,
                                                           AppProperties appProperties,
                                                           PasswordEncoder passwordEncoder,
+                                                          ISysUserService sysUserService,
                                                           AppUserDetailService appUserDetailsService,
+                                                          ISysUserOnlineService sysUserOnlineService,
                                                           AppSecurityJwtProperties appSecurityJwtProperties) {
-        return new JwtAuthenticationRest(jwtEncoder, appProperties, passwordEncoder,
-                appUserDetailsService, appSecurityJwtProperties);
+        return new JwtAuthenticationRest(jwtEncoder, appProperties, passwordEncoder, sysUserService,
+                appUserDetailsService, sysUserOnlineService, appSecurityJwtProperties);
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysUserOnlineService sysUserOnlineService(JwtEncoder encoder,
+                                                      AppSecurityJwtProperties appSecurityJwtProperties) {
+        return new SysyUserOnlineJwtServiceImpl(encoder, appSecurityJwtProperties);
+    }
+
 }

@@ -40,7 +40,7 @@ public class AppSecurityProperties {
     }
 
     @Data
-    public class UrlAuthConfig {
+    public static final class UrlAuthConfig {
 
         private String url;
 
