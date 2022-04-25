@@ -6,13 +6,13 @@ import io.github.toquery.framework.core.constant.AppEnumRoleModel;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
+import io.github.toquery.framework.security.DelegatingSysUserOnline;
 import io.github.toquery.framework.security.exception.AppSecurityException;
 import io.github.toquery.framework.security.model.AppUserChangePassword;
 import io.github.toquery.framework.security.model.JwtResponse;
 import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserOnline;
-import io.github.toquery.framework.system.service.ISysUserOnlineService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +41,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
     private final AppProperties appProperties;
     private final PasswordEncoder passwordEncoder;
     private final AppUserDetailService appUserDetailsService;
-    private final ISysUserOnlineService sysUserOnlineService;
+    private final DelegatingSysUserOnline sysUserOnline;
     private final ISysUserService sysUserService;
 
     public JwtAuthenticationRest(JwtEncoder encoder,
@@ -50,12 +49,12 @@ public class JwtAuthenticationRest extends AppBaseWebController {
                                  PasswordEncoder passwordEncoder,
                                  ISysUserService sysUserService,
                                  AppUserDetailService appUserDetailsService,
-                                 ISysUserOnlineService sysUserOnlineService,
+                                 DelegatingSysUserOnline sysUserOnline,
                                  AppSecurityJwtProperties appSecurityJwtProperties) {
         this.appProperties = appProperties;
         this.sysUserService = sysUserService;
         this.appUserDetailsService = appUserDetailsService;
-        this.sysUserOnlineService = sysUserOnlineService;
+        this.sysUserOnline = sysUserOnline;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -81,10 +80,10 @@ public class JwtAuthenticationRest extends AppBaseWebController {
             return ResponseEntity.badRequest().body(ResponseBodyWrap.builder().fail().message("用户不存在").build());
         }
 
-        SysUserOnline sysUserOnline = sysUserOnlineService.issueToken(sysUser, device);
+        SysUserOnline sysUserOnlineInfo = sysUserOnline.issueToken(sysUser, device);
 
         // Return the token
-        return ResponseEntity.ok(ResponseBodyWrap.builder().content(new JwtResponse(sysUserOnline.getToken())).build());
+        return ResponseEntity.ok(ResponseBodyWrap.builder().content(new JwtResponse(sysUserOnlineInfo.getToken())).build());
     }
 
 
@@ -150,7 +149,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
     @Timed(value = "system-logout", description = "系统-退出")
     @RequestMapping(value = "${app.jwt.path.logout:/user/logout}")
     public ResponseEntity<ResponseBodyWrap<?>> userLogout(Authentication authentication) {
-        sysUserOnlineService.logout(authentication);
+        sysUserOnline.logout(authentication);
         return ResponseEntity.ok(ResponseBodyWrap.builder().content("user logout").build());
     }
 }

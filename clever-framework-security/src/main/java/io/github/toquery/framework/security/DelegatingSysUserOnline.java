@@ -6,7 +6,7 @@ import io.github.toquery.framework.core.security.AppSecurityKey;
 import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserOnline;
-import io.github.toquery.framework.system.service.impl.SysUserOnlineServiceImpl;
+import io.github.toquery.framework.system.service.ISysUserOnlineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,19 +25,21 @@ import java.util.stream.Collectors;
  * @version 1
  */
 @Slf4j
-public class SysyUserOnlineJwtServiceImpl extends SysUserOnlineServiceImpl {
+public class DelegatingSysUserOnline {
 
     private final JwtEncoder encoder;
     private final AppSecurityJwtProperties appSecurityJwtProperties;
 
+    private final ISysUserOnlineService sysUserOnlineService;
 
-    public SysyUserOnlineJwtServiceImpl(JwtEncoder encoder,
-                                        AppSecurityJwtProperties appSecurityJwtProperties) {
+    public DelegatingSysUserOnline(JwtEncoder encoder,
+                                   ISysUserOnlineService sysUserOnlineService,
+                                   AppSecurityJwtProperties appSecurityJwtProperties) {
         this.encoder = encoder;
+        this.sysUserOnlineService = sysUserOnlineService;
         this.appSecurityJwtProperties = appSecurityJwtProperties;
     }
 
-    @Override
     public SysUserOnline issueToken(SysUser sysUser, String device) {
         Instant now = Instant.now();
         Instant expires = now.plusSeconds(appSecurityJwtProperties.getExpires());
@@ -72,22 +74,22 @@ public class SysyUserOnlineJwtServiceImpl extends SysUserOnlineServiceImpl {
         String token = this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
         sysUserOnline.setToken(token);
 
-        return super.save(sysUserOnline);
+        return sysUserOnlineService.save(sysUserOnline);
     }
 
-    @Override
+    /**
+     * 用户登录退出
+     */
     public void logout(Authentication authentication) {
         String id = ((Jwt) authentication.getPrincipal()).getId();
         if (Strings.isNullOrEmpty(id)) {
             log.error("退出失败，token id 为空");
             return;
         }
-        super.deleteById(Long.valueOf(id));
+        sysUserOnlineService.deleteById(Long.valueOf(id));
     }
 
-    @Override
     public void deleteExpires() {
-        Instant expiresDate = Instant.now();
-        super.repository.deleteByExpiresDate(expiresDate);
+        sysUserOnlineService.deleteExpires();
     }
 }

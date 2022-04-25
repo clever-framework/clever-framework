@@ -171,7 +171,7 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysUserOnlineService sysUserOnlineService(PasswordEncoder passwordEncoder, ISysUserPermissionService sysUserPermissionService) {
+    public ISysUserOnlineService sysUserOnlineService() {
         return new SysUserOnlineServiceImpl();
     }
 

@@ -9,3 +9,6 @@
 RoleHierarchy
 
 RoleHierarchyVoter
+
+@AuthenticationPrincipal
+@CurrentSecurityContext

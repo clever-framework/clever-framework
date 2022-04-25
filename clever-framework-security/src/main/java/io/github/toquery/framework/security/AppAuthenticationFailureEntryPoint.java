@@ -19,8 +19,6 @@ import java.io.IOException;
 @Slf4j
 public class AppAuthenticationFailureEntryPoint implements AuthenticationEntryPoint{
 
-
-
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException authenticationException) throws IOException {
         authenticationException.printStackTrace();

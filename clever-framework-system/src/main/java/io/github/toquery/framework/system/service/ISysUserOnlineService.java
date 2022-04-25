@@ -20,21 +20,6 @@ import java.util.Set;
  */
 public interface ISysUserOnlineService extends AppBaseService<SysUserOnline> {
 
-    /**
-     * 生成Token信息
-     * @param sysUser
-     * @param now
-     * @param expires
-     * @param device
-     * @return
-     */
-    SysUserOnline issueToken(SysUser sysUser, String device);
-
-    /**
-     * 用户登录退出
-     * @param id
-     */
-    void logout(Authentication authentication);
 
     /**
      * 删除过期的用户token

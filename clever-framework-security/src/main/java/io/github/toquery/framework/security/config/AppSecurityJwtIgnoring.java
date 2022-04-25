@@ -9,9 +9,9 @@ import javax.annotation.Resource;
 import java.util.Set;
 
 @Slf4j
-public class AppWebSecurityJwtConfig implements AppSecurityIgnoring {
+public class AppSecurityJwtIgnoring implements AppSecurityIgnoring {
 
-    public AppWebSecurityJwtConfig() {
+    public AppSecurityJwtIgnoring() {
         log.info("初始化 App Web Security Jwt 配置");
     }
 
