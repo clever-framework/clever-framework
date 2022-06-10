@@ -61,7 +61,7 @@
 
         <minio.version>8.4.1</minio.version>
 
-        <hutool.version>5.8.2</hutool.version>
+        <hutool.version>5.8.3</hutool.version>
 
         <mybatis.version>3.5.9</mybatis.version>
         <mybatis-spring.version>2.0.6</mybatis-spring.version>
