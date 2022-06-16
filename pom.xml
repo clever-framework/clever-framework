@@ -67,7 +67,7 @@
         <mybatis-spring.version>2.0.6</mybatis-spring.version>
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
 
-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
 
         <pagehelper.version>5.3.0</pagehelper.version>
         <pagehelper-spring-boot-starter.version>1.4.1</pagehelper-spring-boot-starter.version>
