@@ -110,8 +110,11 @@ public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepos
             throw new AppException("已存在字典项 " + sysDict.getDictCode());
         }
         super.save(sysDict);
-        List<SysDictItem> sysDictItems = sysDictItemService.reSave(sysDict.getId(), sysDict.getDictItems());
-        sysDict.setDictItems(sysDictItems);
+        List<SysDictItem> dictItems = sysDict.getDictItems();
+        if (dictItems != null && dictItems.size() > 0) {
+            List<SysDictItem> sysDictItems = sysDictItemService.reSave(sysDict.getId(), dictItems);
+            sysDict.setDictItems(sysDictItems);
+        }
         return sysDict;
     }
 }

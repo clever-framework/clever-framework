@@ -70,8 +70,7 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
         //添加映射路径
         registry.addMapping("/**")
                 //放行哪些原始域
-//                .allowedOrigins("*")
-                .allowedOriginPatterns("*")
+                .allowedOriginPatterns("*") // SpringBoot2.4.0 [allowedOriginPatterns]代替[allowedOrigins]  .allowedOrigins("*")
                 //是否发送Cookie信息
                 .allowCredentials(true)
                 //放行哪些原始域(请求方式)

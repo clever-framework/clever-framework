@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.handler;
+package io.github.toquery.framework.security.endpoints;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

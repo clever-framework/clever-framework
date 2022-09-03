@@ -18,8 +18,6 @@ public class AppDataSourceProperties {
 
     private boolean enabled = true;
 
-    private Map<String, DataSourceProperties> multiple;
-
     public AppDataSourceProperties() {
         System.out.println("AppDataSourceProperties");
     }

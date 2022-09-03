@@ -1,5 +1,6 @@
 package io.github.toquery.framework.core.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -7,15 +8,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author toquery
  * @version 1
  */
+@Slf4j
 public class AppDownloadFileUtil {
 
     /**
@@ -28,11 +31,13 @@ public class AppDownloadFileUtil {
      */
     public static ResponseEntity<InputStreamResource> download(String file, String downLoadFileName, String mediaType) {
         ResponseEntity<InputStreamResource> response = null;
-        try {
-            InputStream inputStream = new FileInputStream(file);
+        try (
+                InputStream inputStream = Files.newInputStream(Paths.get(file));
+        ) {
+
             response = buildInputStream(inputStream, downLoadFileName, mediaType);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("下载文件错误", e);
         }
         return response;
     }
@@ -49,11 +54,12 @@ public class AppDownloadFileUtil {
     public static ResponseEntity<InputStreamResource> download(String filePath, String fileName, String downLoadFileName, String mediaType) {
         String path = filePath + File.separator + fileName;
         ResponseEntity<InputStreamResource> response = null;
-        try {
-            InputStream inputStream = new FileInputStream(path);
+        try (
+                InputStream inputStream = Files.newInputStream(Paths.get(path));
+        ) {
             response = buildInputStream(inputStream, downLoadFileName, mediaType);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("下载文件错误", e);
         }
         return response;
     }
@@ -75,7 +81,7 @@ public class AppDownloadFileUtil {
             InputStream inputStream = classPathResource.getInputStream();
             response = buildInputStream(inputStream, downLoadFileName, mediaType);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("下载文件错误", e);
         }
         return response;
     }

@@ -23,8 +23,7 @@ public class AesCbcUtil {
             AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, secretKey.getBytes(), iv.getBytes());
             result = aes.encryptBase64(plainText);
         } catch (Exception e) {
-            log.error("AesCbcUtil encode error : {}", e.getMessage());
-            e.printStackTrace();
+            log.error("AesCbcUtil encode error", e);
         }
         return result;
     }
@@ -43,8 +42,7 @@ public class AesCbcUtil {
             AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, secretKey.getBytes(), iv.getBytes());
             result = aes.decryptStr(encryptText);
         } catch (Exception e) {
-            log.error("AesCbcUtil decode error : {}", e.getMessage());
-            e.printStackTrace();
+            log.error("AesCbcUtil decode error", e);
         }
         return result;
     }

@@ -4,9 +4,11 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import io.github.toquery.framework.core.security.AppSecurityKey;
 import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.provider.JwtTokenProvider;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserOnline;
 import io.github.toquery.framework.system.service.ISysUserOnlineService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,20 +27,16 @@ import java.util.stream.Collectors;
  * @version 1
  */
 @Slf4j
+@RequiredArgsConstructor
 public class DelegatingSysUserOnline {
 
-    private final JwtEncoder encoder;
-    private final AppSecurityJwtProperties appSecurityJwtProperties;
+    private final JwtTokenProvider jwtTokenProvider;
 
     private final ISysUserOnlineService sysUserOnlineService;
+    private final AppSecurityJwtProperties appSecurityJwtProperties;
 
-    public DelegatingSysUserOnline(JwtEncoder encoder,
-                                   ISysUserOnlineService sysUserOnlineService,
-                                   AppSecurityJwtProperties appSecurityJwtProperties) {
-        this.encoder = encoder;
-        this.sysUserOnlineService = sysUserOnlineService;
-        this.appSecurityJwtProperties = appSecurityJwtProperties;
-    }
+
+
 
     public SysUserOnline issueToken(SysUser sysUser, String device) {
         Instant now = Instant.now();
@@ -51,28 +49,9 @@ public class DelegatingSysUserOnline {
         sysUserOnline.setExpiresDate(LocalDateTime.ofInstant(expires, ZoneId.systemDefault()));
         sysUserOnline.setUsername(sysUser.getUsername());
         sysUserOnline.setNickname(sysUser.getNickname());
+        sysUserOnline.preInsert();
 
-
-        sysUser.preInsert();
-        Long id = sysUserOnline.getUserId();
-
-        String scope = sysUser.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(" "));
-
-        JwtClaimsSet claims = JwtClaimsSet.builder()
-                .id(id.toString())
-                .issuer(appSecurityJwtProperties.getIssuer())
-                .issuedAt(now)
-                .expiresAt(expires)
-                .subject(sysUser.getUsername())
-                .audience(Lists.newArrayList(device))
-                .claim(AppSecurityKey.USERID, sysUser.getId().toString())
-                .claim(AppSecurityKey.SCOPE, scope)
-                .build();
-
-        String token = this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-        sysUserOnline.setToken(token);
+        sysUserOnline.setToken(jwtTokenProvider.issueToken(sysUser.getId().toString(), "ios"));
 
         return sysUserOnlineService.save(sysUserOnline);
     }

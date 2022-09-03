@@ -18,8 +18,8 @@ import javax.persistence.PersistenceUnit;
 @Slf4j
 public class HibernateListenerConfigurer {
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
+//    @PersistenceUnit
+//    private EntityManagerFactory entityManagerFactory;
 
     public HibernateListenerConfigurer() {
         log.info("HibernateListenerConfigurer init");
@@ -27,9 +27,9 @@ public class HibernateListenerConfigurer {
 
     @PostConstruct
     protected void init() {
-        SessionFactoryImpl sessionFactory = entityManagerFactory.unwrap(SessionFactoryImpl.class);
-        EventListenerRegistry registry = sessionFactory.getServiceRegistry().getService(EventListenerRegistry.class);
-        registry.getEventListenerGroup(EventType.MERGE).clearListeners();
-        registry.getEventListenerGroup(EventType.MERGE).prependListener(IgnoreNullEventListener.INSTANCE);
+//        SessionFactoryImpl sessionFactory = entityManagerFactory.unwrap(SessionFactoryImpl.class);
+//        EventListenerRegistry registry = sessionFactory.getServiceRegistry().getService(EventListenerRegistry.class);
+//        registry.getEventListenerGroup(EventType.MERGE).clearListeners();
+//        registry.getEventListenerGroup(EventType.MERGE).prependListener(IgnoreNullEventListener.INSTANCE);
     }
 }

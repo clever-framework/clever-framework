@@ -339,7 +339,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
                 // 同级菜单信息
                 List<SysMenu> brotherSysMenu = brotherIdMap.get(sysMenu.getParentId());
                 if (brotherSysMenu != null && brotherSysMenu.size() == 1) {
-                    SysMenu parentSysMenu = getById(sysMenu.getParentId());
+                    SysMenu parentSysMenu = super.getById(sysMenu.getParentId());
                     parentSysMenu.setHasChildren(false);
                     this.update(parentSysMenu, Sets.newHashSet("hasChildren"));
                 }

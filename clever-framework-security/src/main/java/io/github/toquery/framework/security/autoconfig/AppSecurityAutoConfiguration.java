@@ -11,32 +11,42 @@ import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
-import io.github.toquery.framework.security.AppAuthenticationFailureEntryPoint;
+import io.github.toquery.framework.security.AppSecurityContextRepository;
 import io.github.toquery.framework.security.DelegatingSysUserOnline;
 import io.github.toquery.framework.security.auditor.AppAuditorAwareImpl;
-import io.github.toquery.framework.security.config.AppSecurityJwtIgnoring;
+import io.github.toquery.framework.security.endpoints.AppAccessDeniedHandler;
+import io.github.toquery.framework.security.endpoints.AppAuthenticationFailureEntryPoint;
+import io.github.toquery.framework.security.endpoints.AppAuthenticationFailureHandler;
+import io.github.toquery.framework.security.endpoints.AppAuthenticationSuccessHandler;
 import io.github.toquery.framework.security.exception.AppSecurityExceptionAdvice;
-import io.github.toquery.framework.security.handler.AppAccessDeniedHandler;
-import io.github.toquery.framework.security.handler.AppAuthenticationFailureHandler;
-import io.github.toquery.framework.security.handler.AppAuthenticationSuccessHandler;
+import io.github.toquery.framework.security.ignoring.AppSecurityJwtIgnoring;
+import io.github.toquery.framework.security.ignoring.DelegatingAppSecurityJwtIgnoring;
 import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
-import io.github.toquery.framework.security.rest.JwtAuthenticationRest;
+import io.github.toquery.framework.security.provider.JwtTokenProvider;
+import io.github.toquery.framework.security.rest.AuthenticationRest;
+import io.github.toquery.framework.security.rest.UserRegisterRest;
 import io.github.toquery.framework.system.autoconfig.AppSystemAutoConfiguration;
 import io.github.toquery.framework.system.service.ISysUserOnlineService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -50,8 +60,11 @@ import org.springframework.security.oauth2.server.resource.web.DefaultBearerToke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -68,8 +81,6 @@ import java.util.stream.Collectors;
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @EnableConfigurationProperties({AppSecurityProperties.class, AppSecurityJwtProperties.class})
 @AutoConfigureAfter({AppSystemAutoConfiguration.class})
-// @ComponentScan(basePackages = "io.github.toquery.framework.security")
-//@ConditionalOnBean(value = {AppSystemAutoConfiguration.class, ISysUserService.class})
 public class AppSecurityAutoConfiguration {
 
     @Resource
@@ -86,6 +97,7 @@ public class AppSecurityAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public AuditorAware<Long> auditorProvider() {
         return new AppAuditorAwareImpl();
     }
@@ -93,14 +105,17 @@ public class AppSecurityAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        // return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 
     /**
      * 从request请求中那个地方获取到token
      */
-    private BearerTokenResolver bearerTokenResolver() {
+    @Bean
+    @ConditionalOnMissingBean
+    public BearerTokenResolver bearerTokenResolver() {
         DefaultBearerTokenResolver bearerTokenResolver = new DefaultBearerTokenResolver();
         // 是否可以从uri请求参数中获取token
         bearerTokenResolver.setAllowUriQueryParameter(true);
@@ -114,7 +129,9 @@ public class AppSecurityAutoConfiguration {
      *
      * @return JwtAuthenticationConverter
      */
-    private JwtAuthenticationConverter jwtAuthenticationConverter() {
+    @Bean
+    @ConditionalOnMissingBean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
         // 去掉 SCOPE_ 的前缀
@@ -125,30 +142,24 @@ public class AppSecurityAutoConfiguration {
         return converter;
     }
 
-    /**
-     * jwt 的解码器
-     *
-     * @return JwtDecoder
-
-    public JwtDecoder jwtDecoder() {
-    // 授权服务器 jwk 的信息
-    NimbusJwtDecoder decoder = NimbusJwtDecoder.withJwkSetUri("http://qq.com:8080/oauth2/jwks")
-    // 设置获取 jwk 信息的超时时间
-    .restOperations(
-    builder.setReadTimeout(Duration.ofSeconds(3))
-    .setConnectTimeout(Duration.ofSeconds(3))
-    .build()
-    )
-    .build();
-    // 对jwt进行校验
-    decoder.setJwtValidator(JwtValidators.createDefault());
-    // 对 jwt 的 claim 中增加值
-    decoder.setClaimSetConverter(
-    MappedJwtClaimSetConverter.withDefaults(Collections.singletonMap("为claim中增加key", custom -> "值"))
-    );
-    return decoder;
+    @Bean
+    @ConditionalOnMissingBean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
-     */
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SecurityContextRepository securityContextRepository() {
+        return new AppSecurityContextRepository();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DelegatingAppSecurityJwtIgnoring delegatingAppSecurityJwtIgnoring(AppSecurityProperties appSecurityProperties,
+                                                                             List<AppSecurityIgnoring> appSecurityIgnoringList) {
+        return new DelegatingAppSecurityJwtIgnoring(appSecurityProperties, appSecurityIgnoringList);
+    }
 
     /**
      * 自定义认证过滤器
@@ -157,53 +168,92 @@ public class AppSecurityAutoConfiguration {
      * @throws Exception 异常
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AppAuthenticationFailureEntryPoint appAuthenticationFailureEntryPoint = new AppAuthenticationFailureEntryPoint();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   JwtDecoder jwtDecoder,
+                                                   BearerTokenResolver bearerTokenResolver,
+                                                   AuthenticationManager authenticationManager,
+                                                   SecurityContextRepository securityContextRepository,
+                                                   JwtAuthenticationConverter jwtAuthenticationConverter,
+                                                   DelegatingAppSecurityJwtIgnoring delegatingAppSecurityJwtIgnoring) throws Exception {
+        // csrfConfigurer.ignoringAntMatchers("/user/login");
         http
-                // 授权http请求
-                .authorizeHttpRequests((authorize) -> authorize
-                        // 获取框架配置和配置文件中的路径，并忽略认证
-                        .antMatchers(this.getIgnoringArray()).permitAll()
-                        .anyRequest().authenticated()
-                )
-                // csrf 忽略
-                .csrf((csrf) -> csrf.ignoringAntMatchers("/user/login"))
-
-                // http Basic 认证处理
-                .httpBasic(httpBasicCustomizer -> {
-                    // 使用委派类
-//                    LinkedHashMap<RequestMatcher, AuthenticationEntryPoint> entryPoints = new LinkedHashMap<>();
-//                    entryPoints.put(new AntPathRequestMatcher("/user/login"), appAuthenticationFailureEntryPoint);
-//                    DelegatingAuthenticationEntryPoint delegatingAuthenticationEntryPoint = new DelegatingAuthenticationEntryPoint(entryPoints);
-
-                    httpBasicCustomizer.authenticationEntryPoint(appAuthenticationFailureEntryPoint);
+                // 记录访问信息
+                .securityContext(httpSecuritySecurityContextConfigurer -> {
+                    httpSecuritySecurityContextConfigurer.requireExplicitSave(true);
+                    httpSecuritySecurityContextConfigurer.securityContextRepository(securityContextRepository);
+                })
+                // 认证管理器
+                .authenticationManager(authenticationManager)
+                // headers
+                .headers(headersConfigurer -> {
+                    headersConfigurer.disable();
+                    headersConfigurer.cacheControl().disable();
+                    headersConfigurer.frameOptions().sameOrigin().disable();
                 })
 
-                .oauth2ResourceServer((oauth2ResourceServerCustomizer) -> {
-                    oauth2ResourceServerCustomizer
-                            .bearerTokenResolver(bearerTokenResolver())
-                            .jwt()
-                            // .decoder(jwtDecoder())
-                            .jwtAuthenticationConverter(jwtAuthenticationConverter());
+                // csrf 忽略
+                .csrf(AbstractHttpConfigurer::disable)
+
+                // cors
+                .cors(httpSecurityCorsConfigurer -> {
+                    httpSecurityCorsConfigurer.configurationSource(configurationSource -> {
+                        CorsConfiguration corsConfiguration = new CorsConfiguration();
+                        corsConfiguration.addAllowedOriginPattern("*");
+                        corsConfiguration.addAllowedHeader("*");
+                        corsConfiguration.addAllowedMethod("*");
+                        corsConfiguration.setAllowCredentials(true);
+                        corsConfiguration.setMaxAge(Duration.ofDays(7));
+                        return corsConfiguration;
+                    });
                 })
 
                 // session 管理， 关闭session
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sessionManagementConfigurer -> {
+                    sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                })
+
+                // 授权http请求
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
+                    // 允许所有 OPTIONS 请求
+                    authorizationManagerRequestMatcherRegistry.antMatchers(HttpMethod.OPTIONS).permitAll();
+                    authorizationManagerRequestMatcherRegistry.antMatchers("/error").permitAll();
+                    authorizationManagerRequestMatcherRegistry.mvcMatchers("/error").permitAll();
+
+                    // 获取框架配置和配置文件中的路径，并忽略认证
+                    authorizationManagerRequestMatcherRegistry.antMatchers(delegatingAppSecurityJwtIgnoring.getIgnoringArray()).permitAll();
+                    authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
+                })
+
+                // 禁止form登录
+                .formLogin(AbstractHttpConfigurer::disable)
+
+                // http Basic 认证处理
+                .httpBasic(HttpBasicConfigurer::disable)
+//                .httpBasic(httpSecurityHttpBasicConfigurer -> {
+//                    httpSecurityHttpBasicConfigurer.realmName("clever-framework-security");
+//                    httpSecurityHttpBasicConfigurer.authenticationEntryPoint(new AppHttpBasicAuthenticationFailureEntryPoint(appSecurityJwtProperties));
+//                    httpSecurityHttpBasicConfigurer.authenticationDetailsSource(new AppAuthenticationDetailsSource());
+//                })
+
+                // oauth2 资源服务配置
+                .oauth2ResourceServer(oAuth2ResourceServerConfigurer -> {
+                    oAuth2ResourceServerConfigurer.bearerTokenResolver(bearerTokenResolver);
+                    oAuth2ResourceServerConfigurer.jwt(jwtConfigurer -> {
+                        jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter);
+                        jwtConfigurer.decoder(jwtDecoder);
+                    });
+                })
+
 
                 // 异常处理
-                .exceptionHandling((exceptions) -> exceptions
-                                .accessDeniedHandler(new AppAccessDeniedHandler())
-                                .authenticationEntryPoint(new AppAuthenticationFailureEntryPoint())
+                .exceptionHandling(exceptionHandlingConfigurer -> {
+                    exceptionHandlingConfigurer.accessDeniedHandler(new AppAccessDeniedHandler());
+                    exceptionHandlingConfigurer.authenticationEntryPoint(new AppAuthenticationFailureEntryPoint());
 //                                .authenticationEntryPoint(new JwtUnauthorizedEntryPoint())
 //                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
 //                        .defaultAuthenticationEntryPointFor(new AppAuthenticationFailureEntryPoint(), new AntPathRequestMatcher("/**"))
 //                        .defaultAccessDeniedHandlerFor(new AppAccessDeniedHandler(), new AntPathRequestMatcher("/**"))
-                )
-
-                // TODO 这个配置是否需要？
-                .headers(headersCustomizer -> headersCustomizer.frameOptions().sameOrigin().cacheControl())
-
-        ;
+                });
         return http.build();
     }
 
@@ -225,17 +275,19 @@ public class AppSecurityAutoConfiguration {
 
 
     @Bean
+    @ConditionalOnMissingBean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(appSecurityJwtProperties.getKey().getPublicKey())
                 .jwtProcessorCustomizer(jwtProcessorCustomizer -> {
-                    JwtValidators.createDefault();
+                    JwtValidators.createDefaultWithIssuer(appSecurityJwtProperties.getIssuer());
                 })
                 .build();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public JwtEncoder jwtEncoder() {
-        AppSecurityJwtProperties.AppJwtKey appJwtKey = appSecurityJwtProperties.getKey();
+        AppSecurityJwtProperties.AppSecurityJwtKey appJwtKey = appSecurityJwtProperties.getKey();
         JWK jwk = new RSAKey.Builder(appJwtKey.getPublicKey()).privateKey(appJwtKey.getPrivateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
@@ -261,23 +313,34 @@ public class AppSecurityAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public JwtAuthenticationRest getJwtAuthenticationRest(JwtEncoder jwtEncoder,
-                                                          AppProperties appProperties,
-                                                          PasswordEncoder passwordEncoder,
-                                                          ISysUserService sysUserService,
-                                                          AppUserDetailService appUserDetailsService,
-                                                          DelegatingSysUserOnline sysUserOnlineHandler,
-                                                          AppSecurityJwtProperties appSecurityJwtProperties) {
-        return new JwtAuthenticationRest(jwtEncoder, appProperties, passwordEncoder, sysUserService,
-                appUserDetailsService, sysUserOnlineHandler, appSecurityJwtProperties);
+    public AuthenticationRest authenticationRest(AppProperties appProperties,
+                                                 ISysUserService sysUserService,
+                                                 AppUserDetailService appUserDetailsService,
+                                                 DelegatingSysUserOnline sysUserOnlineHandler,
+                                                 AuthenticationManager authenticationManager) {
+        return new AuthenticationRest(appProperties, appUserDetailsService, sysUserOnlineHandler, sysUserService, authenticationManager);
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = AppSecurityProperties.PREFIX, name = "register", havingValue = "true")
+    public UserRegisterRest userRegisterRest(PasswordEncoder passwordEncoder, ISysUserService sysUserService) {
+        log.debug("系统当前配置开启用户注册");
+        return new UserRegisterRest(passwordEncoder, sysUserService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public DelegatingSysUserOnline delegatingSysUserOnline(JwtEncoder encoder,
+    public JwtTokenProvider jwtTokenProvider(JwtEncoder encoder, AppSecurityJwtProperties appSecurityJwtProperties) {
+        return new JwtTokenProvider(encoder, appSecurityJwtProperties);
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DelegatingSysUserOnline delegatingSysUserOnline(JwtTokenProvider jwtTokenProvider,
                                                            ISysUserOnlineService sysUserOnlineService,
                                                            AppSecurityJwtProperties appSecurityJwtProperties) {
-        return new DelegatingSysUserOnline(encoder, sysUserOnlineService, appSecurityJwtProperties);
+        return new DelegatingSysUserOnline(jwtTokenProvider, sysUserOnlineService, appSecurityJwtProperties);
     }
 
 }

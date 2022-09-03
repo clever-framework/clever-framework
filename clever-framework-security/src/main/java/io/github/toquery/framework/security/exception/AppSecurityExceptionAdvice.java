@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @Slf4j
-//@ControllerAdvice
 @RestControllerAdvice
 public class AppSecurityExceptionAdvice {
 
@@ -31,15 +30,15 @@ public class AppSecurityExceptionAdvice {
     @ResponseBody
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> handleExpiredJwtException(AccessDeniedException exception) {
-        exception.printStackTrace();
+        log.error("handleExpiredJwtException", exception);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseBodyWrap.builder().code(HttpStatus.UNAUTHORIZED.value()).fail("访问被拒绝！").build());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     @ExceptionHandler(BadJOSEException.class)
-    public ResponseEntity<?> handleExpiredJwtException(BadJOSEException exception) {
-        exception.printStackTrace();
+    public ResponseEntity<?> handleBadJOSEException(BadJOSEException exception) {
+        log.error("handleBadJOSEException", exception);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ResponseBodyWrap.builder().code(HttpStatus.UNAUTHORIZED.value()).fail("登录失效！").build());
     }
 
@@ -48,7 +47,7 @@ public class AppSecurityExceptionAdvice {
     @ResponseBody
     @ExceptionHandler(AppSecurityException.class)
     public ResponseEntity<?> handleAuthenticationException(AppSecurityException exception) {
-        exception.printStackTrace();
+        log.error("handleAuthenticationException", exception);
         return ResponseEntity.status(exception.getHttpStatus()).body(ResponseBodyWrap.builder().code(exception.getHttpStatus().value()).fail(exception.getMessage()).build());
     }
 }

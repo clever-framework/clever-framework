@@ -8,21 +8,23 @@ import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.security.DelegatingSysUserOnline;
 import io.github.toquery.framework.security.exception.AppSecurityException;
-import io.github.toquery.framework.security.model.AppUserChangePassword;
-import io.github.toquery.framework.security.model.JwtResponse;
-import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.model.request.UserChangePasswordRequest;
+import io.github.toquery.framework.security.model.request.UserLoginRequest;
+import io.github.toquery.framework.security.model.respose.JwtResponse;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserOnline;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.micrometer.core.annotation.Timed;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,30 +35,18 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 用户认证信息
  */
+
+@RequiredArgsConstructor
 @Slf4j
 @RestController
-public class JwtAuthenticationRest extends AppBaseWebController {
+public class AuthenticationRest extends AppBaseWebController {
 
 
     private final AppProperties appProperties;
-    private final PasswordEncoder passwordEncoder;
     private final AppUserDetailService appUserDetailsService;
     private final DelegatingSysUserOnline sysUserOnline;
     private final ISysUserService sysUserService;
-
-    public JwtAuthenticationRest(JwtEncoder encoder,
-                                 AppProperties appProperties,
-                                 PasswordEncoder passwordEncoder,
-                                 ISysUserService sysUserService,
-                                 AppUserDetailService appUserDetailsService,
-                                 DelegatingSysUserOnline sysUserOnline,
-                                 AppSecurityJwtProperties appSecurityJwtProperties) {
-        this.appProperties = appProperties;
-        this.sysUserService = sysUserService;
-        this.appUserDetailsService = appUserDetailsService;
-        this.sysUserOnline = sysUserOnline;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final AuthenticationManager authenticationManager;
 
     /**
      * iss: jwt签发者
@@ -66,22 +56,12 @@ public class JwtAuthenticationRest extends AppBaseWebController {
      * nbf: 定义在什么时间之前，该jwt都是不可用的.
      * iat: jwt的签发时间
      * jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。
-     *
-     * @param authentication
-     * @param device
-     * @return
-     * @throws AppException
      */
     @Timed(value = "system-login", description = "系统-登录")
     @PostMapping(value = "${app.jwt.path.token:/user/login}")
-    public ResponseEntity<?> createAuthenticationToken(Authentication authentication, @RequestParam(required = false, defaultValue = "admin") String device) throws AppException {
-        SysUser sysUser = (SysUser) authentication.getPrincipal();
-        if (sysUser == null || sysUser.getId() == null) {
-            return ResponseEntity.badRequest().body(ResponseBodyWrap.builder().fail().message("用户不存在").build());
-        }
-
-        SysUserOnline sysUserOnlineInfo = sysUserOnline.issueToken(sysUser, device);
-
+    public ResponseEntity<?> createAuthenticationToken(@RequestParam(required = false, defaultValue = "admin") String device, @RequestBody UserLoginRequest userLoginRequest) throws AppException {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequest.getUsername(), userLoginRequest.getPassword()));
+        SysUserOnline sysUserOnlineInfo = sysUserOnline.issueToken((SysUser) authentication.getPrincipal(), device);
         // Return the token
         return ResponseEntity.ok(ResponseBodyWrap.builder().content(new JwtResponse(sysUserOnlineInfo.getToken())).build());
     }
@@ -102,10 +82,9 @@ public class JwtAuthenticationRest extends AppBaseWebController {
         }
     }*/
 
-
     @Timed(value = "system-user-info", description = "系统-用户信息")
     @RequestMapping(value = "${app.jwt.path.info:/user/info}")
-    public ResponseEntity<ResponseBodyWrap<?>> getAuthenticatedUser(Authentication authentication,
+    public ResponseEntity<ResponseBodyWrap<?>> getAuthenticatedUser(JwtAuthenticationToken authentication,
                                                                     @RequestParam(required = false) Long roleId,
                                                                     @RequestParam(required = false) String roleModel) throws AppSecurityException {
         SysUser user = (SysUser) appUserDetailsService.loadFullUserByUsername(authentication.getName());
@@ -128,7 +107,7 @@ public class JwtAuthenticationRest extends AppBaseWebController {
 
     @Timed(value = "system-user-password", description = "系统-用户修改密码")
     @RequestMapping(value = "${app.jwt.path.password:/user/password}")
-    public ResponseEntity<ResponseBodyWrap<?>> changePassword(Authentication authentication, @Validated @RequestBody AppUserChangePassword changePassword) throws AppException {
+    public ResponseEntity<ResponseBodyWrap<?>> changePassword(JwtAuthenticationToken authentication, @Validated @RequestBody UserChangePasswordRequest changePassword) throws AppException {
         if (!changePassword.getRawPassword().equals(changePassword.getRawPasswordConfirm())) {
             return ResponseEntity.badRequest().body(ResponseBodyWrap.builder().message("两次密码输入不一致").build());
         }
@@ -137,19 +116,10 @@ public class JwtAuthenticationRest extends AppBaseWebController {
     }
 
 
-    @Timed(value = "system-user-register", description = "系统-用户注册")
-    @PostMapping(value = "${app.jwt.path.register:/user/register}")
-    public ResponseEntity<ResponseBodyWrap<?>> register(@RequestBody SysUser user) throws AppException {
-        String encodePassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodePassword);
-        user = sysUserService.saveSysUserCheck(user);
-        return ResponseEntity.ok(ResponseBodyWrap.builder().content(user).build());
-    }
-
     @Timed(value = "system-logout", description = "系统-退出")
     @RequestMapping(value = "${app.jwt.path.logout:/user/logout}")
     public ResponseEntity<ResponseBodyWrap<?>> userLogout(Authentication authentication) {
         sysUserOnline.logout(authentication);
-        return ResponseEntity.ok(ResponseBodyWrap.builder().content("user logout").build());
+        return ResponseEntity.ok(ResponseBodyWrap.builder().success("user logout").build());
     }
 }

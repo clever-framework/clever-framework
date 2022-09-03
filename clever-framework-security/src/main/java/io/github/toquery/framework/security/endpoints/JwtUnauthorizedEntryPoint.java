@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security;
+package io.github.toquery.framework.security.endpoints;
 
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;

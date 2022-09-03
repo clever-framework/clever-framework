@@ -109,7 +109,7 @@ public class CaptchaService extends AbstractCaptchaService {
             ImageIO.write(img, "png", os);
             imageBase64 = Base64.getEncoder().encodeToString(os.toByteArray());
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            log.error("", ioe);
         }
         return imageBase64;
     }

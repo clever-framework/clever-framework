@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.model;
+package io.github.toquery.framework.security.model.request;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
  * @version 1
  */
 @Data
-public class AppUserChangePassword {
+public class UserChangePasswordRequest {
 
     // 原密码
     @NotBlank

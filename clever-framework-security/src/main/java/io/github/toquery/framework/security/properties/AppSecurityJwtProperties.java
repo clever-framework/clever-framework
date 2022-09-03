@@ -49,11 +49,11 @@ public class AppSecurityJwtProperties {
 
     private AppJwtPathProperties path = new AppJwtPathProperties();
 
-    private AppJwtKey key = new AppJwtKey();
+    private AppSecurityJwtKey key = new AppSecurityJwtKey();
 
     @Getter
     @Setter
-    public static class AppJwtKey {
+    public static class AppSecurityJwtKey {
         private RSAPublicKey publicKey;
 
         private RSAPrivateKey privateKey;

@@ -23,6 +23,11 @@ public class AppSecurityProperties {
     private boolean enabled = true;
 
     /**
+     * 是否开启用户注册，默认不开启
+     */
+    private boolean register = false;
+
+    /**
      * 配置白名单
      */
     private Set<String> ignoring = Sets.newHashSet();

@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.model;
+package io.github.toquery.framework.security.model.respose;
 
 
 import lombok.AllArgsConstructor;

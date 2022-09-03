@@ -56,7 +56,7 @@ public class SysUserServiceImpl extends AppBaseServiceImpl<SysUser, SysUserRepos
         return map;
     }
 
-    @Cacheable(value = "userCache", key = "#username")
+    // @Cacheable(value = "userCache", key = "#username")
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        SysUser user = super.dao.getByUsername(username);

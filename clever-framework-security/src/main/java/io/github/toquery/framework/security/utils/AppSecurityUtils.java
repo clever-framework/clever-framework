@@ -2,10 +2,6 @@ package io.github.toquery.framework.security.utils;
 
 import io.github.toquery.framework.core.security.AppSecurityKey;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
-import io.github.toquery.framework.core.util.ReflectionUtils;
-import io.github.toquery.framework.core.util.SpringUtils;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,56 +11,14 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 
 /**
  * Servlet Web环境下的spring-security工具类
  */
 public class AppSecurityUtils {
 
-    private static final Object MUTEX = new Object();
-
-    private static volatile HttpSecurity primaryHttpSecurity;
-
-    /**
-     * 获取SpringSecurity的配置bean
-     * 例如：
-     *
-     * @return
-     * @Primary
-     * @Configuration
-     * @EnableWebSecurity public class XxxSecurityConfiguration extends WebSecurityConfigurerAdapter {
-     * ...
-     * }
-     */
-    public static WebSecurityConfigurerAdapter getPrimarySecurityConfigurer() {
-        return SpringUtils.getBean(WebSecurityConfigurerAdapter.class);
-    }
-
-    /**
-     * 获取SpringSecurity的HttpSecurity配置
-     *
-     * @return
-     */
-    public static HttpSecurity getPrimaryHttpSecurity() {
-        WebSecurityConfigurerAdapter primarySecurityConfigurer = getPrimarySecurityConfigurer();
-        if (primaryHttpSecurity == null) {
-            synchronized (MUTEX) {
-                if (primaryHttpSecurity == null) {
-                    Method method = ReflectionUtils.findMethod(WebSecurityConfigurerAdapter.class, "getHttp");
-                    method.setAccessible(true);
-                    primaryHttpSecurity = (HttpSecurity) ReflectionUtils.invokeMethod(method, primarySecurityConfigurer);
-                }
-            }
-        }
-        return primaryHttpSecurity;
-    }
-
     /**
      * 获取认证(登录)异常
-     *
-     * @param request
-     * @return
      */
     public static Exception getAuthenticationException(HttpServletRequest request) {
         String key = WebAttributes.AUTHENTICATION_EXCEPTION;
@@ -80,30 +34,26 @@ public class AppSecurityUtils {
 
     /**
      * 获取当前登录身份证明(Authentication)
-     *
-     * @param
-     * @return
      */
     public static Authentication getCurrentAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-//    public static Authentication getCurrentAuthentication() {
-//        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//    }
+
     public static String getUserName() {
         return AppSecurityUtils.getCurrentAuthentication().getName();
     }
 
+    @Deprecated
     public static Long getUserId() {
         Long userId = null;
         Authentication authentication = AppSecurityUtils.getCurrentAuthentication();
-        if (authentication != null && authentication.isAuthenticated() ) {
+        if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
-            if (principal instanceof AppUserDetails){
-                userId =  ((AppUserDetails) authentication.getPrincipal()).getId();
-            }else if (principal instanceof Jwt){
-                userId =  ((Jwt) authentication.getPrincipal()).getClaim(AppSecurityKey.USERID);
+            if (principal instanceof AppUserDetails) {
+                userId = ((AppUserDetails) authentication.getPrincipal()).getId();
+            } else if (principal instanceof Jwt) {
+                userId = ((Jwt) authentication.getPrincipal()).getClaim(AppSecurityKey.USERID);
             }
         }
         return userId;

@@ -32,49 +32,41 @@ public class AppExceptionAdvice {
 
     @ResponseStatus(code=HttpStatus.NOT_FOUND)
     @ExceptionHandler(value= NoHandlerFoundException.class)
-    public ResponseEntity<ResponseBodyWrap> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
-        exception.printStackTrace();
+    public ResponseEntity<ResponseBodyWrap<?>> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
+        log.error("handleExceptionNoHandlerFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseBodyWrap.builder().fail("请求地址错误！").build());
     }
 
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseBodyWrap> handleException(Exception exception) {
-        exception.printStackTrace();
+    public ResponseEntity<ResponseBodyWrap<?>> handleException(Exception exception) {
+        log.error("handleException", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
 
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(AppException.class)
-    public ResponseEntity<ResponseBodyWrap> handleAppException(AppException exception) {
-        exception.printStackTrace();
+    public ResponseEntity<ResponseBodyWrap<?>> handleAppException(AppException exception) {
+        log.error("handleAppException", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
 
-    /*
-    @ResponseBody
-    @ExceptionHandler(RollbackException.class)
-    public ResponseEntity<ResponseParam> handleRollbackException(RollbackException e) {
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseParam.builder().build().message(e.getMessage()));
-    }
-    */
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResponseBodyWrap> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        exception.printStackTrace();
+    public ResponseEntity<ResponseBodyWrap<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        log.error("handleMethodArgumentNotValidException", exception);
         FieldError fieldError = exception.getBindingResult().getFieldError();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(fieldError.getField() + fieldError.getDefaultMessage()).build());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ResponseBodyWrap> handleConstraintViolationException(ConstraintViolationException exception) {
-        exception.printStackTrace();
+    public ResponseEntity<ResponseBodyWrap<?>> handleConstraintViolationException(ConstraintViolationException exception) {
+        log.error("handleConstraintViolationException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.BAD_REQUEST.value()).message(exception.getConstraintViolations().iterator().next().getMessage()).build());
     }
 }

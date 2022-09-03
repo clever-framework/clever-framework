@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.config;
+package io.github.toquery.framework.security.ignoring;
 
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;

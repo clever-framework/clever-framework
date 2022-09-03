@@ -35,7 +35,7 @@ public class SysUserOnline extends AppBaseEntity {
     // 用户名，唯一
     @NotBlank
     @Length(min = 4, max = 50)
-    @Column(name = "user_name", length = 50, unique = true)
+    @Column(name = "user_name", length = 50) // , unique = true)
     private String username;
 
     // 用户昵称
