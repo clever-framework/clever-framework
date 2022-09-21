@@ -9,7 +9,7 @@
     <select id="getByUsername" resultType="io.github.toquery.framework.system.entity.SysUser">
         select *
         from sys_user
-        where username = #{username}
+        where user_name = #{username}
     </select>
 
 

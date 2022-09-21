@@ -24,18 +24,21 @@ public class AppSecurityContextRepository implements SecurityContextRepository {
 
     @Override
     public Supplier<SecurityContext> loadContext(HttpServletRequest request) {
-        log.debug("loadContext");
+        String servletPath = request.getServletPath();
+        log.info("loadContext servletPath = {}", servletPath);
         return SecurityContextRepository.super.loadContext(request);
     }
 
     @Override
     public void saveContext(SecurityContext context, HttpServletRequest request, HttpServletResponse response) {
-        log.debug("saveContext");
+        String servletPath = request.getServletPath();
+        log.info("saveContext servletPath = {}", servletPath);
     }
 
     @Override
     public boolean containsContext(HttpServletRequest request) {
-        log.debug("containsContext");
+        String servletPath = request.getServletPath();
+        log.info("containsContext servletPath = {}", servletPath);
         return false;
     }
 }

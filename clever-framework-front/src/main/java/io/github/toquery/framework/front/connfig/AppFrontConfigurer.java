@@ -139,9 +139,8 @@ public class AppFrontConfigurer implements ServletContextInitializer, WebServerF
 
 
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsFilter corsFilter(CorsConfiguration config) {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = appWebProperties.getCors();
         if (config.getAllowedOrigins() != null && !config.getAllowedOrigins().isEmpty()) {
             log.debug("Registering CORS filter");
             source.registerCorsConfiguration("/api/**", config);

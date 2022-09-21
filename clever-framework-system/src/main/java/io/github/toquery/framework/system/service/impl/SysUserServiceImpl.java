@@ -15,6 +15,7 @@ import io.github.toquery.framework.system.entity.SysPermission;
 import io.github.toquery.framework.system.mapper.SysUserMapper;
 import io.github.toquery.framework.system.service.ISysPermissionService;
 import io.github.toquery.framework.system.service.ISysUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,16 +32,14 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
+@RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final ISysPermissionService sysUserPermissionService;
+    private final ISysPermissionService sysPermissionService;
 
-    public SysUserServiceImpl(PasswordEncoder passwordEncoder, ISysPermissionService sysUserPermissionService) {
-        this.passwordEncoder = passwordEncoder;
-        this.sysUserPermissionService = sysUserPermissionService;
-    }
+
 
 
     // @Cacheable(value = "userCache", key = "#username")
@@ -61,7 +60,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         }
-        List<SysPermission> sysUserPermissions = sysUserPermissionService.findWithFullByUserId(user.getId());
+        List<SysPermission> sysUserPermissions = sysPermissionService.findWithFullByUserId(user.getId());
         user.setUserPermissions(sysUserPermissions);
 
         Set<SysMenu> sysMenus = sysUserPermissions.stream().flatMap(sysUserPermission -> sysUserPermission.getRole().getMenus().stream()).collect(Collectors.toSet());
@@ -87,7 +86,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<SysUser> sysUserPage = super.page(new Page<>(requestCurrent,requestPageSize));
         List<SysUser> sysUserList = sysUserPage.getRecords();
         Set<Long> sysUserIds = sysUserList.stream().map(SysUser::getId).collect(Collectors.toSet());
-        List<SysPermission> sysUserPermissions = sysUserPermissionService.findByUserIds(sysUserIds, SysUserPermissionEnum.ROLE);
+        List<SysPermission> sysUserPermissions = sysPermissionService.findByUserIds(sysUserIds, SysUserPermissionEnum.ROLE);
 
         Map<Long, List<SysRole>> userIdRoleMap = sysUserPermissions.stream().collect(Collectors.groupingBy(SysPermission::getUserId, Collectors.mapping(SysPermission::getRole, Collectors.toList())));
         sysUserList.forEach(sysUser -> sysUser.setRoles(userIdRoleMap.get(sysUser.getId())));
@@ -159,7 +158,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public SysUser getByIdWithRole(Long id) {
         SysUser sysUser = super.getById(id);
-        List<SysPermission> sysUserPermissions = sysUserPermissionService.findWithFullByUserId(id);
+        List<SysPermission> sysUserPermissions = sysPermissionService.findWithFullByUserId(id);
         Set<SysRole> roles = sysUserPermissions.stream().map(SysPermission::getRole).collect(Collectors.toSet());
         sysUser.setRoles(roles);
         sysUser.setRoleIds(roles.stream().map(SysRole::getId).collect(Collectors.toSet()));

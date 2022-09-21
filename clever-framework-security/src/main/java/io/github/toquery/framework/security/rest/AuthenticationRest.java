@@ -41,11 +41,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthenticationRest extends AppBaseWebController {
 
-
     private final AppProperties appProperties;
-    private final AppUserDetailService appUserDetailsService;
-    private final DelegatingSysUserOnline sysUserOnline;
     private final ISysUserService sysUserService;
+    private final DelegatingSysUserOnline sysUserOnline;
+    private final AppUserDetailService appUserDetailsService;
     private final AuthenticationManager authenticationManager;
 
     /**

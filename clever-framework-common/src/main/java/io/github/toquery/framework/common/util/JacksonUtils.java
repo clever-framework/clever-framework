@@ -121,7 +121,7 @@ public class JacksonUtils {
     }
 
     public static String object2String(ObjectMapper objectMapper, Object object) {
-        if (object == null) {
+        if (objectMapper == null || object == null) {
             return null;
         }
         try {
