@@ -1,15 +1,17 @@
 package io.github.toquery.framework.system.rest;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.util.AppTreeUtil;
-import io.github.toquery.framework.crud.controller.AppBaseCrudController;
 import io.github.toquery.framework.system.entity.SysPost;
 import io.github.toquery.framework.system.service.ISysPostService;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
+import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 import io.micrometer.core.annotation.Timed;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,10 +31,11 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/sys/post")
 @Timed(value = "system-post", description = "系统-岗位")
-public class SysPostRest extends AppBaseCrudController<ISysPostService, SysPost> {
+public class SysPostRest extends AppBaseWebMvcController {
 
     private static final String[] SORT = new String[]{"parentIds_asc", "sortNum_desc"};
 
@@ -40,18 +43,21 @@ public class SysPostRest extends AppBaseCrudController<ISysPostService, SysPost>
 
     public static final String BIZ_NAME = "岗位管理";
 
+    private final ISysPostService sysPostService;
+
     @AppLogMethod(value = SysPost.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:post:query')")
     @GetMapping
     public ResponseBodyWrap<?> pageResponseResult() {
-        return super.pageResponseResult(SORT);
+        Page<SysPost> sysPostPage = sysPostService.page(new Page<>(super.getRequestCurrent(), super.getRequestPageSize()));
+        return new ResponseBodyWrapBuilder().page(sysPostPage).build();
     }
 
     @AppLogMethod(value = SysPost.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PreAuthorize("hasAnyAuthority('system:post:query')")
     @GetMapping("/list")
     public ResponseBodyWrap<?> listResponseResult() {
-        return super.listResponseResult(SORT);
+        return this.handleResponseBody(sysPostService.list());
     }
 
     @AppLogMethod(value = SysPost.class, logType = AppLogType.QUERY, modelName = MODEL_NAME, bizName = BIZ_NAME)
@@ -59,7 +65,7 @@ public class SysPostRest extends AppBaseCrudController<ISysPostService, SysPost>
     @GetMapping("/tree")
     public ResponseBodyWrap<?> tree(@RequestParam(required = false, defaultValue = "根节点") String rootName) throws Exception {
         List<SysPost> sysDeptList = Lists.newArrayList(new SysPost(0L, rootName));
-        List<SysPost> childrenList = domainService.list(super.getFilterParam(), SORT);
+        List<SysPost> childrenList = sysPostService.list();
         sysDeptList.addAll(childrenList);
         // 将lits数据转为tree
         sysDeptList = AppTreeUtil.getTreeData(sysDeptList);
@@ -70,21 +76,21 @@ public class SysPostRest extends AppBaseCrudController<ISysPostService, SysPost>
     @AppLogMethod(value = SysPost.class, logType = AppLogType.CREATE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PostMapping
     public ResponseBodyWrap<?> saveResponseResult(@Validated @RequestBody SysPost sysPost) {
-        return super.handleResponseBody(domainService.save(sysPost));
+        return super.handleResponseBody(sysPostService.save(sysPost));
     }
 
     @PreAuthorize("hasAnyAuthority('system:post:modify')")
     @AppLogMethod(value = SysPost.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @PutMapping
     public ResponseBodyWrap<?> updateResponseResult(@RequestBody SysPost sysPost) {
-        return this.handleResponseBody(super.domainService.update(sysPost));
+        return this.handleResponseBody(sysPostService.updateById(sysPost));
     }
 
     @PreAuthorize("hasAnyAuthority('system:post:delete')")
     @AppLogMethod(value = SysPost.class, logType = AppLogType.DELETE, modelName = MODEL_NAME, bizName = BIZ_NAME)
     @DeleteMapping
     public ResponseBodyWrap<?> deleteResponseResult(@RequestBody Set<Long> ids) {
-        domainService.deleteByIds(ids);
+        sysPostService.removeBatchByIds(ids);
         return ResponseBodyWrap.builder().success().build();
     }
 
@@ -92,6 +98,6 @@ public class SysPostRest extends AppBaseCrudController<ISysPostService, SysPost>
     @PreAuthorize("hasAnyAuthority('system:post:query')")
     @GetMapping("{id}")
     public ResponseBodyWrap<?> detailResponseBody(@PathVariable Long id) {
-        return super.detailResponseBody(id);
+        return this.handleResponseBody(sysPostService.getById(id));
     }
 }

@@ -1,10 +1,13 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysConfig;
-import io.github.toquery.framework.system.repository.SysConfigRepository;
+import io.github.toquery.framework.system.mapper.SysConfigMapper;
 import io.github.toquery.framework.system.service.ISysConfigService;
 
 import java.util.LinkedHashMap;
@@ -17,7 +20,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysConfigServiceImpl extends AppBaseServiceImpl<SysConfig, SysConfigRepository> implements ISysConfigService {
+public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements ISysConfigService {
 
     public static final Set<String> UPDATE_FIELD = Sets.newHashSet("configName", "configValue", "configDesc", "sortNum", "disable");
 
@@ -35,24 +38,10 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<SysConfig, SysConfi
     };
 
     @Override
-    public Map<String, String> getQueryExpressions() {
-        return QUERY_EXPRESSIONS;
-    }
-
-    @Override
-    public List<SysConfig> reSave(Long bizId, String configGroup, List<SysConfig> sysConfigList) {
-        Map<String, Object> params = Maps.newHashMap();
-
-        List<SysConfig> dbSysConfig = this.list(params);
-        this.deleteByIds(dbSysConfig.stream().map(SysConfig::getId).collect(Collectors.toSet()));
-        return this.save(sysConfigList);
-    }
-
-    @Override
     public List<SysConfig> findByConfigName(String configName) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("configName", configName);
-        return super.list(params);
+        LambdaQueryWrapper<SysConfig> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysConfig::getConfigName, configName);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
@@ -61,7 +50,8 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<SysConfig, SysConfi
         if (sysConfigList.size() > 0) {
             throw new RuntimeException("配置项已存在");
         }
-        return super.save(sysConfig);
+        super.save(sysConfig);
+        return sysConfig;
     }
 
     @Override
@@ -70,7 +60,8 @@ public class SysConfigServiceImpl extends AppBaseServiceImpl<SysConfig, SysConfi
         if (sysConfigList.stream().anyMatch(item -> !item.getId().equals(sysConfig.getId()))) {
             throw new RuntimeException("配置项已存在");
         }
-        return super.update(sysConfig, UPDATE_FIELD);
+        super.updateById(sysConfig);
+        return sysConfig;
     }
 
     @Override

@@ -1,7 +1,8 @@
 package io.github.toquery.framework.system.autoconfig;
 
-import io.github.toquery.framework.dao.EnableAppJpaRepositories;
-import io.github.toquery.framework.system.mapper.SysUserPermissionMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.toquery.framework.core.properties.AppProperties;
+import io.github.toquery.framework.system.mapper.SysPermissionMapper;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import io.github.toquery.framework.system.rest.*;
 import io.github.toquery.framework.system.runner.AppSystemRunner;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Role;
@@ -34,7 +36,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @MapperScan("io.github.toquery.framework.system.mapper")
 @EnableConfigurationProperties({AppSystemProperties.class})
 @EntityScan(basePackages = "io.github.toquery.framework.system.entity")
-@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system")
+//@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system")
 @ConditionalOnProperty(prefix = AppSystemProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 //@EnableJpaRepositories(basePackages = {"io.github.toquery.framework.system.repository"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppSystemAutoConfiguration {
@@ -52,39 +54,39 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SysConfigRest sysConfigRest() {
-        return new SysConfigRest();
+    public SysConfigRest sysConfigRest(ISysConfigService sysConfigService) {
+        return new SysConfigRest(sysConfigService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysDeptRest sysDeptRest() {
-        return new SysDeptRest();
+    public SysDeptRest sysDeptRest(ISysDeptService sysDeptService) {
+        return new SysDeptRest(sysDeptService);
     }
 
 
     @Bean
     @ConditionalOnMissingBean
-    public SysMenuRest sysMenuRest() {
-        return new SysMenuRest();
+    public SysMenuRest sysMenuRest(ISysMenuService sysMenuService) {
+        return new SysMenuRest(sysMenuService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysAreaRest sysAreaRest() {
-        return new SysAreaRest();
+    public SysAreaRest sysAreaRest(ISysAreaService sysAreaService) {
+        return new SysAreaRest(sysAreaService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysRoleRest sysRoleRest() {
-        return new SysRoleRest();
+    public SysRoleRest sysRoleRest(ISysRoleService sysRoleService) {
+        return new SysRoleRest(sysRoleService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysUserRest sysUserRest() {
-        return new SysUserRest();
+    public SysUserRest sysUserRest(AppProperties appProperties, PasswordEncoder passwordEncoder, ObjectMapper objectMapper, ISysUserService sysUserService) {
+        return new SysUserRest(appProperties, passwordEncoder, objectMapper, sysUserService);
     }
 
     @Bean
@@ -95,26 +97,26 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SysDictRest sysDictRest() {
-        return new SysDictRest();
+    public SysDictRest sysDictRest(ISysDictService sysDictService) {
+        return new SysDictRest(sysDictService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysDictItemRest sysDictItemRest() {
-        return new SysDictItemRest();
+    public SysDictItemRest sysDictItemRest(ISysDictItemService sysDictItemService) {
+        return new SysDictItemRest(sysDictItemService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysPostRest sysPostRest() {
-        return new SysPostRest();
+    public SysPostRest sysPostRest(ISysPostService sysPostService) {
+        return new SysPostRest(sysPostService);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysWorkRest sysWorkRest() {
-        return new SysWorkRest();
+    public SysWorkRest sysWorkRest(ISysWorkService sysWorkService) {
+        return new SysWorkRest(sysWorkService);
     }
 
 
@@ -153,8 +155,8 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysMenuService sysMenuService() {
-        return new SysMenuServiceImpl();
+    public ISysMenuService sysMenuService(ApplicationContext applicationContext) {
+        return new SysMenuServiceImpl(applicationContext);
     }
 
     @Bean
@@ -165,7 +167,7 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysUserService sysUserService(PasswordEncoder passwordEncoder, ISysUserPermissionService sysUserPermissionService) {
+    public ISysUserService sysUserService(PasswordEncoder passwordEncoder, ISysPermissionService sysUserPermissionService) {
         return new SysUserServiceImpl(passwordEncoder, sysUserPermissionService);
     }
 
@@ -183,8 +185,8 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ISysUserPermissionService sysUserPermissionService(@Lazy ISysUserService sysUserService, @Lazy ISysRoleService sysRoleService, @Lazy ISysAreaService sysAreaService, @Lazy SysUserPermissionMapper sysUserPermissionMapper) {
-        return new SysUserPermissionServiceImpl(sysUserService, sysRoleService, sysAreaService, sysUserPermissionMapper);
+    public ISysPermissionService sysUserPermissionService(@Lazy ISysUserService sysUserService, @Lazy ISysRoleService sysRoleService, @Lazy ISysAreaService sysAreaService, @Lazy SysPermissionMapper sysPermissionMapper) {
+        return new SysPermissionServiceImpl(sysUserService, sysRoleService, sysAreaService, sysPermissionMapper);
     }
 
     @Bean

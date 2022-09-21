@@ -1,7 +1,7 @@
 package io.github.toquery.framework.system.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysRole;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public interface ISysRoleService extends AppBaseService<SysRole> {
+public interface ISysRoleService extends IService<SysRole> {
 
     /**
      * 通过角色名称获取角色信息

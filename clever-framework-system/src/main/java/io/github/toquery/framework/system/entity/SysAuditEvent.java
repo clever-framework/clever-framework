@@ -1,6 +1,7 @@
 package io.github.toquery.framework.system.entity;
 
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.github.toquery.framework.core.entity.AppBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,22 +23,27 @@ import java.util.Map;
 @Getter
 @Setter
 //@Entity
+//@TableName(value = "")
 //@Table(name = "sys_audit_event")
 public class SysAuditEvent extends AppBaseEntity {
 
 
     @NotNull
+    @TableField(value = "")
     @Column(nullable = false)
     private String principal;
 
+    @TableField(value = "")
     @Column(name = "event_date")
     private Instant auditEventDate;
 
+    @TableField(value = "")
     @Column(name = "event_type")
     private String auditEventType;
 
     @ElementCollection
     @MapKeyColumn(name = "name")
+    @TableField(value = "")
     @Column(name = "value")
     @CollectionTable(name = "sys_audit_event_data", joinColumns = @JoinColumn(name = "event_id"))
     private Map<String, String> data = new HashMap<>();

@@ -28,14 +28,17 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-dao</artifactId>
+            <artifactId>clever-framework-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-crud</artifactId>
         </dependency>
+        -->
+
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-common</artifactId>

@@ -1,7 +1,7 @@
 package io.github.toquery.framework.system.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.system.entity.SysDept;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public interface ISysDeptService extends AppBaseService<SysDept> {
+public interface ISysDeptService extends IService<SysDept> {
 
     public static final String ROOT_ID = "0";
 

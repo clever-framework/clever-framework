@@ -38,7 +38,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -78,7 +77,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @Import({AppSecurityJwtIgnoring.class})
-@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+//@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 @EnableConfigurationProperties({AppSecurityProperties.class, AppSecurityJwtProperties.class})
 @AutoConfigureAfter({AppSystemAutoConfiguration.class})
 public class AppSecurityAutoConfiguration {
@@ -300,13 +299,13 @@ public class AppSecurityAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(AuthenticationSuccessHandler.class)
-    AppAuthenticationSuccessHandler appAuthenticationSuccessHandler() {
+    public AppAuthenticationSuccessHandler appAuthenticationSuccessHandler() {
         return new AppAuthenticationSuccessHandler();
     }
 
     @Bean
     @ConditionalOnMissingBean(AuthenticationFailureHandler.class)
-    AppAuthenticationFailureHandler appAuthenticationFailureHandler() {
+    public AppAuthenticationFailureHandler appAuthenticationFailureHandler() {
         return new AppAuthenticationFailureHandler();
     }
 

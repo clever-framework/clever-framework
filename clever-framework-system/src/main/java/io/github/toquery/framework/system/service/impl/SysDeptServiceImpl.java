@@ -1,13 +1,18 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.toquery.framework.system.entity.SysDept;
-import io.github.toquery.framework.system.repository.SysDeptRepository;
+import io.github.toquery.framework.system.entity.SysDict;
+import io.github.toquery.framework.system.entity.SysRoleMenu;
+import io.github.toquery.framework.system.mapper.SysDeptMapper;
 import io.github.toquery.framework.system.service.ISysDeptService;
 
 import java.util.LinkedHashMap;
@@ -20,33 +25,9 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepository> implements ISysDeptService {
+public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements ISysDeptService {
 
 
-    /**
-     * 查询条件表达式
-     */
-    public static final Map<String, String> expressionMap = new LinkedHashMap<String, String>() {
-        {
-            put("id", "id:EQ");
-            put("idIN", "id:IN");
-            put("deptStatus", "deptStatus:EQ");
-            put("deptName", "deptName:LIKE");
-            put("parentId", "parentId:EQ");
-            put("parentIdLike", "parentId:LIKE");
-            put("parentIdIN", "parentId:IN");
-            put("parentIdsIN", "parentIds:IN");
-            put("level", "level:EQ");
-            put("levelIN", "level:IN");
-            put("parentPath", "parentPath:EQ");
-            put("leaf", "leaf:EQ");
-        }
-    };
-
-    @Override
-    public Map<String, String> getQueryExpressions() {
-        return expressionMap;
-    }
 
     @Override
     public SysDept saveDept(SysDept sysDept) {
@@ -57,7 +38,10 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
 
         if (parentId != 0L) {
             parentSysDept.setHasChildren(true);
-            this.update(parentSysDept, Sets.newHashSet("hasChildren"));
+            LambdaUpdateWrapper<SysDept> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+            lambdaUpdateWrapper.eq(SysDept::getId, parentSysDept.getId());
+            lambdaUpdateWrapper.set(SysDept::getHasChildren, parentSysDept.getHasChildren());
+            this.update(parentSysDept, lambdaUpdateWrapper);
         }
 
         sysDept.setHasChildren(false);
@@ -68,7 +52,8 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
             sysDept.setParentIds(parentSysDept.getParentIds() + "," + parentSysDept.getId());
         }
 
-        return this.save(sysDept);
+         this.save(sysDept);
+        return sysDept;
     }
 
     @Override
@@ -94,7 +79,7 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
             sysDept.setTreePath(newParentSysDept.getTreePath() + "," + sysDept.getId());
         }
 
-        super.update(sysDept, UPDATE_FIELD);
+        super.updateById(sysDept);
 
         return sysDept;
     }
@@ -168,30 +153,30 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
             }
         }
 
-        super.update(updateSysDept, UPDATE_FIELD);
+        super.updateBatchById(updateSysDept);
     }
 
 
 
     @Override
     public List<SysDept> findByParentId(Long parentId) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("parentId", parentId);
-        return this.list(params);
+        LambdaQueryWrapper<SysDept> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysDept::getParentId, parentId);
+        return super.list(lambdaQueryWrapper);
     }
 
 
     @Override
     public List<SysDept> findByParentIds(Set<Long> parentIds) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("parentIdIN", parentIds);
-        return this.list(params);
+        LambdaQueryWrapper<SysDept> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SysDept::getParentId, parentIds);
+        return super.list(lambdaQueryWrapper);
     }
 
     public List<SysDept> findAllChildren(Long parentId) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("parentIdLike", parentId);
-        return super.list(params);
+        LambdaQueryWrapper<SysDept> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like(SysDept::getParentId, parentId);
+        return super.list(lambdaQueryWrapper);
     }
 
     /**
@@ -212,10 +197,14 @@ public class SysDeptServiceImpl extends AppBaseServiceImpl<SysDept, SysDeptRepos
                 if (brotherSysDept != null && brotherSysDept.size() == 1) {
                     SysDept parentSysDept = getById(sysDept.getParentId());
                     parentSysDept.setHasChildren(false);
-                    this.update(parentSysDept, Sets.newHashSet("hasChildren"));
+
+                    LambdaUpdateWrapper<SysDept> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+                    lambdaUpdateWrapper.eq(SysDept::getId, parentSysDept.getId());
+                    lambdaUpdateWrapper.set(SysDept::getHasChildren, parentSysDept.getHasChildren());
+                    this.update(parentSysDept, lambdaUpdateWrapper);
                 }
             }
-            this.deleteById(sysDept.getId());
+            this.removeById(sysDept.getId());
         }
     }
 }

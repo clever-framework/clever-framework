@@ -1,30 +1,24 @@
 package io.github.toquery.framework.system.service.impl;
 
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.toquery.framework.system.entity.SysArea;
-import io.github.toquery.framework.system.repository.SysAreaRepository;
+import io.github.toquery.framework.system.mapper.SysAreaMapper;
 import io.github.toquery.framework.system.service.ISysAreaService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author toquery
  * @version 1
  */
-public class SysAreaServiceImpl extends AppBaseServiceImpl<SysArea, SysAreaRepository> implements ISysAreaService {
+public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysArea> implements ISysAreaService {
 
     @Override
-    public Map<String, String> getQueryExpressions() {
-        Map<String, String> map = new HashMap<>();
-        map.put("idIN", "id:IN");
-        map.put("name", "name:EQ");
-        map.put("nameLike", "name:LIKE");
-
-        map.put("code", "code:EQ");
-        map.put("codeLike", "code:LIKE");
-        return map;
+    public SysArea update(SysArea sysArea) {
+        LambdaUpdateWrapper<SysArea> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(SysArea::getId, sysArea.getId());
+        lambdaUpdateWrapper.set(SysArea::getAreaName, sysArea.getAreaName());
+        lambdaUpdateWrapper.set(SysArea::getAreaCode, sysArea.getAreaCode());
+        super.update(sysArea, lambdaUpdateWrapper);
+        return sysArea;
     }
-
-
 }

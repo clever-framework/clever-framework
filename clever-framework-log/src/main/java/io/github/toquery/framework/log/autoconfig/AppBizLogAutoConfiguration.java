@@ -1,6 +1,6 @@
 package io.github.toquery.framework.log.autoconfig;
 
-import io.github.toquery.framework.dao.EnableAppJpaRepositories;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
 import io.github.toquery.framework.log.aspect.AppBizLogMethodAspect;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
 import io.github.toquery.framework.log.listener.AppLogAuthenticationFailureListener;
@@ -16,10 +16,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 
 /**
- *
  * @author toquery
  * @version 1
  */
@@ -27,7 +25,7 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties(AppLogProperties.class)
 @MapperScan("io.github.toquery.framework.log.repository")
 @EntityScan(basePackages = "io.github.toquery.framework.log.entity")
-@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.log")
+//@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.log")
 @ConditionalOnProperty(prefix = AppLogProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AppBizLogAutoConfiguration {
 
@@ -38,14 +36,14 @@ public class AppBizLogAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AppBizLogMethodAspect getAppBizLogMethodAspect(){
+    public AppBizLogMethodAspect getAppBizLogMethodAspect() {
         return new AppBizLogMethodAspect();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public SysLogRest getSysLogRest(){
-        return new SysLogRest();
+    public SysLogRest getSysLogRest(AppUserDetailService userDetailsService, ISysLogService sysLogService) {
+        return new SysLogRest(userDetailsService, sysLogService);
     }
 
     @Bean
@@ -56,7 +54,7 @@ public class AppBizLogAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AppBizLogAnnotationHandler getAppBizLogAnnotationHandler(){
+    public AppBizLogAnnotationHandler getAppBizLogAnnotationHandler() {
         return new AppBizLogAnnotationHandler();
     }
 

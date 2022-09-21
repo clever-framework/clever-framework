@@ -53,7 +53,8 @@ public class DelegatingSysUserOnline {
 
         sysUserOnline.setToken(jwtTokenProvider.issueToken(sysUser.getId().toString(), "ios"));
 
-        return sysUserOnlineService.save(sysUserOnline);
+         sysUserOnlineService.save(sysUserOnline);
+        return sysUserOnline;
     }
 
     /**
@@ -65,10 +66,9 @@ public class DelegatingSysUserOnline {
             log.error("退出失败，token id 为空");
             return;
         }
-        sysUserOnlineService.deleteById(Long.valueOf(id));
+        sysUserOnlineService.removeById(Long.valueOf(id));
     }
 
     public void deleteExpires() {
-        sysUserOnlineService.deleteExpires();
     }
 }

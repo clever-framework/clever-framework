@@ -1,11 +1,14 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysRole;
-import io.github.toquery.framework.system.repository.SysRoleRepository;
+import io.github.toquery.framework.system.mapper.SysRoleMapper;
 import io.github.toquery.framework.system.service.ISysRoleMenuService;
 import io.github.toquery.framework.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +24,19 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepository> implements ISysRoleService {
+public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
     public static final Set<String> UPDATE_FIELD = Sets.newHashSet("roleName");
 
     @Autowired
     private ISysRoleMenuService sysRoleMenuService;
 
-    @Override
-    public Map<String, String> getQueryExpressions() {
-        Map<String, String> map = new HashMap<>();
-        map.put("idIN", "id:IN");
-        map.put("roleName", "roleName:EQ");
-        map.put("roleStatus", "roleStatus:EQ");
-        map.put("roleNameLike", "roleName:LIKE");
-        return map;
-    }
 
     @Override
     public List<SysRole> findByRoleName(String roleName) {
-        Map<String, Object> filter = new HashMap<>();
-        filter.put("roleName", roleName);
-        return super.list(filter);
+        LambdaQueryWrapper<SysRole> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SysRole::getRoleName, roleName);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
@@ -58,7 +52,7 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
         if (sysRoleList != null && sysRoleList.size() > 0) {
             throw new AppException("保存角色错误，存在相同名称的角色");
         }
-        sysRole = super.save(sysRole);
+        super.save(sysRole);
         sysRoleMenuService.reSaveMenu(sysRole.getId(), sysRole.getMenuIds());
         return sysRole;
     }
@@ -76,7 +70,7 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
             throw new AppException("禁止删除 admin root 角色");
         }
         */
-        super.deleteByIds(ids);
+        super.removeByIds(ids);
 
     }
 
@@ -87,7 +81,10 @@ public class SysRoleServiceImpl extends AppBaseServiceImpl<SysRole, SysRoleRepos
         if (sysRoleOptional.isPresent()) {
             throw new AppException("已存在相同名称的角色");
         }
-        super.update(sysRole, UPDATE_FIELD);
+        LambdaUpdateWrapper<SysRole> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(SysRole::getId, sysRole.getId());
+        lambdaUpdateWrapper.set(SysRole::getRoleName, sysRole.getRoleName());
+        super.update(sysRole, lambdaUpdateWrapper);
         sysRoleMenuService.reSaveMenu(sysRole.getId(), sysRole.getMenuIds());
         return sysRole;
     }

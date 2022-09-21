@@ -1,6 +1,6 @@
 package io.github.toquery.framework.system.service;
 
-import io.github.toquery.framework.crud.service.AppBaseService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.toquery.framework.system.entity.SysDict;
 import io.github.toquery.framework.system.entity.SysDictItem;
 
@@ -11,7 +11,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public interface ISysDictService extends AppBaseService<SysDict> {
+public interface ISysDictService extends IService<SysDict> {
 
     List<SysDict> findByCode(String dictCode);
 

@@ -1,5 +1,6 @@
 package io.github.toquery.framework.webmvc.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.base.Strings;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;

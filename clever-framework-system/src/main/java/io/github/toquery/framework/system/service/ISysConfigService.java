@@ -1,6 +1,6 @@
 package io.github.toquery.framework.system.service;
 
-import io.github.toquery.framework.crud.service.AppBaseService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.toquery.framework.system.entity.SysConfig;
 
 import java.util.List;
@@ -9,9 +9,7 @@ import java.util.List;
  * @author toquery
  * @version 1
  */
-public interface ISysConfigService extends AppBaseService<SysConfig> {
-    List<SysConfig> reSave(Long bizId, String configGroup, List<SysConfig> sysConfigList);
-
+public interface ISysConfigService extends IService<SysConfig> {
     List<SysConfig> findByConfigName(String configName);
 
     SysConfig saveSysConfigCheck(SysConfig sysConfig);

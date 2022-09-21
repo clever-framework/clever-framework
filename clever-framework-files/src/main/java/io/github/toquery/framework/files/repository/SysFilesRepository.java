@@ -1,6 +1,6 @@
 package io.github.toquery.framework.files.repository;
 
-import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
+import io.github.toquery.framework.jpa.repository.AppJpaBaseRepository;
 import io.github.toquery.framework.files.entity.SysFiles;
 
 /**

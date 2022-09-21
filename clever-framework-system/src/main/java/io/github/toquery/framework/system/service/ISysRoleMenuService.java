@@ -1,9 +1,8 @@
 package io.github.toquery.framework.system.service;
 
-import io.github.toquery.framework.crud.service.AppBaseService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
-import io.github.toquery.framework.system.entity.SysUser;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public interface ISysRoleMenuService extends AppBaseService<SysRoleMenu> {
+public interface ISysRoleMenuService extends IService<SysRoleMenu> {
 
     /**
      * 通过角色id，判断是否存在记录

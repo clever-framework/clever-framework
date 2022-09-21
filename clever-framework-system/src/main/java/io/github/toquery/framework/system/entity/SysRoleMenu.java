@@ -1,7 +1,10 @@
 package io.github.toquery.framework.system.entity;
 
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.entity.AppEntityLogicDel;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.AppEntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +22,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@TableName(value = "sys_role_menu")
 @Table(name = "sys_role_menu")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,9 +36,11 @@ public class SysRoleMenu extends AppBaseEntity implements AppEntityLogicDel {
         this.menuId = menuId;
     }
 
+    @TableField(value = "role_id")
     @Column(name = "role_id")
     private Long roleId;
 
+    @TableField(value = "menu_id")
     @Column(name = "menu_id")
     private Long menuId;
 
@@ -42,19 +48,25 @@ public class SysRoleMenu extends AppBaseEntity implements AppEntityLogicDel {
     /**
      * 是否删除：1已删除；0未删除
      */
+    @TableLogic
     @ColumnDefault("false")
+    @TableField(value = "deleted")
     @Column(name = "deleted")
     private Boolean deleted = false;
 
+    @TableField(exist = false)
     @Transient
     private SysMenu menu;
 
+    @TableField(exist = false)
     @Transient
     private SysRole role;
 
+    @TableField(exist = false)
     @Transient
     private List<SysMenu> menus;
 
+    @TableField(exist = false)
     @Transient
     private List<SysRole> roles;
 }

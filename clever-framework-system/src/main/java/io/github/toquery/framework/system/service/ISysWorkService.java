@@ -1,6 +1,6 @@
 package io.github.toquery.framework.system.service;
 
-import io.github.toquery.framework.crud.service.AppBaseService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.toquery.framework.system.constant.SysUserWorkEnum;
 import io.github.toquery.framework.system.entity.SysWork;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  *
  */
-public interface ISysWorkService extends AppBaseService<SysWork> {
+public interface ISysWorkService extends IService<SysWork> {
     /**
      * 通过id获取所有工作信息
      *

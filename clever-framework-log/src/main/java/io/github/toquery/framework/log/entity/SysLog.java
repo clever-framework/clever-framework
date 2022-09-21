@@ -1,9 +1,11 @@
 package io.github.toquery.framework.log.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogEntityIgnore;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.AppBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +33,7 @@ import java.time.LocalDateTime;
 @AppLogEntityIgnore
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName(value = "sys_log")
 @Table(name = "sys_log")
 public class SysLog extends AppBaseEntity {
 
@@ -55,6 +58,7 @@ public class SysLog extends AppBaseEntity {
      * 用户ID
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @TableField(value = "user_id")
     @Column(name = "user_id")
     private Long userId;
 
@@ -62,29 +66,34 @@ public class SysLog extends AppBaseEntity {
     /**
      * 用户名
      */
+    @TableField(value = "user_name")
     @Column(name = "user_name")
     private String userName;
 
     /**
      * 模块名称
      */
+    @TableField(value = "module_name")
     @Column(name = "module_name")
     private String moduleName;
 
     /**
      * 业务名称
      */
+    @TableField(value = "biz_name")
     @Column(name = "biz_name")
     private String bizName;
 
 
     @Enumerated(EnumType.STRING)
+    @TableField(value = "log_type")
     @Column(name = "log_type")
     private AppLogType logType;
 
     /**
      * 操作时间
      */
+    @TableField(value = "operate_date_time")
     @Column(name = "operate_date_time")
     private LocalDateTime operateDateTime;
 
@@ -92,6 +101,7 @@ public class SysLog extends AppBaseEntity {
      * 原数据
      */
     @Lob
+    @TableField(value = "raw_data")
     @Column(columnDefinition = "text", name = "raw_data")
     private String rawData;
 
@@ -99,10 +109,11 @@ public class SysLog extends AppBaseEntity {
      * 目标数据
      */
     @Lob
+    @TableField(value = "target_data")
     @Column(columnDefinition = "text", name = "target_data")
     private String targetData;
 
-
+    @TableField(exist = false)
     @Transient
     private UserDetails sysUser;
 

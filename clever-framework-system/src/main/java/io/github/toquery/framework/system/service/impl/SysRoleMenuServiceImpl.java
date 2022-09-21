@@ -1,10 +1,11 @@
 package io.github.toquery.framework.system.service.impl;
 
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.toquery.framework.system.entity.SysDictItem;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.entity.SysRoleMenu;
 import io.github.toquery.framework.system.mapper.SysRoleMenuMapper;
-import io.github.toquery.framework.system.repository.SysRoleMenuRepository;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.system.service.ISysRoleMenuService;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysRoleMenuRepository> implements ISysRoleMenuService {
+public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements ISysRoleMenuService {
 
     @Resource
     private ISysMenuService sysMenuService;
@@ -28,15 +29,6 @@ public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysR
     @Resource
     private SysRoleMenuMapper sysRoleMenuMapper;
 
-    @Override
-    public Map<String, String> getQueryExpressions() {
-        Map<String, String> map = new HashMap<>();
-        map.put("roleId", "roleId:EQ");
-        map.put("menuId", "menuId:EQ");
-        map.put("menuIds", "menuId:IN");
-        map.put("roleIds", "roleId:IN");
-        return map;
-    }
 
     @Override
     public boolean existsByRoleId(Long roleId) {
@@ -52,30 +44,30 @@ public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysR
 
     @Override
     public List<SysRoleMenu> findByRoleId(Long roleId) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("roleId", roleId);
-        return super.list(param);
+        LambdaQueryWrapper<SysRoleMenu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysRoleMenu::getRoleId, roleId);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
     public List<SysRoleMenu> findByRoleIds(Set<Long> sysRoleIds) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("roleIds", sysRoleIds);
-        return super.list(param);
+        LambdaQueryWrapper<SysRoleMenu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SysRoleMenu::getRoleId, sysRoleIds);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
     public List<SysRoleMenu> findByMenuId(Long menuId) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("menuId", menuId);
-        return super.list(param);
+        LambdaQueryWrapper<SysRoleMenu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysRoleMenu::getMenuId, menuId);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
     public List<SysRoleMenu> findByMenuIds(Set<Long> sysMenuIds) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("menuIds", sysMenuIds);
-        return super.list(param);
+        LambdaQueryWrapper<SysRoleMenu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SysRoleMenu::getMenuId, sysMenuIds);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
@@ -121,11 +113,11 @@ public class SysRoleMenuServiceImpl extends AppBaseServiceImpl<SysRoleMenu, SysR
                 .collect(Collectors.toList());
 
         if (dbMenuIds.size() > 0) {
-            super.delete(deleteList);
+            super.removeByIds(deleteList);
         }
 
         if (addList.size() > 0) {
-            super.save(addList);
+            super.saveBatch(addList);
         }
 
         return null;

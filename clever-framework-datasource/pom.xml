@@ -33,7 +33,7 @@
 
         <dependency>
             <groupId>io.github.toquery</groupId>
-            <artifactId>clever-framework-dao</artifactId>
+            <artifactId>clever-framework-jpa</artifactId>
         </dependency>
 
         <dependency>

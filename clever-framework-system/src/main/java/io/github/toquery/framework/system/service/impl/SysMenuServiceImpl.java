@@ -1,15 +1,19 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.core.util.ReflectionUtils;
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
-import io.github.toquery.framework.system.repository.SysMenuRepository;
+import io.github.toquery.framework.system.mapper.SysMenuMapper;
 import io.github.toquery.framework.system.service.ISysMenuService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -31,36 +35,11 @@ import java.util.stream.Stream;
  * @version 1
  */
 @Slf4j
-public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepository> implements ISysMenuService {
+@RequiredArgsConstructor
+public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
-    /**
-     * 查询条件表达式
-     */
-    public static final Map<String, String> expressionMap = new LinkedHashMap<String, String>() {
-        {
-            put("id", "id:EQ");
-            put("idIN", "id:IN");
-            put("menuStatus", "menuStatus:EQ");
-            put("menuName", "menuName:LIKE");
-            put("menuCode", "menuCode:LIKE");
-            put("parentId", "parentId:EQ");
-            put("parentIdIN", "parentId:IN");
-            put("parentIdsIN", "parentIds:IN");
-            put("parentIdsLIKE", "parentIds:LIKE");
-            put("level", "level:EQ");
-            put("levelIN", "level:IN");
-            put("parentPath", "parentPath:EQ");
-            put("leaf", "leaf:EQ");
-        }
-    };
-
-    @Override
-    public Map<String, String> getQueryExpressions() {
-        return expressionMap;
-    }
 
     @Override
     public SysMenu saveMenu(SysMenu sysMenu) {
@@ -76,7 +55,10 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
 
         if (parentId != 0L) {
             parentSysMenu.setHasChildren(true);
-            this.update(parentSysMenu, Sets.newHashSet("hasChildren"));
+            LambdaUpdateWrapper<SysMenu> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+            lambdaUpdateWrapper.eq(SysMenu::getId, parentSysMenu.getId());
+            lambdaUpdateWrapper.set(SysMenu::getHasChildren, parentSysMenu.getHasChildren());
+            this.update(parentSysMenu, lambdaUpdateWrapper);
         }
 
         sysMenu.setHasChildren(false);
@@ -87,7 +69,8 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
             sysMenu.setParentIds(parentSysMenu.getParentIds() + "," + parentSysMenu.getId());
         }
 
-        return this.save(sysMenu);
+        this.save(sysMenu);
+        return sysMenu;
     }
 
     @Override
@@ -185,12 +168,12 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
         }
 
         if (updateSysMenus.size() > 0) {
-            super.update(updateSysMenus, UPDATE_FIELD);
+            super.updateBatchById(updateSysMenus);
         }
 
         if (newSysMenuMap.values().size() > 0){
             log.info("新增菜单：{}", newSysMenuMap.values().size());
-            super.save(Lists.newArrayList(newSysMenuMap.values()));
+            super.saveBatch(newSysMenuMap.values());
         }
     }
 
@@ -217,7 +200,16 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
             sysMenu.setTreePath(newParentSysMenu.getTreePath() + "," + sysMenu.getId());
         }
 
-        super.update(sysMenu, UPDATE_FIELD);
+        LambdaUpdateWrapper<SysMenu> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(SysMenu::getId, sysMenu.getId());
+        lambdaUpdateWrapper.set(SysMenu::getMenuName, sysMenu.getMenuName());
+        lambdaUpdateWrapper.set(SysMenu::getMenuCode, sysMenu.getMenuCode());
+        lambdaUpdateWrapper.set(SysMenu::getSortNum, sysMenu.getSortNum());
+        lambdaUpdateWrapper.set(SysMenu::getParentId, sysMenu.getParentId());
+        lambdaUpdateWrapper.set(SysMenu::getParentIds, sysMenu.getParentIds());
+        lambdaUpdateWrapper.set(SysMenu::getTreePath, sysMenu.getTreePath());
+        lambdaUpdateWrapper.set(SysMenu::getHasChildren, sysMenu.getHasChildren());
+        super.update(sysMenu, lambdaUpdateWrapper);
 
         return sysMenu;
     }
@@ -291,36 +283,36 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
             }
         }
 
-        super.update(updateSysMenu, UPDATE_FIELD);
+        super.updateBatchById(updateSysMenu);
     }
 
     @Override
     public List<SysMenu> findByMenuCode(String menuCode) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("menuCode", menuCode);
-        return this.list(params);
+        LambdaQueryWrapper<SysMenu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like(SysMenu::getMenuCode, menuCode);
+        return super.list(lambdaQueryWrapper);
     }
 
 
     @Override
     public List<SysMenu> findByParentId(Long parentId) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("parentId", parentId);
-        return this.list(params);
+        LambdaQueryWrapper<SysMenu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysMenu::getParentId, parentId);
+        return super.list(lambdaQueryWrapper);
     }
 
 
     @Override
     public List<SysMenu> findByParentIds(Set<Long> parentIds) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("parentIdIN", parentIds);
-        return this.list(params);
+        LambdaQueryWrapper<SysMenu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SysMenu::getParentId, parentIds);
+        return super.list(lambdaQueryWrapper);
     }
 
     public List<SysMenu> findAllChildren(Long parentId) {
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("parentIdsLIKE", parentId);
-        return super.list(params);
+        LambdaQueryWrapper<SysMenu> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like(SysMenu::getParentIds, parentId);
+        return super.list(lambdaQueryWrapper);
     }
 
     /**
@@ -329,9 +321,7 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
     @Override
     public void deleteMenu(Set<Long> ids) {
         List<SysMenu> sysMenuList = super.listByIds(ids);
-
         List<SysMenu> parentSysMenuList = this.findByParentIds(sysMenuList.stream().map(SysMenu::getParentId).collect(Collectors.toSet()));
-
         // 同级兄弟id
         Map<Long, List<SysMenu>> brotherIdMap = parentSysMenuList.stream().collect(Collectors.groupingBy(SysMenu::getParentId));
         for (SysMenu sysMenu : sysMenuList) {
@@ -341,10 +331,13 @@ public class SysMenuServiceImpl extends AppBaseServiceImpl<SysMenu, SysMenuRepos
                 if (brotherSysMenu != null && brotherSysMenu.size() == 1) {
                     SysMenu parentSysMenu = super.getById(sysMenu.getParentId());
                     parentSysMenu.setHasChildren(false);
-                    this.update(parentSysMenu, Sets.newHashSet("hasChildren"));
+                    LambdaUpdateWrapper<SysMenu> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+                    lambdaUpdateWrapper.eq(SysMenu::getId, parentSysMenu.getId());
+                    lambdaUpdateWrapper.set(SysMenu::getHasChildren, parentSysMenu.getHasChildren());
+                    this.update(parentSysMenu, lambdaUpdateWrapper);
                 }
             }
-            this.deleteById(sysMenu.getId());
+            this.removeById(sysMenu.getId());
         }
     }
 }

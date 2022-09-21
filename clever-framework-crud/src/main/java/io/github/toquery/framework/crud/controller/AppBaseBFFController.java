@@ -1,8 +1,7 @@
 package io.github.toquery.framework.crud.controller;
 
 import io.github.toquery.framework.crud.service.impl.AppBFFServiceImpl;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
-import io.github.toquery.framework.dao.repository.AppJpaBaseRepository;
+import io.github.toquery.framework.core.entity.AppBaseEntity;
 import io.github.toquery.framework.webmvc.controller.AppBaseWebMvcController;
 
 /**

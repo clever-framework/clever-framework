@@ -1,16 +1,15 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
 import io.github.toquery.framework.system.entity.SysDictItem;
-import io.github.toquery.framework.system.repository.SysDictItemRepository;
+import io.github.toquery.framework.system.mapper.SysDictItemMapper;
 import io.github.toquery.framework.system.service.ISysDictItemService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,47 +17,37 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysDictItemServiceImpl extends AppBaseServiceImpl<SysDictItem, SysDictItemRepository>
-        implements ISysDictItemService {
+public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements ISysDictItemService {
 
     public static final Set<String> UPDATE_FIELD = Sets.newHashSet("itemText", "itemValue", "itemDesc", "sortNum", "disable");
 
-    @Override
-    public Map<String, String> getQueryExpressions() {
-        Map<String, String> map = new HashMap<>();
-        map.put("idIN", "id:IN");
-        map.put("dictId", "dictId:EQ");
-        map.put("dictIds", "dictId:IN");
-        map.put("codeLike", "code:LIKE");
-        return map;
-    }
 
     @Override
     public List<SysDictItem> findByDictId(Long dictId) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("dictId", dictId);
-        return super.list(param);
+        LambdaQueryWrapper<SysDictItem> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysDictItem::getDictId, dictId);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
     public List<SysDictItem> findByDictIds(Set<Long> dictIds) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("dictIds", dictIds);
-        return super.list(param);
+        LambdaQueryWrapper<SysDictItem> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SysDictItem::getDictId, dictIds);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
     public void deleteByDictId(Long dictId) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("dictId", dictId);
-        super.delete(param);
+        LambdaQueryWrapper<SysDictItem> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysDictItem::getDictId, dictId);
+        super.remove(lambdaQueryWrapper);
     }
 
     @Override
     public void deleteByDictIds(Set<Long> dictIds) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("dictIds", dictIds);
-        super.delete(param);
+        LambdaQueryWrapper<SysDictItem> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SysDictItem::getDictId, dictIds);
+        super.remove(lambdaQueryWrapper);
     }
 
     @Override
@@ -87,15 +76,15 @@ public class SysDictItemServiceImpl extends AppBaseServiceImpl<SysDictItem, SysD
                 .collect(Collectors.toList());
 
         if (deleteIds.size() > 0) {
-            super.deleteByIds(deleteIds);
+            super.removeBatchByIds(deleteIds);
         }
 
         if (updates.size() > 0) {
-            super.update(updates, UPDATE_FIELD);
+            super.updateBatchById(updates);
         }
 
         if (saves.size() > 0) {
-            super.save(saves);
+            super.saveBatch(saves);
         }
 
         return Lists.newArrayList(Iterables.concat(updates, saves));
@@ -103,11 +92,13 @@ public class SysDictItemServiceImpl extends AppBaseServiceImpl<SysDictItem, SysD
 
     @Override
     public SysDictItem saveSysDictCheck(SysDictItem sysDictItem) {
-        return super.save(sysDictItem);
+        super.save(sysDictItem);
+        return sysDictItem;
     }
 
     @Override
     public SysDictItem updateSysDictItemCheck(SysDictItem sysDictItem) {
-        return super.update(sysDictItem, Sets.newHashSet("itemText", "itemValue", "itemDesc", "sortNum", "disable"));
+        super.updateById(sysDictItem);
+        return sysDictItem;
     }
 }

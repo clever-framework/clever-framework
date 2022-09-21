@@ -1,11 +1,14 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.toquery.framework.system.entity.SysDict;
 import io.github.toquery.framework.system.entity.SysDictItem;
-import io.github.toquery.framework.system.repository.SysDictRepository;
+import io.github.toquery.framework.system.entity.SysMenu;
+import io.github.toquery.framework.system.mapper.SysDictMapper;
 import io.github.toquery.framework.system.service.ISysDictItemService;
 import io.github.toquery.framework.system.service.ISysDictService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,27 +23,17 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepository> implements ISysDictService {
+public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements ISysDictService {
 
 
     @Autowired
     private ISysDictItemService sysDictItemService;
 
     @Override
-    public Map<String, String> getQueryExpressions() {
-        Map<String, String> map = new HashMap<>();
-        map.put("idIN", "id:IN");
-        map.put("dictCode", "dictCode:LIKE");
-        map.put("dictName", "dictName:LIKE");
-        map.put("description", "description:LIKE");
-        return map;
-    }
-
-    @Override
     public List<SysDict> findByCode(String dictCode) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("dictCode", dictCode);
-        return super.list(param);
+        LambdaQueryWrapper<SysDict> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysDict::getDictCode, dictCode);
+        return super.list(lambdaQueryWrapper);
     }
 
 
@@ -75,7 +68,14 @@ public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepos
             throw new AppException("已存在字典项" + sysDict.getDictCode());
         }
 
-        sysDict = super.update(sysDict, Sets.newHashSet("dictName", "dictCode", "description", "sortNum"));
+        LambdaUpdateWrapper<SysDict> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(SysDict::getId, sysDict.getId());
+        lambdaUpdateWrapper.set(SysDict::getDictName, sysDict.getDictName());
+        lambdaUpdateWrapper.set(SysDict::getDictCode, sysDict.getDictCode());
+        lambdaUpdateWrapper.set(SysDict::getDictDesc, sysDict.getDictDesc());
+        lambdaUpdateWrapper.set(SysDict::getSortNum, sysDict.getSortNum());
+
+        super.update(sysDict, lambdaUpdateWrapper);
 
         if (sysDict.getDictItems() != null && sysDict.getDictItems().size() > 0) {
             List<SysDictItem> sysDictItems = sysDictItemService.reSave(sysDict.getId(), sysDict.getDictItems());
@@ -100,7 +100,7 @@ public class SysDictServiceImpl extends AppBaseServiceImpl<SysDict, SysDictRepos
     @Override
     public void deleteSysDictCheck(Set<Long> ids) {
         sysDictItemService.deleteByDictIds(ids);
-        super.deleteByIds(ids);
+        super.removeByIds(ids);
     }
 
     @Override

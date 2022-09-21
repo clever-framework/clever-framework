@@ -2,6 +2,7 @@ package io.github.toquery.framework.security.properties;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import io.github.toquery.framework.security.constant.TokenTypeConstant;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,10 @@ public class AppSecurityProperties {
      */
     private boolean register = false;
 
+    /**
+     *
+     */
+    private TokenTypeConstant tokenType = TokenTypeConstant.JWT;
     /**
      * 配置白名单
      */

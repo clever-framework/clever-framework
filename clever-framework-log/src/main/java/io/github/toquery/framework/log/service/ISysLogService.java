@@ -1,9 +1,9 @@
 package io.github.toquery.framework.log.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.toquery.framework.core.log.AppLogType;
-import io.github.toquery.framework.crud.service.AppBaseService;
 import io.github.toquery.framework.log.entity.SysLog;
-import org.springframework.data.domain.Page;
 
 import java.util.Map;
 
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author toquery
  * @version 1
  */
-public interface ISysLogService extends AppBaseService<SysLog> {
+public interface ISysLogService extends IService<SysLog> {
 
     public int insertSysLog(Long userId, String userName, String moduleName, String bizName, AppLogType logType, String rawData, String targetData);
 

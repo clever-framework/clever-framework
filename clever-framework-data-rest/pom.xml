@@ -14,10 +14,10 @@
     <url>https://github.com/ToQuery/clever-framework</url>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-crud</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

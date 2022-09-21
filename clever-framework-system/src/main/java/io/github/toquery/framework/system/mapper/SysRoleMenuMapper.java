@@ -12,7 +12,6 @@ import java.util.Set;
  * @author toquery
  * @version 1
  */
-@Mapper
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
     List<SysRoleMenu> findWithSysRoleMenuByRoleIds(@Param("sysRoleIds") Set<Long> sysRoleIds);

@@ -6,7 +6,7 @@ import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.security.AppSecurityKey;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
-import io.github.toquery.framework.dao.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.AppBaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
 import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.service.ISysLogService;
@@ -17,10 +17,8 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -117,7 +115,7 @@ public class AppBizLogMethodAspect {
         }
         sysLog.setUserId(userId);
         sysLog.setUserName(userName);
-        sysLog = sysLogService.save(sysLog);
+        sysLogService.save(sysLog);
         log.debug("保存业务日志成功 AppBizLogMethodAspect -> doAfterReturning -> handleBizLog 操作类: {} 方法：{}", joinPoint.getTarget().getClass().toString(), joinPoint.getSignature().getName());
     }
 

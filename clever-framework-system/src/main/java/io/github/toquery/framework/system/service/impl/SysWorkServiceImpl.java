@@ -1,20 +1,17 @@
 package io.github.toquery.framework.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.crud.service.impl.AppBaseServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.toquery.framework.system.constant.SysUserWorkEnum;
-import io.github.toquery.framework.system.entity.SysArea;
 import io.github.toquery.framework.system.entity.SysDept;
 import io.github.toquery.framework.system.entity.SysPost;
-import io.github.toquery.framework.system.entity.SysRole;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysWork;
-import io.github.toquery.framework.system.repository.SysWorkRepository;
-import io.github.toquery.framework.system.service.ISysAreaService;
+import io.github.toquery.framework.system.mapper.SysWorkMapper;
 import io.github.toquery.framework.system.service.ISysDeptService;
 import io.github.toquery.framework.system.service.ISysPostService;
-import io.github.toquery.framework.system.service.ISysRoleService;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.system.service.ISysWorkService;
 
@@ -31,7 +28,7 @@ import java.util.stream.Collectors;
  * @author toquery
  * @version 1
  */
-public class SysWorkServiceImpl extends AppBaseServiceImpl<SysWork, SysWorkRepository> implements ISysWorkService {
+public class SysWorkServiceImpl extends ServiceImpl<SysWorkMapper, SysWork> implements ISysWorkService {
 
     private final ISysUserService sysUserService;
 
@@ -61,15 +58,15 @@ public class SysWorkServiceImpl extends AppBaseServiceImpl<SysWork, SysWorkRepos
         }
     };
 
-    @Override
-    public Map<String, String> getQueryExpressions() {
-        return expressionMap;
-    }
+//    @Override
+//    public Map<String, String> getQueryExpressions() {
+//        return expressionMap;
+//    }
 
     @Override
     public SysWork getWithFullById(Long id) {
         SysWork sysWork = super.getById(id);
-        sysWork.setUser(sysUserService.getById(sysWork.getUserId()));
+        sysWork.setUser((SysUser)sysUserService.getById(sysWork.getUserId()));
         sysWork.setDept(sysDeptService.getById(sysWork.getDeptId()));
         sysWork.setPost(sysPostService.getById(sysWork.getPostId()));
         return sysWork;
@@ -87,9 +84,9 @@ public class SysWorkServiceImpl extends AppBaseServiceImpl<SysWork, SysWorkRepos
 
     @Override
     public List<SysWork> findByUserIds(Collection<Long> userIds) {
-        Map<String, Object> param = Maps.newHashMap();
-        param.put("userIds", userIds);
-        return super.list(param);
+        LambdaQueryWrapper<SysWork> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SysWork::getUserId, userIds);
+        return super.list(lambdaQueryWrapper);
     }
 
     @Override
