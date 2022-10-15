@@ -57,7 +57,7 @@ public class AuthenticationRest extends AppBaseWebController {
      * jti: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。
      */
     @Timed(value = "system-login", description = "系统-登录")
-    @PostMapping(value = "${app.jwt.path.token:/user/login}")
+    @PostMapping(value = "${app.jwt.path.token:/admin/login}")
     public ResponseEntity<?> createAuthenticationToken(@RequestParam(required = false, defaultValue = "admin") String device, @RequestBody UserLoginRequest userLoginRequest) throws AppException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequest.getUsername(), userLoginRequest.getPassword()));
         SysUserOnline sysUserOnlineInfo = sysUserOnline.issueToken((SysUser) authentication.getPrincipal(), device);
@@ -67,7 +67,7 @@ public class AuthenticationRest extends AppBaseWebController {
 
 
 /*    @Timed(value = "system-token-refresh", description = "系统-token刷新")
-    @GetMapping(value = "${app.jwt.path.refresh:/user/refresh}")
+    @GetMapping(value = "${app.security.admin.path.refresh:/user/refresh}")
     public ResponseEntity<?> refreshAndGetAuthenticationToken() {
         String token = jwtTokenHandler.getJwtToken();
         String username = jwtTokenHandler.getUsernameFromToken(token);
@@ -82,7 +82,7 @@ public class AuthenticationRest extends AppBaseWebController {
     }*/
 
     @Timed(value = "system-user-info", description = "系统-用户信息")
-    @RequestMapping(value = "${app.jwt.path.info:/user/info}")
+    @RequestMapping(value = "${app.security.admin.path.info:/admin/info}")
     public ResponseEntity<ResponseBodyWrap<?>> getAuthenticatedUser(JwtAuthenticationToken authentication,
                                                                     @RequestParam(required = false) Long roleId,
                                                                     @RequestParam(required = false) String roleModel) throws AppSecurityException {
@@ -105,7 +105,7 @@ public class AuthenticationRest extends AppBaseWebController {
 
 
     @Timed(value = "system-user-password", description = "系统-用户修改密码")
-    @RequestMapping(value = "${app.jwt.path.password:/user/password}")
+    @RequestMapping(value = "${app.security.admin.path.password:/admin/password}")
     public ResponseEntity<ResponseBodyWrap<?>> changePassword(JwtAuthenticationToken authentication, @Validated @RequestBody UserChangePasswordRequest changePassword) throws AppException {
         if (!changePassword.getRawPassword().equals(changePassword.getRawPasswordConfirm())) {
             return ResponseEntity.badRequest().body(ResponseBodyWrap.builder().message("两次密码输入不一致").build());
@@ -116,7 +116,7 @@ public class AuthenticationRest extends AppBaseWebController {
 
 
     @Timed(value = "system-logout", description = "系统-退出")
-    @RequestMapping(value = "${app.jwt.path.logout:/user/logout}")
+    @RequestMapping(value = "${app.security.admin.path.logout:/admin/logout}")
     public ResponseEntity<ResponseBodyWrap<?>> userLogout(Authentication authentication) {
         sysUserOnline.logout(authentication);
         return ResponseEntity.ok(ResponseBodyWrap.builder().success("user logout").build());

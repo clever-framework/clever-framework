@@ -6,7 +6,7 @@ import io.github.toquery.framework.security.DelegatingSysUserOnline;
 import io.github.toquery.framework.security.config.AppSecurityConfig;
 import io.github.toquery.framework.security.exception.AppSecurityExceptionAdvice;
 import io.github.toquery.framework.security.ignoring.AppSecurityJwtIgnoring;
-import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.github.toquery.framework.security.provider.JwtTokenProvider;
 import io.github.toquery.framework.security.rest.AuthenticationRest;
@@ -35,8 +35,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 @Slf4j
 @Configuration
 @Import({AppSecurityConfig.class, AppSecurityJwtIgnoring.class})
-//@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
-@EnableConfigurationProperties({AppSecurityProperties.class, AppSecurityJwtProperties.class})
+@EnableConfigurationProperties({AppSecurityProperties.class, AppSecurityAdminProperties.class})
 @AutoConfigureAfter({AppSystemAutoConfiguration.class})
 public class AppSecurityAutoConfiguration {
 
@@ -44,11 +43,6 @@ public class AppSecurityAutoConfiguration {
         log.info("自动装配 App Security 自动化配置");
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public AuditorAware<Long> auditorProvider() {
-//        return new AppAuditorAwareImpl();
-//    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -74,9 +68,10 @@ public class AppSecurityAutoConfiguration {
         return new UserRegisterRest(passwordEncoder, sysUserService);
     }
 
+
     @Bean
     @ConditionalOnMissingBean
-    public JwtTokenProvider jwtTokenProvider(JwtEncoder encoder, AppSecurityJwtProperties appSecurityJwtProperties) {
+    public JwtTokenProvider jwtTokenProvider(JwtEncoder encoder, AppSecurityAdminProperties appSecurityJwtProperties) {
         return new JwtTokenProvider(encoder, appSecurityJwtProperties);
     }
 
@@ -85,7 +80,7 @@ public class AppSecurityAutoConfiguration {
     @ConditionalOnMissingBean
     public DelegatingSysUserOnline delegatingSysUserOnline(JwtTokenProvider jwtTokenProvider,
                                                            ISysUserOnlineService sysUserOnlineService,
-                                                           AppSecurityJwtProperties appSecurityJwtProperties) {
+                                                           AppSecurityAdminProperties appSecurityJwtProperties) {
         return new DelegatingSysUserOnline(jwtTokenProvider, sysUserOnlineService, appSecurityJwtProperties);
     }
 

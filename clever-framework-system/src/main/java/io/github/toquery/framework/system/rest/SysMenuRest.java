@@ -1,7 +1,9 @@
 package io.github.toquery.framework.system.rest;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.util.AppTreeUtil;
@@ -40,6 +42,8 @@ import java.util.Set;
 @RequestMapping("/sys/menu")
 @Timed(value = "system-menu", description = "系统-菜单")
 public class SysMenuRest extends AppBaseWebMvcController {
+
+    public static final Set<String> MENU_BLACKLIST = Sets.newHashSet("ADMIN", "ROOT", "APP", "OPEN", "MINIAPP", "MINI", "MA");
 
     public static final String MODEL_NAME = "系统管理";
 
@@ -89,6 +93,9 @@ public class SysMenuRest extends AppBaseWebMvcController {
     @PostMapping
     @PreAuthorize("hasAnyAuthority('system:menu:add')")
     public ResponseBodyWrap<?> saveResponseResult(@Validated @RequestBody SysMenu sysMenu) {
+        if (MENU_BLACKLIST.contains(sysMenu.getMenuCode().trim().toUpperCase())){
+            return ResponseBodyWrap.builder().fail("不允许使用" + Joiner.on(",").join(MENU_BLACKLIST).toLowerCase() + "等菜单Code").build();
+        }
         return super.handleResponseBody(sysMenuService.saveMenu(sysMenu));
     }
 
@@ -104,6 +111,9 @@ public class SysMenuRest extends AppBaseWebMvcController {
     @PreAuthorize("hasAnyAuthority('system:menu:modify')")
     @AppLogMethod(value = SysMenu.class, logType = AppLogType.MODIFY, modelName = MODEL_NAME, bizName = BIZ_NAME)
     public ResponseBodyWrap<?> updateResponseResult(@RequestBody SysMenu menu) {
+        if (MENU_BLACKLIST.contains(menu.getMenuCode().trim().toUpperCase())){
+            return ResponseBodyWrap.builder().fail("不允许使用" + Joiner.on(",").join(MENU_BLACKLIST).toLowerCase() + "等菜单Code").build();
+        }
         return this.handleResponseBody(sysMenuService.updateMenu(menu));
     }
 

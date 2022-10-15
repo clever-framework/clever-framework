@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security;
 
 import com.google.common.base.Strings;
-import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
 import io.github.toquery.framework.security.provider.JwtTokenProvider;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserOnline;
@@ -25,7 +25,7 @@ public class DelegatingSysUserOnline {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final ISysUserOnlineService sysUserOnlineService;
-    private final AppSecurityJwtProperties appSecurityJwtProperties;
+    private final AppSecurityAdminProperties appSecurityJwtProperties;
 
 
     public SysUserOnline issueToken(SysUser sysUser, String device) {

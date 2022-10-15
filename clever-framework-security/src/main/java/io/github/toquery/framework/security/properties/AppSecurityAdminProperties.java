@@ -20,10 +20,10 @@ import java.security.interfaces.RSAPublicKey;
  */
 @Slf4j
 @Data
-@ConfigurationProperties(prefix = AppSecurityJwtProperties.PREFIX)
-public class AppSecurityJwtProperties {
+@ConfigurationProperties(prefix = AppSecurityAdminProperties.PREFIX)
+public class AppSecurityAdminProperties {
 
-    public static final String PREFIX = "app.jwt";
+    public static final String PREFIX = "app.security.admin";
 
     private String secret = "clever";
 
@@ -45,15 +45,15 @@ public class AppSecurityJwtProperties {
      */
     private boolean ignoreTokenExpires = false;
 
-    private AppJwtParamProperties param = new AppJwtParamProperties();
+    private AppSecurityAdminParamProperties param = new AppSecurityAdminParamProperties();
 
-    private AppJwtPathProperties path = new AppJwtPathProperties();
+    private AppSecurityAdminPathProperties path = new AppSecurityAdminPathProperties();
 
-    private AppSecurityJwtKey key = new AppSecurityJwtKey();
+    private AppSecurityAdminJwtKey key = new AppSecurityAdminJwtKey();
 
     @Getter
     @Setter
-    public static class AppSecurityJwtKey {
+    public static class AppSecurityAdminJwtKey {
         private RSAPublicKey publicKey;
 
         private RSAPrivateKey privateKey;
@@ -77,17 +77,17 @@ public class AppSecurityJwtProperties {
 
     @Getter
     @Setter
-    public static class AppJwtPathProperties {
-        private String token = "/user/login";
-        private String info = "/user/info";
-        private String refresh = "/user/refresh";
-        private String register = "/user/register";
-        private String logout = "/user/logout";
+    public static class AppSecurityAdminPathProperties {
+        private String token = "/admin/login";
+        private String info = "/admin/info";
+        private String refresh = "/admin/refresh";
+        private String register = "/admin/register";
+        private String logout = "/admin/logout";
     }
 
     @Getter
     @Setter
-    public static class AppJwtParamProperties {
+    public static class AppSecurityAdminParamProperties {
         private String username = "username";
         private String password = "password";
     }

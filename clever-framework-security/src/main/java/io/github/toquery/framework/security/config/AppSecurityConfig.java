@@ -13,7 +13,7 @@ import io.github.toquery.framework.security.endpoints.AppAccessDeniedHandler;
 import io.github.toquery.framework.security.endpoints.AppAuthenticationEntryPoint;
 import io.github.toquery.framework.security.endpoints.AppLogoutSuccessHandler;
 import io.github.toquery.framework.security.ignoring.DelegatingAppSecurityJwtIgnoring;
-import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -55,7 +55,7 @@ public class AppSecurityConfig {
 
 
     @Resource
-    private AppSecurityJwtProperties appSecurityJwtProperties;
+    private AppSecurityAdminProperties appSecurityJwtProperties;
 
     @Bean
     @ConditionalOnMissingBean
@@ -104,6 +104,7 @@ public class AppSecurityConfig {
         DefaultBearerTokenResolver bearerTokenResolver = new DefaultBearerTokenResolver();
         // 是否可以从uri请求参数中获取token
         bearerTokenResolver.setAllowUriQueryParameter(true);
+        bearerTokenResolver.setAllowFormEncodedBodyParameter(true);
         return bearerTokenResolver;
     }
 
@@ -159,7 +160,7 @@ public class AppSecurityConfig {
     @Bean
     @ConditionalOnMissingBean
     public JwtEncoder jwtEncoder() {
-        AppSecurityJwtProperties.AppSecurityJwtKey appJwtKey = appSecurityJwtProperties.getKey();
+        AppSecurityAdminProperties.AppSecurityAdminJwtKey appJwtKey = appSecurityJwtProperties.getKey();
         JWK jwk = new RSAKey.Builder(appJwtKey.getPublicKey()).privateKey(appJwtKey.getPrivateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
@@ -229,11 +230,14 @@ public class AppSecurityConfig {
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
             // 允许所有 OPTIONS 请求
             authorizationManagerRequestMatcherRegistry.antMatchers(HttpMethod.OPTIONS).permitAll();
+//            authorizationManagerRequestMatcherRegistry.antMatchers("/admin/**").hasAuthority("ADMIN");
+//            authorizationManagerRequestMatcherRegistry.antMatchers("/app/**").hasAuthority("APP");
             authorizationManagerRequestMatcherRegistry.antMatchers("/error").permitAll();
             authorizationManagerRequestMatcherRegistry.mvcMatchers("/error").permitAll();
 
             // 获取框架配置和配置文件中的路径，并忽略认证
-            authorizationManagerRequestMatcherRegistry.antMatchers(delegatingAppSecurityJwtIgnoring.getIgnoringArray()).permitAll();
+            authorizationManagerRequestMatcherRegistry.antMatchers("/admin/login").permitAll();
+            // authorizationManagerRequestMatcherRegistry.antMatchers(delegatingAppSecurityJwtIgnoring.getIgnoringArray()).permitAll();
             authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
         });
 
@@ -256,7 +260,7 @@ public class AppSecurityConfig {
             auth2ResourceServerConfigurer.authenticationEntryPoint(authenticationEntryPoint);
             auth2ResourceServerConfigurer.jwt(jwtConfigurer -> {
                 jwtConfigurer.decoder(jwtDecoder);
-                jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter);
+                // jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter);
                 jwtConfigurer.authenticationManager(new ProviderManager(new JwtAuthenticationProvider(jwtDecoder)));
 
             });

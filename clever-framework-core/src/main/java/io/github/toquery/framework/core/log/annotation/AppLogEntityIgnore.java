@@ -11,6 +11,8 @@ import java.lang.annotation.Target;
  * @author toquery
  * @version 1
  */
+
+@Deprecated
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AppLogEntityIgnore {

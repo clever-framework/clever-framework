@@ -2,7 +2,7 @@ package io.github.toquery.framework.security.ignoring;
 
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
-import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
@@ -16,11 +16,11 @@ public class AppSecurityJwtIgnoring implements AppSecurityIgnoring {
     }
 
     @Resource
-    private AppSecurityJwtProperties appSecurityJwtProperties;
+    private AppSecurityAdminProperties appSecurityJwtProperties;
 
     @Override
     public Set<String> ignoring() {
-        AppSecurityJwtProperties.AppJwtPathProperties pathProperties = appSecurityJwtProperties.getPath();
+        AppSecurityAdminProperties.AppSecurityAdminPathProperties pathProperties = appSecurityJwtProperties.getPath();
         return Sets.newHashSet(pathProperties.getRegister(), pathProperties.getToken());
     }
 

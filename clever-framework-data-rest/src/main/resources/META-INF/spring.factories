@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.toquery.framework.data.rest.autoconfig.AppRepositoryRestAutoConfiguration

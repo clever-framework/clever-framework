@@ -25,7 +25,8 @@ public class AppAuthenticationFailureHandler implements AuthenticationFailureHan
 
         if (exception instanceof BadCredentialsException || exception instanceof UsernameNotFoundException) {
             ResponseBodyWrap<?> responseParam = ResponseBodyWrap.builder().message("用户信息错误").build();
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));
+            response.getWriter().write(JacksonUtils.object2String(responseParam));
+            // response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));
         }
     }
 }

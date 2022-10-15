@@ -2,7 +2,7 @@ package io.github.toquery.framework.security.provider;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import io.github.toquery.framework.security.properties.AppSecurityJwtProperties;
+import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
 import io.github.toquery.framework.system.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import java.time.Instant;
 public class JwtTokenProvider {
 
     private final JwtEncoder encoder;
-    private final AppSecurityJwtProperties appSecurityJwtProperties;
+    private final AppSecurityAdminProperties appSecurityJwtProperties;
 
     public String issueToken(SysUser sysUser, String device) {
 
@@ -33,7 +33,7 @@ public class JwtTokenProvider {
         Instant expires = now.plusSeconds(appSecurityJwtProperties.getExpires());
 
         JwtClaimsSet.Builder claimsBuilder = JwtClaimsSet.builder();
-        if (Strings.isNullOrEmpty(tokenId)) {
+        if (!Strings.isNullOrEmpty(tokenId)) {
             claimsBuilder.id(tokenId);
         }
 
