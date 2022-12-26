@@ -6,6 +6,7 @@
 
 - 修复jwt验证错误
 - 增加针对Spring默认错误返回信息的处理
+- 升级至Spring Boot 3
 
 
 ## [v1.0.7](https://github.com/ToQuery/clever-framework/tree/v1.0.7) (2019-10-17)

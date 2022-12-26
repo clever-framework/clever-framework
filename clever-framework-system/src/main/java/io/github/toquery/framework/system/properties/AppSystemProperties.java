@@ -25,6 +25,6 @@ public class AppSystemProperties {
     /**
      * 是否允许注册新用户
      */
-    private boolean allowRegistration = true;
+    private boolean register = true;
 
 }

@@ -1,6 +1,8 @@
 package io.github.toquery.framework.core.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
@@ -54,6 +56,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId
     @Id
     @Column
     // @RevisionNumber
@@ -71,12 +74,14 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
 //    private long revisionDatetime;
 
 
+    @TableField(value = "create_user_id")
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "create_user_id", length = 32, updatable = false)
     private Long createUserId;
 
 
+    @TableField(value = "create_date_time")
     @CreatedDate
     @CreationTimestamp
     //@Temporal(TemporalType.TIMESTAMP)
@@ -86,12 +91,14 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     private LocalDateTime createDateTime;
 
 
+    @TableField(value = "update_user_id")
     @LastModifiedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "update_user_id", length = 32)
     private Long updateUserId;
 
 
+    @TableField(value = "update_date_time")
     @LastModifiedDate
     @UpdateTimestamp
     //@Temporal(TemporalType.TIMESTAMP)

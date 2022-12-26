@@ -46,13 +46,14 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     // 用户名，唯一
     @NotBlank
     @Length(min = 4, max = 50)
-    @Column(name = "user_name", length = 50, unique = true)
+    @TableField(value = "username")
+    @Column(name = "username", length = 50, unique = true)
     private String username;
 
     // 用户昵称
     @NotBlank
     @Length(min = 1, max = 50)
-    @Column(name = "nick_name", length = 50, nullable = false)
+    @Column(name = "nickname", length = 50, nullable = false)
     private String nickname;
 
     //@JsonIgnore
@@ -100,6 +101,7 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
     */
 
     @Transient
+    @TableField(exist = false)
     private Collection<SysPermission> userPermissions;
 
     /**
@@ -107,15 +109,19 @@ public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetail
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Transient
+    @TableField(exist = false)
     private Collection<Long> roleIds;
 
     @Transient
+    @TableField(exist = false)
     private Collection<SysRole> roles;
 
     @Transient
+    @TableField(exist = false)
     private SysRole currentRole;
 
     @Transient
+    @TableField(exist = false)
     private SysArea currentArea;
 
     @TableField(exist = false)

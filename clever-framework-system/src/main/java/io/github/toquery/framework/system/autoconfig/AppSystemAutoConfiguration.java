@@ -2,6 +2,8 @@ package io.github.toquery.framework.system.autoconfig;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.toquery.framework.core.properties.AppProperties;
+import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
+import io.github.toquery.framework.system.DelegatingSysUserOnline;
 import io.github.toquery.framework.system.mapper.SysPermissionMapper;
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import io.github.toquery.framework.system.rest.*;
@@ -20,6 +22,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Role;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -46,10 +49,29 @@ public class AppSystemAutoConfiguration {
         log.info("自动装配 App System 自动配置");
     }
 
+
     @Bean
     @ConditionalOnMissingBean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationRest authenticationRest(AppProperties appProperties,
+                                                 ISysUserService sysUserService,
+                                                 AppUserDetailService appUserDetailsService,
+                                                 DelegatingSysUserOnline sysUserOnlineHandler,
+                                                 AuthenticationManager authenticationManager) {
+        return new AuthenticationRest(appProperties, sysUserService, sysUserOnlineHandler, appUserDetailsService, authenticationManager);
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = AppSystemProperties.PREFIX, name = "register", havingValue = "true")
+    public UserRegisterRest userRegisterRest(PasswordEncoder passwordEncoder, ISysUserService sysUserService) {
+        log.debug("系统当前配置开启用户注册");
+        return new UserRegisterRest(passwordEncoder, sysUserService);
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DelegatingSysUserOnline delegatingSysUserOnline(ISysUserOnlineService sysUserOnlineService) {
+        return new DelegatingSysUserOnline(sysUserOnlineService);
     }
 
     @Bean

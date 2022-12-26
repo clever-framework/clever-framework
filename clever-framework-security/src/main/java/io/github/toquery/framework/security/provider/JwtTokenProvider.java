@@ -3,7 +3,6 @@ package io.github.toquery.framework.security.provider;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
-import io.github.toquery.framework.system.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -22,12 +21,11 @@ public class JwtTokenProvider {
     private final JwtEncoder encoder;
     private final AppSecurityAdminProperties appSecurityJwtProperties;
 
-    public String issueToken(SysUser sysUser, String device) {
-
-        return this.issueToken(sysUser, null, device);
+    public String issueToken(String username, String device) {
+        return this.issueToken(username, null, device);
     }
 
-    public String issueToken(SysUser sysUser, String tokenId, String device) {
+    public String issueToken(String username, String tokenId, String device) {
 
         Instant now = Instant.now();
         Instant expires = now.plusSeconds(appSecurityJwtProperties.getExpires());
@@ -41,7 +39,7 @@ public class JwtTokenProvider {
                 .issuer(appSecurityJwtProperties.getIssuer())
                 .issuedAt(now)
                 .expiresAt(expires)
-                .subject(sysUser.getUsername())
+                .subject(username)
                 .audience(Lists.newArrayList(device))
                 // .claim(AppSecurityKey.SCOPE, scope)
                 ;

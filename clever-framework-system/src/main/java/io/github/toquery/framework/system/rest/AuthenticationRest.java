@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.rest;
+package io.github.toquery.framework.system.rest;
 
 
 import com.google.common.base.Strings;
@@ -6,13 +6,12 @@ import io.github.toquery.framework.core.constant.AppEnumRoleModel;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.core.properties.AppProperties;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetailService;
-import io.github.toquery.framework.security.DelegatingSysUserOnline;
-import io.github.toquery.framework.security.exception.AppSecurityException;
-import io.github.toquery.framework.security.model.request.UserChangePasswordRequest;
-import io.github.toquery.framework.security.model.request.UserLoginRequest;
-import io.github.toquery.framework.security.model.respose.JwtResponse;
+import io.github.toquery.framework.system.DelegatingSysUserOnline;
 import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.entity.SysUserOnline;
+import io.github.toquery.framework.system.model.request.UserChangePasswordRequest;
+import io.github.toquery.framework.system.model.request.UserLoginRequest;
+import io.github.toquery.framework.system.model.respose.JwtResponse;
 import io.github.toquery.framework.system.service.ISysUserService;
 import io.github.toquery.framework.web.controller.AppBaseWebController;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
@@ -24,7 +23,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -83,9 +81,9 @@ public class AuthenticationRest extends AppBaseWebController {
 
     @Timed(value = "system-user-info", description = "系统-用户信息")
     @RequestMapping(value = "${app.security.admin.path.info:/admin/info}")
-    public ResponseEntity<ResponseBodyWrap<?>> getAuthenticatedUser(JwtAuthenticationToken authentication,
+    public ResponseEntity<ResponseBodyWrap<?>> getAuthenticatedUser(Authentication authentication,
                                                                     @RequestParam(required = false) Long roleId,
-                                                                    @RequestParam(required = false) String roleModel) throws AppSecurityException {
+                                                                    @RequestParam(required = false) String roleModel) {
         SysUser user = (SysUser) appUserDetailsService.loadFullUserByUsername(authentication.getName());
 
         AppEnumRoleModel defaultRoleModel = appProperties.getRoleModel();
@@ -106,7 +104,7 @@ public class AuthenticationRest extends AppBaseWebController {
 
     @Timed(value = "system-user-password", description = "系统-用户修改密码")
     @RequestMapping(value = "${app.security.admin.path.password:/admin/password}")
-    public ResponseEntity<ResponseBodyWrap<?>> changePassword(JwtAuthenticationToken authentication, @Validated @RequestBody UserChangePasswordRequest changePassword) throws AppException {
+    public ResponseEntity<ResponseBodyWrap<?>> changePassword(Authentication authentication, @Validated @RequestBody UserChangePasswordRequest changePassword) throws AppException {
         if (!changePassword.getRawPassword().equals(changePassword.getRawPasswordConfirm())) {
             return ResponseEntity.badRequest().body(ResponseBodyWrap.builder().message("两次密码输入不一致").build());
         }

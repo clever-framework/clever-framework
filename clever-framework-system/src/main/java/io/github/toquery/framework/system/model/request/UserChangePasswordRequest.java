@@ -1,4 +1,4 @@
-package io.github.toquery.framework.security.model.request;
+package io.github.toquery.framework.system.model.request;
 
 import lombok.Data;
 

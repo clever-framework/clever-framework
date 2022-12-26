@@ -14,11 +14,11 @@
 
 注意：snapshots 版本会及时响应，修复最新的 bug 或者必要的需求。
 
-| 依赖         | 版本             |
-| ------------ |----------------|
-| Spring       | 5.3.14.RELEASE |
-| Spring Boot  | 2.6.2.RELEASE  |
-| Spring Cloud | 2021.0.0       |
+| 依赖         | 版本            |
+| ------------ |---------------|
+| Spring       | 6.0.0.RELEASE |
+| Spring Boot  | 3.0.0.RELEASE |
+| Spring Cloud | 2022.0.0      |
 
 
 [![ReadMe Card](https://github-readme-stats.vercel.app/api/pin/?username=toquery&repo=clever-framework)](https://github.com/toquery/clever-framework)

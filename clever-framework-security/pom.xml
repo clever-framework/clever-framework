@@ -70,17 +70,16 @@
             <artifactId>clever-framework-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
+         <!--
+         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-system</artifactId>
         </dependency>
-
-        <!--
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>9.22</version>
         </dependency>
--->
+        -->
     </dependencies>
 </project>

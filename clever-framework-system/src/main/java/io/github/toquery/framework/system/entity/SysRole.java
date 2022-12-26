@@ -1,6 +1,7 @@
 package io.github.toquery.framework.system.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.github.toquery.framework.core.domain.AppEntitySort;
@@ -53,13 +54,17 @@ public class SysRole extends AppBaseEntity implements AppEntityLogicDel, AppEnti
     @Column(name = "deleted")
     private Boolean deleted = false;
 
+    @TableField(exist = false)
     @Transient
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Collection<Long> menuIds;
 
+
+    @TableField(exist = false)
     @Transient
     private Collection<SysUser> users;
 
+    @TableField(exist = false)
     @Transient
     private Collection<SysMenu> menus;
 
