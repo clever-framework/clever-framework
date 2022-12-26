@@ -60,9 +60,9 @@
         <springdoc.version>1.6.11</springdoc.version>
         <swagger.version>2.2.2</swagger.version>
 
-        <minio.version>8.4.5</minio.version>
+        <minio.version>8.4.6</minio.version>
 
-        <hutool.version>5.8.9</hutool.version>
+        <hutool.version>5.8.10</hutool.version>
 
         <!--
         <mybatis.version>3.5.9</mybatis.version>
