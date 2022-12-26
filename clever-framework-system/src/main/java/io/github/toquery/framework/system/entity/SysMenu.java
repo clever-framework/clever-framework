@@ -1,10 +1,7 @@
 package io.github.toquery.framework.system.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
@@ -19,12 +16,12 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,7 +34,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "sys_menu")
 @Table(name = "sys_menu")
 @Where(clause = "deleted = false")
 @SQLDelete(sql ="UPDATE sys_menu SET deleted = true WHERE id = ?")
@@ -64,54 +60,44 @@ public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntit
 
     @NotNull
     @Size(max = 50)
-    @TableField(value = "menu_name")
     @Column(name = "menu_name", length = 50)
     private String menuName;
 
     @NotNull
     @Size(max = 50)
-    @TableField(value = "menu_code")
     @Column(name = "menu_code", length = 50)
     private String menuCode;
 
     @NotNull
     @ColumnDefault("1")
-    @TableField(value = "menu_status")
     @Column(name = "menu_status")
     private Integer menuStatus = 1;
 
 
     // 树状结构
-    @TableField(value = "menu_level")
     @Column(name = "menu_level")
     private int menuLevel = 0;
 
-    @TableField(value = "parent_id")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @Column(name = "parent_id")
     private Long parentId;
 
-    @TableField(value = "parent_ids")
     @Column(name = "parent_ids")
     private String parentIds;
 
-    @TableField(value = "tree_path")
     @Column(name = "tree_path")
     private String treePath;
 
-    @TableField(value = "has_children")
     @Column(name = "has_children")
     private boolean hasChildren = false;
 
-    @TableField(value = "sort_num")
     @Column(name = "sort_num")
     private Integer sortNum = 0;
 
     /**
      * 是否删除：1已删除；0未删除
      */
-    @TableLogic
-    @TableField(value = "deleted")
+
     @ColumnDefault("false")
     @Column(name = "deleted")
     private Boolean deleted = false;

@@ -202,8 +202,8 @@ public class AppSystemAutoConfiguration {
     }
 
     @Bean
-    public ApplicationRunner getAppSystemRunner() {
-        return new AppSystemRunner();
+    public ApplicationRunner getAppSystemRunner(AppSystemProperties appSystemProperties, ISysMenuService sysMenuService) {
+        return new AppSystemRunner(appSystemProperties, sysMenuService);
     }
 
 }

@@ -44,7 +44,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.Duration;
 import java.util.List;
 
@@ -229,14 +229,14 @@ public class AppSecurityConfig {
         // 授权http请求
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
             // 允许所有 OPTIONS 请求
-            authorizationManagerRequestMatcherRegistry.antMatchers(HttpMethod.OPTIONS).permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.OPTIONS).permitAll();
 //            authorizationManagerRequestMatcherRegistry.antMatchers("/admin/**").hasAuthority("ADMIN");
 //            authorizationManagerRequestMatcherRegistry.antMatchers("/app/**").hasAuthority("APP");
-            authorizationManagerRequestMatcherRegistry.antMatchers("/error").permitAll();
-            authorizationManagerRequestMatcherRegistry.mvcMatchers("/error").permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers("/error").permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers("/error").permitAll();
 
             // 获取框架配置和配置文件中的路径，并忽略认证
-            authorizationManagerRequestMatcherRegistry.antMatchers("/admin/login").permitAll();
+            authorizationManagerRequestMatcherRegistry.requestMatchers("/admin/login").permitAll();
             // authorizationManagerRequestMatcherRegistry.antMatchers(delegatingAppSecurityJwtIgnoring.getIgnoringArray()).permitAll();
             authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
         });

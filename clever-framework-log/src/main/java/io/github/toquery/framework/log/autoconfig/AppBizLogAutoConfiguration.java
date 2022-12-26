@@ -52,12 +52,6 @@ public class AppBizLogAutoConfiguration {
         return new SysLogServiceImpl();
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public AppBizLogAnnotationHandler getAppBizLogAnnotationHandler() {
-        return new AppBizLogAnnotationHandler();
-    }
-
 
     @Bean
     public AppLogAuthenticationFailureListener appLogAuthenticationFailureListener() {
@@ -68,5 +62,10 @@ public class AppBizLogAutoConfiguration {
     @Bean
     public AppLogAuthenticationSuccessListener appLogAuthenticationSuccessListener() {
         return new AppLogAuthenticationSuccessListener();
+    }
+
+    @Bean
+    public AppBizLogAnnotationHandler appBizLogAnnotationHandler() {
+        return new AppBizLogAnnotationHandler();
     }
 }

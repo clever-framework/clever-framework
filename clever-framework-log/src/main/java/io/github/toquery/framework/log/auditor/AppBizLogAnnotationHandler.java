@@ -2,8 +2,6 @@ package io.github.toquery.framework.log.auditor;
 
 import com.google.common.collect.Maps;
 import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.core.log.annotation.AppLogEntity;
-import io.github.toquery.framework.core.log.annotation.AppLogEntityIgnore;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.core.log.annotation.AppLogFieldIgnore;
 import io.github.toquery.framework.core.log.AppLogType;
@@ -13,8 +11,8 @@ import io.github.toquery.framework.log.entity.SysLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 
-import javax.annotation.Resource;
-import javax.persistence.Transient;
+import jakarta.annotation.Resource;
+import jakarta.persistence.Transient;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -43,22 +41,8 @@ public class AppBizLogAnnotationHandler {
         return sysLog;
     }
 
-    public AppLogEntity handleEntityAnnotation(AppBaseEntity appBaseEntity) {
-        // 获取当前类，或父类的注解
-        AppLogEntity appLogEntity = appBaseEntity.getClass().getAnnotation(AppLogEntity.class);
-        // 忽略实体业务日志
-        AppLogEntityIgnore appLogEntityIgnore = appBaseEntity.getClass().getAnnotation(AppLogEntityIgnore.class);
 
-        if (appLogEntity == null || appLogEntityIgnore != null) {
-            log.debug("当前实体类 {} , 未配置 @AppLogEntity 注解，将不记录日志", appBaseEntity.getClass().getSimpleName());
-            return null;
-        }
-        log.debug("当前实体类 {}, 已配置 @AppLogEntity 注解，将记录日志, modelName = {}, bizName = {}", appBaseEntity.getClass().getSimpleName(), appLogEntity.modelName(), appLogEntity.bizName());
-        return appLogEntity;
-    }
-
-
-    public Set<Field> handleEntityFields(AppBaseEntity appBaseEntity, AppLogEntity appLogEntity) {
+    public Set<Field> handleEntityFields(AppBaseEntity appBaseEntity) {
         // 标识为 AppLogIgnoreField、Transient 或者 在全局设置中的字段 将不记录日志
         return Arrays.stream(appBaseEntity.getClass().getDeclaredFields())
                 .filter(item -> item.getAnnotation(AppLogFieldIgnore.class) == null && item.getAnnotation(Transient.class) == null && !appLogProperties.getIgnoreFields().contains(item.getName()))

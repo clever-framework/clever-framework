@@ -26,9 +26,6 @@
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
+
     </dependencies>
 </project>

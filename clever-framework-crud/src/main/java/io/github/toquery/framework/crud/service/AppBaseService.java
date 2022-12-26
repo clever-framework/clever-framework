@@ -2,7 +2,7 @@ package io.github.toquery.framework.crud.service;
 
 import org.springframework.data.domain.Page;
 
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

@@ -1,16 +1,14 @@
 package io.github.toquery.framework.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.entity.AppBaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Transient;
 
 /**
  * @author toquery
@@ -19,7 +17,6 @@ import javax.persistence.Transient;
 //@Entity
 @Getter
 @Setter
-@AppLogEntity
 @NoArgsConstructor
 @AllArgsConstructor
 //@TableName(value = "")
@@ -31,12 +28,10 @@ public class SysConfigData extends AppBaseEntity {
     @Transient
     private SysConfig config;
 
-    @TableField(value = "")
     @Column(name = "name", length = 50)
     private String name;
 
     @Lob
-    @TableField(value = "")
     @Column(name = "value", columnDefinition = "text")
     private String value;
 

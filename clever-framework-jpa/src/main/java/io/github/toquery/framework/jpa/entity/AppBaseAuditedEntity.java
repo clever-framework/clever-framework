@@ -6,10 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.envers.Audited;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 
 /**
  * @author toquery

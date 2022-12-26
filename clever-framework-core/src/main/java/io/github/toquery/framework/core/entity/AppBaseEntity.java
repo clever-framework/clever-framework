@@ -1,8 +1,6 @@
 package io.github.toquery.framework.core.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
@@ -25,14 +23,14 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -58,7 +56,6 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
 
     @Id
     @Column
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
     // @RevisionNumber
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @GeneratedValue(generator = "generatedkey", strategy = GenerationType.AUTO)
@@ -76,7 +73,6 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
 
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @TableField(value = "create_user_id")
     @Column(name = "create_user_id", length = 32, updatable = false)
     private Long createUserId;
 
@@ -86,14 +82,12 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     //@Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    @TableField(value = "create_date_time")
     @Column(name = "create_date_time", updatable = false, nullable = false)
     private LocalDateTime createDateTime;
 
 
     @LastModifiedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @TableField(value = "update_user_id")
     @Column(name = "update_user_id", length = 32)
     private Long updateUserId;
 
@@ -101,7 +95,6 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     @LastModifiedDate
     @UpdateTimestamp
     //@Temporal(TemporalType.TIMESTAMP)
-    @TableField(value = "update_date_time")
     @Column(name = "update_date_time", nullable = false)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)

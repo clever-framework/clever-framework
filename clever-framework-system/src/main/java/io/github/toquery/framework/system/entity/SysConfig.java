@@ -1,10 +1,7 @@
 package io.github.toquery.framework.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+
 import io.github.toquery.framework.core.domain.AppEntitySort;
-import io.github.toquery.framework.core.log.annotation.AppLogEntity;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.core.entity.AppBaseEntity;
 import io.github.toquery.framework.core.entity.AppEntityLogicDel;
@@ -14,11 +11,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,45 +26,36 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@AppLogEntity
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "sys_config")
 @Table(name = "sys_config")
 public class SysConfig extends AppBaseEntity implements AppEntitySort, AppEntityLogicDel {
 
 
-    @TableField(value = "")
     @Column(name = "config_name", unique = true, length = 50)
     private String configName;
 
     @Lob
-    @TableField(value = "")
     @Column(name = "config_value", columnDefinition = "text")
     private String configValue;
 
-    @TableField(value = "")
     @Column(name = "config_desc")
     private String configDesc;
 
     @AppLogField("配置排序")
-    @TableField(value = "")
     @Column(name = "sort_num")
     private Integer sortNum = 0;
 
     /**
      * 状态（1禁用 0启用）
      */
-    @TableField(value = "")
     @Column(name = "disable")
     private Integer disable = 0;
 
     /**
      * 是否删除：1已删除；0未删除
      */
-    @TableLogic
     @ColumnDefault("false")
-    @TableField(value = "")
     @Column(name = "deleted")
     private Boolean deleted = false;
 
@@ -83,6 +71,5 @@ public class SysConfig extends AppBaseEntity implements AppEntitySort, AppEntity
 
     // @OneToMany(mappedBy = "config", cascade = CascadeType.ALL)
     @Transient
-    @TableField(exist = false)
     private List<SysConfigData> configMap = new ArrayList<>();
 }

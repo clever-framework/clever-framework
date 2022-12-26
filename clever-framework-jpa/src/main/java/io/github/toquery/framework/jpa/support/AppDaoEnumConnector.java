@@ -7,7 +7,7 @@ package io.github.toquery.framework.jpa.support;
  *
  * @author toquery
  * @version 1
- * @see javax.persistence.criteria.Predicate.BooleanOperator
+ * @see jakarta.persistence.criteria.Predicate.BooleanOperator
  * @deprecated 1.0.6
 
 @Deprecated

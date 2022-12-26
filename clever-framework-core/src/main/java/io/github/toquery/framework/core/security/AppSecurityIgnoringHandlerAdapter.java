@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.web.context.ServletContextAware;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,11 +18,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AppSecurityIgnoringHandlerAdapter implements ServletContextAware {
 
-    @Setter
     @Getter
     private String contextPath;
 
-    @Setter
     @Getter
     private ServletContext servletContext;
 

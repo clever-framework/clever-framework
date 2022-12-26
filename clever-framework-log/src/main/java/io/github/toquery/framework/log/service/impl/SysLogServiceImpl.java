@@ -9,7 +9,7 @@ import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.repository.SysLogMapper;
 import io.github.toquery.framework.log.service.ISysLogService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;

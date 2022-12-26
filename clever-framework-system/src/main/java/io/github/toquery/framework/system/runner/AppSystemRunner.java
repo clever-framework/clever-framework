@@ -2,6 +2,7 @@ package io.github.toquery.framework.system.runner;
 
 import io.github.toquery.framework.system.properties.AppSystemProperties;
 import io.github.toquery.framework.system.service.ISysMenuService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -11,13 +12,12 @@ import org.springframework.boot.ApplicationRunner;
  *
  */
 @Slf4j
+@RequiredArgsConstructor
 public class AppSystemRunner implements ApplicationRunner {
 
-    @Autowired
-    private AppSystemProperties appSystemProperties;
+    private final AppSystemProperties appSystemProperties;
 
-    @Autowired
-    private ISysMenuService sysMenuService;
+    private final ISysMenuService sysMenuService;
 
 
     @Override

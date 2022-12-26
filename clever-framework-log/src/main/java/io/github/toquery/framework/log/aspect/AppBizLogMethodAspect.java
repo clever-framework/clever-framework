@@ -20,8 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Optional;
@@ -92,7 +92,7 @@ public class AppBizLogMethodAspect {
         String modelName = appLogMethod.modelName().startsWith(INVOKE_FIELD_PREFIX) ? this.invokeFieldValue(appLogMethod.modelName(), appBaseEntity) : appLogMethod.modelName();
         String bizName = appLogMethod.bizName().startsWith(INVOKE_FIELD_PREFIX) ? this.invokeFieldValue(appLogMethod.bizName(), appBaseEntity) : appLogMethod.bizName();
 
-        Map<String, Object> targetData = appBaseEntity == null ? Maps.newHashMap() : appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity, null));
+        Map<String, Object> targetData = appBaseEntity == null ? Maps.newHashMap() : appBizLogAnnotationHandler.handleTargetData(appBaseEntity, appBizLogAnnotationHandler.handleEntityFields(appBaseEntity));
 
         SysLog sysLog = appBizLogAnnotationHandler.fill2SysLog(appLogMethod.logType(), null, targetData,
                 modelName, bizName);

@@ -9,7 +9,7 @@ import io.github.toquery.framework.system.mapper.SysRoleMenuMapper;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import io.github.toquery.framework.system.service.ISysRoleMenuService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;

@@ -5,7 +5,7 @@ import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Set;
 
 @Slf4j

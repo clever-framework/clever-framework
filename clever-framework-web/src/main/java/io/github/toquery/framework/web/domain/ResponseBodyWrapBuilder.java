@@ -73,7 +73,6 @@ public final class ResponseBodyWrapBuilder {
         this.content = page == null ? null : page.getRecords();
         return this;
     }
-
     public ResponseBodyWrapBuilder page(IPage<?> page) {
         this.page = new ResponsePageBuilder().page(page).build();
         this.content = page == null ? null : page.getRecords();

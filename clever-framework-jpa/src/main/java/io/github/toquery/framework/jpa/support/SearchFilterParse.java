@@ -3,7 +3,7 @@ package io.github.toquery.framework.jpa.support;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

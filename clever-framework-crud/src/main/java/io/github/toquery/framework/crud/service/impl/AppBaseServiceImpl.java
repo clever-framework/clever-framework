@@ -23,8 +23,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.persistence.Transient;
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.Transient;
+import jakarta.persistence.criteria.Predicate;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Collection;
