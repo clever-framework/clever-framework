@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * 使用ISO7064规范中定义的校验字符系统进行字符串的校验以及生成校验字符
  * </p>
  */
-public class ISO7064Util {
+public class AppISO7064Util {
 
     /**
      * ISO7064规范中定义的校验字符系统

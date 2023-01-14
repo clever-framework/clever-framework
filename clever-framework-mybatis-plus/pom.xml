@@ -5,27 +5,30 @@
     <parent>
         <artifactId>clever-framework</artifactId>
         <groupId>io.github.toquery</groupId>
-        <version>1.0.8-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>clever-framework-mybatis-plus</artifactId>
     <name>Clever Framework :: Mybatis Plus</name>
-
+    <url>https://github.com/ToQuery/clever-framework</url>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.github.toquery</groupId>
             <artifactId>clever-framework-core</artifactId>
+            <optional>true</optional>
         </dependency>
-
     </dependencies>
 </project>

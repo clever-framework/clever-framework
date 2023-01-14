@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.endpoints;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.toquery.framework.common.util.JacksonUtils;
+import io.github.toquery.framework.common.util.AppJacksonUtils;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +27,13 @@ public class AppAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        String errorMsg = "请求访问 " + request.getRequestURI() + " 接口 , 没有访问权限";
+        String errorMsg = "请求访问 " + request.getRequestURI() + " 时没有访问权限";
         log.error(errorMsg + "," + accessDeniedException.getClass().getName(), accessDeniedException);
         ResponseBodyWrap<?> responseParam = ResponseBodyWrap.builder().fail(errorMsg).build();
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("utf-8");
-        response.getWriter().write(JacksonUtils.object2String(objectMapper, responseParam));
+        response.getWriter().write(AppJacksonUtils.object2String(objectMapper, responseParam));
         response.getWriter().flush();
         // response.sendError(HttpServletResponse.SC_FORBIDDEN, JacksonUtils.object2String(responseParam));
     }

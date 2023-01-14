@@ -1,1 +1,2 @@
 io.github.toquery.framework.security.autoconfig.AppSecurityAutoConfiguration
+io.github.toquery.framework.security.autoconfig.AppDefaultSecurityAutoConfiguration

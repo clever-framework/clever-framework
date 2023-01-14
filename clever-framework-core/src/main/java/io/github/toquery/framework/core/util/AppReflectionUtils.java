@@ -18,7 +18,7 @@ import java.util.Set;
  * @author	  	toquery
  * @version  	1.0
  */
-public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
+public class AppReflectionUtils extends org.springframework.util.ReflectionUtils {
 
 	/**
      * 获得超类的参数类型，取第一个参数类型
@@ -197,7 +197,7 @@ public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
 	 * @return
 	 */
 	public static <T> T getFieldValue(Object target, String fieldName) {
-		Field field = ReflectionUtils.findField(target.getClass(), fieldName);
+		Field field = AppReflectionUtils.findField(target.getClass(), fieldName);
 		return getFieldValue(field, target);
 	}
 

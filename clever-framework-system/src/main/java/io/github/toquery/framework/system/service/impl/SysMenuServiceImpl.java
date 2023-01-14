@@ -2,27 +2,23 @@ package io.github.toquery.framework.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.core.exception.AppException;
-import io.github.toquery.framework.core.util.ReflectionUtils;
+import io.github.toquery.framework.core.util.AppReflectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.toquery.framework.system.entity.SysMenu;
 import io.github.toquery.framework.system.mapper.SysMenuMapper;
 import io.github.toquery.framework.system.service.ISysMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -81,7 +77,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Set<String> codesInSources = beansWithAnnotationMap.values().stream()
                 .map(beansWithAnnotation -> {
                     log.info(beansWithAnnotation.getClass().getName());
-                    return ReflectionUtils.getAllDeclaredMethods(beansWithAnnotation.getClass());
+                    return AppReflectionUtils.getAllDeclaredMethods(beansWithAnnotation.getClass());
                 })
                 .flatMap(methods -> Stream.of(methods)
                         .filter(method -> {

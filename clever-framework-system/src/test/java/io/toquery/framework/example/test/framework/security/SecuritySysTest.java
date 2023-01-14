@@ -1,10 +1,5 @@
 package io.toquery.framework.example.test.framework.security;
 
-import com.google.common.collect.Lists;
-import io.github.toquery.framework.common.util.JacksonUtils;
-import io.github.toquery.framework.system.entity.SysMenu;
-import io.github.toquery.framework.system.entity.SysRole;
-import io.github.toquery.framework.system.entity.SysUser;
 import io.github.toquery.framework.system.mapper.SysMenuMapper;
 import io.github.toquery.framework.system.mapper.SysRoleMapper;
 import io.github.toquery.framework.system.mapper.SysUserMapper;
@@ -13,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import jakarta.annotation.Resource;
-import java.util.List;
 
 /**
  * @author toquery

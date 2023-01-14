@@ -13,7 +13,7 @@ import java.util.Date;
  * @author toquery
  * @version 1
  */
-public class DateTimeUtils {
+public class AppLocalDateTimeUtils {
 
 
     /**

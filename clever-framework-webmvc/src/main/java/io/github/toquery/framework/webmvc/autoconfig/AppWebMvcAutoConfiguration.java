@@ -57,7 +57,7 @@ public class AppWebMvcAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX, name = "autoWrapResponse", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = AppWebMvcProperties.PREFIX, name = "wrap-response", havingValue = "true", matchIfMissing = true)
     public AppResponseWrapAdvice getAppResponseWrapAdvice() {
         return new AppResponseWrapAdvice();
     }

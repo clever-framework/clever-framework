@@ -16,7 +16,7 @@ package io.github.toquery.framework.common.util;
  * 一代身份证出生年月日采用YYMMDD格式，二代身份证出生年月日采用YYYYMMDD格式；
  * 一代身份证无校验码，二代身份证有校验码。
  */
-public class ChinaIdCardUtils {
+public class AppChinaIdCardUtils {
 
     /**
      * 18位二代身份证号码的正则表达式

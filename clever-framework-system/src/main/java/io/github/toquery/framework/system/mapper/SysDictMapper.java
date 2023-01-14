@@ -7,7 +7,6 @@ import io.github.toquery.framework.system.entity.SysDict;
  * @author toquery
  * @version 1
  */
-//@RepositoryRestResource(path = "sys-role")
 public interface SysDictMapper extends BaseMapper<SysDict> {
 
 }

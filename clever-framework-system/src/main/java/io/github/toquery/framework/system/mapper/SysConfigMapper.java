@@ -10,10 +10,4 @@ import io.github.toquery.framework.system.entity.SysDictItem;
  */
 public interface SysConfigMapper extends BaseMapper<SysConfig> {
 
-    /**
-     * @author toquery
-     * @version 1
-     */
-    //@RepositoryRestResource(path = "sys-role")
-
 }

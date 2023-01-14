@@ -1,8 +1,7 @@
 package io.github.toquery.framework.core.util;
 
 import com.google.common.base.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -25,10 +24,8 @@ import java.util.function.Consumer;
  *
  * @version 1.0
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
-public class SpringUtils {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpringUtils.class);
+@Slf4j
+public class AppSpringUtils {
 
 	private static volatile ApplicationContext applicationContext;
 
@@ -36,10 +33,6 @@ public class SpringUtils {
 
 	/**
 	 * 获取Spring环境变量
-	 * @param name
-	 * @param constType
-	 * @param defaultValue
-	 * @return
 	 */
 	public static <T> T getEnvProperty(String name, Class<T> constType) {
 		return getEnvironment().getProperty(name, constType);
@@ -47,10 +40,6 @@ public class SpringUtils {
 
 	/**
 	 * 获取Spring环境变量
-	 * @param name
-	 * @param constType
-	 * @param defaultValue
-	 * @return
 	 */
 	public static <T> T getEnvProperty(String name, Class<T> constType, T defaultValue) {
 		return getEnvironment().getProperty(name, constType, defaultValue);
@@ -105,7 +94,7 @@ public class SpringUtils {
 	}
 
 	public static void setApplicationContext(ApplicationContext applicationContext){
-		SpringUtils.applicationContext = applicationContext;
+		AppSpringUtils.applicationContext = applicationContext;
 	}
 
 	public static Environment getEnvironment() {
@@ -113,7 +102,7 @@ public class SpringUtils {
 	}
 
 	public static void setEnvironment(Environment environment) {
-		SpringUtils.environment = environment;
+		AppSpringUtils.environment = environment;
 	}
 
 	public static ApplicationContext getRootApplicationContext(ApplicationContext applicationContext) {
@@ -125,9 +114,6 @@ public class SpringUtils {
 
 	/**
 	 * 创建默认的beanName
-	 * @param applicationContext
-	 * @param beanClass
-	 * @return
 	 */
 	public static String createDefaultBeanName(ApplicationContext applicationContext, Class beanClass) {
 		String beanName = null;
@@ -142,9 +128,6 @@ public class SpringUtils {
 
 	/**
 	 * 创建默认的beanName
-	 * @param applicationContext
-	 * @param beanClass
-	 * @return
 	 */
 	public static String createDefaultBeanName(Class beanClass) {
 		String beanName = null;
@@ -183,9 +166,9 @@ public class SpringUtils {
             	beanCustomizer.accept(beanDefinitionBuilder);
             }
             beanFactory.registerBeanDefinition(beanName, beanDefinitionBuilder.getBeanDefinition());
-            LOGGER.info("Create and register spring managed bean[name = {}, class= {}] successfully.", beanName, beanClass);
+            log.info("Create and register spring managed bean[name = {}, class= {}] successfully.", beanName, beanClass);
         }else{
-        	LOGGER.error("Create and register spring managed bean[name = {}, class= {}] failed：already exists a bean with name '{}'.", beanName, beanClass, beanName);
+			log.error("Create and register spring managed bean[name = {}, class= {}] failed：already exists a bean with name '{}'.", beanName, beanClass, beanName);
         }
 	}
 
@@ -220,15 +203,13 @@ public class SpringUtils {
 			beanFactory.removeBeanDefinition(beanName);
 			return true;
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			return false;
 		}
 	}
 
 	/**
 	 * 根据beanName销毁一个已存在的bean
-	 * @param <T>
-	 * @param applicationContext
 	 * @param beanName
 	 * @param beanInstance		- 如果bean是以scope=prototype形式注册的，并且在销毁时需要执行其destroy()方法，那么该参数必须指定
 	 */
@@ -254,15 +235,7 @@ public class SpringUtils {
 		}
 	}
 
-	/**
-	 * 将properties中的值填充到指定bean中去
-	 * @param bean
-	 * @param properties
 
-	public static void setBeanProperty(Object bean, Map<String,Object> properties) {
-		setBeanProperty(bean, properties, ApplicationConstants.DEFAULT_CONVERSION_SERVICE.get());
-	}
-	 */
 	/**
 	 * 将properties中的值填充到指定bean中去
 	 * @param beans
@@ -274,14 +247,6 @@ public class SpringUtils {
 		beans.forEach(bean -> setBeanProperty(bean, properties, conversionService));
 	}
 
-	/**
-	 * 将properties中的值填充到指定bean中去
-	 * @param beans
-	 * @param properties
 
-	public static void setBeanProperty(List<Object> beans, Map<String,Object> properties) {
-		setBeanProperty(beans, properties, ApplicationConstants.DEFAULT_CONVERSION_SERVICE.get());
-	}
-	 */
 
 }

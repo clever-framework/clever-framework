@@ -1,8 +1,7 @@
 package io.github.toquery.framework.security.endpoints;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-import io.github.toquery.framework.common.util.JacksonUtils;
+import io.github.toquery.framework.common.util.AppJacksonUtils;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,7 +77,7 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // httpServletResponse.addHeader("WWW-Authenticate", "Basic");
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.setCharacterEncoding("utf-8");
-        httpServletResponse.getWriter().write(JacksonUtils.object2String(objectMapper, responseParam));
+        httpServletResponse.getWriter().write(AppJacksonUtils.object2String(objectMapper, responseParam));
         httpServletResponse.getWriter().flush();
         // httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
     }

@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.introspection.OAuth2IntrospectionAuthenticatedPrincipal;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
@@ -15,7 +16,28 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet Web环境下的spring-security工具类
  */
-public class AppSecurityUtils {
+public class AppSpringSecurityUtils {
+
+    public static Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    public static Object getPrincipal() {
+        return getAuthentication().getPrincipal();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getPrincipal(Class<T> clazz) {
+        return (T) getAuthentication().getPrincipal();
+    }
+
+    public static Jwt getJwtPrincipal() {
+        return getPrincipal(Jwt.class);
+    }
+
+    public static OAuth2IntrospectionAuthenticatedPrincipal getOAuth2IntrospectionAuthenticatedPrincipal() {
+        return getPrincipal(OAuth2IntrospectionAuthenticatedPrincipal.class);
+    }
 
     /**
      * 获取认证(登录)异常
@@ -41,13 +63,13 @@ public class AppSecurityUtils {
 
 
     public static String getUserName() {
-        return AppSecurityUtils.getCurrentAuthentication().getName();
+        return AppSpringSecurityUtils.getCurrentAuthentication().getName();
     }
 
     @Deprecated
     public static Long getUserId() {
         Long userId = null;
-        Authentication authentication = AppSecurityUtils.getCurrentAuthentication();
+        Authentication authentication = AppSpringSecurityUtils.getCurrentAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
             if (principal instanceof AppUserDetails) {

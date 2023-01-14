@@ -33,13 +33,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @version 1
  */
 @Slf4j
-//@Configuration
-//@EnableAppRepositoryRest
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @MapperScan("io.github.toquery.framework.system.mapper")
 @EnableConfigurationProperties({AppSystemProperties.class})
 @EntityScan(basePackages = "io.github.toquery.framework.system.entity")
-//@EnableAppJpaRepositories(basePackages = "io.github.toquery.framework.system")
 @ConditionalOnProperty(prefix = AppSystemProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 //@EnableJpaRepositories(basePackages = {"io.github.toquery.framework.system.repository"}, repositoryFactoryBeanClass = AppJpaRepositoryFactoryBean.class)
 public class AppSystemAutoConfiguration {
@@ -49,6 +46,11 @@ public class AppSystemAutoConfiguration {
         log.info("自动装配 App System 自动配置");
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     @ConditionalOnMissingBean

@@ -1,7 +1,7 @@
 package io.github.toquery.framework.log.auditor;
 
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.common.util.JacksonUtils;
+import io.github.toquery.framework.common.util.AppJacksonUtils;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.core.log.annotation.AppLogFieldIgnore;
 import io.github.toquery.framework.core.log.AppLogType;
@@ -34,8 +34,8 @@ public class AppBizLogAnnotationHandler {
         SysLog sysLog = new SysLog();
         sysLog.setModuleName(modelName);
         sysLog.setBizName(bizName);
-        sysLog.setRawData(JacksonUtils.object2String(rawData));
-        sysLog.setTargetData(JacksonUtils.object2String(targetData));
+        sysLog.setRawData(AppJacksonUtils.object2String(rawData));
+        sysLog.setTargetData(AppJacksonUtils.object2String(targetData));
         sysLog.setLogType(logType);
         sysLog.setOperateDateTime(LocalDateTime.now());
         return sysLog;
