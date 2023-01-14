@@ -20,6 +20,8 @@ import java.util.HashSet;
 @ConfigurationProperties(prefix = "spring.security.oauth2.resourceserver.opaquetoken")
 public class AppOAuth2ResourceServerOpaqueTokenProperties extends OAuth2ResourceServerProperties.Opaquetoken {
 
+    private boolean userInfoEnabled = true;
+
     /**
      * 获取用户信息接口
      */
@@ -27,7 +29,7 @@ public class AppOAuth2ResourceServerOpaqueTokenProperties extends OAuth2Resource
 
 
     /**
-     * 返回用户信息时填充的属性值
+     * 返回用户信息时填充的属性值，如果已存在则不会被覆盖
      */
     private Collection<String> userInfoAttributes = new HashSet<>();
 
@@ -41,9 +43,23 @@ public class AppOAuth2ResourceServerOpaqueTokenProperties extends OAuth2Resource
      */
     private Duration cacheExpired = Duration.ofHours(1);
 
+
+    private boolean rbacEnabled = true;
+
     /**
-     * 获取用户信息过期类型
+     * 获取RBAC接口
      */
-    private UserInfoCacheExpiredEnum cacheExpiredType = UserInfoCacheExpiredEnum.TOKEN;
+    private String rbacUri;
+
+
+    private String rbacClientId;
+
+    /**
+     * 获取用户RBAC信息超时时间
+     */
+    private Duration rbacTimeout = Duration.ofSeconds(5);
+
+    private String rbacCodePath;
+
 
 }

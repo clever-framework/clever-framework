@@ -23,21 +23,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * 增加用户详细信息
  */
 @Slf4j
 public class UserinfoOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
     private final Cache<String, OAuth2AuthenticatedPrincipal> userInfoCache;
 
-
     private final OpaqueTokenIntrospector delegate;
-    private final AppOAuth2ResourceServerOpaqueTokenProperties opaqueTokenProperties;
+    protected final AppOAuth2ResourceServerOpaqueTokenProperties opaqueTokenProperties;
 
-    private final WebClient webClient;
+    protected final WebClient webClient;
 
 
     public UserinfoOpaqueTokenIntrospector(
@@ -58,16 +56,32 @@ public class UserinfoOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
                 .build();
     }
 
+    public String cachePrefix(String key) {
+        return "user_info:" + key;
+    }
+
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String token) {
         // 查找缓存，如果缓存不存在则生成缓存元素,  如果无法生成则返回null
-        return userInfoCache.get(token, value -> {
+        return userInfoCache.get(cachePrefix(token), value -> {
             log.debug("开始向认证服务验证 token {}", token);
             OAuth2AuthenticatedPrincipal authorized = this.delegate.introspect(token);
             log.debug("认证服务验证结束 token {}", token);
+            // 获取用户信息
             Map<String, Object> userInfo = makeUserInfoRequest(token);
-            return convertOAuth2AuthenticatedPrincipal(userInfo, authorized);
+            // 将用户信息转化为当前 Principal
+            Map<String, Object> attributes = convertUserInfoAttributes(userInfo, authorized.getAttributes());
+            // 拓展
+            return convertOAuth2AuthenticatedPrincipal(expandAttributes(token, attributes), expandAuthorities(token, authorized.getAuthorities()));
         });
+    }
+
+    protected Map<String, Object> expandAttributes(String token, Map<String, Object> attributes) {
+        return attributes;
+    }
+
+    protected Collection<? extends GrantedAuthority> expandAuthorities(String token, Collection<? extends GrantedAuthority> originalAuthorities) {
+        return originalAuthorities;
     }
 
     /**
@@ -94,13 +108,19 @@ public class UserinfoOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
         return userInfo;
     }
 
-    private OAuth2AuthenticatedPrincipal convertOAuth2AuthenticatedPrincipal(Map<String, Object> userInfo, OAuth2AuthenticatedPrincipal authorized) {
+    private OAuth2AuthenticatedPrincipal convertOAuth2AuthenticatedPrincipal(
+            Map<String, Object> attributes,
+            Collection<? extends GrantedAuthority> originalAuthorities
+    ) {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if (authorized.getAuthorities() != null) {
-            authorities.addAll(authorized.getAuthorities());
+        if (originalAuthorities != null) {
+            authorities.addAll(originalAuthorities);
         }
+        return new OAuth2IntrospectionAuthenticatedPrincipal(Collections.unmodifiableMap(attributes), authorities);
+    }
 
-        Map<String, Object> attributes = new HashMap<>(authorized.getAttributes());
+    private Map<String, Object> convertUserInfoAttributes(Map<String, Object> userInfo, Map<String, Object> originalAttributes) {
+        Map<String, Object> attributes = new HashMap<>(originalAttributes);
         opaqueTokenProperties.getUserInfoAttributes().forEach(userInfoAttribute -> {
             if (attributes.containsKey(userInfoAttribute)) {
                 log.warn("当前已存在用户属性 {} 将不会覆盖", userInfoAttribute);
@@ -109,6 +129,6 @@ public class UserinfoOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
             }
         });
 
-        return new OAuth2IntrospectionAuthenticatedPrincipal(Collections.unmodifiableMap(attributes), authorities);
+        return attributes;
     }
 }
