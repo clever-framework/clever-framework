@@ -6,7 +6,9 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
+import io.github.toquery.framework.security.provider.JwtTokenProvider;
 import io.github.toquery.framework.security.utils.AppRSAUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +47,7 @@ public class AppDefaultSecurityAutoConfiguration {
     private AppSecurityProperties appSecurityProperties;
 
     public AppDefaultSecurityAutoConfiguration() {
-        log.debug("App 启用默认 Security 配置，包括 JwtEncoder、JwtDecoder、AuthenticationManager(defaultAuthenticationManager)、SecurityFilterChain(defaultSecurityFilterChain)");
+        log.debug("App 启用默认 Security 配置，包括 JwtEncoder、JwtDecoder、AuthenticationManager(defaultAuthenticationManager)、SecurityFilterChain(defaultSecurityFilterChain), JwtTokenProvider");
     }
 
     @Bean
@@ -69,6 +71,15 @@ public class AppDefaultSecurityAutoConfiguration {
                     JwtValidators.createDefaultWithIssuer(appSecurityProperties.getKey().getIssuer());
                 })
                 .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public JwtTokenProvider jwtTokenProvider(
+            JwtEncoder encoder,
+            AppSecurityAdminProperties appSecurityJwtProperties
+    ) {
+        return new JwtTokenProvider(encoder, appSecurityJwtProperties);
     }
 
     @Bean

@@ -13,14 +13,11 @@ import io.github.toquery.framework.security.ignoring.AppSecurityJwtIgnoring;
 import io.github.toquery.framework.security.ignoring.DelegatingAppSecurityJwtIgnoring;
 import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
-import io.github.toquery.framework.security.provider.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
@@ -88,15 +85,6 @@ public class AppSecurityAutoConfiguration {
         return new AppSecurityExceptionAdvice();
     }
 
-
-    @Bean
-    @ConditionalOnMissingBean
-    public JwtTokenProvider jwtTokenProvider(
-            JwtEncoder encoder,
-            AppSecurityAdminProperties appSecurityJwtProperties
-    ) {
-        return new JwtTokenProvider(encoder, appSecurityJwtProperties);
-    }
 
     /**
      * 从request请求中那个地方获取到token
