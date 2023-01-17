@@ -75,7 +75,7 @@ public class UserinfoRBACOpaqueTokenIntrospector extends UserinfoOpaqueTokenIntr
         params.put("clientId", opaqueTokenProperties.getRbacClientId());
         WebClient.RequestHeadersSpec<?> webClientBuilder = webClient
                 .get()
-                .uri(opaqueTokenProperties.getUserInfoUri() + "?clientId={clientId}", params);
+                .uri(opaqueTokenProperties.getRbacUri() + "?clientId={clientId}", params);
 
         String rbacStr = this.headersSpec(bearerToken, webClientBuilder)
                 .retrieve()
