@@ -1,9 +1,9 @@
 package io.github.toquery.framework.oauth2.resource.server.resource.introspection;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.google.common.base.Strings;
 import io.github.toquery.framework.oauth2.resource.server.properties.AppOAuth2ResourceServerOpaqueTokenProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -13,8 +13,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Spliterators;
+import java.util.stream.StreamSupport;
 
 /**
  * 增加用户详细信息和RBAC模型
@@ -46,12 +49,16 @@ public class UserinfoRBACOpaqueTokenIntrospector extends UserinfoOpaqueTokenIntr
     protected Collection<? extends GrantedAuthority> expandAuthorities(String token, Collection<? extends GrantedAuthority> originalAuthorities) {
         Collection<GrantedAuthority> authorities = new ArrayList<>(super.expandAuthorities(token, originalAuthorities));
         if (opaqueTokenProperties.isRbacEnabled()) {
-            Collection<SimpleGrantedAuthority> rbacs = makeRBACRequest(token)
-                    .stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .toList();
-            authorities.addAll(rbacs);
+            try {
+                Collection<SimpleGrantedAuthority> rbacs = makeRBACRequest(token)
+                        .stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .toList();
+                authorities.addAll(rbacs);
 
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         return authorities;
     }
@@ -62,11 +69,13 @@ public class UserinfoRBACOpaqueTokenIntrospector extends UserinfoOpaqueTokenIntr
      *
      * @param bearerToken
      */
-    private Collection<String> makeRBACRequest(String bearerToken) {
+    private Collection<String> makeRBACRequest(String bearerToken) throws Exception {
         log.debug("开始向认证服务拉取用户RBAC信息");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("clientId", opaqueTokenProperties.getRbacClientId());
         WebClient.RequestHeadersSpec<?> webClientBuilder = webClient
                 .get()
-                .uri(opaqueTokenProperties.getUserInfoUri());
+                .uri(opaqueTokenProperties.getUserInfoUri() + "?clientId={clientId}", params);
 
         String rbacStr = this.headersSpec(bearerToken, webClientBuilder)
                 .retrieve()
@@ -79,38 +88,43 @@ public class UserinfoRBACOpaqueTokenIntrospector extends UserinfoOpaqueTokenIntr
 
         Collection<String> rbacs = new ArrayList<>();
 
-        try (
-                JsonParser jsonParser = objectMapper.createParser(rbacStr)
-        ) {
 
-            String rbacCodePath = opaqueTokenProperties.getRbacCodePath();
-            // ObjectMapper读取json文件
-            JsonNode root = objectMapper.readTree(rbacStr);
+        String rbacCodePrefix = opaqueTokenProperties.getRbacCodePrefix();
+        String rbacCodeKey = opaqueTokenProperties.getRbacCodePrefix();
+        // ObjectMapper读取json文件
+        JsonNode root = objectMapper.readTree(rbacStr);
 
-            if (rbacCodePath == null && jsonParser.isExpectedStartArrayToken()) { // 如果 rbacCodePath 不为空 并且 返回为数组，则直接是 RBAC code
-                rbacs = objectMapper.readValue(rbacStr, new TypeReference<ArrayList<String>>() {
-                });
-            } else if (rbacCodePath != null && jsonParser.isExpectedStartObjectToken()) { // 如果 rbacCodePath 不为空 并且 返回为对象，则是嵌套 RBAC code
-
-                if (rbacCodePath.contains(".")) {
-                    String[] paths = rbacCodePath.split("\\.");
-                    for (int i = 0; i < paths.length; i++) {
-                        root = root.get(paths[i]);
-                        if (i == paths.length - 1) {
-                            rbacs = root.findValuesAsText(rbacCodePath);
-                        }
-                    }
+        if (Strings.isNullOrEmpty(rbacCodePrefix)) {
+            if (Strings.isNullOrEmpty(rbacCodeKey)) {
+                if (root.getNodeType() == JsonNodeType.ARRAY) { // 如果 rbacCodePrefix 为空 rbacCodeKey 为空 并且 返回为数组，则直接是 RBAC code
+                    rbacs = StreamSupport.stream(Spliterators.spliteratorUnknownSize(root.elements(), 0), false).map(JsonNode::asText).toList();
                 } else {
-                    rbacs = root.findValuesAsText(rbacCodePath);
+                    throw new RuntimeException("接收到的JSON格式不正确 " + rbacStr);
+                }
+
+            } else {
+                if (root.getNodeType() == JsonNodeType.ARRAY) { // 如果 rbacCodePrefix 为空 rbacCodeKey 不为空 并且 则读取key再去获取list RBAC code
+                    rbacs = root.findValuesAsText(rbacCodeKey);
+                } else {
+                    throw new RuntimeException("接收到的JSON格式不正确 " + rbacStr);
+                }
+            }
+        } else {
+            JsonNode listNode = root;
+            String[] paths = rbacCodePrefix.split("\\.");
+            for (String path : paths) {
+                listNode = listNode.get(path);
+            }
+            if (Strings.isNullOrEmpty(rbacCodeKey)) {
+                if (listNode.getNodeType() == JsonNodeType.ARRAY) { // 如果 rbacCodePrefix 为空 rbacCodeKey 为空 并且 返回为数组，则直接是 RBAC code
+                    rbacs = StreamSupport.stream(Spliterators.spliteratorUnknownSize(listNode.elements(), 0), false).map(JsonNode::asText).toList();
+                } else {
+                    throw new RuntimeException("接收到的JSON格式不正确 " + rbacStr);
                 }
             } else {
-                log.error("解析远程RBAC错误， 接收到的JSON数据为 {}", rbacStr);
-                throw new RuntimeException("解析远程RBAC错误");
+                rbacs = root.findValuesAsText(rbacCodeKey);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
-
         return rbacs;
     }
 

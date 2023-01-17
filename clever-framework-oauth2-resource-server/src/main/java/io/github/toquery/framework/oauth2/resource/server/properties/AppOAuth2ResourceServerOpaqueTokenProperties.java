@@ -1,6 +1,5 @@
 package io.github.toquery.framework.oauth2.resource.server.properties;
 
-import io.github.toquery.framework.oauth2.resource.server.constant.UserInfoCacheExpiredEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +51,9 @@ public class AppOAuth2ResourceServerOpaqueTokenProperties extends OAuth2Resource
     private String rbacUri;
 
 
+    /**
+     * 获取当前应用的RBAC
+     */
     private String rbacClientId;
 
     /**
@@ -59,7 +61,13 @@ public class AppOAuth2ResourceServerOpaqueTokenProperties extends OAuth2Resource
      */
     private Duration rbacTimeout = Duration.ofSeconds(5);
 
-    private String rbacCodePath;
+    /**
+     * 去取rbac响应信息json的路径前缀，支持多级寻找
+     */
+    private String rbacCodePrefix;
+
+
+    private String rbacCodeKey;
 
 
 }
