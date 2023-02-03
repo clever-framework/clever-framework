@@ -40,6 +40,9 @@
         <!-- spring jar -->
         <spring-boot.version>3.0.1</spring-boot.version>
 
+
+        <spring-boot-admin.version>3.0.0</spring-boot-admin.version>
+
         <guava.version>31.1-jre</guava.version>
         <jsqlparse.version>4.5</jsqlparse.version>
 
@@ -104,7 +107,13 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-dependencies</artifactId>
+                <version>${spring-boot-admin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- clever framework -->
             <dependency>
                 <groupId>io.github.toquery</groupId>
