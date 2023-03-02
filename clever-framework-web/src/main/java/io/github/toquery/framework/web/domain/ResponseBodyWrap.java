@@ -42,6 +42,25 @@ public class ResponseBodyWrap<T> extends HashMap<String, Object> { //implements 
         return new ResponseBodyWrapBuilder();
     }
 
+    public static ResponseBodyWrap<?> success() {
+        return ResponseBodyWrap.success(null);
+    }
+
+    public static ResponseBodyWrap<?> success(Object data) {
+        return ResponseBodyWrap.builder().success(true).code(200).message("成功").content(data).build();
+    }
+
+    public static ResponseBodyWrap<?> fail(String message) {
+        return ResponseBodyWrap.fail(500, message);
+    }
+
+    public static ResponseBodyWrap<?> fail(Integer code) {
+        return ResponseBodyWrap.fail(code, null);
+    }
+
+    public static ResponseBodyWrap<?> fail(Integer code, String message) {
+        return ResponseBodyWrap.builder().success(false).code(code).message(message).build();
+    }
 
     public void setSuccess(boolean success) {
         this.put(SUCCESS_PARAM, success);

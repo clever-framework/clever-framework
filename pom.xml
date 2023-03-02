@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.0.3</version>
         <relativePath/>
     </parent>
 
@@ -38,7 +38,7 @@
         <revision>${clever-framework.version}</revision>
 
         <!-- spring jar -->
-        <spring-boot.version>3.0.1</spring-boot.version>
+        <spring-boot.version>3.0.3</spring-boot.version>
 
 
         <spring-boot-admin.version>3.0.0</spring-boot-admin.version>
