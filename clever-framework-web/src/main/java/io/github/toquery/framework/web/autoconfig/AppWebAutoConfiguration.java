@@ -41,15 +41,15 @@ public class AppWebAutoConfiguration {
 //        return new DefinitionRegistryPostProcessor();
 //    }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public Module customModule() {
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(LocalDateTime.class, new LocalDatetimeFormatter.LocalDateTimeSerializer());
-        module.addDeserializer(LocalDateTime.class, new LocalDatetimeFormatter.LocalDateTimeDeserializer());
-        module.addSerializer(LocalDate.class, new LocalDateFormatter.LocalDateSerializer());
-        module.addDeserializer(LocalDate.class, new LocalDateFormatter.LocalDateDeserializer());
-        // module.addSerializer(Long.class, ToStringSerializer.instance);
-        return module;
-    }
+//    @Bean
+//    @ConditionalOnMissingBean
+//    public Module customModule() {
+//        SimpleModule module = new SimpleModule();
+//        module.addSerializer(LocalDateTime.class, new LocalDatetimeFormatter.LocalDateTimeSerializer());
+//        module.addDeserializer(LocalDateTime.class, new LocalDatetimeFormatter.LocalDateTimeDeserializer());
+//        module.addSerializer(LocalDate.class, new LocalDateFormatter.LocalDateSerializer());
+//        module.addDeserializer(LocalDate.class, new LocalDateFormatter.LocalDateDeserializer());
+//        // module.addSerializer(Long.class, ToStringSerializer.instance);
+//        return module;
+//    }
 }

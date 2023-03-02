@@ -512,7 +512,7 @@
             </snapshots>
         </repository>
     </repositories>
-
+    <!-- 只能推送到一个仓库 -->
     <distributionManagement>
         <snapshotRepository>
             <id>sonatype</id>
@@ -524,7 +524,7 @@
             <name>OSS Staging Repository</name>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-        <!-- 只能推送到一个仓库
+        <!--
         <repository>
             <id>github</id>
             <name>GitHub OWNER Apache Maven Packages</name>
