@@ -3,6 +3,7 @@ package io.github.toquery.framework.webmvc.controller.advice;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import jakarta.validation.ConstraintViolationException;
-
 /**
- * @see org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
  * @author toquery
  * @version 1
+ * @see org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
  */
 @Slf4j
 // @ControllerAdvice
@@ -30,8 +29,8 @@ public class AppExceptionAdvice {
     }
 
 
-    @ResponseStatus(code=HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value= NoHandlerFoundException.class)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = NoHandlerFoundException.class)
     public ResponseEntity<ResponseBodyWrap<?>> handleExceptionNoHandlerFoundException(NoHandlerFoundException exception) {
         log.error("handleExceptionNoHandlerFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseBodyWrap.builder().fail("请求地址错误！").build());
@@ -52,7 +51,6 @@ public class AppExceptionAdvice {
         log.error("handleAppException", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseBodyWrapBuilder().fail().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage()).build());
     }
-
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

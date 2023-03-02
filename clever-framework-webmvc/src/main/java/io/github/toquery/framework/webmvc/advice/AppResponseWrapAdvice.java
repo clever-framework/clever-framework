@@ -13,6 +13,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -60,9 +61,9 @@ public class AppResponseWrapAdvice implements ResponseBodyAdvice<Object> {
 
         // 只处理 restcontroller 或 responsebody 的方法、类
         RestController restControllerAnnotation = currentClass.getAnnotation(RestController.class);
-        org.springframework.web.bind.annotation.ResponseBody responseBodyAnnotation = currentClass.getAnnotation(org.springframework.web.bind.annotation.ResponseBody.class);
+        ResponseBody responseBodyAnnotation = currentClass.getAnnotation(org.springframework.web.bind.annotation.ResponseBody.class);
         //方法注解
-        org.springframework.web.bind.annotation.ResponseBody responseBodyMethodAnnotation = returnType.getMethodAnnotation(org.springframework.web.bind.annotation.ResponseBody.class);
+        ResponseBody responseBodyMethodAnnotation = returnType.getMethodAnnotation(org.springframework.web.bind.annotation.ResponseBody.class);
 
         if (restControllerAnnotation == null && responseBodyAnnotation == null && responseBodyMethodAnnotation == null) {
             log.debug("App 响应 Wrap 只处理 RestController 或 ResponseBody 的方法、类");
@@ -114,7 +115,7 @@ public class AppResponseWrapAdvice implements ResponseBodyAdvice<Object> {
 //                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 //                    result = objectMapper.writeValueAsString(responseResult);
 
-                    log.warn("App 响应 Wrap 对象为 text/* 类型，不进行处理");
+                    log.debug("App 响应 Wrap 对象为 text/* 类型，不进行处理");
                     result = body;
                 } else {
                     result = responseResult;

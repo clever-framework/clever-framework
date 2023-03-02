@@ -15,11 +15,11 @@ public class AppWebMvcWrapProperties {
     /**
      * 是否自动包裹响应结果
      */
-    private boolean enabled = true;
+    private boolean enabled = false;
 
     /**
      * 是否包裹 void 类型
      */
-    private boolean voidObject = true;
+    private boolean voidObject = false;
 
 }
