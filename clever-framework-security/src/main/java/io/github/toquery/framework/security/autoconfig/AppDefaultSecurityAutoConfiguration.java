@@ -96,6 +96,7 @@ public class AppDefaultSecurityAutoConfiguration {
      * @throws Exception 异常
      */
     @Bean
+    @ConditionalOnMissingBean
     public SecurityFilterChain defaultSecurityFilterChain(
             HttpSecurity http,
             JwtDecoder jwtDecoder,
