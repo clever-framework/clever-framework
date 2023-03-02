@@ -26,6 +26,32 @@ public class AppSecurityProperties {
     private boolean enabled = true;
 
     /**
+     * 是否启用 defaultAuthenticationManager
+     */
+    private boolean enabledDAF = true;
+
+    /**
+     * 是否启用 jwtEncoder
+     */
+    private boolean enabledDJE = true;
+
+    /**
+     * 是否启用 jwtDecoder
+     */
+    private boolean enabledDJD = true;
+
+    /**
+     * 是否启用 jwtTokenProvider
+     */
+    private boolean enabledDJP = true;
+
+
+    /**
+     * 是否启用 defaultSecurityFilterChain
+     */
+    private boolean enabledDSFC = true;
+
+    /**
      * 是否开启用户注册，默认不开启
      */
     private boolean register = false;
