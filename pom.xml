@@ -62,10 +62,10 @@
         <springdoc.version>1.6.11</springdoc.version>
         <swagger.version>2.2.2</swagger.version>
 
-        <minio.version>8.5.1</minio.version>
-        <caffeine.version>3.1.2</caffeine.version>
+        <minio.version>8.5.2</minio.version>
+        <caffeine.version>3.1.4</caffeine.version>
 
-        <hutool.version>5.8.11</hutool.version>
+        <hutool.version>5.8.12</hutool.version>
 
         <!--
         <mybatis.version>3.5.9</mybatis.version>
