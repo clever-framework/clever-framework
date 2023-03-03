@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 @Data
 @AllArgsConstructor
 public class ApiVersionCondition implements RequestCondition<ApiVersionCondition> {
+    public static final String VERSION_FLAG = "{version}";
     private final static Pattern VERSION_PREFIX_PATTERN = Pattern.compile("/v(\\d+).*");
     /**
      * 版本注解

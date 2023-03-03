@@ -17,7 +17,6 @@ public class ApiVersionRequestMappingHandlerMapping extends RequestMappingHandle
     private int minimumVersion;
     //自动解析包名，获取版本号
     private boolean parsePackageVersion;
-    private static final String VERSION_FLAG = "{version}";
     private final static Pattern PACKAGE_VERSION_PREFIX_PATTERN = Pattern.compile(".*v(\\d+).*");
 
     private RequestCondition<ApiVersionCondition> createCondition(Class<?> clazz) {
@@ -30,10 +29,10 @@ public class ApiVersionRequestMappingHandlerMapping extends RequestMappingHandle
             mappingUrlBuilder.append(classRequestMapping.value()[0]);
         }
         String mappingUrl = mappingUrlBuilder.toString();
-        if (!mappingUrl.contains(VERSION_FLAG)) {
+        if (!mappingUrl.contains(ApiVersionCondition.VERSION_FLAG)) {
             return null;
         }
-        AppApiVersion apiVersion = clazz.getAnnotation(AppApiVersion.class);
+        ApiVersion apiVersion = clazz.getAnnotation(ApiVersion.class);
         return new ApiVersionCondition(new ApiVersionState.ApiVersionStateBuilder()
                 .apiVersion(apiVersion)
                 .packageVersion(parseVersionByPackage(clazz))

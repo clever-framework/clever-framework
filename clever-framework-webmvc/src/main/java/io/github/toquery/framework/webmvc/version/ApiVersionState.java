@@ -20,14 +20,14 @@ public class ApiVersionState {
     public static class ApiVersionStateBuilder {
         private ApiVersionState apiVersionState = new ApiVersionState();
         //注解版本
-        private AppApiVersion apiVersion;
+        private ApiVersion apiVersion;
         //包版本
         private Integer packageVersion;
         //最小支持的版本
         private int minimumVersion;
 
 
-        public ApiVersionStateBuilder apiVersion(AppApiVersion apiVersion) {
+        public ApiVersionStateBuilder apiVersion(ApiVersion apiVersion) {
             this.apiVersion = apiVersion;
             return this;
         }
