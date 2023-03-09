@@ -59,7 +59,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <datanucleus.version>5.2.1</datanucleus.version>
 
-        <springdoc.version>1.6.11</springdoc.version>
+        <springdoc.version>1.6.15</springdoc.version>
         <swagger.version>2.2.2</swagger.version>
 
         <minio.version>8.5.2</minio.version>
