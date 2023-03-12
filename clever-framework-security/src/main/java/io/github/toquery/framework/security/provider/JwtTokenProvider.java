@@ -2,7 +2,9 @@ package io.github.toquery.framework.security.provider;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import io.github.toquery.framework.common.util.AppNanoIdUtils;
 import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
+import io.github.toquery.framework.security.properties.AppSecurityJWTProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -19,16 +21,16 @@ import java.time.Instant;
 public class JwtTokenProvider {
 
     private final JwtEncoder encoder;
-    private final AppSecurityAdminProperties appSecurityJwtProperties;
+    private final AppSecurityJWTProperties appSecurityJWTProperties;
 
     public String issueToken(String username, String device) {
-        return this.issueToken(username, null, device);
+        return this.issueToken(username, AppNanoIdUtils.randomNanoId(), device);
     }
 
     public String issueToken(String username, String tokenId, String device) {
 
         Instant now = Instant.now();
-        Instant expires = now.plusSeconds(appSecurityJwtProperties.getExpires());
+        Instant expires = now.plusSeconds(appSecurityJWTProperties.getExpires().toSeconds());
 
         JwtClaimsSet.Builder claimsBuilder = JwtClaimsSet.builder();
         if (!Strings.isNullOrEmpty(tokenId)) {
@@ -36,7 +38,7 @@ public class JwtTokenProvider {
         }
 
         claimsBuilder
-                .issuer(appSecurityJwtProperties.getIssuer())
+                .issuer(appSecurityJWTProperties.getIssuer())
                 .issuedAt(now)
                 .expiresAt(expires)
                 .subject(username)

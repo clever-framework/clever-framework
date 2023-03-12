@@ -5,14 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.security.converter.RsaKeyConverters;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
 /**
  * @author toquery
@@ -25,30 +17,14 @@ public class AppSecurityAdminProperties {
 
     public static final String PREFIX = "app.security.admin";
 
-    private String secret = "clever";
-
-    private String issuer = "http://127.0.0.1:8080";
-
-    // 秒
-    private Long expires = 60 * 60L;
-
     /**
-     * JWT令牌自动续约提前时间(比如在过期前提前5分钟续约)
+     * 是否开启用户注册，默认不开启
      */
-    private Long renewalAheadTime = 5 * 60L;
-
-
-    /**
-     * 是否忽略Token已过期?
-     * <p>如果忽略，不会启用自动刷新Token功能，修改密码后也不会影响Token</p>
-     * todo <p>如果不忽略，会自动刷新Token，修改密码后需要重新登录</p>
-     */
-    private boolean ignoreTokenExpires = false;
+    private boolean register = false;
 
     private AppSecurityAdminParamProperties param = new AppSecurityAdminParamProperties();
 
     private AppSecurityAdminPathProperties path = new AppSecurityAdminPathProperties();
-
 
 
     @Getter

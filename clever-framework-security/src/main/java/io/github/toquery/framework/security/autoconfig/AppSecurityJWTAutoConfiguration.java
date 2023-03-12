@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import io.github.toquery.framework.security.ignoring.AppSecurityJwtIgnoring;
 import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
+import io.github.toquery.framework.security.properties.AppSecurityJWTProperties;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import io.github.toquery.framework.security.provider.JwtTokenProvider;
 import io.github.toquery.framework.security.utils.AppRSAUtils;
@@ -33,7 +34,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
  */
 @Slf4j
 @Import({AppSecurityJwtIgnoring.class})
-@EnableConfigurationProperties({AppSecurityProperties.class, AppSecurityAdminProperties.class})
+@EnableConfigurationProperties({AppSecurityProperties.class, AppSecurityJWTProperties.class, AppSecurityAdminProperties.class})
 public class AppSecurityJWTAutoConfiguration {
 
     @Resource
@@ -49,10 +50,10 @@ public class AppSecurityJWTAutoConfiguration {
     @ConditionalOnProperty(prefix = AppSecurityProperties.PREFIX, value = "enabled-dje", havingValue = "true", matchIfMissing = true)
     @ConditionalOnMissingBean
     public JwtEncoder jwtEncoder() {
-        AppSecurityProperties.AppSecurityJwtKey appSecurityAdminJwtKey = appSecurityProperties.getKey();
-        JWK jwk = new RSAKey.Builder(AppRSAUtils.publicKey(appSecurityAdminJwtKey.getPublicKey()))
-                .privateKey(AppRSAUtils.privateKey(appSecurityAdminJwtKey.getPrivateKey()))
-                .keyID(appSecurityAdminJwtKey.getKeyId())
+        AppSecurityProperties.AppSecurityKey appSecurityKey = appSecurityProperties.getKey();
+        JWK jwk = new RSAKey.Builder(AppRSAUtils.publicKey(appSecurityKey.getPublicKey()))
+                .privateKey(AppRSAUtils.privateKey(appSecurityKey.getPrivateKey()))
+                .keyID(appSecurityKey.getKeyId())
                 .build();
         JWKSet jwkSet = new JWKSet(jwk);
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(jwkSet);
@@ -65,7 +66,8 @@ public class AppSecurityJWTAutoConfiguration {
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(AppRSAUtils.publicKey(appSecurityProperties.getKey().getPublicKey()))
                 .jwtProcessorCustomizer(jwtProcessorCustomizer -> {
-                    JwtValidators.createDefaultWithIssuer(appSecurityProperties.getKey().getIssuer());
+                    JwtValidators.createDefault();
+                    JwtValidators.createDefaultWithIssuer(appSecurityProperties.getJwt().getIssuer());
                 })
                 .build();
     }
@@ -75,9 +77,9 @@ public class AppSecurityJWTAutoConfiguration {
     @ConditionalOnMissingBean
     public JwtTokenProvider jwtTokenProvider(
             JwtEncoder encoder,
-            AppSecurityAdminProperties appSecurityJwtProperties
+            AppSecurityJWTProperties appSecurityJWTProperties
     ) {
-        return new JwtTokenProvider(encoder, appSecurityJwtProperties);
+        return new JwtTokenProvider(encoder, appSecurityJWTProperties);
     }
 
 

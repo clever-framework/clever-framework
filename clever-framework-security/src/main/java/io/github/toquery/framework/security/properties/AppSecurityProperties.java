@@ -51,10 +51,7 @@ public class AppSecurityProperties {
      */
     private boolean enabledDSFC = true;
 
-    /**
-     * 是否开启用户注册，默认不开启
-     */
-    private boolean register = false;
+
 
     /**
      *
@@ -68,17 +65,14 @@ public class AppSecurityProperties {
     //url权限配置
     private List<UrlAuthConfig> urlAuths = Lists.newArrayList();
 
-    private AppSecurityJwtKey key = new AppSecurityJwtKey();
+    private AppSecurityKey key = new AppSecurityKey();
+    private AppSecurityJWTProperties jwt = new AppSecurityJWTProperties();
 
     @Getter
     @Setter
-    public static class AppSecurityJwtKey {
-
+    public static class AppSecurityKey {
         private String keyId = "12356";
-
-        private String issuer = "clever-framework";
         private String publicKey;
-
         private String privateKey;
 
     }
