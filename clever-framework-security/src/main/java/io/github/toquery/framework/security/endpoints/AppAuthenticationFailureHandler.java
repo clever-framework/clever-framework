@@ -2,6 +2,7 @@ package io.github.toquery.framework.security.endpoints;
 
 import io.github.toquery.framework.common.util.AppJacksonUtils;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
+import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,14 +24,13 @@ public class AppAuthenticationFailureHandler implements AuthenticationFailureHan
         response.setCharacterEncoding("utf-8");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
-        String errorMessage = exception.getMessage();
+        ResponseBodyWrapBuilder responseBodyWrapBuilder = ResponseBodyWrap.builder().message(exception.getMessage());
 
         if (exception instanceof BadCredentialsException || exception instanceof UsernameNotFoundException) {
-           errorMessage = "用户信息错误";
+            responseBodyWrapBuilder.message("用户信息错误");
         }
 
-        ResponseBodyWrap<?> responseParam = ResponseBodyWrap.builder().message(errorMessage).build();
-        response.getWriter().write(AppJacksonUtils.object2String(responseParam));
+        response.getWriter().write(AppJacksonUtils.object2String(responseBodyWrapBuilder.build()));
         // response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));
     }
 }
