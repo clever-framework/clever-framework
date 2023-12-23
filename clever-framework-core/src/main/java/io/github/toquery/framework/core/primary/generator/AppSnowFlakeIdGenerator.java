@@ -18,7 +18,7 @@ import java.util.Properties;
  * Try IdentifierGenerator instead of IdentityGenerator.
  */
 @Slf4j
-public class AppSnowFlakeIdGenerator extends IdentityGenerator implements IdentifierGenerator {
+public class AppSnowFlakeIdGenerator  implements IdentifierGenerator {
 
     private final SnowFlake snowFlake = new SnowFlake();
 
@@ -30,6 +30,8 @@ public class AppSnowFlakeIdGenerator extends IdentityGenerator implements Identi
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         AppBaseEntity appBaseEntity = (AppBaseEntity) object;
-        return (appBaseEntity != null && appBaseEntity.getId() != null && appBaseEntity.getId() != 0L) ? appBaseEntity.getId() : snowFlake.nextId();
+        long id = (appBaseEntity != null && appBaseEntity.getId() != null && appBaseEntity.getId() != 0L) ? appBaseEntity.getId() : snowFlake.nextId();
+        log.info("new id {} for entity {}", id, object.getClass().getName());
+        return id;
     }
 }

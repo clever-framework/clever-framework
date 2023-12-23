@@ -7,6 +7,12 @@ import io.github.toquery.framework.core.domain.AppEntitySort;
 import io.github.toquery.framework.core.domain.AppEntityTree;
 import io.github.toquery.framework.core.entity.AppBaseEntity;
 import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +22,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,7 +36,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "sys_menu")
 @Where(clause = "deleted = false")
-@SQLDelete(sql ="UPDATE sys_menu SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE sys_menu SET deleted = true WHERE id = ?")
 public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntityTree<SysMenu>, AppEntitySort, AppEntityLogicDel {
 
     public SysMenu(Long id, String menuName, String menuCode) {

@@ -33,12 +33,9 @@
         <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
 
-        <clever-framework.version>1.1.0-SNAPSHOT</clever-framework.version>
+        <clever-framework.version>1.2.0-SNAPSHOT</clever-framework.version>
         <!-- CI-friendly property 必须使用这个名称，否则IDEA报错-->
         <revision>${clever-framework.version}</revision>
-
-        <!-- spring jar -->
-        <spring-boot.version>3.0.3</spring-boot.version>
 
 
         <spring-boot-admin.version>3.2.0</spring-boot-admin.version>
@@ -46,7 +43,6 @@
 
         <guava.version>33.0.0-jre</guava.version>
         <jsqlparse.version>4.7</jsqlparse.version>
-
 
         <mapstruct.version>1.5.5.Final</mapstruct.version>
 
@@ -69,14 +65,13 @@
 
         <hutool.version>5.8.23</hutool.version>
 
-        <!--
-        <mybatis.version>3.5.9</mybatis.version>
-        <mybatis-spring.version>2.0.7</mybatis-spring.version>
-        <mybatis-spring-boot-starter.version>2.5.2</mybatis-spring-boot-starter.version>
-        -->
-        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
-        <mybatis-plus-dynamic-datasource.version>4.2.0</mybatis-plus-dynamic-datasource.version>
+        <!-- -->
+        <mybatis.version>3.5.14</mybatis.version>
+        <mybatis-spring.version>3.0.3</mybatis-spring.version>
+        <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
 
+        <mybatis-plus.version>3.5.5-SNAPSHOT</mybatis-plus.version>
+        <mybatis-plus-dynamic-datasource.version>4.2.0</mybatis-plus-dynamic-datasource.version>
 
     </properties>
 
@@ -138,11 +133,7 @@
                 <artifactId>clever-framework-log</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.github.toquery</groupId>
-                <artifactId>clever-framework-jpa</artifactId>
-                <version>${clever-framework.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-cache</artifactId>
@@ -153,11 +144,7 @@
                 <artifactId>clever-framework-web</artifactId>
                 <version>${clever-framework.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.github.toquery</groupId>
-                <artifactId>clever-framework-datasource</artifactId>
-                <version>${clever-framework.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-mybatis-plus</artifactId>
@@ -180,11 +167,7 @@
                 <version>${clever-framework.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.github.toquery</groupId>
-                <artifactId>clever-framework-files</artifactId>
-                <version>${clever-framework.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>io.github.toquery</groupId>
                 <artifactId>clever-framework-minio</artifactId>
@@ -203,23 +186,6 @@
                 <version>${clever-framework.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>${jjwt.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>io.protostuff</groupId>
-                <artifactId>protostuff-core</artifactId>
-                <version>${io-protostuff.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.protostuff</groupId>
-                <artifactId>protostuff-runtime</artifactId>
-                <version>${io-protostuff.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -241,32 +207,9 @@
             </dependency>
 
             <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-captcha</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>${commons-fileupload.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-collections4</artifactId>
-                <version>${commons-collections4.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
             </dependency>
 
 
@@ -280,12 +223,6 @@
                 <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-core</artifactId>
                 <version>${swagger.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-                <version>${springdoc.version}</version>
             </dependency>
 
             <dependency>
@@ -313,20 +250,16 @@
             </dependency>
 
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                <version>${mybatis-plus-dynamic-datasource.version}</version>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
             </dependency>
+
 
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.jsqlparser</groupId>
-                <artifactId>jsqlparser</artifactId>
-                <version>${jsqlparse.version}</version>
             </dependency>
 
 
@@ -490,30 +423,50 @@
 
     <repositories>
         <repository>
-            <name>Nexus Releases</name>
-            <id>releases-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
-
         <repository>
-            <name>Nexus Snapshots</name>
-            <id>snapshots-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
             <releases>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>true</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
     <!-- 只能推送到一个仓库 -->
     <distributionManagement>
         <snapshotRepository>
