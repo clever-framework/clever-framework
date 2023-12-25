@@ -54,7 +54,7 @@
 
         <validation-api.version>2.0.1.Final</validation-api.version>
 
-        <jjwt.version>0.9.1</jjwt.version>
+        <jjwt.version>0.12.3</jjwt.version>
         <datanucleus.version>5.2.1</datanucleus.version>
 
         <springdoc.version>1.6.11</springdoc.version>
