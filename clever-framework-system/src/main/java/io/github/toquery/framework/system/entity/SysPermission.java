@@ -3,13 +3,14 @@ package io.github.toquery.framework.system.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
-import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import io.github.toquery.framework.core.entity.BaseEntity;
+import io.github.toquery.framework.core.entity.EntityLogicDel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
+import io.github.toquery.framework.common.constant.EntityFieldConstant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,9 +25,9 @@ import jakarta.persistence.Transient;
 @Setter
 @TableName(value = "sys_permission")
 @Table(name = "sys_permission")
-@Where(clause = "deleted = false")
+@SQLRestriction(value = EntityFieldConstant.DOMAIN_FIELD_SOFT_DEL + " = false")
 @SQLDelete(sql ="UPDATE sys_permission SET deleted = true WHERE id = ?")
-public class SysPermission extends AppBaseEntity implements AppEntityLogicDel {
+public class SysPermission extends BaseEntity implements EntityLogicDel {
 
     @TableField(value = "")
     @Column(name = "user_id")

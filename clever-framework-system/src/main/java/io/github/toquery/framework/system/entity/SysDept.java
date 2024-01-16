@@ -4,17 +4,18 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.toquery.framework.core.domain.AppEntitySort;
-import io.github.toquery.framework.core.domain.AppEntityTree;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
-import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import io.github.toquery.framework.common.constant.EntityFieldConstant;
+import io.github.toquery.framework.core.domain.EntitySort;
+import io.github.toquery.framework.core.domain.EntityTree;
+import io.github.toquery.framework.core.entity.BaseEntity;
+import io.github.toquery.framework.core.entity.EntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,9 +35,9 @@ import java.util.List;
 @Table(name = "sys_dept")
 @AllArgsConstructor
 @NoArgsConstructor
-@Where(clause = "deleted = false")
+@SQLRestriction(value = EntityFieldConstant.DOMAIN_FIELD_SOFT_DEL + " = false")
 @SQLDelete(sql ="UPDATE sys_dept SET deleted = true WHERE id = ?")
-public class SysDept extends AppBaseEntity implements AppEntityTree<SysDept>, AppEntitySort, AppEntityLogicDel {
+public class SysDept extends BaseEntity implements EntityTree<SysDept>, EntitySort, EntityLogicDel {
 
     public SysDept(Long id, String deptName) {
         this.id = id;

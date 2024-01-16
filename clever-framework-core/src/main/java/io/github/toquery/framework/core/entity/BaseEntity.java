@@ -1,11 +1,13 @@
 package io.github.toquery.framework.core.entity;
 
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
+import io.github.toquery.framework.core.primary.generator.SnowFlakeIdGenerator;
 import io.github.toquery.framework.core.primary.snowflake.SnowFlake;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
 import lombok.Getter;
@@ -28,7 +30,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -52,17 +53,16 @@ import java.time.LocalDateTime;
 @Access(AccessType.FIELD)
 //@EntityListeners({AuditingEntityListener.class, AppEntityD3Listener.class})
 //@RevisionEntity(AppRevisionListener.class)
-public class AppBaseEntity implements Serializable, Persistable<Long> {
+public class BaseEntity implements Serializable, Persistable<Long> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId
     @Id
-    @Column
     // @RevisionNumber
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @GeneratedValue(generator = "generatedkey", strategy = GenerationType.AUTO)
-    @GenericGenerator(name = "generatedkey", strategy = "io.github.toquery.framework.core.primary.generator.AppSnowFlakeIdGenerator", parameters = {@Parameter(name = "sequence", value = "II_FIRM_DOC_PRM_SEQ")})
+    @GenericGenerator(name = "generatedkey", type = SnowFlakeIdGenerator.class, parameters = {@Parameter(name = "sequence", value = "II_FIRM_DOC_PRM_SEQ")})
     protected Long id;
 
 
@@ -86,7 +86,6 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     @CreationTimestamp
     //@Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     @Column(name = "create_date_time", updatable = false, nullable = false)
     private LocalDateTime createDateTime;
 
@@ -104,7 +103,6 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     //@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_date_time", nullable = false)
     @JsonFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
-    // @DateTimeFormat(pattern = AppCommonConstant.DATE_TIME_PATTERN)
     private LocalDateTime updateDateTime;
 
 //    @Version
@@ -113,8 +111,7 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
     private Long getUserId() {
         Long userId = 0L;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof AppUserDetails) {
-            AppUserDetails appUserDetails = (AppUserDetails) authentication.getPrincipal();
+        if (authentication != null && authentication.getPrincipal() != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof AppUserDetails appUserDetails) {
             userId = appUserDetails.getId();
         }
         return userId;
@@ -150,12 +147,12 @@ public class AppBaseEntity implements Serializable, Persistable<Long> {
 
     @DomainEvents
     public void domainEvents() {
-        log.debug("Spring DDD Model: AppBaseEntity ---- @DomainEvents");
+        log.debug("Spring DDD Model: BaseEntity ---- @DomainEvents");
     }
 
     @AfterDomainEventPublication
     public void afterDomainEventPublication() {
-        log.debug("Spring DDD Model: AppBaseEntity ---- @AfterDomainEventPublication");
+        log.debug("Spring DDD Model: BaseEntity ---- @AfterDomainEventPublication");
     }
 
     /**

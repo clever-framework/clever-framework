@@ -1,6 +1,6 @@
 package io.github.toquery.framework.webmvc.error;
 
-import io.github.toquery.framework.common.util.AppJacksonUtils;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class AppErrorController extends BasicErrorController {
     protected Map<String, Object> getErrorAttributes(HttpServletRequest request, ErrorAttributeOptions options) {
         Map<String, Object> superErrorAttributes = super.getErrorAttributes(request, options);
         ResponseBodyWrap responseParam = new ResponseBodyWrapBuilder().fail().message(superErrorAttributes.getOrDefault("message", "系统错误！").toString()).build();
-        return AppJacksonUtils.object2HashMap(responseParam);
+        return JacksonUtils.object2HashMap(responseParam);
     }
 
     /*

@@ -1,6 +1,6 @@
 package io.github.toquery.framework.security.endpoints;
 
-import io.github.toquery.framework.common.util.AppJacksonUtils;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class AppAuthenticationFailureHandler implements AuthenticationFailureHan
             responseBodyWrapBuilder.message("用户信息错误");
         }
 
-        response.getWriter().write(AppJacksonUtils.object2String(responseBodyWrapBuilder.build()));
+        response.getWriter().write(JacksonUtils.object2String(responseBodyWrapBuilder.build()));
         // response.sendError(HttpServletResponse.SC_UNAUTHORIZED, JacksonUtils.object2String(responseParam));
     }
 }

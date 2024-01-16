@@ -1,6 +1,6 @@
 package io.github.toquery.framework.mybatis.plus.interceptor;
 
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.Executor;
@@ -58,10 +58,10 @@ public class AppEntityAuditInterceptor implements Interceptor {
                 log.debug("操作类型： {}", sqlCommandType);
                 continue;
             }
-            // 判断参数是否是 AppBaseEntity 类型
+            // 判断参数是否是 BaseEntity 类型
             // 一个参数
-            if (object instanceof AppBaseEntity) {
-                AppBaseEntity appBaseEntity = (AppBaseEntity) object;
+            if (object instanceof BaseEntity) {
+                BaseEntity appBaseEntity = (BaseEntity) object;
                 if (SqlCommandType.INSERT == sqlCommandType) {
                     appBaseEntity.preInsert();
                     continue;
@@ -81,8 +81,8 @@ public class AppEntityAuditInterceptor implements Interceptor {
                     continue;
                 }
                 Object paraObject = parasMap.get(key);
-                if (paraObject instanceof AppBaseEntity) {
-                    AppBaseEntity appBaseEntity = (AppBaseEntity) paraObject;
+                if (paraObject instanceof BaseEntity) {
+                    BaseEntity appBaseEntity = (BaseEntity) paraObject;
                     if (SqlCommandType.UPDATE == sqlCommandType) {
                         appBaseEntity.preUpdate();
                         continue;
@@ -99,8 +99,8 @@ public class AppEntityAuditInterceptor implements Interceptor {
                 }
                 ArrayList<Object> objs = map.get(key);
                 for (Object obj : objs) {
-                    if (obj instanceof AppBaseEntity) {
-                        AppBaseEntity appBaseEntity = (AppBaseEntity) obj;
+                    if (obj instanceof BaseEntity) {
+                        BaseEntity appBaseEntity = (BaseEntity) obj;
                         if (SqlCommandType.INSERT == sqlCommandType) {
                             appBaseEntity.preInsert();
                         }

@@ -3,10 +3,10 @@ package io.github.toquery.framework.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.toquery.framework.core.domain.AppEntitySort;
-import io.github.toquery.framework.core.domain.AppEntityTree;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
-import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import io.github.toquery.framework.core.domain.EntitySort;
+import io.github.toquery.framework.core.domain.EntityTree;
+import io.github.toquery.framework.core.entity.BaseEntity;
+import io.github.toquery.framework.core.entity.EntityLogicDel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -19,7 +19,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
+import io.github.toquery.framework.common.constant.EntityFieldConstant;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -35,9 +36,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_menu")
-@Where(clause = "deleted = false")
+@SQLRestriction(value = EntityFieldConstant.DOMAIN_FIELD_SOFT_DEL + " = false")
 @SQLDelete(sql = "UPDATE sys_menu SET deleted = true WHERE id = ?")
-public class SysMenu extends AppBaseEntity implements GrantedAuthority, AppEntityTree<SysMenu>, AppEntitySort, AppEntityLogicDel {
+public class SysMenu extends BaseEntity implements GrantedAuthority, EntityTree<SysMenu>, EntitySort, EntityLogicDel {
 
     public SysMenu(Long id, String menuName, String menuCode) {
         this.id = id;

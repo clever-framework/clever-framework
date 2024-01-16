@@ -49,4 +49,6 @@ public interface ISysUserService extends AppUserDetailService, IService<SysUser>
 
     SysUser getByIdWithRole(Long id);
 
+
+    SysUser getByUsername(String username);
 }

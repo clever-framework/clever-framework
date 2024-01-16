@@ -146,6 +146,13 @@ public class AppSystemAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public SysTenantRest sysTenantRest(ISysTenantService sysTenantService) {
+        return new SysTenantRest(sysTenantService);
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean
     public ISysAreaService sysAreaService() {
         return new SysAreaServiceImpl();
     }
@@ -223,6 +230,12 @@ public class AppSystemAutoConfiguration {
     @ConditionalOnMissingBean
     public ISysWorkService sysWorkService(@Lazy ISysUserService sysUserService, @Lazy ISysDeptService sysDeptService, @Lazy ISysPostService sysPostService) {
         return new SysWorkServiceImpl(sysUserService, sysDeptService, sysPostService);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ISysTenantService sysTenantService() {
+        return new SysTenantServiceImpl();
     }
 
     @Bean

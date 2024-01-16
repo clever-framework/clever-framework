@@ -108,7 +108,6 @@ public class SnowFlake {
     /**
      * 产生下一个ID
      *
-     * @return
      */
     public synchronized long nextId() {
         long currTimestamps = getNewTimestamps();
@@ -148,18 +147,4 @@ public class SnowFlake {
         return System.currentTimeMillis();
     }
 
-    public static void main(String[] args) {
-//        for (int j = 0; j < 100000; j++) {
-//            Runnable runnable = () -> {
-        SnowFlake snowFlake = new SnowFlake();
-
-        for (int i = 0; i < (1 << 12); i++) {
-            System.out.println(Thread.currentThread().getName() + " : " + snowFlake.nextId());
-        }
-//            };
-//            Thread t = new Thread(runnable);
-//            t.start();
-        //}
-
-    }
 }

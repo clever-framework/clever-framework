@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.endpoints;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.toquery.framework.common.util.AppJacksonUtils;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class AppAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("utf-8");
-        response.getWriter().write(AppJacksonUtils.object2String(objectMapper, responseParam));
+        response.getWriter().write(JacksonUtils.object2String(objectMapper, responseParam));
         response.getWriter().flush();
         // response.sendError(HttpServletResponse.SC_FORBIDDEN, JacksonUtils.object2String(responseParam));
     }

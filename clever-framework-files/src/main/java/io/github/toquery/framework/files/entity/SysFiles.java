@@ -2,7 +2,7 @@ package io.github.toquery.framework.files.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,7 +20,7 @@ import jakarta.persistence.Transient;
 @Entity
 @TableName(value = "")
 @Table(name = "sys_files")
-public class SysFiles extends AppBaseEntity {
+public class SysFiles extends BaseEntity {
 
     /**
      * 存储名称

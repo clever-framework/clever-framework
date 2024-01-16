@@ -1,6 +1,6 @@
 package io.github.toquery.framework.jpa.audit;
 
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import org.springframework.core.Ordered;
 
 
@@ -12,18 +12,18 @@ public interface AppAuditorHandler extends Ordered {
 
     boolean enable();
 
-    public void onPrePersist(AppBaseEntity appBaseEntity);
+    public void onPrePersist(BaseEntity appBaseEntity);
 
-    public void onPreUpdate(AppBaseEntity appBaseEntity);
+    public void onPreUpdate(BaseEntity appBaseEntity);
 
-    public void onPreRemove(AppBaseEntity appBaseEntity);
+    public void onPreRemove(BaseEntity appBaseEntity);
 
 
-    void onPostLoad(AppBaseEntity appBaseEntity);
+    void onPostLoad(BaseEntity appBaseEntity);
 
-    void onPostPersist(AppBaseEntity appBaseEntity);
+    void onPostPersist(BaseEntity appBaseEntity);
 
-    void onPostUpdate(AppBaseEntity appBaseEntity);
+    void onPostUpdate(BaseEntity appBaseEntity);
 
-    void onPostRemove(AppBaseEntity appBaseEntity);
+    void onPostRemove(BaseEntity appBaseEntity);
 }

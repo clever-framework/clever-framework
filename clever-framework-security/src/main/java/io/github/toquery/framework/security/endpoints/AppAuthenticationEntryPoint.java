@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.endpoints;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.toquery.framework.common.util.AppJacksonUtils;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.web.domain.ResponseBodyWrap;
 import io.github.toquery.framework.web.domain.ResponseBodyWrapBuilder;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +24,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static io.github.toquery.framework.web.domain.ResponseBodyWrap.builder;
 
 /**
  * 认证失败将会在这里处理
@@ -79,7 +77,7 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // httpServletResponse.addHeader("WWW-Authenticate", "Basic");
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         httpServletResponse.setCharacterEncoding("utf-8");
-        httpServletResponse.getWriter().write(AppJacksonUtils.object2String(objectMapper, responseBodyWrapBuilder.build()));
+        httpServletResponse.getWriter().write(JacksonUtils.object2String(objectMapper, responseBodyWrapBuilder.build()));
         httpServletResponse.getWriter().flush();
         // httpServletResponse.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
     }

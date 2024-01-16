@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
 @TableName(value = "sys_user_online")
 @Table(name = "sys_user_online")
-public class SysUserOnline extends AppBaseEntity {
+public class SysUserOnline extends BaseEntity {
 
     // 用户昵称
     @JsonFormat(shape = JsonFormat.Shape.STRING)
