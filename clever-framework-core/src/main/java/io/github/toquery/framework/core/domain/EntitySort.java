@@ -6,7 +6,7 @@ package io.github.toquery.framework.core.domain;
  * @author toquery
  * @version 1
  */
-public interface AppEntitySort {
+public interface EntitySort {
 
     public void setSortNum(Integer sortNum);
 

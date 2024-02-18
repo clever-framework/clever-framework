@@ -1,7 +1,7 @@
 package io.github.toquery.framework.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +25,7 @@ import java.util.Map;
 @Setter
 //@TableName(value = "")
 //@Table(name = "sys_audit_event")
-public class PersistentAuditEvent extends AppBaseEntity {
+public class PersistentAuditEvent extends BaseEntity {
 
     @NotNull
     @TableField(value = "")

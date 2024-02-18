@@ -7,7 +7,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.crud.service.AppBaseService;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import io.github.toquery.framework.core.entity.AppEntityLogicDel;
 import io.github.toquery.framework.jpa.jpa.support.DynamicJPASpecifications;
 import io.github.toquery.framework.jpa.repository.AppJpaBaseRepository;
@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
  * @param <D> Dao操作类
  */
 @Slf4j
-public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJpaBaseRepository<E>> implements AppBaseService<E> {
+public abstract class AppBaseServiceImpl<E extends BaseEntity, D extends AppJpaBaseRepository<E>> implements AppBaseService<E> {
 
     @Autowired
     protected D repository;
@@ -316,7 +316,7 @@ public abstract class AppBaseServiceImpl<E extends AppBaseEntity, D extends AppJ
      */
     protected Sort getSort(String[] sorts) {
         //默认按照创建时间排序
-        if ((sorts == null || sorts.length < 1) && AppBaseEntity.class.isAssignableFrom(this.repository.getDomainClass())) {
+        if ((sorts == null || sorts.length < 1) && BaseEntity.class.isAssignableFrom(this.repository.getDomainClass())) {
             sorts = new String[]{"createDateTime"};
         }
 

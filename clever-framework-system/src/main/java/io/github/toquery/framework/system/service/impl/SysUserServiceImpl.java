@@ -40,8 +40,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final ISysPermissionService sysPermissionService;
 
 
-
-
     // @Cacheable(value = "userCache", key = "#username")
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -56,7 +54,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public UserDetails loadFullUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user = super.baseMapper.getByUsername(username);
+        SysUser user = this.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         }
@@ -104,7 +102,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new AppException("用户名不能为 admin root ！");
         }
 
-        SysUser dbSysUser = super.baseMapper.getByUsername(userName);
+        SysUser dbSysUser = this.getByUsername(userName);
         if (dbSysUser != null) {
             throw new AppException("用户已存在");
         }
@@ -125,7 +123,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser changePassword(String userName, String sourcePassword, String rawPassword) throws AppException {
-        SysUser sysUser = super.baseMapper.getByUsername(userName);
+        SysUser sysUser = this.getByUsername(userName);
         if (sysUser == null) {
             throw new AppException("未找到用户");
         }
@@ -163,5 +161,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setRoles(roles);
         sysUser.setRoleIds(roles.stream().map(SysRole::getId).collect(Collectors.toSet()));
         return sysUser;
+    }
+
+    @Override
+    public SysUser getByUsername(String username) {
+        return super.getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username));
     }
 }

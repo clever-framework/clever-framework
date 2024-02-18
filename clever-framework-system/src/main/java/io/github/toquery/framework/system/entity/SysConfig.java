@@ -1,10 +1,10 @@
 package io.github.toquery.framework.system.entity;
 
 
-import io.github.toquery.framework.core.domain.AppEntitySort;
+import io.github.toquery.framework.core.domain.EntitySort;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
-import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import io.github.toquery.framework.core.entity.BaseEntity;
+import io.github.toquery.framework.core.entity.EntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_config")
-public class SysConfig extends AppBaseEntity implements AppEntitySort, AppEntityLogicDel {
+public class SysConfig extends BaseEntity implements EntitySort, EntityLogicDel {
 
 
     @Column(name = "config_name", unique = true, length = 50)

@@ -1,21 +1,20 @@
 package io.github.toquery.framework.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 import io.github.toquery.framework.common.constant.AppCommonConstant;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
-import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import io.github.toquery.framework.core.entity.BaseEntity;
+import io.github.toquery.framework.core.entity.EntityLogicDel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
+import io.github.toquery.framework.common.constant.EntityFieldConstant;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,9 +37,9 @@ import java.util.stream.Stream;
 @Setter
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "accountNonExpired", "accountNonLocked", "credentialsNonExpired"})
 @Table(name = "sys_user")
-@Where(clause = "deleted = false")
+@SQLRestriction(value = EntityFieldConstant.DOMAIN_FIELD_SOFT_DEL + " = false")
 @SQLDelete(sql ="UPDATE sys_user SET deleted = true WHERE id = ?")
-public class SysUser extends AppBaseEntity implements UserDetails, AppUserDetails, AppEntityLogicDel {
+public class SysUser extends BaseEntity implements UserDetails, AppUserDetails, EntityLogicDel {
 
 
     // 用户名，唯一

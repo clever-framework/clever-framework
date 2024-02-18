@@ -10,7 +10,7 @@ public class AppRevisionListener implements RevisionListener {
 
 
     public void newRevision(Object revisionEntity) {
-//        AppBaseEntity appBaseEntity = (AppBaseEntity) revisionEntity;
+//        BaseEntity appBaseEntity = (BaseEntity) revisionEntity;
 //        appBaseEntity.setRevisionDatetime(22L);
     }
 }

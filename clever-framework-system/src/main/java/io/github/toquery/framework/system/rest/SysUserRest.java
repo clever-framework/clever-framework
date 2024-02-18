@@ -3,7 +3,7 @@ package io.github.toquery.framework.system.rest;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
-import io.github.toquery.framework.common.util.AppJacksonUtils;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.exception.AppException;
 import io.github.toquery.framework.core.log.AppLogType;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
@@ -74,7 +74,7 @@ public class SysUserRest extends AppBaseWebMvcController {
     @PreAuthorize("hasAnyAuthority('system:user:query')")
     @GetMapping("/exist")
     public ResponseBodyWrap<?> exist(SysUser sysUser) {
-        Map<String, Object> map = AppJacksonUtils.object2HashMap2(objectMapper, sysUser);
+        Map<String, Object> map = JacksonUtils.object2HashMap2(objectMapper, sysUser);
 //        List<SysUser> sysUserList = sysUserService.list(map);
 //        return new ResponseBodyWrapBuilder().content(!sysUserList.isEmpty()).build();
         return new ResponseBodyWrapBuilder().content(false).build();

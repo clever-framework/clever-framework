@@ -1,11 +1,11 @@
 package io.github.toquery.framework.log.auditor;
 
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.common.util.AppJacksonUtils;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
 import io.github.toquery.framework.core.log.annotation.AppLogFieldIgnore;
 import io.github.toquery.framework.core.log.AppLogType;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import io.github.toquery.framework.log.properties.AppLogProperties;
 import io.github.toquery.framework.log.entity.SysLog;
 import lombok.extern.slf4j.Slf4j;
@@ -34,15 +34,15 @@ public class AppBizLogAnnotationHandler {
         SysLog sysLog = new SysLog();
         sysLog.setModuleName(modelName);
         sysLog.setBizName(bizName);
-        sysLog.setRawData(AppJacksonUtils.object2String(rawData));
-        sysLog.setTargetData(AppJacksonUtils.object2String(targetData));
+        sysLog.setRawData(JacksonUtils.object2String(rawData));
+        sysLog.setTargetData(JacksonUtils.object2String(targetData));
         sysLog.setLogType(logType);
         sysLog.setOperateDateTime(LocalDateTime.now());
         return sysLog;
     }
 
 
-    public Set<Field> handleEntityFields(AppBaseEntity appBaseEntity) {
+    public Set<Field> handleEntityFields(BaseEntity appBaseEntity) {
         // 标识为 AppLogIgnoreField、Transient 或者 在全局设置中的字段 将不记录日志
         return Arrays.stream(appBaseEntity.getClass().getDeclaredFields())
                 .filter(item -> item.getAnnotation(AppLogFieldIgnore.class) == null && item.getAnnotation(Transient.class) == null && !appLogProperties.getIgnoreFields().contains(item.getName()))
@@ -54,7 +54,7 @@ public class AppBizLogAnnotationHandler {
     }
 
 
-    public Map<String, Object> handleTargetData(AppBaseEntity appBaseEntity, Set<Field> fieldSet) {
+    public Map<String, Object> handleTargetData(BaseEntity appBaseEntity, Set<Field> fieldSet) {
         Map<String, Object> targetData = Maps.newHashMap();
 
         // 是否存在唯一标识

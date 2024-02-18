@@ -1,6 +1,6 @@
 package io.github.toquery.framework.system.entity;
 
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ import jakarta.persistence.Transient;
 @AllArgsConstructor
 //@TableName(value = "")
 //@Table(name = "sys_config_data")
-public class SysConfigData extends AppBaseEntity {
+public class SysConfigData extends BaseEntity {
 
 //    @ManyToOne
 //    @JoinColumn(name = "config_id", nullable = false)

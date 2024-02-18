@@ -1,12 +1,11 @@
 package io.github.toquery.framework.common.util;
 
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.util.ClassUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-public class AppClassUtils {
+public class ClassUtils {
 
 
     /**
@@ -16,7 +15,7 @@ public class AppClassUtils {
      */
     public static Class<?> getAnnotationClass(Class<?> clazz, Class<? extends Annotation> annotationType) {
         //获取该Bean的所有接口
-        Class<?>[] interfaces = ClassUtils.getAllInterfacesForClass(clazz);
+        Class<?>[] interfaces = org.springframework.util.ClassUtils.getAllInterfacesForClass(clazz);
         Class<?> contractMarkClass = null;
         //遍历接口找到注解了Contract的接口
         for (Class<?> anInterface : interfaces) {
@@ -35,7 +34,7 @@ public class AppClassUtils {
      * @return 如果是 ContractTarget 返回 true，否则返回 false
      */
     public static boolean isContractTargetClass(Class<?> clazz, Class<? extends Annotation> annotationType) {
-        Class<?>[] interfaces = ClassUtils.getAllInterfacesForClass(clazz);
+        Class<?>[] interfaces = org.springframework.util.ClassUtils.getAllInterfacesForClass(clazz);
         for (Class<?> anInterface : interfaces) {
             if (anInterface.equals(annotationType))
                 return true;

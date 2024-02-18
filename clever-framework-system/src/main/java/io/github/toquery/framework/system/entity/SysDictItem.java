@@ -8,12 +8,13 @@ import jakarta.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
+import io.github.toquery.framework.common.constant.EntityFieldConstant;
 
-import io.github.toquery.framework.core.domain.AppEntitySort;
+import io.github.toquery.framework.core.domain.EntitySort;
 import io.github.toquery.framework.core.log.annotation.AppLogField;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
-import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import io.github.toquery.framework.core.entity.BaseEntity;
+import io.github.toquery.framework.core.entity.EntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,9 +30,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sys_dict_item")
-@Where(clause = "deleted = false")
+@SQLRestriction(value = EntityFieldConstant.DOMAIN_FIELD_SOFT_DEL + " = false")
 @SQLDelete(sql ="UPDATE sys_dict_item SET deleted = true WHERE id = ?")
-public class SysDictItem extends AppBaseEntity implements AppEntitySort, AppEntityLogicDel {
+public class SysDictItem extends BaseEntity implements EntitySort, EntityLogicDel {
 
 
     /**

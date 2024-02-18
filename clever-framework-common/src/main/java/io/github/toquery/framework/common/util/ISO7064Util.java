@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * 使用ISO7064规范中定义的校验字符系统进行字符串的校验以及生成校验字符
  * </p>
  */
-public class AppISO7064Util {
+public class ISO7064Util {
 
     /**
      * ISO7064规范中定义的校验字符系统
@@ -376,21 +376,15 @@ public class AppISO7064Util {
      */
     private static class CheckCharacterComputor {
         static String compute(String inputString, Designation designation) {
-            switch (designation) {
-                case ISO_7064_MOD_11_2:
-                case ISO_7064_MOD_37_2:
-                    return polynomialMethod4PureSystemWith1CheckChar(inputString, designation);
-                case ISO_7064_MOD_97_10:
-                case ISO_7064_MOD_661_26:
-                case ISO_7064_MOD_1271_36:
-                    return polynomialMethod4PureSystemWith2CheckChar(inputString, designation);
-                case ISO_7064_MOD_11_HYBRID_10:
-                case ISO_7064_MOD_27_HYBRID_26:
-                case ISO_7064_MOD_37_HYBRID_36:
-                    return recursiveMethod4HybridSystemWith1CheckChar(inputString, designation);
-                default:
-                    return null;
-            }
+            return switch (designation) {
+                case ISO_7064_MOD_11_2, ISO_7064_MOD_37_2 ->
+                        polynomialMethod4PureSystemWith1CheckChar(inputString, designation);
+                case ISO_7064_MOD_97_10, ISO_7064_MOD_661_26, ISO_7064_MOD_1271_36 ->
+                        polynomialMethod4PureSystemWith2CheckChar(inputString, designation);
+                case ISO_7064_MOD_11_HYBRID_10, ISO_7064_MOD_27_HYBRID_26, ISO_7064_MOD_37_HYBRID_36 ->
+                        recursiveMethod4HybridSystemWith1CheckChar(inputString, designation);
+                default -> null;
+            };
         }
 
         /**

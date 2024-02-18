@@ -1,17 +1,17 @@
 package io.github.toquery.framework.log.aspect;
 
+import cn.hutool.core.util.ReflectUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import io.github.toquery.framework.common.util.AppJacksonUtils;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.log.annotation.AppLogMethod;
 import io.github.toquery.framework.core.security.AppSecurityKey;
 import io.github.toquery.framework.core.security.userdetails.AppUserDetails;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import io.github.toquery.framework.log.auditor.AppBizLogAnnotationHandler;
 import io.github.toquery.framework.log.entity.SysLog;
 import io.github.toquery.framework.log.service.ISysLogService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -81,13 +81,13 @@ public class AppBizLogMethodAspect {
             this.handleBizLog(joinPoint, appLogMethod);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("保存业务日志失败，操作类: {} 方法：{} \n 参数： {}", joinPoint.getTarget().getClass().toString(), joinPoint.getSignature().getName(), AppJacksonUtils.object2String(joinPoint.getArgs()));
+            log.error("保存业务日志失败，操作类: {} 方法：{} \n 参数： {}", joinPoint.getTarget().getClass().toString(), joinPoint.getSignature().getName(), JacksonUtils.object2String(joinPoint.getArgs()));
         }
     }
 
 
     private void handleBizLog(JoinPoint joinPoint, AppLogMethod appLogMethod) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        AppBaseEntity appBaseEntity = this.getAppBaseEntity(joinPoint.getArgs());
+        BaseEntity appBaseEntity = this.getBaseEntity(joinPoint.getArgs());
 
         String modelName = appLogMethod.modelName().startsWith(INVOKE_FIELD_PREFIX) ? this.invokeFieldValue(appLogMethod.modelName(), appBaseEntity) : appLogMethod.modelName();
         String bizName = appLogMethod.bizName().startsWith(INVOKE_FIELD_PREFIX) ? this.invokeFieldValue(appLogMethod.bizName(), appBaseEntity) : appLogMethod.bizName();
@@ -120,18 +120,18 @@ public class AppBizLogMethodAspect {
     }
 
     //获取请求中携带的参数，如果为空则反射获取实体字段的值
-    private String invokeFieldValue(String fieldName, AppBaseEntity appBaseEntity) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    private String invokeFieldValue(String fieldName, BaseEntity appBaseEntity) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         fieldName = fieldName.substring(1);
         // 方法参数值
         String paramValue = request.getParameter(fieldName);
-        return Strings.isNullOrEmpty(paramValue) ? (String) PropertyUtils.getProperty(appBaseEntity, fieldName) : paramValue;
+        return Strings.isNullOrEmpty(paramValue) ? (String) ReflectUtil.getFieldValue(appBaseEntity, fieldName) : paramValue;
     }
 
-    private AppBaseEntity getAppBaseEntity(Object[] argObjects) {
+    private BaseEntity getBaseEntity(Object[] argObjects) {
         if (argObjects == null || argObjects.length <= 0) {
             return null;
         }
-        Optional<AppBaseEntity> appBaseEntityOptional = Stream.of(argObjects).filter(item -> item instanceof AppBaseEntity).map(item -> (AppBaseEntity) item).findAny();
+        Optional<BaseEntity> appBaseEntityOptional = Stream.of(argObjects).filter(item -> item instanceof BaseEntity).map(item -> (BaseEntity) item).findAny();
         // 如果接受参数为单个实体，则去获取单个实体
         return appBaseEntityOptional.orElse(null);
     }

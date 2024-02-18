@@ -3,15 +3,16 @@ package io.github.toquery.framework.system.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
-import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import io.github.toquery.framework.core.entity.BaseEntity;
+import io.github.toquery.framework.core.entity.EntityLogicDel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLRestriction;
+import io.github.toquery.framework.common.constant.EntityFieldConstant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,9 +30,9 @@ import jakarta.validation.constraints.NotNull;
 @AllArgsConstructor
 @TableName(value = "sys_work")
 @Table(name = "sys_work")
-@Where(clause = "deleted = false")
+@SQLRestriction(value = EntityFieldConstant.DOMAIN_FIELD_SOFT_DEL + " = false")
 @SQLDelete(sql ="UPDATE sys_work SET deleted = true WHERE id = ?")
-public class SysWork extends AppBaseEntity implements AppEntityLogicDel {
+public class SysWork extends BaseEntity implements EntityLogicDel {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @TableField(value = "userId")

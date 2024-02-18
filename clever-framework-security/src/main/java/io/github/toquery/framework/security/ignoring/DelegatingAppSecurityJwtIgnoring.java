@@ -1,7 +1,7 @@
 package io.github.toquery.framework.security.ignoring;
 
 import com.google.common.collect.Sets;
-import io.github.toquery.framework.common.util.AppJacksonUtils;
+import io.github.toquery.framework.common.util.JacksonUtils;
 import io.github.toquery.framework.core.security.AppSecurityIgnoring;
 import io.github.toquery.framework.security.properties.AppSecurityProperties;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +27,10 @@ public class DelegatingAppSecurityJwtIgnoring implements AppSecurityIgnoring {
         // 获取框架配置的地址
         if (appSecurityIgnoringList != null && !appSecurityIgnoringList.isEmpty()) {
             ignoringSet.addAll(appSecurityIgnoringList.stream().flatMap(appSecurityIgnoring -> appSecurityIgnoring.ignoring().stream()).collect(Collectors.toSet()));
-            log.debug("加载框架白名单URI {} 个 , 分别是 {}", ignoringSet.size(), AppJacksonUtils.object2String(ignoringSet));
+            log.debug("加载框架白名单URI {} 个 , 分别是 {}", ignoringSet.size(), JacksonUtils.object2String(ignoringSet));
         }
         ignoringSet.addAll(appSecurityProperties.getIgnoring());
-        log.debug("加载配置文件白名单URI {} 个 , 分别是 {}", appSecurityProperties.getIgnoring().size(), AppJacksonUtils.object2String(appSecurityProperties.getIgnoring()));
+        log.debug("加载配置文件白名单URI {} 个 , 分别是 {}", appSecurityProperties.getIgnoring().size(), JacksonUtils.object2String(appSecurityProperties.getIgnoring()));
 
         return ignoringSet;
     }

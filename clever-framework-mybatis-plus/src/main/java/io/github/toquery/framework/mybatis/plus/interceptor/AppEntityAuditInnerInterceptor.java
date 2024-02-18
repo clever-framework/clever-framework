@@ -1,8 +1,8 @@
 package io.github.toquery.framework.mybatis.plus.interceptor;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
-import io.github.toquery.framework.core.entity.AppEntityLogicDel;
+import io.github.toquery.framework.core.entity.BaseEntity;
+import io.github.toquery.framework.core.entity.EntityLogicDel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.BatchExecutor;
 import org.apache.ibatis.executor.Executor;
@@ -81,8 +81,8 @@ public class AppEntityAuditInnerInterceptor implements InnerInterceptor {
      */
     @Override
     public void beforeUpdate(Executor executor, MappedStatement ms, Object parameter) throws SQLException {
-        if (parameter instanceof AppBaseEntity) {
-            AppBaseEntity appBaseEntity = (AppBaseEntity) parameter;
+        if (parameter instanceof BaseEntity) {
+            BaseEntity appBaseEntity = (BaseEntity) parameter;
             if (SqlCommandType.INSERT == ms.getSqlCommandType()) {
                 appBaseEntity.preInsert();
             } else if (SqlCommandType.UPDATE == ms.getSqlCommandType()) {
@@ -90,8 +90,8 @@ public class AppEntityAuditInnerInterceptor implements InnerInterceptor {
             }
         }
         // 软删除默认值
-        if (parameter instanceof AppEntityLogicDel && SqlCommandType.INSERT == ms.getSqlCommandType()) {
-            AppEntityLogicDel appBaseEntity = (AppEntityLogicDel) parameter;
+        if (parameter instanceof EntityLogicDel && SqlCommandType.INSERT == ms.getSqlCommandType()) {
+            EntityLogicDel appBaseEntity = (EntityLogicDel) parameter;
             if (appBaseEntity.getDeleted() == null) {
                 appBaseEntity.setDeleted(false);
             }

@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -187,8 +188,8 @@ public class AppSecurityAutoConfiguration {
         // headers
         http.headers(headersConfigurer -> {
             headersConfigurer.disable();
-            headersConfigurer.cacheControl().disable();
-            headersConfigurer.frameOptions().sameOrigin().disable();
+            headersConfigurer.cacheControl(HeadersConfigurer.CacheControlConfig::disable);
+            headersConfigurer.frameOptions(frameOptionsConfig -> frameOptionsConfig.sameOrigin().disable());
         });
 
         // cors

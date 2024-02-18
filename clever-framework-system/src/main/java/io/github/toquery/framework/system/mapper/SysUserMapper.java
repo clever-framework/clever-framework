@@ -10,5 +10,4 @@ import org.springframework.data.repository.query.Param;
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-    public SysUser getByUsername(@Param("username") String username);
 }

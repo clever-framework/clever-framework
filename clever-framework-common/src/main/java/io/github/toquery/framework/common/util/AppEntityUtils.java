@@ -1,7 +1,5 @@
 package io.github.toquery.framework.common.util;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -22,7 +20,7 @@ public class AppEntityUtils {
      * @param entityObject 实体对象
      * @param <T>          实体对象类型
      * @return 实体对象
-     */
+
     public static <T> T map2Entity2(Map<String, Object> map, T entityObject) {
         if (map == null || entityObject == null) {
             return null;
@@ -34,7 +32,7 @@ public class AppEntityUtils {
         }
         return entityObject;
     }
-
+     */
 
     /**
      * 利用Introspector,PropertyDescriptor实现 Map 转为 Bean

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-public class AppJacksonUtils {
+public class JacksonUtils {
 
     private static final ObjectMapper objectMapper = createDefaultObjectMapper();
 

@@ -47,7 +47,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     @Override
     public SysConfig saveSysConfigCheck(SysConfig sysConfig) {
         List<SysConfig> sysConfigList = this.findByConfigName(sysConfig.getConfigName());
-        if (sysConfigList.size() > 0) {
+        if (!sysConfigList.isEmpty()) {
             throw new RuntimeException("配置项已存在");
         }
         super.save(sysConfig);

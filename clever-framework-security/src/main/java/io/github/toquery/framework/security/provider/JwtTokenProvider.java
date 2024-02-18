@@ -2,8 +2,7 @@ package io.github.toquery.framework.security.provider;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import io.github.toquery.framework.common.util.AppNanoIdUtils;
-import io.github.toquery.framework.security.properties.AppSecurityAdminProperties;
+import io.github.toquery.framework.common.util.NanoIdUtils;
 import io.github.toquery.framework.security.properties.AppSecurityJWTProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,7 @@ public class JwtTokenProvider {
     private final AppSecurityJWTProperties appSecurityJWTProperties;
 
     public String issueToken(String username, String device) {
-        return this.issueToken(username, AppNanoIdUtils.randomNanoId(), device);
+        return this.issueToken(username, NanoIdUtils.randomNanoId(), device);
     }
 
     public String issueToken(String username, String tokenId, String device) {

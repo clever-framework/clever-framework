@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.toquery.framework.core.log.AppLogType;
 //import io.github.toquery.framework.core.log.annotation.AppLogEntityIgnore;
-import io.github.toquery.framework.core.entity.AppBaseEntity;
+import io.github.toquery.framework.core.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @TableName(value = "sys_log")
 @Table(name = "sys_log")
-public class SysLog extends AppBaseEntity {
+public class SysLog extends BaseEntity {
 
     public SysLog(SysLog sysLog, UserDetails sysUser) {
         super.setId(sysLog.getId());

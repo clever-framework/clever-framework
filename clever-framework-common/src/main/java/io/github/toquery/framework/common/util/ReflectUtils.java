@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 /**
  *
  */
-public class AppReflectUtils {
+public class ReflectUtils {
 
 
     /**

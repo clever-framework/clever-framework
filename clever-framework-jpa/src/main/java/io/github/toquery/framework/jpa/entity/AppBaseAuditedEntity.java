@@ -23,7 +23,7 @@ import jakarta.persistence.Transient;
 //@DynamicUpdate
 @Access(AccessType.FIELD)
 //@EntityListeners({AuditingEntityListener.class, AppEntityD3Listener.class})
-public class AppBaseAuditedEntity extends AppBaseEntity {
+public class AppBaseAuditedEntity extends BaseEntity {
 
     @Transient
     private UserDetails createUser;

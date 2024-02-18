@@ -1,7 +1,7 @@
 package io.toquery.framework.common;
 
 import io.github.toquery.framework.common.util.AesCbcUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  *
