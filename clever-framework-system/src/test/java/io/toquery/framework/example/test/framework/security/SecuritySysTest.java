@@ -3,18 +3,17 @@ package io.toquery.framework.example.test.framework.security;
 import io.github.toquery.framework.system.mapper.SysMenuMapper;
 import io.github.toquery.framework.system.mapper.SysRoleMapper;
 import io.github.toquery.framework.system.mapper.SysUserMapper;
-import io.toquery.framework.test.AppTestSpringBase;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
 
 import jakarta.annotation.Resource;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author toquery
  * @version 1
  */
 @Slf4j
-public class SecuritySysTest extends AppTestSpringBase {
+public class SecuritySysTest {
     @Resource
     private SysUserMapper sysUserDao;
 
