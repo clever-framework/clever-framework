@@ -41,7 +41,7 @@
         <spring-boot-admin.version>3.2.2</spring-boot-admin.version>
 
 
-        <guava.version>33.0.0-jre</guava.version>
+        <guava.version>33.1.0-jre</guava.version>
         <jsqlparse.version>4.7</jsqlparse.version>
 
         <mapstruct.version>1.5.5.Final</mapstruct.version>
