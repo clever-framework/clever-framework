@@ -44,7 +44,7 @@
         <guava.version>33.3.1-jre</guava.version>
         <jsqlparse.version>4.7</jsqlparse.version>
 
-        <mapstruct.version>1.6.2</mapstruct.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
 
         <!-- apache jar -->
         <commons-fileupload.version>1.5</commons-fileupload.version>
