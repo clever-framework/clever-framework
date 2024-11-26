@@ -62,7 +62,7 @@
         <swagger.version>2.2.20</swagger.version>
 
 
-        <minio.version>8.5.13</minio.version>
+        <minio.version>8.5.14</minio.version>
         <caffeine.version>3.1.8</caffeine.version>
 
         <hutool.version>5.8.33</hutool.version>
