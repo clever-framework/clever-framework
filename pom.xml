@@ -65,7 +65,7 @@
         <minio.version>8.5.17</minio.version>
         <caffeine.version>3.2.0</caffeine.version>
 
-        <hutool.version>5.8.38</hutool.version>
+        <hutool.version>5.8.39</hutool.version>
 
         <!-- -->
         <mybatis.version>3.5.15</mybatis.version>
