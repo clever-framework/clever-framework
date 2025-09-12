@@ -38,7 +38,7 @@
         <revision>${clever-framework.version}</revision>
 
 
-        <spring-boot-admin.version>3.5.2</spring-boot-admin.version>
+        <spring-boot-admin.version>3.5.3</spring-boot-admin.version>
 
 
         <guava.version>33.4.8-jre</guava.version>
