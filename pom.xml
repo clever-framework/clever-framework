@@ -69,7 +69,7 @@
 
         <!-- -->
         <mybatis.version>3.5.15</mybatis.version>
-        <mybatis-spring.version>3.0.5</mybatis-spring.version>
+        <mybatis-spring.version>4.0.0</mybatis-spring.version>
         <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
 
         <mybatis-plus.version>3.5.13</mybatis-plus.version>
